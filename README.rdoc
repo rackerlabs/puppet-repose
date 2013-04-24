@@ -1,0 +1,29 @@
+= MODULE
+This module provides a re-usable and environment agnostic control of MODULE
+
+---
+== Usage of Module
+
+=== What this step will accomplish
+Discussion on this step
+
+ include MODULE
+ MODULE::something { 'orother': }
+
+=== The inverse of the previous step
+ include MODULE
+ MODULE::something { 'orother': ensure => absent }
+
+---
+== Implementing this module in...
+
+=== Staging
+ git clone git://github.rackspace.com/cloud-integration-ops/puppet-MODULE.git /etc/puppet/modules/
+
+=== Production
+TBD
+
+---
+==Authors
+[Ra Cker] mailto:ra.cker@rackspace.com
+[c/o Team] mailto:team@rackspace.com

@@ -1,0 +1,5 @@
+name 'user-module'
+version '0.1'
+dependency 'user/othermodule', '1.2.3'
+description "This is a full description
+    of the module, and is being written as a multi-line string."
