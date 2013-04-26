@@ -1,4 +1,4 @@
-class repose::filter::validator (
+class repose::filter::versioning (
   $ensure   = present,
   $app_name = 'repose',
   $target_uri,
@@ -21,13 +21,13 @@ class repose::filter::validator (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/validator.cfg.xml":
+  file { "${repose::params::configdir}/versioning.cfg.xml":
     ensure  => file,
     owner => $repose::params::user,
     group => $repose::params::group,
     mode  => $repose::params::mode,
     require => Package['repose-filters'],
-    source  => 'puppet:///modules/repose/validator.cfg.xml'
+    source  => 'puppet:///modules/repose/versioning.cfg.xml'
   }
 
 }
