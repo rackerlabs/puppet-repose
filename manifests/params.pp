@@ -41,6 +41,9 @@ class repose::params inherits repose::config {
 ## ensure
   $ensure = present
 
+## enable
+  $enable = running
+
 ## autoupgrade
   $autoupgrade = false
 
