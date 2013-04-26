@@ -55,8 +55,8 @@
 #
 # === Authors
 #
-# * Ra Cker <mailto:ra.cker@rackspace.com>
-# * c/o Team <mailto:team@rackspace.com>
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
@@ -64,7 +64,6 @@ class repose (
   $ensure      = $repose::params::ensure,
   $enable      = $repose::params::enable,
   $autoupgrade = $repose::params::autoupgrade,
-  $anothervar  = hiera('anothervar', 'default value')
 ) inherits repose::params {
 
 ### Validate parameters
@@ -107,21 +106,10 @@ class repose (
 ## package(s)
   class { 'repose::package': }
 
-## service(s)
-  class { 'repose::service': }
-
 ## files/directories
   file { $repose::params::configdir:
     ensure  => directory,
     mode    => $repose::params::dirmode,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    require => Package[$repose::params::package],
-  }
-
-  file { $repose::params::configfile:
-    ensure  => file,
-    mode    => $repose::params::mode,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     require => Package[$repose::params::package],
