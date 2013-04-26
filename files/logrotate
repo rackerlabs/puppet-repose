@@ -1,9 +1,0 @@
-/var/log/repose/credentials.log /var/log/repose/http_repose.log {
-    rotate 4
-    daily
-    missingok
-    compress
-    copytruncate
-    dateext
-    delaycompress
-}

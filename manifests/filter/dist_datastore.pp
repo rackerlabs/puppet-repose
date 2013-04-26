@@ -28,15 +28,12 @@ class repose::filter::dist_datastore (
 
 ## Manage actions
 
-  File {
-    owner => $repose::params::user,
-    group => $repose::params::group,
-    mode  => $repose::params::mode,
-    require => Package['repose-filters'],
-  }
-
   file { "${repose::params::configdir}/dist-datastore.cfg.xml":
     ensure  => file,
+    owner   => $repose::params::user,
+    group   => $repose::params::group,
+    mode    => $repose::params::mode,
+    require => Package['repose-filters'],
     content => template('repose/dist-datastore.cfg.xml.erb')
   }
 

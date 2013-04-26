@@ -77,6 +77,10 @@ class repose (
       present => file,
       absent  => absent,
     }
+    $dir_ensure = $ensure ? {
+      present => directory,
+      absent  => absent,
+    }
   }
   if $::debug {
     if $ensure != $repose::params::ensure {
@@ -125,12 +129,20 @@ class repose (
   }
 
 ## files/directories
-  file { $repose::params::configdir:
-    ensure  => directory,
+  File [
     mode    => $repose::params::dirmode,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     require => Package[$repose::params::package],
+  ]
+
+  file { $repose::params::configdir:
+    ensure  => $dir_ensure,
+  }
+
+  file { '/etc/security/limits.d/repose':
+    ensure  => $file_ensure,
+    source  => 'puppet:///modules/repose/limits',
   }
 
 }
