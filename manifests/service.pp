@@ -45,7 +45,6 @@ class repose::service (
     enable     => $enable,
     hasstatus  => $repose::params::service_hasrestart,
     hasrestart => $repose::params::service_hasrestart,
-    subscribe  => File[$repose::params::configfile]
   }
 
 }
