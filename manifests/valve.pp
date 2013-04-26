@@ -16,8 +16,8 @@ class repose::valve (
     owner   => root,
     group   => root,
     source  => 'puppet:///modules/repose/valve-sysconfig',
-    require => [ Class['newrelic'], Package['repose-valve'] ],
-    notify  => Service['repose-valve'],
+    require => [ Class['newrelic'], Package[$repose::params::valve_package] ],
+    notify  => Service[$repose::params::service],
   }
 
 }

@@ -57,7 +57,7 @@ class repose::params inherits repose::config {
 
 ## service
   $service = $::osfamily ? {
-    /(RedHat|Debian)/ => [ 'repose-valve' ],
+    /(RedHat|Debian)/ => 'repose-valve',
   }
 
 ## service capabilities
