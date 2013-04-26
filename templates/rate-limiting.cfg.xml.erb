@@ -8,7 +8,7 @@
     <request-endpoint uri-regex="<%= request_endpoint['uri-regex'] %>" include-absolute-limits="<%= request_endpoint['include_absolute_limits'] %>"/>
     <!-- Limits for all other requests -->
 <% limit_groups.each do |limit_group| %>
-    <limit-group id="<%= limit_group['id']" groups="<%= limit_group['groups'] %>" default="<%= limit_group['default'] %>">
+    <limit-group id="<%= limit_group['id'] %>" groups="<%= limit_group['groups'] %>" default="<%= limit_group['default'] %>">
   <%- if limit_group.has_key?('limits') -%>
     <%- limit_group['limits'].each do |limit| %>
       <limit uri="<%= limit['uri'] %>" uri-regex="<%= limit['uri_regex'] %>" http-methods="<%= limit['http_methods'] %>" unit="<%= limit['unit'] %>" value="<%= limit['value'] %>" />
