@@ -5,7 +5,7 @@
 #     %description
 #     %changelog
 #     remove this top comment (this line and up)
-%define base_name something
+%define base_name repose
 
 Name:      cit-puppet-module-%{base_name}
 Version:   0.1
@@ -17,8 +17,6 @@ URL:       http://github.rackspace.com/cloud-integration-ops/%{base_name}
 Source0:   %{base_name}.tgz
 
 %description
-The "Hello World" program, done with all bells and whistles of a proper FOSS 
-project, including configuration, build, internationalization, help files, etc.
 
 %define module_dir /etc/puppet/modules/%{base_name}
 

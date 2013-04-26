@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- To configure Repose see: http://wiki.openrepose.org/display/REPOSE/Configuration -->
+<system-model xmlns="http://docs.rackspacecloud.com/repose/system-model/v2.0">
+  <repose-cluster id="repose">
+    <nodes>
+<% nodes.each |node| %>
+        <node id="<%= node.split[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
+<% end %>
+    </nodes>
+    <filters>
+<% filters.each |filter| %>
+      <filter <% filter.each do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+<% end %>
+    </filters>
+    <destinations>
+<% endpoints.each |endpoint| %>
+      <endpoint <% endpoint.each do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+<% end %>
+    </destinations>
+  </repose-cluster>
+</system-model>
+

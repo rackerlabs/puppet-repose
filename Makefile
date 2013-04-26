@@ -35,7 +35,7 @@ sdist:
 		--exclude "*.spec" --exclude "build" \
 		./
 
-prep_rpmbuild: build sdist
+prep_rpmbuild: sdist
 	mkdir -p build/rpm-build
 	mkdir -p build/rpms
 	cp ${PACKAGE}.tgz build/rpm-build/

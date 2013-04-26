@@ -1,6 +1,6 @@
-# == Class: MODULE
+# == Class: repose
 #
-# This class is able to install or remove MODULE on a node.
+# This class is able to install or remove repose on a node.
 #
 # [Add description - What does this module do on a node?] FIXME/TODO
 #
@@ -37,7 +37,7 @@
 # * {Puppet's package provider source code}[http://j.mp/wtVCaL]
 # Defaults to <tt>false</tt>.
 #
-# The default values for the parameters are set in MODULE::params. Have
+# The default values for the parameters are set in repose::params. Have
 # a look at the corresponding <tt>params.pp</tt> manifest file if you need more
 # technical information about them.
 #
@@ -46,11 +46,11 @@
 #
 # * Installation:
 #
-# class { 'MODULE': }
+# class { 'repose': }
 #
 # * Removal/decommissioning:
 #
-# class { 'MODULE': ensure => 'absent' }
+# class { 'repose': ensure => 'absent' }
 #
 #
 # === Authors
@@ -60,12 +60,12 @@
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
-class MODULE (
-  $ensure      = $MODULE::params::ensure,
-  $enable      = $MODULE::params::enable,
-  $autoupgrade = $MODULE::params::autoupgrade,
+class repose (
+  $ensure      = $repose::params::ensure,
+  $enable      = $repose::params::enable,
+  $autoupgrade = $repose::params::autoupgrade,
   $anothervar  = hiera('anothervar', 'default value')
-) inherits MODULE::params {
+) inherits repose::params {
 
 ### Validate parameters
 
@@ -79,7 +79,7 @@ class MODULE (
     }
   }
   if $::debug {
-    if $ensure != $MODULE::params::ensure {
+    if $ensure != $repose::params::ensure {
       debug('$ensure overridden by class parameter')
     }
     debug("\$ensure = '${ensure}'")
@@ -87,7 +87,7 @@ class MODULE (
 
 ## enable - we don't validate because all standard options are acceptable
   if $::debug {
-    if $enable != $MODULE::params::enable {
+    if $enable != $repose::params::enable {
       debug('$enable overridden by class parameter')
     }
     debug("\$enable = '${enable}'")
@@ -96,7 +96,7 @@ class MODULE (
 ## autoupgrade
   validate_bool($autoupgrade)
   if $::debug {
-    if $autoupgrade != $MODULE::params::autoupgrade {
+    if $autoupgrade != $repose::params::autoupgrade {
       debug('$autoupgrade overridden by class parameter')
     }
     debug("\$autoupgrade = '${autoupgrade}'")
@@ -105,26 +105,26 @@ class MODULE (
 ### Manage actions
 
 ## package(s)
-  class { 'MODULE::package': }
+  class { 'repose::package': }
 
 ## service(s)
-  class { 'MODULE::service': }
+  class { 'repose::service': }
 
 ## files/directories
-  file { $MODULE::params::configdir:
+  file { $repose::params::configdir:
     ensure  => directory,
-    mode    => $MODULE::params::dirmode,
-    owner   => $MODULE::params::owner,
-    group   => $MODULE::params::group,
-    require => Package[$MODULE::params::package],
+    mode    => $repose::params::dirmode,
+    owner   => $repose::params::owner,
+    group   => $repose::params::group,
+    require => Package[$repose::params::package],
   }
 
-  file { $MODULE::params::configfile:
+  file { $repose::params::configfile:
     ensure  => file,
-    mode    => $MODULE::params::mode,
-    owner   => $MODULE::params::owner,
-    group   => $MODULE::params::group,
-    require => Package[$MODULE::params::package],
+    mode    => $repose::params::mode,
+    owner   => $repose::params::owner,
+    group   => $repose::params::group,
+    require => Package[$repose::params::package],
   }
 
 }

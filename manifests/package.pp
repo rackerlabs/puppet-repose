@@ -1,4 +1,4 @@
-# == Class: MODULE::package
+# == Class: repose::package
 #
 # This class exists to coordinate all software package management related
 # actions, functionality and logical units in a central place.
@@ -12,20 +12,20 @@
 # === Examples
 #
 # This class may be imported by other classes to use its functionality:
-#   class { 'MODULE::package': }
+#   class { 'repose::package': }
 #
 # It is not intended to be used directly by external resources like node
 # definitions or other modules.
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
-class MODULE::package {
+class repose::package {
 
 ### Logic
 
 ## set params: in operation
-  if $MODULE::ensure == present {
-    $package_ensure = $MODULE::autoupgrade ? {
+  if $repose::ensure == present {
+    $package_ensure = $repose::autoupgrade ? {
       true  => latest,
       false => present,
     }
@@ -37,7 +37,7 @@ class MODULE::package {
 
 ### Manage actions
 
-  package { $MODULE::params::package:
+  package { $repose::params::package:
     ensure => $package_ensure,
   }
 

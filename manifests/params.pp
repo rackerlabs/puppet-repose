@@ -1,4 +1,4 @@
-# == Class: MODULE::params
+# == Class: repose::params
 #
 # This class exists to
 # 1. Declutter the default value assignment for class parameters.
@@ -22,17 +22,17 @@
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
-class MODULE::params inherits MODULE::config {
+class repose::params inherits repose::config {
 
-### Variables that are intended to be over ridden using MODULE::config
+### Variables that are intended to be over ridden using repose::config
 ### Validation of these values is recommended to occur in primary class
 
 ## content - name of the template that will provide primary client config
 ## Default to the module's included client template
-  if empty($MODULE::config::content {
+  if empty($repose::config::content {
     $content = 'config.erb'
   } else {
-    $content = $MODULE::config::content
+    $content = $repose::config::content
     if $::debug { debug('$content overridden by local config') }
   }
 
@@ -64,7 +64,7 @@ class MODULE::params inherits MODULE::config {
 
 ## packages
   $package = $::osfamily ? {
-    /(RedHat|Debian)/ => [ 'package' ],
+    /(RedHat|Debian)/ => [ 'repose-valve','repose-filters','repose-filters' ],
   }
 
 ## configdir

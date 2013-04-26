@@ -1,5 +1,5 @@
-name 'user-module'
+name 'citops-repose'
 version '0.1'
-dependency 'user/othermodule', '1.2.3'
-description "This is a full description
-    of the module, and is being written as a multi-line string."
+dependency 'citops/newrelic', '0.1'
+description "Repose is an api middleware that provides authentication,
+filtering, ratelimitting and several other features, this deploys it."

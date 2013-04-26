@@ -1,4 +1,4 @@
-# == Class: MODULE::config
+# == Class: repose::config
 #
 # FIXME/TODO Please check if you want to remove this class because it may be
 # unnecessary for your module. Don't forget to update the class
@@ -9,12 +9,12 @@
 # functionality and logical units in a central place.  It is the only
 # manifest file you should be editing manually.
 #
-# The primary use is to override variable assignments in MODULE::params. The
+# The primary use is to override variable assignments in repose::params. The
 # only variables that this overrides are those included here already.
 #
 # All variables here should be set to undef unless in use.
 #
-# Further information is available in MODULE and MODULE::params classes
+# Further information is available in repose and repose::params classes
 #
 # === Parameters
 #
@@ -25,11 +25,11 @@
 #
 # It is not intended to be used directly by external resources like node
 # definitions or other modules.  It should only really be used by
-# the MODULE::params class.
+# the repose::params class.
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
-class MODULE::config {
+class repose::config {
 
 # content
   $content = undef

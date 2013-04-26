@@ -1,0 +1,2 @@
+repose soft nofile 65536
+repose hard nofile 65536

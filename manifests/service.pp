@@ -1,4 +1,4 @@
-# == Class: MODULE::service
+# == Class: repose::service
 #
 # This class exists to define the services and any related
 # actions, functionality and logical units in a central place.
@@ -12,20 +12,20 @@
 # === Examples
 #
 # This class may be imported by other classes to use its functionality:
-#   class { 'MODULE::service': }
+#   class { 'repose::service': }
 #
 # It is not intended to be used directly by external resources like node
 # definitions or other modules.
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
-class MODULE::service {
+class repose::service {
 
 ### Logic
 
 ## set params: in operation
-  if $MODULE::ensure == present {
-    $service_ensure = $MODULE::enable ? {
+  if $repose::ensure == present {
+    $service_ensure = $repose::enable ? {
       true  => running,
       false => stopped,
     }
@@ -37,13 +37,13 @@ class MODULE::service {
 
 ### Manage actions
 
-  service { $MODULE::params::service:
+  service { $repose::params::service:
     ensure     => $service_ensure,
-    enable     => $MODULE::enable,
-    hasstatus  => $MODULE::params::service_hasrestart,
-    hasrestart => $MODULE::params::service_hasrestart,
-    require    => Package[$MODULE::params::package],
-    subscribe  => File[$MODULE::params::configfile]
+    enable     => $repose::enable,
+    hasstatus  => $repose::params::service_hasrestart,
+    hasrestart => $repose::params::service_hasrestart,
+    require    => Package[$repose::params::package],
+    subscribe  => File[$repose::params::configfile]
   }
 
 }
