@@ -6,20 +6,21 @@
 #
 # === Parameters
 #
-# This class does not provide any parameters.
-#
+# [*container*]
+# The package list to use based on the container that is used to run
+# repose in this environment
 #
 # === Examples
 #
-# This class may be imported by other classes to use its functionality:
-#   class { 'repose::package': }
+# Primarily to be used by the repose base class, but you can use:
+#   class { 'repose::package': contaienr => 'valve' }
 #
 # It is not intended to be used directly by external resources like node
 # definitions or other modules.
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
-class repose::package {
+class repose::package ($container) {
 
 ### Logic
 
@@ -35,9 +36,15 @@ class repose::package {
     $package_ensure = purged
   }
 
+## Pick packages
+  $packages = $container ? {
+    'tomcat7' => $repose::params::tomcat7_packages,
+    'valve'   => $repose::params::tomcat7_packages,
+  }
+
 ### Manage actions
 
-  package { $repose::params::package:
+  package { $packages:
     ensure => $package_ensure,
   }
 

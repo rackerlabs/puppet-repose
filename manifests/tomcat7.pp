@@ -8,16 +8,7 @@ class repose::valve (
     ensure      => $ensure,
     enable      => $enable,
     autoupgrade => $autoupgrade,
-    container   => 'valve',
-  }
-
-  file { '/etc/sysconfig/repose':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    source  => 'puppet:///modules/repose/valve-sysconfig',
-    require => [ Class['newrelic'], Package['repose-valve'] ],
-    notify  => Service['repose-valve'],
+    container   => 'tomcat7',
   }
 
 }
