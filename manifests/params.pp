@@ -60,7 +60,7 @@ class repose::params inherits repose::config {
 ## service capabilities
   $service_hasstatus = $::osfamily ? {
     /(RedHat|Debian)/ => true,
-  } 
+  }
 
   $service_hasrestart = $::osfamily ? {
     /(RedHat|Debian)/ => true,
