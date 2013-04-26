@@ -114,6 +114,9 @@ class repose::params inherits repose::config {
     /(RedHat|Debian)/ => '0750',
   }
 
+## port
+  $port = '8080'
+
 ## sourcedir
   $sourcedir = "puppet:///modules/${module_name}"
 
