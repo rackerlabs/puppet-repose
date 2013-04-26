@@ -7,7 +7,7 @@
 
 class repose::filter::container (
   $ensure    = present,
-  $app_name,
+  $app_name  = undef,
   $log_dir   = $repose::params::logdir,
   $log_level = 'WARN',
 ) inherits repose::params {
@@ -25,6 +25,11 @@ class repose::filter::container (
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
+  }
+
+## app_name
+  if $app_name == undef {
+    fail('app_name is a required parameter')
   }
 
 ## Manage actions

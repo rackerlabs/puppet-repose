@@ -2,12 +2,12 @@
 # Array of nodes participating in the distributed datastore
 #
 # [*allow_all*]
-# Bool. Whether or not to just allow 
+# Bool. Whether or not to just allow anyone to just access the datastore
 #
 
 class repose::filter::dist_datastore (
   $ensure    = present,
-  $nodes,
+  $nodes     = undef,
   $allow_all = false,
 ) inherits repose::params {
 
@@ -25,6 +25,12 @@ class repose::filter::dist_datastore (
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
+
+## nodes
+  if $nodes == undef {
+    fail('nodes is a required parameter')
+  }
+
 
 ## Manage actions
 

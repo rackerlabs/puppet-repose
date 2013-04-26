@@ -3,10 +3,10 @@
 #
 # [*client_maps*]
 # Required. Array contianing client mapping regexes
-# 
+#
 # [*white_lists*]
 # Array contianing uri regexes to white list
-# 
+#
 # [*delegable*]
 # Bool.
 # Defaults to <tt>false</tt>
@@ -20,8 +20,8 @@
 # Defaults to <tt>60000</tt>
 
 class repose::filter::client_auth_n (
-  $auth,
-  $client_map,
+  $auth                = undef,
+  $client_maps         = undef,
   $ensure              = present,
   $white_lists         = {},
   $delegable           = false,
@@ -42,6 +42,16 @@ class repose::filter::client_auth_n (
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
+  }
+
+## auth
+  if $auth == undef {
+    fail('auth is a required parameter')
+  }
+
+## client_maps
+  if $client_maps == undef {
+    fail('client_maps is a required parameter. see documentation for details.')
   }
 
 ## Manage actions

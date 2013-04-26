@@ -1,9 +1,19 @@
+# [*app_name*]
+#
+# [*nodes*]
+#
+# [*filters*]
+#
+# [*endpoints*]
+#
+# [*port*]
+#
 class repose::filter::system_model (
   $ensure    = present,
-  $app_name,
-  $nodes,
-  $filters,
-  $endpoints,
+  $app_name  = undef,
+  $nodes     = undef,
+  $filters   = undef,
+  $endpoints = undef,
   $port      = $repose::params::port,
 ) inherits repose::params {
 
@@ -20,6 +30,26 @@ class repose::filter::system_model (
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
+  }
+
+## app_name
+  if $app_name == undef {
+    fail('app_name is a required parameter')
+  }
+
+## nodes
+  if $nodes == undef {
+    fail('nodes is a required parameter')
+  }
+
+## filters
+  if $filters == undef {
+    fail('filters is a required parameter. see documentation for details.')
+  }
+
+## endpoints
+  if $endpoints == undef {
+    fail('endpoints is a required parameter. see documentation for details.')
   }
 
 ## Manage actions

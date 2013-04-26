@@ -3,7 +3,7 @@
 #
 class repose::filter::http_logging (
   $ensure = present,
-  $log_files,
+  $log_files = undef,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -19,6 +19,11 @@ class repose::filter::http_logging (
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
+  }
+
+## log_files
+  if $log_files == undef {
+    fail('log_files is a required parameter. see documentation for details.')
   }
 
 ## Manage actions
