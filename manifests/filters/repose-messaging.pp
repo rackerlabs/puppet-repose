@@ -1,5 +1,10 @@
 class repose::valve (
-  $app_name,
+  $nodes,
+  $filters,
+  $endpoints,
+  $auth,
+  $port             = $repose::params::port,
+  $usage_schema_dir = $repose::params::usage_schema_dir,
 ) inherits repose::params {
 
   File {
@@ -27,6 +32,17 @@ class repose::valve (
   file { '/etc/repose/log4j.properties':
     ensure  => file,
     content => template('repose/log4j.properties.erb')
+  }
+
+
+  file { '/etc/repose/validator.cfg.xml':
+    ensure  => file,
+    source  => 'puppet:///modules/repose/validator.cfg.xml'
+  }
+
+  file { '/etc/repose/response-messaging.cfg.xml':
+    ensure  => file,
+    source  => 'puppet:///modules/repose/response-messaging.cfg.xml'
   }
 
 }

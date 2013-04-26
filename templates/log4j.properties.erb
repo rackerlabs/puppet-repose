@@ -11,7 +11,7 @@ log4j.rootLogger=WARN, defaultFile
 
 # File
 log4j.appender.defaultFile=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.defaultFile.File=<%= log_dir-%>/<%= app_name -%>.log
+log4j.appender.defaultFile.File=<%= logdir-%>/<%= app_name -%>.log
 log4j.appender.defaultFile.DatePattern=.yyyy-MM-dd
 log4j.appender.defaultFile.layout=org.apache.log4j.PatternLayout
 log4j.appender.defaultFile.maxBackupIndex=5

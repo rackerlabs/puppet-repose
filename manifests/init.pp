@@ -63,6 +63,7 @@
 class repose (
   $ensure      = $repose::params::ensure,
   $enable      = $repose::params::enable,
+  $container   = $repose::params::container,
   $autoupgrade = $repose::params::autoupgrade,
 ) inherits repose::params {
 
@@ -101,10 +102,27 @@ class repose (
     debug("\$autoupgrade = '${autoupgrade}'")
   }
 
+## container
+  if ! ($container in $repose::params::container_options) {
+    fail("\"${container}\" is not a valid container parameter value")
+  }
+  if $::debug {
+    if $container != $repose::params::container {
+      debug('$container overridden by class parameter')
+    }
+    debug("\$container = '${container}'")
+  }
+
+
 ### Manage actions
 
 ## package(s)
-  class { 'repose::package': }
+  class { 'repose::package': container => $container }
+
+## service
+  if $container == 'valve' {
+    class { 'repose::service': }
+  }
 
 ## files/directories
   file { $repose::params::configdir:

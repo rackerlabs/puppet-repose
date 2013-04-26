@@ -44,47 +44,56 @@ class repose::params inherits repose::config {
 ## autoupgrade
   $autoupgrade = false
 
+## container
+  $container = 'valve'
+
+## container_options
+  $container_options = ['valve','tomcat']
+
 ### Package specific in
 
 ## service
   $service = $::osfamily ? {
-    /RedHat/ = [ 'serviced' ],
-    /Debian/ = [ 'service' ],
+    /(RedHat|Debian)/ = [ 'repose-valve' ],
   }
 
 ## service capabilities
   $service_hasstatus = $::osfamily ? {
-    /RedHat/ => true,
-    /Debian/ => false,
+    /(RedHat|Debian)/ => true,
   } 
 
   $service_hasrestart = $::osfamily ? {
     /(RedHat|Debian)/ => true,
   }
 
-## packages
-  $package = $::osfamily ? {
-    /(RedHat|Debian)/ => [ 'repose-valve','repose-filters','repose-filters' ],
+## tomcat_packages
+  $tomcat_package = $::osfamily ? {
+    /(RedHat|Debian)/ => [ 'repose-war','repose-filters','repose-extension-filters' ],
+  }
+
+## valve_packages
+  $valve_package = $::osfamily ? {
+    /(RedHat|Debian)/ => [ 'repose-valve','repose-filters','repose-extension-filters' ],
   }
 
 ## configdir
   $configdir = $::osfamily ? {
-    /(RedHat|Debian)/ => '/etc/configdir',
+    /(RedHat|Debian)/ => '/etc/repose',
   }
 
-## configfile
-  $configfile = $::osfamily ? {
-    /(RedHat|Debian)/ => "${configdir}/configfile",
+## logdir
+  $logdir = $::osfamily ? {
+    /(RedHat|Debian)/ => '/var/log/repose',
   }
 
 ## owner
   $owner = $::osfamily ? {
-    /(RedHat|Debian)/ => 'root',
+    /(RedHat|Debian)/ => repose,
   }
 
 ## group
   $group = $::osfamily ? {
-    /(RedHat|Debian)/ => 'root',
+    /(RedHat|Debian)/ => repose,
   }
 
 ## mode
