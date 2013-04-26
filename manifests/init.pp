@@ -121,11 +121,18 @@ class repose (
 ### Manage actions
 
 ## package(s)
-  class { 'repose::package': container => $container }
+  class { 'repose::package':
+    ensure      => $ensure,
+    autoupgrade => $autoupgrade,
+    container   => $container
+  }
 
 ## service
   if $container == 'valve' {
-    class { 'repose::service': }
+    class { 'repose::service':
+      ensure => $ensure,
+      enable => $enable,
+    }
   }
 
 ## files/directories
