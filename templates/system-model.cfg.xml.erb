@@ -9,8 +9,8 @@
 <% end %>
     </nodes>
     <filters>
-<% filters.each |filter| %>
-      <filter <% filter.each do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+<% filters.keys.sort.each |key|
+      <filter <% filters[key].each do |param, value| %><%= param %>="<%= value %>" <% end %>/>
 <% end %>
     </filters>
     <destinations>
