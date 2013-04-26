@@ -34,7 +34,7 @@ class repose::filter::http_logging (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    source  => 'puppet:///modules/repose/http-logging.cfg.xml'
+    content => template('repose/http-logging.cfg.xml.erb'),
   }
 
 }
