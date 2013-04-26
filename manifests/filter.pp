@@ -1,0 +1,1 @@
+class repose::filter { fail('This class should not be used directly') }
