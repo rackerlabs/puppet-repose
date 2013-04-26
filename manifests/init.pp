@@ -140,7 +140,7 @@ class repose (
     mode    => $repose::params::dirmode,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
-    require => Package[$repose::params::package],
+    require => Package[$repose::package::packages],
   }
 
   file { $repose::params::configdir:
