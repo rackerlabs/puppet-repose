@@ -37,7 +37,7 @@ class repose::filter::versioning (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    source  => 'puppet:///modules/repose/versioning.cfg.xml'
+    content => template('repose/versioning.cfg.xml.erb'),
   }
 
 }
