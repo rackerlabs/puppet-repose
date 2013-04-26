@@ -70,12 +70,12 @@ class repose::params inherits repose::config {
   }
 
 ## tomcat_packages
-  $tomcat_package = $::osfamily ? {
+  $tomcat_packages = $::osfamily ? {
     /(RedHat|Debian)/ => [ 'repose-war','repose-filters','repose-extension-filters' ],
   }
 
 ## valve_packages
-  $valve_package = $::osfamily ? {
+  $valve_packages = $::osfamily ? {
     /(RedHat|Debian)/ => [ 'repose-valve','repose-filters','repose-extension-filters' ],
   }
 
