@@ -46,10 +46,19 @@ class repose::package (
     'valve'   => $repose::params::valve_packages,
   }
 
+## Handle adding a dependency of service for valve
+  if $container == 'valve' {
+    $before = Service[$repose::params::service]
+  } else {
+    $before = undef
+  }
+
+
 ### Manage actions
 
   package { $packages:
     ensure => $package_ensure,
+    before => $before,
   }
 
 }
