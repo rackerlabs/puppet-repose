@@ -129,12 +129,12 @@ class repose (
   }
 
 ## files/directories
-  File [
+  File {
     mode    => $repose::params::dirmode,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     require => Package[$repose::params::package],
-  ]
+  }
 
   file { $repose::params::configdir:
     ensure  => $dir_ensure,

@@ -29,7 +29,7 @@ class repose::params inherits repose::config {
 
 ## content - name of the template that will provide primary client config
 ## Default to the module's included client template
-  if empty($repose::config::content {
+  if empty($repose::config::content) {
     $content = 'config.erb'
   } else {
     $content = $repose::config::content
