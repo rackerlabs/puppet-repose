@@ -4,18 +4,18 @@
 <system-model xmlns="http://docs.rackspacecloud.com/repose/system-model/v2.0">
   <repose-cluster id="<%= app_name %>">
     <nodes>
-<% nodes.each do |node| %>
+<% nodes.sort.each do |node| %>
         <node id="<%= node.split[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
 <% end %>
     </nodes>
     <filters>
 <% filters.keys.sort.each do |key| %>
-      <filter <% filters[key].each do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+      <filter <% filters[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
 <% end %>
     </filters>
     <destinations>
 <% endpoints.each do |endpoint| %>
-      <endpoint <% endpoint.each do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+      <endpoint <% endpoint.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
 <% end %>
     </destinations>
   </repose-cluster>
