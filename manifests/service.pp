@@ -20,14 +20,14 @@
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
 class repose::service (
-  $ensure = $fallout::params::ensure,
-  $enable = $fallout::params::enable,
+  $ensure = $repose::params::ensure,
+  $enable = $repose::params::enable,
 ) inherits repose::params {
 
 ### Logic
 
 ## set params: in operation
-  if $repose::ensure == present {
+  if $ensure == present {
     $service_ensure = $enable ? {
       true  => running,
       false => stopped,
