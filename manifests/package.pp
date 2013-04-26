@@ -20,13 +20,17 @@
 #
 #
 # [ NO empty lines allowed between this and definition below for rdoc ]
-class repose::package ($container) {
+class repose::package (
+  $ensure      = $repose::params::ensure,
+  $autoupgrade = $repose::params::autoupgrade,
+  $container   = $repose::params::container,
+) inherits repose::params {
 
 ### Logic
 
 ## set params: in operation
-  if $repose::ensure == present {
-    $package_ensure = $repose::autoupgrade ? {
+  if $ensure == present {
+    $package_ensure = $autoupgrade ? {
       true  => latest,
       false => present,
     }
@@ -39,7 +43,7 @@ class repose::package ($container) {
 ## Pick packages
   $packages = $container ? {
     'tomcat7' => $repose::params::tomcat7_packages,
-    'valve'   => $repose::params::tomcat7_packages,
+    'valve'   => $repose::params::valve_packages,
   }
 
 ### Manage actions
