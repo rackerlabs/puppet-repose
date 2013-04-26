@@ -2,7 +2,7 @@
 
 <!-- To configure Repose see: http://wiki.openrepose.org/display/REPOSE/Configuration -->
 <system-model xmlns="http://docs.rackspacecloud.com/repose/system-model/v2.0">
-  <repose-cluster id="repose">
+  <repose-cluster id="<%= app_name %>">
     <nodes>
 <% nodes.each |node| %>
         <node id="<%= node.split[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>

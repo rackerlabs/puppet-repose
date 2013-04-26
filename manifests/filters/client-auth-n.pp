@@ -1,72 +1,58 @@
-class repose::valve (
-  $nodes,
-  $filters,
-  $endpoints,
+# [*auth*]
+# Required. Hash containing user, pass, and uri
+#
+# [*client_maps*]
+# Required. Array contianing client mapping regexes
+# 
+# [*white_lists*]
+# Array contianing uri regexes to white list
+# 
+# [*delegable*]
+# Bool.
+# Defaults to <tt>false</tt>
+#
+# [*tendanted*]
+# Bool.
+# Defaults to <tt>false</tt>
+#
+# [*group_cache_timeout*]
+# Integer as String.
+# Defaults to <tt>60000</tt>
+
+class repose::filter::client_auth_n (
   $auth,
-  $port             = $repose::params::port,
-  $usage_schema_dir = $repose::params::usage_schema_dir,
+  $client_map,
+  $ensure              = present,
+  $white_lists         = {},
+  $delegable           = false,
+  $tenanted            = false,
+  $group_cache_timeout = '60000',
 ) inherits repose::params {
 
-  File {
-    owner => $repose::params::user,
-    group => $repose::params::group,
-    mode  => $repose::params::mode,
+### Validate parameters
+
+## ensure
+  if ! ($ensure in [ present, absent ]) {
+    fail("\"${ensure}\" is not a valid ensure parameter value")
+  } else {
+    $file_ensure = $ensure ? {
+      present => file,
+      absent  => absent,
+    }
+  }
+  if $::debug {
+    debug("\$ensure = '${ensure}'")
+  }
+
+## Manage actions
+
+  file { "${repose::params::configdir}/client-auth-n.cfg.xml":
+    ensure  => file,
+    owner   => $repose::params::user,
+    group   => $repose::params::group,
+    mode    => $repose::params::mode,
     require => Package['repose-filters'],
-  }
-
-  file { '/etc/sysconfig/repose':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    source  => 'puppet:///modules/repose/valve-sysconfig',
-    require => [ Class['newrelic'], Package['repose-valve'] ],
-    notify  => Service['repose-valve'],
-  }
-
-  #file { '/srv/tomcat/webapps/jolokia.war':
-  #  ensure  => file,
-  #  require => Class['tomcat7'],
-  #  source  => 'puppet:///modules/tomcat7/jolokia-war-1.0.5.war'
-  #}
-
-  file { '/etc/repose/client-auth-n.cfg.xml':
-    ensure  => file,
     content => template('repose/client-auth-n.cfg.xml.erb')
-  }
-
-  file { '/etc/repose/dist-datastore.cfg.xml':
-    ensure  => file,
-    content => template('repose/dist-datastore.cfg.xml.erb')
-  }
-
-  file { '/etc/repose/system-model.cfg.xml':
-    ensure  => file,
-    content => template('repose/system-model.cfg.xml.erb')
-  }
-
-  file { '/etc/repose/http-logging.cfg.xml':
-    ensure  => file,
-    source  => 'puppet:///modules/repose/http-logging.cfg.xml'
-  }
-
-  file { '/etc/repose/log4j.properties':
-    ensure  => file,
-    content => template('repose/log4j.properties.erb')
-  }
-
-  file { '/etc/repose/container.cfg.xml':
-    ensure  => file,
-    content => template('repose/container.cfg.xml.erb')
-  }
-
-  file { '/etc/repose/validator.cfg.xml':
-    ensure  => file,
-    source  => 'puppet:///modules/repose/validator.cfg.xml'
-  }
-
-  file { '/etc/repose/response-messaging.cfg.xml':
-    ensure  => file,
-    source  => 'puppet:///modules/repose/response-messaging.cfg.xml'
   }
 
 }
