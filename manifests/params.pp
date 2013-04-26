@@ -69,14 +69,19 @@ class repose::params inherits repose::config {
     /(RedHat|Debian)/ => true,
   }
 
-## tomcat_packages
-  $tomcat_packages = $::osfamily ? {
-    /(RedHat|Debian)/ => [ 'repose-war','repose-filters','repose-extension-filters' ],
+## packages
+  $packages = $::osfamily ? {
+    /(RedHat|Debian)/ => [ 'repose-filters','repose-extension-filters' ],
   }
 
-## valve_packages
+## tomcat_package
+  $tomcat_package = $::osfamily ? {
+    /(RedHat|Debian)/ => 'repose-war',
+  }
+
+## valve_package
   $valve_packages = $::osfamily ? {
-    /(RedHat|Debian)/ => [ 'repose-valve','repose-filters','repose-extension-filters' ],
+    /(RedHat|Debian)/ => 'repose-valve',
   }
 
 ## configdir

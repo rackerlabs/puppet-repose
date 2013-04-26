@@ -41,9 +41,9 @@ class repose::package (
   }
 
 ## Pick packages
-  $packages = $container ? {
-    'tomcat7' => $repose::params::tomcat7_packages,
-    'valve'   => $repose::params::valve_packages,
+  $container_package = $container ? {
+    'tomcat7' => $repose::params::tomcat7_package,
+    'valve'   => $repose::params::valve_package,
   }
 
 ## Handle adding a dependency of service for valve
@@ -56,9 +56,14 @@ class repose::package (
 
 ### Manage actions
 
-  package { $packages:
+  package { $container_package:
     ensure => $package_ensure,
     before => $before,
+  }
+
+  package { $repose::params::packages:
+    ensure  => $package_ensure,
+    require => Package[$container_package],
   }
 
 }
