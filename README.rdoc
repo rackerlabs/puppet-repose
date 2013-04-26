@@ -1,5 +1,5 @@
-= MODULE
-This module provides a re-usable and environment agnostic control of MODULE
+= repose
+This module provides a re-usable and environment agnostic control of repose
 
 ---
 == Usage of Module
@@ -7,23 +7,23 @@ This module provides a re-usable and environment agnostic control of MODULE
 === What this step will accomplish
 Discussion on this step
 
- include MODULE
- MODULE::something { 'orother': }
+ include repose
+ repose::something { 'orother': }
 
 === The inverse of the previous step
- include MODULE
- MODULE::something { 'orother': ensure => absent }
+ include repose
+ repose::something { 'orother': ensure => absent }
 
 ---
 == Implementing this module in...
 
 === Staging
- git clone git://github.rackspace.com/cloud-integration-ops/puppet-MODULE.git /etc/puppet/modules/
+ git clone git://github.rackspace.com/cloud-integration-ops/puppet-repose.git /etc/puppet/modules/repose
 
 === Production
 TBD
 
 ---
 ==Authors
-[Ra Cker] mailto:ra.cker@rackspace.com
-[c/o Team] mailto:team@rackspace.com
+[Greg Swift] mailto:greg.swift@rackspace.com
+[c/o Cloud Integration Ops] mailto:citops@rackspace.com
