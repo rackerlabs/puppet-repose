@@ -5,7 +5,7 @@
 # [*delegation*]
 # Boolean.  Dunno
 #
-# [*request_endpoints*]
+# [*request_endpoint*]
 # Hash.  Contains String(uri-regex) and Boolean(include-absolute-limits)
 #
 # [*limit_groups*]
@@ -15,11 +15,11 @@
 #   uri, uri-regex, http-methods, unit, value
 #
 class repose::filter::rate_limiting (
-  $ensure            = present,
-  $datastore         = undef,
-  $delegation        = false,
-  $request_endpoints = undef ,
-  $limit_groups      = undef,
+  $ensure           = present,
+  $datastore        = undef,
+  $delegation       = false,
+  $request_endpoint = undef ,
+  $limit_groups     = undef,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -42,9 +42,9 @@ class repose::filter::rate_limiting (
     fail('datastore is a required parameter')
   }
 
-## request_endpoints
-  if $request_endpoints == undef {
-    fail('request_endpoints is a required parameter. see documentation for details.')
+## request_endpoint
+  if $request_endpoint == undef {
+    fail('request_endpoint is a required parameter. see documentation for details.')
   }
 
 ## limit_groups
