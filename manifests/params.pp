@@ -80,7 +80,7 @@ class repose::params inherits repose::config {
   }
 
 ## valve_package
-  $valve_packages = $::osfamily ? {
+  $valve_package = $::osfamily ? {
     /(RedHat|Debian)/ => 'repose-valve',
   }
 
