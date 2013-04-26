@@ -54,7 +54,7 @@ class repose::filter::system_model (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/etc/repose/system-model.cfg.xml":
+  file { "${repose::params::configdir}/system-model.cfg.xml":
     ensure  => file,
     owner   => $repose::params::user,
     group   => $repose::params::group,

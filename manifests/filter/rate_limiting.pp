@@ -49,7 +49,7 @@ class repose::filter::rate_limiting (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/etc/repose/rate-limiting.cfg.xml":
+  file { "${repose::params::configdir}/rate-limiting.cfg.xml":
     ensure  => file,
     owner   => $repose::params::user,
     group   => $repose::params::group,
