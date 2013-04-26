@@ -35,7 +35,7 @@ class repose::filter::container (
 ## Manage actions
 
   File {
-    owner   => $repose::params::user,
+    owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],

@@ -51,7 +51,7 @@ class repose::filter::rate_limiting (
 
   file { "${repose::params::configdir}/rate-limiting.cfg.xml":
     ensure  => file,
-    owner   => $repose::params::user,
+    owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],

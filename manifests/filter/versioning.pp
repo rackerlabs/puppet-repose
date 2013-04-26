@@ -33,7 +33,7 @@ class repose::filter::versioning (
 
   file { "${repose::params::configdir}/versioning.cfg.xml":
     ensure  => file,
-    owner   => $repose::params::user,
+    owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],

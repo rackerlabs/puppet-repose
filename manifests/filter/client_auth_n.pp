@@ -58,7 +58,7 @@ class repose::filter::client_auth_n (
 
   file { "${repose::params::configdir}/client-auth-n.cfg.xml":
     ensure  => file,
-    owner   => $repose::params::user,
+    owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],

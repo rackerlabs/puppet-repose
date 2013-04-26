@@ -30,7 +30,7 @@ class repose::filter::http_logging (
 
   file { "${repose::params::configdir}/http-logging.cfg.xml":
     ensure  => file,
-    owner   => $repose::params::user,
+    owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],

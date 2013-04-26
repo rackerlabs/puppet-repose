@@ -36,7 +36,7 @@ class repose::filter::dist_datastore (
 
   file { "${repose::params::configdir}/dist-datastore.cfg.xml":
     ensure  => file,
-    owner   => $repose::params::user,
+    owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
