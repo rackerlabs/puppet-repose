@@ -74,8 +74,8 @@ class repose::params inherits repose::config {
     /(RedHat|Debian)/ => [ 'repose-filters','repose-extension-filters' ],
   }
 
-## tomcat_package
-  $tomcat_package = $::osfamily ? {
+## tomcat7_package
+  $tomcat7_package = $::osfamily ? {
     /(RedHat|Debian)/ => 'repose-war',
   }
 
