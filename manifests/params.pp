@@ -51,7 +51,7 @@ class repose::params inherits repose::config {
   $container = 'valve'
 
 ## container_options
-  $container_options = ['valve','tomcat']
+  $container_options = ['valve','tomcat7']
 
 ### Package specific in
 
