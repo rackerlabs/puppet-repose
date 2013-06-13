@@ -4,12 +4,13 @@
     <request-translations>
         <% request_translations.each do |request_translation| %>
         <request-translation 
+            request-methods="<% request_translation['request_methods'] %>" 
             content-type="<%= request_translation['content_type'] %>" 
             accept="<%= request_translation['accept'] %>"
             translated-content-type="<%= request_translation['translated_content_type'] %>">
             <style-sheets>
                 <% request_translation['styles'].each do |style| %>
-                <style href="<%= style['filename'] %>" />
+                <style id="<%= style['id'] %>" href="<%= style['filename'] %>" />
                 <% end %>
             </style-sheets>
         <request-translation>

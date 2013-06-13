@@ -1,6 +1,8 @@
 # [*app_name*]
 #
 # [*request_translations*]
+# List containing http-methods, content_type, accept, translated_content_type, and a list of styles
+#
 # [*response_translations*]
 # List containing content_type, accept, translated_content_type, and a list of styles
 #
