@@ -1,10 +1,12 @@
 # [*app_name*]
 #
 # [*request_translations*]
-# List containing http_methods, content_type, accept, translated_content_type, and a list of styles
+# List containing http_methods, content_type, accept,
+# translated_content_type, and a list of styles
 #
 # [*response_translations*]
-# List containing content_type, accept, translated_content_type, and a list of styles
+# List containing content_type, accept, translated_content_type,
+# and a list of styles
 #
 class repose::filter::versioning (
   $ensure     = present,
@@ -26,11 +28,6 @@ class repose::filter::versioning (
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
-  }
-
-## request_translation, response_translation
-  if $request_translation == undef || $response_translation == undef {
-    fail('either request_translations or response_translations are required')
   }
 
 ## Manage actions
