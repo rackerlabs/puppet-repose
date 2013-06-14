@@ -11,8 +11,8 @@
 class repose::filter::translation (
   $ensure     = present,
   $app_name   = 'repose',
-  $request_translation= undef,
-  $response_translation= undef,
+  $request_translations = undef,
+  $response_translations = undef,
 ) inherits repose::params {
 
 ### Validate parameters
