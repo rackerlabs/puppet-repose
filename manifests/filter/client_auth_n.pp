@@ -2,7 +2,7 @@
 # Required. Hash containing user, pass, and uri
 #
 # [*client_maps*]
-# Required. Array contianing client mapping regexes
+# Array contianing client mapping regexes for tenanted mode.
 #
 # [*white_lists*]
 # Array contianing uri regexes to white list
@@ -47,11 +47,6 @@ class repose::filter::client_auth_n (
 ## auth
   if $auth == undef {
     fail('auth is a required parameter')
-  }
-
-## client_maps
-  if $client_maps == undef {
-    fail('client_maps is a required parameter. see documentation for details.')
   }
 
 ## Manage actions
