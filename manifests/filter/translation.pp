@@ -8,7 +8,7 @@
 # List containing content_type, accept, translated_content_type,
 # and a list of styles
 #
-class repose::filter::versioning (
+class repose::filter::translation (
   $ensure     = present,
   $app_name   = 'repose',
   $request_translation= undef,
