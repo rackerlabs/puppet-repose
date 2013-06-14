@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validators xmlns="http://docs.rackspacecloud.com/repose/validator/v1.0">
+    <% validators.each do |validator| %>
+    <validator 
+	default="<%= validator['default'] %>"
+        role="<%= validator['role'] %>" 
+        dot-output="<%= validator['dot_output'] %>" />
+        <% validators['applications'].each do |application| %> 
+        <application xmlns="http://wadl.dev.java.net/2009/02">
+            <resources base="<%= application['base' %>" >
+                <% application['resources'].each do |resource| %>
+                <resource path="<%= resource['path'] %>"
+                          type="<%= resource['type'] %>" />
+                <% end %>
+            </resources>
+        </application>
+        <% end %>
+    </validator>
+    <% end %>
+</validators>
