@@ -32,13 +32,13 @@ class repose::filter::translation (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/tranlations.cfg.xml":
+  file { "${repose::params::configdir}/tranlation.cfg.xml":
     ensure  => file,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/translations.cfg.xml.erb'),
+    content => template('repose/translation.cfg.xml.erb'),
   }
 
 }
