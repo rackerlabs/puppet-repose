@@ -106,7 +106,7 @@ class repose::params inherits repose::config {
 
 ## mode
   $mode = $::osfamily ? {
-    /(RedHat|Debian)/ => '0440',
+    /(RedHat|Debian)/ => '0660',
   }
 
 ## dirmode
