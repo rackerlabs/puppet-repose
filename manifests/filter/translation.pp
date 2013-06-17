@@ -32,7 +32,7 @@ class repose::filter::translation (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/tranlation.cfg.xml":
+  file { "${repose::params::configdir}/translation.cfg.xml":
     ensure  => file,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
