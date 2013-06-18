@@ -6,10 +6,14 @@
 # [*validators::validator*]
 # List containing role, applications and resources
 #
-class repose::filter::validator (
+# [*multi_role_match*]
+# boolean string
+#
+class repose::filter::api-validator (
   $ensure     = present,
   $app_name   = 'repose',
   $validators= undef,
+  $multi_role_match = 'false',
 ) inherits repose::params {
 
 ### Validate parameters
@@ -35,13 +39,13 @@ class repose::filter::validator (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/validator.cfg.xml":
+  file { "${repose::params::configdir}/api-validator.cfg.xml":
     ensure  => file,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/validator.cfg.xml.erb'),
+    content => template('repose/api-validator.cfg.xml.erb'),
   }
 
 }
