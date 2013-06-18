@@ -39,13 +39,13 @@ class repose::filter::api_validator (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/api-validator.cfg.xml":
+  file { "${repose::params::configdir}/validator.cfg.xml":
     ensure  => file,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/api-validator.cfg.xml.erb'),
+    content => template('repose/validator.cfg.xml.erb'),
   }
 
 }
