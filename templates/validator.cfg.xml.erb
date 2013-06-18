@@ -4,7 +4,7 @@
     <validator 
 	default="<%= validator['default'] %>"
         role="<%= validator['role'] %>" 
-        dot-output="<%= validator['dot_output'] %>" />
+        dot-output="<%= validator['dot_output'] %>" >
         <% validator['applications'].each do |application| %> 
         <application xmlns="http://wadl.dev.java.net/2009/02">
             <resources base="<%= application['base'] %>" >
