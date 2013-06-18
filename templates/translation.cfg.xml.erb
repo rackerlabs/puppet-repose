@@ -5,7 +5,7 @@
     <request-translations>
         <% request_translations.each do |request_translation| %>
         <request-translation 
-            http-methods="<% request_translation['http_methods'] %>" 
+            http-methods="<%= request_translation['http_methods'] %>" 
             content-type="<%= request_translation['content_type'] %>" 
             accept="<%= request_translation['accept'] %>"
             translated-content-type="<%= request_translation['translated_content_type'] %>">
