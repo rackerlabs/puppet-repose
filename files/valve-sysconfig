@@ -11,8 +11,6 @@ NEWRELIC_OPTS="-javaagent:/etc/newrelic/newrelic.jar -Dnewrelic.config.file=/etc
 
 JAVA_OPTS="${NEWRELIC_OPTS} ${JAVA_OPTS}"
 
-daemonize=/usr/sbin/daemonize
-daemonize_opts="-c $DAEMON_HOME -p $pid_file -u $user -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME"
 run_opts="-s $SHUTDOWN_PORT -p $RUN_PORT -c $CONFIG_DIRECTORY --insecure"
 
 export SAXON_HOME=/etc/saxon
