@@ -1,12 +1,7 @@
 # [*app_name*]
 #
-# [*request_translations*]
-# List containing http_methods, content_type, accept,
-# translated_content_type, and a list of styles
-#
-# [*response_translations*]
-# List containing content_type, accept, translated_content_type,
-# and a list of styles
+# [*header_translations*]
+# List containing original_name, new_name, remove_original
 #
 class repose::filter::header_translation (
   $ensure     = present,
