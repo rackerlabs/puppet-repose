@@ -1,0 +1,21 @@
+<content-normalization xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                       xmlns='http://docs.api.rackspacecloud.com/repose/content-normalization/v1.0'>
+<%- if @header_filters -%>
+    <header-filters>
+    <% header_filters.each do |filter| %>
+    <% if @filter -%>
+        <<%= filter['name'] -%> id="<%= filter['id_name'] -%>" >
+	    <% filter['headers'].each do |header| %>
+	    <header id="<%= header %>"/>
+	</<%= filter['name'] %>
+<% end %>
+    </header-filters>
+
+<%- if @media_types -%>
+    <media-types>
+        <% media_types.each do |media_type| %>
+        <media-type <% media_type.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+name="<%= media_type['name'] %>" >
+    </media-types>
+<% end %>
+</content-normalization>
