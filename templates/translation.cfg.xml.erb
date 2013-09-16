@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://wiki.openrepose.org/display/REPOSE/Translation -->
+<translation xmlns="http://docs.rackspacecloud.com/repose/translation/v1.0">
+    <%- if @request_translations -%>
+    <request-translations>
+        <% request_translations.each do |request_translation| %>
+        <request-translation 
+            http-methods="<%= request_translation['http_methods'] %>" 
+            content-type="<%= request_translation['content_type'] %>" 
+            accept="<%= request_translation['accept'] %>"
+            translated-content-type="<%= request_translation['translated_content_type'] %>">
+            <style-sheets>
+                <% request_translation['styles'].each do |style| %>
+                <style id="<%= style['id'] %>" href="<%= style['filename'] %>" />
+                <% end %>
+            </style-sheets>
+        </request-translation>
+        <% end %>
+    </request-translations>
+    <% end %>
+    <%- if @response_translations -%>
+    <response-translations>
+        <% response_translations.each do |response_translation| %>
+        <response-translation 
+            content-type="<%= response_translation['content_type'] %>" 
+            accept="<%= response_translation['accept'] %>"
+            translated-content-type="<%= response_translation['translated_content_type'] %>">
+            <style-sheets>
+                <% styles.each do |style| %>
+                <style href="<%= style['filename'] %>" />
+                <% end %>
+            </style-sheets>
+        </response-translation>
+        <% end %>
+    </response-translations>
+    <% end %>
+</translation>

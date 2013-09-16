@@ -51,7 +51,7 @@ class repose::params inherits repose::config {
   $container = 'valve'
 
 ## container_options
-  $container_options = ['valve','tomcat']
+  $container_options = ['valve','tomcat7']
 
 ### Package specific in
 
@@ -74,8 +74,8 @@ class repose::params inherits repose::config {
     /(RedHat|Debian)/ => [ 'repose-filters','repose-extension-filters' ],
   }
 
-## tomcat_package
-  $tomcat_package = $::osfamily ? {
+## tomcat7_package
+  $tomcat7_package = $::osfamily ? {
     /(RedHat|Debian)/ => 'repose-war',
   }
 
@@ -106,7 +106,7 @@ class repose::params inherits repose::config {
 
 ## mode
   $mode = $::osfamily ? {
-    /(RedHat|Debian)/ => '0440',
+    /(RedHat|Debian)/ => '0660',
   }
 
 ## dirmode

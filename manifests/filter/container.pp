@@ -6,10 +6,11 @@
 #
 
 class repose::filter::container (
-  $ensure    = present,
-  $app_name  = undef,
-  $log_dir   = $repose::params::logdir,
-  $log_level = 'WARN',
+  $ensure                 = present,
+  $app_name               = undef,
+  $log_dir                = $repose::params::logdir,
+  $log_level              = 'WARN',
+  $client_request_logging = 'false',
 ) inherits repose::params {
 
 ### Validate parameters
