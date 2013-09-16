@@ -1,10 +1,3 @@
-# This file needs to be updated and renamed whenever you copy this template to a new module
-# The only things that should need updating initially are:
-#     %define base_name
-#     Summary
-#     %description
-#     %changelog
-#     remove this top comment (this line and up)
 %define base_name repose
 
 Name:      cit-puppet-module-%{base_name}
@@ -14,11 +7,13 @@ BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
 License:   GPLv3+
 URL:       http://github.rackspace.com/cloud-integration-ops/%{base_name}
-Source0:   %{base_name}.tgz
+Source0:   %{name}.tgz
 
 %description
+Repose is an API proxy service htat provides validation,
+keystone authentication, and several other features.
 
-%define module_dir /etc/puppet/modules/%{base_name}
+%define module_dir /usr/share/puppet/modules/%{base_name}
 
 %prep
 %setup -q -c -n %{base_name}
