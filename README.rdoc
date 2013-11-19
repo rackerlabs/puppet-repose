@@ -1,27 +1,79 @@
 = repose
-This module provides a re-usable and environment agnostic control of repose
+This module provides a re-usable and environment agnostic control of Repose Power Proxy
 
 ---
 == Usage of Module
 
-=== What this step will accomplish
-Discussion on this step
+=== Installing Repose with basic keystone auth and http logging
 
- include repose
- repose::something { 'orother': }
+  # Setup the basic information about the API you are putting Repose in front of
+  $app_name     = 'myapp'
+  $api_protocol = 'https'
+  $api_host     = "api-internal.${::domain}"
+  $api_port     = '443'
+  $api_uri  = "${api_protocol}://${api_host}/${app_name}"
+  $repose_nodes = [ "repose-n01.${::domain}",
+                    "repose-n02.${::domain}" ]
 
-=== The inverse of the previous step
- include repose
- repose::something { 'orother': ensure => absent }
+  # Your service account for verifying identities against keystone
+  $auth = {
+    'user' => 'service_admin',
+    'pass' => 'somepassword',
+    'uri'  => 'https://keystone.${::domain}/v2.0',
+  }
+  $client_maps = [ ".*/${app_name}/(\d+)" ]
+  $white_lists = [ '/application\.wadl$' ]
+
+  # Your http logging definitions
+  $log_files = [
+    { 'id'   => 'http-log',
+      'format'   => "Response Code Modifiers=%200,201U\tModifier Negation=%!401a\tRemote IP=%a\tLocal IP=%A\tResponse Size(bytes)=%b",
+      'location' => "/var/log/repose/http_repose.log",
+    },
+  ]
+
+  # Your definitions for the system model
+  $filters = {
+      10 => { 'name'      => 'http-logging' },
+      20 => { 'name'      => 'client-auth',
+              'uri-regex' => "/${app_name}/.*" },
+      30 => { 'name'      => 'default-router' },
+  }
+  $endpoints = [
+    { 'id'        => $app_name,
+      'protocol'  => $api_protocol,
+      'hostname'  => $api_host,
+      'root-path' => '',
+      'port'      => $api_port,
+      'default'   => true,
+    },
+  ]
+
+  # Bringing it all together
+  class { 'repose::valve': }
+  class { 'repose::filter::http_logging':
+    log_files => $log_files,
+  }
+  class { 'repose::filter::client_auth_n':
+    auth        => $auth,
+    client_maps => $client_maps,
+    white_lists => $white_lists,
+  }
+  class { 'repose::filter::system_model':
+    app_name  => $app_name,
+    nodes     => $repose_nodes,
+    filters   => $filters,
+    endpoints => $endpoints,
+  }
+
+=== Removing Repose
+ class { 'repose::valve': ensure => absent }
 
 ---
-== Implementing this module in...
+== Installing this module
 
-=== Staging
+=== via GIT
  git clone git://github.rackspace.com/cloud-integration-ops/puppet-repose.git /etc/puppet/modules/repose
-
-=== Production
-TBD
 
 ---
 ==Authors
