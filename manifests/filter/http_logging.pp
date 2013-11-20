@@ -16,7 +16,11 @@
 # List of Hashes containing id, format, and location
 # Defaults to <tt>undef</tt>
 #
-# == Examples
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/HTTP+Logging+Filter
+#
+# === Examples
 #
 # repose::filter::http_logging {
 #   'default':

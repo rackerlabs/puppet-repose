@@ -21,6 +21,10 @@
 # List containing original_name, new_name, remove_original
 # Defaults to <tt>undef</tt>
 #
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Header+Translation
+#
 # === Examples
 #
 #

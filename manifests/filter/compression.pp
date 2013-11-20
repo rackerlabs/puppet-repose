@@ -28,6 +28,10 @@
 # Array of media types to be excluded from compression. Optional.
 # Defaults to <tt>undef</tt>
 #
+# === Links
+#
+# * http://wiki.openrepose.org/pages/viewpage.action?pageId=1048835
+#
 # === Examples
 #
 # repose::filter::compression {

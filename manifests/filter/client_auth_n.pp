@@ -33,6 +33,10 @@
 # Integer as String.
 # Defaults to <tt>60000</tt>
 #
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Client+Authentication+Filter
+#
 # === Examples
 #
 # repose::filter::client_auth_n {

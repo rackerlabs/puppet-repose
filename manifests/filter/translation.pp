@@ -26,6 +26,10 @@
 # and a list of styles
 # Defaults to <tt>undef</tt>
 #
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Translation
+#
 # === Examples
 #
 # === Authors

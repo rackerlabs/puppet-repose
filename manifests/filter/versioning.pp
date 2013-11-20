@@ -20,6 +20,10 @@
 # String. The URI of the API repose is proxying
 # Defaults to <tt>undef</tt>
 #
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Versioning+Filter
+#
 # === Examples
 #
 # repose::filter::versioning {
@@ -40,6 +44,7 @@
 #       }
 #     ]
 # }
+#
 # === Authors
 #
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>

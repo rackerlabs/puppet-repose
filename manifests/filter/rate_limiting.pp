@@ -42,6 +42,10 @@
 # Where the hashes in limits should contain the Strings:
 #   uri, uri-regex, http-methods, unit, value
 #
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Rate+Limiting+Filter
+#
 # === Examples
 #
 # repose::filter::rate_limiting {

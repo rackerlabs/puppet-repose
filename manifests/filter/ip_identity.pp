@@ -20,6 +20,10 @@
 # Hash of quality and an array of addresses
 # Defaults to <tt>undef</tt>
 #
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/IP+Identity
+#
 # === Examples
 #
 # repose::filter::ip_identity {

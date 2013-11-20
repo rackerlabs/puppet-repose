@@ -1,4 +1,4 @@
-# == Resource: repose::filter::api_validator
+# == Resource: repose::filter::content_normalization
 #
 # This is a resource for generating content-normalization configuration files
 #
@@ -21,6 +21,10 @@
 #
 # [*media_types*]
 # List of media_types, each containing name, variant-extension, preferred
+#
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Content+Normalization
 #
 # === Examples
 #

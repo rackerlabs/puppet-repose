@@ -26,6 +26,10 @@
 # Bool. Whether or not to just allow anyone to just access the datastore
 # Defaults to <tt>false</tt>
 #
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Datastore#Datastore-distributed
+#
 # === Examples
 # repose::filter::dist_datastore {
 #   'default':
