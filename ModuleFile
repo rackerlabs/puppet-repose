@@ -1,5 +1,4 @@
 name 'citops-repose'
-version '0.1.0'
-dependency 'citops/newrelic', '0.1'
+version '0.2.0'
 description "Repose is an api middleware that provides authentication,
 filtering, ratelimitting and several other features, this deploys it."

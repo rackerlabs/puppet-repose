@@ -1,18 +1,67 @@
+# == Resource: repose::filter::api_validator
+#
+# This is a resource for generating content-normalization configuration files
+#
+# === Parameters
+#
+# [*ensure*]
+# Bool. Ensure file present/absent
+# Defaults to <tt>present</tt>
+#
+# [*filename*]
+# String. Config filename
+# Defaults to <tt>content-normalization.cfg.xml</tt>
+#
 # [*app_name*]
+# String. Application name.
+# Defaults to <tt>repose</tt>
 #
 # [*header_filters*]
-# List of filters by name, which conains a list of headers
+# List of filters containing name, id, headers
 #
 # [*media_types*]
 # List of media_types, each containing name, variant-extension, preferred
 #
-class repose::filter::content_normalization (
-  $ensure     = present,
-  $app_name   = 'repose',
+# === Examples
+#
+# repose::filter::content_normalization {
+#   'default':
+#     header_filters => [
+#       {
+#         name    => 'blacklist',
+#         id      => 'ReposeHeaders',
+#         headers => [
+#           'X-Authorization',
+#           'X-User-Name',
+#         ]
+#       }
+#     ],
+#     media_types => [
+#       {
+#         'name'              => 'application/xml',
+#         'variant-extension' => 'xml'
+#       },
+#       {
+#         'name'              => 'application/json',
+#         'variant-extension' => 'json'
+#       },
+#     ]
+# }
+#
+# === Authors
+#
+# * Alex Schultz <mailto:alex.schultz@rackspace.com>
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+#
+define repose::filter::content_normalization (
+  $ensure                = present,
+  $filename              = 'content-normalization.cfg.xml',
+  $app_name              = 'repose',
   $content_normalization = undef,
-  $header_filters =  undef,
-  $media_types = undef,
-) inherits repose::params {
+  $header_filters        = undef,
+  $media_types           = undef,
+) {
 
 ### Validate parameters
 
@@ -31,13 +80,13 @@ class repose::filter::content_normalization (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/content_normalization.cfg.xml":
-    ensure  => file,
+  file { "${repose::params::configdir}/${filename}":
+    ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/content_normalization.cfg.xml.erb'),
+    content => template('repose/content-normalization.cfg.xml.erb'),
   }
 
 }

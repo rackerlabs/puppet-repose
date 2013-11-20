@@ -1,13 +1,38 @@
+# == Resource: repose::filter::versioning
+#
+# This is a resource for generating versioning configuration files
+#
+# === Parameters
+#
+# [*ensure*]
+# Bool. Ensure config file present/absent
+# Defaults to <tt>present</tt>
+#
+# [*filename*]
+# String. Config filename
+# Defaults to <tt>versioning.cfg.xml</tt>
+#
 # [*app_name*]
+# String. Application name
+# Defaults to <tt>repose</tt>
 #
 # [*target_uri*]
 # String. The URI of the API repose is proxying
+# Defaults to <tt>undef</tt>
 #
-class repose::filter::versioning (
+# === Examples
+#
+# === Authors
+#
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+#
+define repose::filter::versioning (
   $ensure     = present,
+  $filename   = 'versioning.cfg.xml',
   $app_name   = 'repose',
   $target_uri = undef,
-) inherits repose::params {
+) {
 
 ### Validate parameters
 
@@ -31,7 +56,7 @@ class repose::filter::versioning (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/versioning.cfg.xml":
+  file { "${repose::params::configdir}/${filename}":
     ensure  => file,
     owner   => $repose::params::owner,
     group   => $repose::params::group,

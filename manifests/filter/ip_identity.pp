@@ -1,28 +1,35 @@
-# == Resource: repose::filter::header_translation
+# == Resource: repose::filter::ip_identity
 #
-# This is a resource for generating header
-# translation configuration files
+# This is a resource for generating ip identity configuration files
 #
 # === Parameters
 #
 # [*ensure*]
-# Bool. Ensure config file present/absent
+# Bool.  Ensure config file present/absent
 # Defaults to <tt>present</tt>
 #
 # [*filename*]
-# String. Config filename
-# Defaults to <tt>header_translaction.cfg.xml</tt>
+# String.  Config filename
+# Defaults to <tt>ip-identity.cfg.xml</tt>
 #
-# [*app_name*]
-# String. Application name
-# Defaults to <tt>repose</tt>
+# [*quality*]
+# List of filters by name, which conains a list of headers
+# Defaults to <tt>0.2</tt>
 #
-# [*header_translations*]
-# List containing original_name, new_name, remove_original
+# [*whitelist*]
+# Hash of quality and an array of addresses
 # Defaults to <tt>undef</tt>
 #
 # === Examples
 #
+# repose::filter::ip_identity {
+#   'default':
+#     quality => 0.2,
+#     whitelist => {
+#       quality => 0.3,
+#       addresses => [ '127.0.0.1' ],
+#     }
+# }
 #
 # === Authors
 #
@@ -30,11 +37,11 @@
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
-define repose::filter::header_translation (
-  $ensure              = present,
-  $filename            = 'header_translation.cfg.xml',
-  $app_name            = 'repose',
-  $header_translations = undef,
+define repose::filter::ip_identity (
+  $ensure    = present,
+  $filename  = 'ip-identity.cfg.xml',
+  $quality   = 0.2,
+  $whitelist = undef,
 ) {
 
 ### Validate parameters
@@ -52,6 +59,11 @@ define repose::filter::header_translation (
     debug("\$ensure = '${ensure}'")
   }
 
+##whitelist
+  if $whitelist == undef {
+    fail('whitelist is a required parameters. see documentation for details.')
+  }
+
 ## Manage actions
 
   file { "${repose::params::configdir}/${filename}":
@@ -60,7 +72,7 @@ define repose::filter::header_translation (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/header_translation.cfg.xml.erb'),
+    content => template('repose/ip-identity.cfg.xml.erb'),
   }
 
 }

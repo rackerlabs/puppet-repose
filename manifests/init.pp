@@ -2,8 +2,6 @@
 #
 # This class is able to install or remove repose on a node.
 #
-# [Add description - What does this module do on a node?] FIXME/TODO
-#
 #
 # === Parameters
 #

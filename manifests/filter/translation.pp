@@ -1,19 +1,45 @@
+# == Resource: repose::filter::translation
+#
+# This is a resource for generating translation configuration files
+#
+# === Parameters
+#
+# [*ensure*]
+# Bool. Ensure config file present/absent
+# Defaults to <tt>present</tt>
+#
+# [*filename*]
+# String. Config filename
+# Defaults to <tt>translation.cfg.xml</tt>
+#
 # [*app_name*]
+# String. Application name
+# Defaults to <tt>repose</tt>
 #
 # [*request_translations*]
 # List containing http_methods, content_type, accept,
 # translated_content_type, and a list of styles
+# Defaults to <tt>undef</tt>
 #
 # [*response_translations*]
 # List containing content_type, accept, translated_content_type,
 # and a list of styles
+# Defaults to <tt>undef</tt>
 #
-class repose::filter::translation (
-  $ensure     = present,
-  $app_name   = 'repose',
-  $request_translations = undef,
+# === Examples
+#
+# === Authors
+#
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+#
+define repose::filter::translation (
+  $ensure                = present,
+  $filename              = 'translation.cfg.xml',
+  $app_name              = 'repose',
+  $request_translations  = undef,
   $response_translations = undef,
-) inherits repose::params {
+) {
 
 ### Validate parameters
 
@@ -32,7 +58,7 @@ class repose::filter::translation (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/translation.cfg.xml":
+  file { "${repose::params::configdir}/${filename}":
     ensure  => file,
     owner   => $repose::params::owner,
     group   => $repose::params::group,

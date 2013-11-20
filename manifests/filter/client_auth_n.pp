@@ -1,3 +1,17 @@
+# == Resource: repose::filter::client_auth_n
+#
+# This is a resource for generating client-auth-n configuration files
+#
+# === Parameters
+#
+# [*ensure*]
+# Bool. Ensure config file is present/absent
+# Defaults to <tt>present</tt>
+#
+# [*filename*]
+# String. Filename to output config
+# Defaults to <tt>client-auth-n.cfg.xml</tt>
+#
 # [*auth*]
 # Required. Hash containing user, pass, and uri
 #
@@ -18,16 +32,35 @@
 # [*group_cache_timeout*]
 # Integer as String.
 # Defaults to <tt>60000</tt>
-
-class repose::filter::client_auth_n (
+#
+# === Examples
+#
+# repose::filter::client_auth_n {
+#   'default':
+#     auth => {
+#       user => 'test',
+#       pass => 'testpass',
+#       uri => 'testuri',
+#     },
+#     client_maps => [ '.*/events/(\d+)', ],
+# }
+#
+# === Authors
+#
+# * Alex Schultz <mailto:alex.schultz@rackspace.com>
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+#
+define repose::filter::client_auth_n (
+  $ensure              = present,
+  $filename            = 'client-auth-n.cfg.xml',
   $auth                = undef,
   $client_maps         = undef,
-  $ensure              = present,
   $white_lists         = {},
   $delegable           = false,
   $tenanted            = false,
   $group_cache_timeout = '60000',
-) inherits repose::params {
+) {
 
 ### Validate parameters
 
@@ -51,8 +84,8 @@ class repose::filter::client_auth_n (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/client-auth-n.cfg.xml":
-    ensure  => file,
+  file { "${repose::params::configdir}/${filename}":
+    ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
