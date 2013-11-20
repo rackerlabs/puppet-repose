@@ -21,7 +21,12 @@
 # === Links
 #
 #
-# [ NO empty lines allowed between this and definition below for rdoc ]
+# === Authors
+#
+# * Alex Schultz <mailto:alex.schultz@rackspace.com>
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+#
 class repose::params {
 
 ## ensure

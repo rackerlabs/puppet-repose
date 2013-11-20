@@ -1,7 +1,6 @@
 # == Resource: repose::filter::rate_limiting
 #
 # This is a resource for generating rate limiting configuration files
-# http://wiki.openrepose.org/display/REPOSE/Rate+Limiting+Filter
 #
 # === Parameters
 #
@@ -65,6 +64,10 @@
 #       },
 #     ],
 # }
+#
+# === Links
+#
+# * http://wiki.openrepose.org/display/REPOSE/Rate+Limiting+Filter
 #
 # === Authors
 #

@@ -18,8 +18,11 @@
 # It is not intended to be used directly by external resources like node
 # definitions or other modules.
 #
+# === Authors
 #
-# [ NO empty lines allowed between this and definition below for rdoc ]
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+#
 class repose::package (
   $ensure      = $repose::params::ensure,
   $autoupgrade = $repose::params::autoupgrade,

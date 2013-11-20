@@ -13,6 +13,8 @@
 # Defaults to <tt>validator.cfg.xml</tt>
 #
 # [*app_name*]
+# String. Applicatio name
+# Defaults to <tt>repose</tt>
 #
 # [*validators*]
 # List containing list of validator options
@@ -21,11 +23,16 @@
 # List containing role, applications and resources
 #
 # [*multi_role_match*]
-# boolean string
+# Boolean. 
+# Defaults to <tt>false</tt>
 #
 # [*version*]
 # Version number for the validator configuration
 #
+# === Links
+#
+# * http://wiki.openrepose.org/pages/viewpage.action?pageId=327755
+# 
 # === Examples
 #
 # repose::filter::api_validator {
