@@ -5,5 +5,5 @@
  xmlns="http://docs.api.rackspacecloud.com/repose/header-translation/v1.0">
 <% header_translations.each do |header_translation| %>
     <header original-name="<%= header_translation['original_name'] -%>" new-name="<%= header_translation['new_name'] -%>" remove-original="<%= header_translation['remove_original'] -%>" />
-    <% end %>
+<% end %>
 </header_translation>

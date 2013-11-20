@@ -1,20 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<validators multi-role-match="<%= multi_role_match %>" xmlns="http://openrepose.org/repose/validator/v1.0">
-    <% validators.each do |validator| %>
+<validators multi-role-match="<%= multi_role_match %>" xmlns="http://openrepose.org/repose/validator/v1.0"<% if @version %> version="<%= @version %>"<% end -%>>
+<% validators.each do |validator| -%>
     <validator 
-	default="<%= validator['default'] %>"
         role="<%= validator['role'] %>" 
-        dot-output="<%= validator['dot_output'] %>" >
-        <% validator['applications'].each do |application| %> 
+        default="<%= validator['default'] %>"
+        wadl="<%= validator['wadl'] %>"
+        dot-output="<%= validator['dot_output'] %>"
+  <%- if validator.has_key?('check_well_formed') -%>
+        check-well-formed="<%= validator['check_well_formed'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('check_xsd_grammar') -%>
+        check-xsd-grammar="<%= validator['check_xsd_grammar'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('check_elements') -%>
+        check-elements="<%= validator['check_elements'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('check_plain_params') -%>
+        check-plain-params="<%= validator['check_plain_params'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('do_xsd_grammar_transform') -%>
+        do-xsd-grammar-transform="<%= validator['do_xsd_grammar_transform'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('enable_pre_process_extension') -%>
+        enable-pre-process-extension="<%= validator['enable_pre_process_extension'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('remove_dupes') -%>
+        remove-dupes="<%= validator['remove_dupes'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('xpath_version') -%>
+        xpath-version="<%= validator['xpath_version'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('xsl_engine') -%>
+        xsl-engine="<%= validator['xsl_engine'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('xsd_engine') -%>
+        xsd-engine="<%= validator['xsd_engine'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('enable_ignore_xsd_extension') -%>
+        enable-ignore-xsd-extension="<%= validator['enable_ignore_xsd_extension'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('join_xpath_checks') -%>
+        join-xpath-checks="<%= validator['join_xpath_checks'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('check_headers') -%>
+        check-headers="<%= validator['check_headers'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('enable_rax_roles') -%>
+        enable-rax-roles="<%= validator['enable_rax_roles'] %>"
+  <%- end -%>
+    >
+  <%- if validator.has_key?('applications') -%>
+    <%- validator['applications'].each do |application| -%> 
         <application xmlns="http://wadl.dev.java.net/2009/02">
             <resources base="<%= application['base'] %>" >
-                <% application['resources'].each do |resource| %>
+      <%- application['resources'].each do |resource| -%>
                 <resource path="<%= resource['path'] %>"
                           type="<%= resource['type'] %>" />
-                <% end %>
+      <%- end -%>
             </resources>
         </application>
-        <% end %>
+    <%- end -%>
+  <%- end -%>
     </validator>
-    <% end %>
+<% end -%>
 </validators>

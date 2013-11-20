@@ -2,8 +2,6 @@
 #
 # This class is able to install or remove repose on a node.
 #
-# [Add description - What does this module do on a node?] FIXME/TODO
-#
 #
 # === Parameters
 #
@@ -58,8 +56,6 @@
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
-#
-# [ NO empty lines allowed between this and definition below for rdoc ]
 class repose (
   $ensure      = $repose::params::ensure,
   $enable      = $repose::params::enable,

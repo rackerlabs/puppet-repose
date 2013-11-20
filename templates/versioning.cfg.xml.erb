@@ -2,14 +2,13 @@
 <!-- http://wiki.openrepose.org/display/REPOSE/Versioning+Filter -->
 <versioning xmlns="http://docs.rackspacecloud.com/repose/versioning/v2.0">
     <service-root href="<%= target_uri %>" />
-    <version-mapping id="v1" pp-dest-id="<%= app_name %>" status="CURRENT">
+<%- version_mappings.each do |map| -%>
+    <version-mapping id="<%= map['id'] %>" pp-dest-id="<%= app_name %>" status="<%= map['status'] %>">
         <media-types>
-            <media-type base="application/xml" type="application/v1+xml" />
-            <media-type base="application/json" type="application/v1+json" />
-            <media-type base="application/xml" type="application/vnd.rackspace; x=v1; y=xml" />
-            <media-type base="application/json" type="application/vnd.rackspace; x=v1; y=json" />
-            <media-type base="application/json" type="application/vnd.rackspace; rnd=1; x=v1; rnd2=2; y=xml" />
-            <media-type base="application/json" type="application/vnd.rackspace; rnd=1; x=v1; rnd2=2; y=json" />
+  <%- map['media_types'].each do |type| -%>
+            <media-type <% type.sort.map do |param,value| %><%= param %>="<%= value %>" <% end %>/>
+  <%- end -%>
         </media-types>
     </version-mapping>
+<%- end -%>
 </versioning>

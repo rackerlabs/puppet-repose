@@ -21,22 +21,13 @@
 # === Links
 #
 #
-# [ NO empty lines allowed between this and definition below for rdoc ]
-class repose::params inherits repose::config {
-
-### Variables that are intended to be over ridden using repose::config
-### Validation of these values is recommended to occur in primary class
-
-## content - name of the template that will provide primary client config
-## Default to the module's included client template
-  if empty($repose::config::content) {
-    $content = 'config.erb'
-  } else {
-    $content = $repose::config::content
-    if $::debug { debug('$content overridden by local config') }
-  }
-
-### Default values for the parameters of the main module class, init.pp
+# === Authors
+#
+# * Alex Schultz <mailto:alex.schultz@rackspace.com>
+# * Greg Swift <mailto:greg.swift@rackspace.com>
+# * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+#
+class repose::params {
 
 ## ensure
   $ensure = present
@@ -117,7 +108,22 @@ class repose::params inherits repose::config {
 ## port
   $port = '8080'
 
+## run_port for valve
+  $run_port = '9090'
+
+## shutdown port for valve
+  $shutdown_port = '8188'
+
 ## sourcedir
   $sourcedir = "puppet:///modules/${module_name}"
+
+## daemon_home for valve
+  $daemon_home = '/usr/share/lib/repose'
+
+## pid file for valve
+  $pid_file = '/var/run/repose-valve.pid'
+
+## user for valve
+  $user = 'repose'
 
 }

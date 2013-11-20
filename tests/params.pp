@@ -1,2 +1,2 @@
-include MODULE::params
+include repose::params
 
