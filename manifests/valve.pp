@@ -113,7 +113,6 @@ class repose::valve (
     ensure  => file,
     owner   => root,
     group   => root,
-    #source  => 'puppet:///modules/repose/valve-sysconfig',
     require => [ Package[$repose::params::valve_package] ],
     notify  => Service[$repose::params::service],
   }
