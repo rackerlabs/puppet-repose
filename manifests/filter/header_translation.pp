@@ -11,7 +11,7 @@
 #
 # [*filename*]
 # String. Config filename
-# Defaults to <tt>header_translaction.cfg.xml</tt>
+# Defaults to <tt>header-translaction.cfg.xml</tt>
 #
 # [*app_name*]
 # String. Application name
@@ -32,7 +32,7 @@
 #
 define repose::filter::header_translation (
   $ensure              = present,
-  $filename            = 'header_translation.cfg.xml',
+  $filename            = 'header-translation.cfg.xml',
   $app_name            = 'repose',
   $header_translations = undef,
 ) {
@@ -60,7 +60,7 @@ define repose::filter::header_translation (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/header_translation.cfg.xml.erb'),
+    content => template('repose/header-translation.cfg.xml.erb'),
   }
 
 }
