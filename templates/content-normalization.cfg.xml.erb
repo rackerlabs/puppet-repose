@@ -3,21 +3,20 @@
                        xmlns='http://docs.api.rackspacecloud.com/repose/content-normalization/v1.0'>
 <%- if @header_filters -%>
     <header-filters>
-      <%- @header_filters.each do |filter| -%>
+  <%- @header_filters.each do |filter| -%>
         <<%= filter['name'] -%> id="<%= filter['id'] %>">
-          <%- filter['headers'].each do |header| -%>
+    <%- filter['headers'].each do |header| -%>
             <header id="<%= header %>"/>
-          <%- end -%>
+    <%- end -%>
         </<%= filter['name'] -%>>
-      <%- end -%>
+  <%- end -%>
     </header-filters>
 <%- end -%>
-
 <%- if @media_types -%>
     <media-types>
-      <%- @media_types.each do |type| -%>
+  <%- @media_types.each do |type| -%>
         <media-type <% type.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
-      <%- end -%>
+  <%- end -%>
     </media-types>
 <%- end -%>
 </content-normalization>

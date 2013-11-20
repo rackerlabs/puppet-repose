@@ -22,16 +22,37 @@
 #
 # === Examples
 #
+# repose::filter::versioning {
+#   'default':
+#     target_uri       => 'http://localhost/repose',
+#     version_mappings => [
+#       {
+#         'id'     => 'v1',
+#         'status' => 'CURRENT',
+#         'media_types' => [
+#           { 'base' => 'application/xml', type => 'application/v1+xml' },
+#           { 'base' => 'application/json', type => 'application/v1+json' },
+#           { 'base' => 'application/xml', type => 'application/vnd.rackspace; x=v1; y=xml' },
+#           { 'base' => 'application/json', type => 'application/vnd.rackspace; x=v1; y=json' },
+#           { 'base' => 'application/json', type => 'application/vnd.rackspace; rnd=1; x=v1; rnd2=2; y=xml' },
+#           { 'base' => 'application/json', type => 'application/vnd.rackspace; rnd=1; x=v1; rnd2=2; y=json' },
+#         ]
+#       }
+#     ]
+# }
 # === Authors
 #
+# * Alex Schultz <mailto:alex.schultz@rackspace.com>
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::versioning (
-  $ensure     = present,
-  $filename   = 'versioning.cfg.xml',
-  $app_name   = 'repose',
-  $target_uri = undef,
+  $ensure           = present,
+  $filename         = 'versioning.cfg.xml',
+  $app_name         = 'repose',
+  $target_uri       = undef,
+  $version_mappings = undef,
+  
 ) {
 
 ### Validate parameters

@@ -10,9 +10,9 @@
    </allowed-hosts>
 <% if port_config -%>
    <port-config>
-     <%- port_config.each do |port| -%>
+  <%- port_config.each do |port| -%>
      <port port="<%= port['port'] %>" cluster="<%= port['cluster'] %>"<% if port.has_key?('node') %> node="<%= port['node'] %>"<% end -%> />
-     <%- end -%>
+  <%- end -%>
    </port-config>
 <%- end -%>
 </distributed-datastore>

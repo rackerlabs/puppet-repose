@@ -3,34 +3,34 @@
 <system-model xmlns="http://docs.rackspacecloud.com/repose/system-model/v2.0">
   <repose-cluster id="<%= app_name %>">
     <nodes>
-    <%- nodes.sort.each do |node| -%>
+<%- nodes.sort.each do |node| -%>
         <node id="<%= node.split[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
-    <%- end -%>
+<%- end -%>
     </nodes>
     <filters>
-    <%- filters.keys.sort.each do |key| -%>
+<%- filters.keys.sort.each do |key| -%>
       <filter <% filters[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
-    <%- end -%>
+<%- end -%>
     </filters>
-    <%- if ! @services.nil? %>
+<%- if ! @services.nil? %>
     <services>
-    <%- services.keys.sort.each do |key| -%>
+  <%- services.keys.sort.each do |key| -%>
       <services <% services[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
-    <%- end -%>
+  <%- end -%>
     </services>
-    <%- end -%>
+<%- end -%>
     <destinations>
-    <%- endpoints.each do |endpoint| -%>
+<%- endpoints.each do |endpoint| -%>
       <endpoint <% endpoint.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
-    <%- end -%>
+<%- end -%>
     </destinations>
   </repose-cluster>
-  <%- if ! @service_cluster.nil? -%>
+<%- if ! @service_cluster.nil? -%>
   <service-cluster id="<%= @service_cluster['name'] %>">
   <%- @service_cluster['nodes'].each do |endpoint| -%>
     <node id="repose_<%= endpoint.split('.')[0] -%>" hostname="<%= endpoint %>" http-port="9090"/>
   <%- end -%>
   </service-cluster>
-  <%- end -%>
+<%- end -%>
 </system-model>
 
