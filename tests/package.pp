@@ -1,1 +1,1 @@
-class { 'MODULE::package': }
+class { 'repose::package': }
