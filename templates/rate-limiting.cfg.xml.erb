@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- http://wiki.openrepose.org/display/REPOSE/Rate+Limiting+Filter -->
-<rate-limiting <%- if datastore %>datastore="<%= datastore %>"<% end %> <%- if overlimit_429 %>overLimit-429-responseCode="<%= overlimit_429%>"<% end %> 
+<rate-limiting <%- if ! @datastore.nil? %>datastore="<%= @datastore %>"<% end %> <%- if ! @overlimit_429.nil? %>overLimit-429-responseCode="<%= @overlimit_429%>"<% end %> 
     use-capture-groups=<%= use_capture_groups %> 
     xmlns="http://docs.rackspacecloud.com/repose/rate-limiting/v1.0">
     <!--

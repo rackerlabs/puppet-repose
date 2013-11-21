@@ -4,7 +4,7 @@
   <repose-cluster id="<%= app_name %>">
     <nodes>
 <%- nodes.sort.each do |node| -%>
-        <node id="<%= node.split[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
+        <node id="<%= app_name %>_<%= node.split[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
 <%- end -%>
     </nodes>
     <filters>
@@ -28,7 +28,7 @@
 <%- if ! @service_cluster.nil? -%>
   <service-cluster id="<%= @service_cluster['name'] %>">
   <%- @service_cluster['nodes'].each do |endpoint| -%>
-    <node id="repose_<%= endpoint.split('.')[0] -%>" hostname="<%= endpoint %>" http-port="9090"/>
+    <node id="<%= app_name %>_<%= endpoint.split('.')[0] -%>" hostname="<%= endpoint %>" http-port="<%= port -%>"/>
   <%- end -%>
   </service-cluster>
 <%- end -%>

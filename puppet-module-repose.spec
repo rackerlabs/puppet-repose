@@ -1,7 +1,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{base_name}
-Version:   1.0.0
+Version:   1.0.1
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %config %{module_dir}/manifests/config.pp
 
 %changelog
+* Thu Nov 21 2013 Alex Schultz <alex.schultz@rackspace.com> - 1.0.1-1
+- Minor fix for undef vars
 * Wed Nov 20 2013 Alex Schultz <alex.schultz@rackspace.com> - 1.0.0-1
 - Version 1.0.0 of the package
 * Mon Nov 18 2013 Greg Swift <greg.swift@rackspace.com> - 0.1.0-1
