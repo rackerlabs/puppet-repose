@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://wiki.openrepose.org/display/REPOSE/Response+Messaging+Service -->
+<!-- The Response Messaging Service (RMS) allows you to configure the HTTP response returned to the client
+     for specific HTTP status codes. -->
+<response-messaging xmlns="http://docs.rackspacecloud.com/repose/response-messaging/v1.0">
+<% @status_codes.each do |code| -%>
+    <status-code id="<%= code['id'] %>" code-regex="<%= code['code-regex'] %>" <% if code.has_key?('overwrite') %>overwrite="<%= code['overwrite'] %>"<% end %>>
+  <%- code['messages'].each do |message| -%>
+        <message media-type="<%= message['media-type'] %>" <%- if message.has_key?('content-type') -%>content-type="<%= message['content-type'] %>"<%- end -%> <%- if message.has_key?('href') -%>href="<%= message['href'] %>"<%- end -%>>
+<%= message['body'] %>
+        </message>
+  <%- end -%>
+    </status-code>
+<%- end -%>
+</response-messaging>
