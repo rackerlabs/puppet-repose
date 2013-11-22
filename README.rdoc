@@ -51,15 +51,15 @@ This module provides a re-usable and environment agnostic control of Repose Powe
 
   # Bringing it all together
   class { 'repose::valve': }
-  class { 'repose::filter::http_logging':
+  repose::filter::http_logging { 'default':
     log_files => $log_files,
   }
-  class { 'repose::filter::client_auth_n':
+  repose::filter::client_auth_n { 'default':
     auth        => $auth,
     client_maps => $client_maps,
     white_lists => $white_lists,
   }
-  class { 'repose::filter::system_model':
+  repose::filter::system_model { 'default':
     app_name  => $app_name,
     nodes     => $repose_nodes,
     filters   => $filters,
@@ -77,5 +77,6 @@ This module provides a re-usable and environment agnostic control of Repose Powe
 
 ---
 ==Authors
+[Alex Schultz] mailto:alex.schultz@rackspace.com
 [Greg Swift] mailto:greg.swift@rackspace.com
 [c/o Cloud Integration Ops] mailto:citops@rackspace.com
