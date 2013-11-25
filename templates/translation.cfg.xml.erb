@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- http://wiki.openrepose.org/display/REPOSE/Translation -->
 <translation xmlns="http://docs.rackspacecloud.com/repose/translation/v1.0">
-<%- if @request_translations -%>
     <request-translations>
+<%- if @request_translations -%>
   <% request_translations.each do |request_translation| %>
         <request-translation 
             http-methods="<%= request_translation['http_methods'] %>" 
@@ -16,8 +16,8 @@
             </style-sheets>
         </request-translation>
   <% end %>
-    </request-translations>
 <% end %>
+    </request-translations>
 <%- if @response_translations -%>
     <response-translations>
   <% response_translations.each do |response_translation| %>

@@ -4,7 +4,7 @@
   <repose-cluster id="<%= app_name %>">
     <nodes>
 <%- nodes.sort.each do |node| -%>
-        <node id="<%= app_name %>_<%= node.split[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
+        <node id="<%= app_name %>_<%= node.split('.')[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
 <%- end -%>
     </nodes>
     <filters>
@@ -15,7 +15,7 @@
 <%- if ! @services.nil? %>
     <services>
   <%- services.keys.sort.each do |key| -%>
-      <services <% services[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+      <service <% services[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
   <%- end -%>
     </services>
 <%- end -%>

@@ -7,9 +7,11 @@
         <client-mapping id-regex="<%= client_map %>"/>
 <% end -%>
     </openstack-auth>
+<%- if ! @white_lists.nil? -%>
     <white-list>
-<% white_lists.each do |white_list| -%>
+  <% white_lists.each do |white_list| -%>
         <uri-pattern uri-regex="<%= white_list %>" />
-<%- end -%>
+  <%- end -%>
     </white-list>
+<%- end -%>
 </client-auth>
