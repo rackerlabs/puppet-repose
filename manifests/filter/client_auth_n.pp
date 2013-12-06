@@ -60,7 +60,7 @@ define repose::filter::client_auth_n (
   $filename            = 'client-auth-n.cfg.xml',
   $auth                = undef,
   $client_maps         = undef,
-  $white_lists         = {},
+  $white_lists         = undef,
   $delegable           = false,
   $tenanted            = false,
   $group_cache_timeout = '60000',
