@@ -3,9 +3,15 @@
 <% validators.each do |validator| -%>
     <validator 
         role="<%= validator['role'] %>" 
+  <%- if validator.has_key?('default') -%>
         default="<%= validator['default'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('wadl') -%>
         wadl="<%= validator['wadl'] %>"
+  <%- end -%>
+  <%- if validator.has_key?('dot_output') -%>
         dot-output="<%= validator['dot_output'] %>"
+  <%- end -%>
   <%- if validator.has_key?('check_well_formed') -%>
         check-well-formed="<%= validator['check_well_formed'] %>"
   <%- end -%>
