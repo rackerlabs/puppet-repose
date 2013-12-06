@@ -64,7 +64,7 @@
 # Defaults to <tt>repose</tt>
 #
 # [*java_options*]
-# String. Additional java options to pass to JAVA_OPTS
+# String. Additional java options to pass to java_opts 
 # Defaults to <tt>undef</tt>
 #
 # [*saxon_home*]
@@ -132,12 +132,15 @@ class repose::valve (
     "set LOG_PATH '${log_path}'",
     "set PID_FILE '${pid_file}'",
     "set USER '${user}'",
-    "set JAVA_OPTS '\"\${JAVA_OPTS} ${java_options}\"'",
+    "set java_opts '\"\${java_opts} ${java_options}\"'",
   ]
 
   # if saxon_home provided for saxon license
   if $saxon_home {
-    $saxon_sysconfig = "set SAXON_HOME '${saxon_home}'"
+    $saxon_sysconfig = [ 
+      "set SAXON_HOME '${saxon_home}'",
+      "set SAXON_HOME/export ''"
+    ]
   } else {
     $saxon_sysconfig = 'rm SAXON_HOME'
   }
