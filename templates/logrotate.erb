@@ -1,0 +1,19 @@
+# This file is managed via puppet '<%= @name %>'
+#
+<%= @log_files.join(' ') %> {
+<%- if ! @rotate_frequency.nil? -%>
+    <%= @rotate_frequency %>
+<%- end -%>
+    rotate <%= @rotate_count %>
+    missingok
+<%- if @compress -%>
+    compress
+<%- end -%>
+<%- if @delay_compress -%>
+    delaycompress
+<%- end -%>
+    copytruncate
+<%- if @use_date_ext -%>
+    dateext
+<%- end -%>
+}
