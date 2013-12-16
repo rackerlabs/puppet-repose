@@ -126,4 +126,12 @@ class repose::params {
 ## user for valve
   $user = 'repose'
 
+## daemonize bin for repose-valve
+  $daemonize = '/usr/sbin/daemonize'
+
+## daemonize opts for repose-valve
+  $daemonize_opts = '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
+
+## run ops for repose-valve
+  $run_opts = '-s $SHUTDOWN_PORT -p $RUN_PORT -c $CONFIG_DIRECTORY'
 }

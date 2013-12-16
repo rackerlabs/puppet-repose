@@ -63,6 +63,18 @@
 # String. User to run the valve as
 # Defaults to <tt>repose</tt>
 #
+# [*daemonize*]
+# String. the path to the daemonize binary
+# Defaults to <tt>/usr/sbin/daemonize</tt>
+#
+# [*daemonize_opts*]
+# String. The daemonize options to be passed into daemonize.
+# Defaults to <tt>-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME</tt>
+#
+# [*run_opts*]
+# String. The options sent to the run command
+# Defaults to <tt>-s $SHUTDOWN_PORT -p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
+#
 # [*java_options*]
 # String. Additional java options to pass to java_opts 
 # Defaults to <tt>undef</tt>
@@ -98,6 +110,9 @@ class repose::valve (
   $log_path        = $repose::params::logdir,
   $pid_file        = $repose::params::pid_file,
   $user            = $repose::params::user,
+  $daemonize       = $repose::params::daemonize,
+  $daemonize_opts  = $repose::params::daemonize_opts,
+  $run_opts        = $repose::params::run_opts,
   $java_options    = undef,
   $saxon_home      = undef,
 ) inherits repose::params {
@@ -132,6 +147,9 @@ class repose::valve (
     "set LOG_PATH '${log_path}'",
     "set PID_FILE '${pid_file}'",
     "set USER '${user}'",
+    "set daemonize '${daemonize}'",
+    "set daemonize_opts '${daemonize_opts}'",
+    "set run_opts '${run_opts}'",
     "set java_opts '\"\${java_opts} ${java_options}\"'",
   ]
 
