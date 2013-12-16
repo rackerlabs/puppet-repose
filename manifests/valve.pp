@@ -148,8 +148,8 @@ class repose::valve (
     "set PID_FILE '${pid_file}'",
     "set USER '${user}'",
     "set daemonize '${daemonize}'",
-    "set daemonize_opts '${daemonize_opts}'",
-    "set run_opts '${run_opts}'",
+    "set daemonize_opts '\"${daemonize_opts}\"'",
+    "set run_opts '\"${run_opts}\"'",
     "set java_opts '\"\${java_opts} ${java_options}\"'",
   ]
 
