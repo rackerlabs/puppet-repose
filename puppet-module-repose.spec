@@ -1,7 +1,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{base_name}
-Version:   1.0.3
+Version:   1.0.4
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %config %{module_dir}/manifests/config.pp
 
 %changelog
+* Thu Jan 09 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.4-1
+- Fix for service-cluster in system-model.cfg.xml
 * Mon Dec 16 2013 Alex Schultz <alex.schultz@rackspace.com> - 1.0.3-1
 - Added daemonize options to fix the bad options that ship before 2.10
 * Fri Nov 22 2013 Alex Schultz <alex.schultz@rackspace.com> - 1.0.2-1

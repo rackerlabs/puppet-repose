@@ -27,9 +27,11 @@
   </repose-cluster>
 <%- if ! @service_cluster.nil? -%>
   <service-cluster id="<%= @service_cluster['name'] %>">
+    <nodes>
   <%- @service_cluster['nodes'].each do |endpoint| -%>
-    <node id="<%= app_name %>_<%= endpoint.split('.')[0] -%>" hostname="<%= endpoint %>" http-port="<%= port -%>"/>
+      <node id="<%= app_name %>_<%= endpoint.split('.')[0] -%>" hostname="<%= endpoint %>" http-port="<%= port -%>"/>
   <%- end -%>
+    </nodes>
   </service-cluster>
 <%- end -%>
 </system-model>
