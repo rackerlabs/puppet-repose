@@ -1,4 +1,4 @@
 name 'citops-repose'
-version '1.0.3'
+version '1.0.4'
 description "Repose is an api middleware that provides authentication,
 filtering, ratelimitting and several other features, this deploys it."
