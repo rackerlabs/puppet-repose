@@ -64,15 +64,15 @@
             <resources base="<%= application['base'] %>" >
       <%- application['resources'].each do |resource| -%>
                 <resource path="<%= resource['path'] %>"
-                        <%- if resource.has_key?('type') -%>
+        <%- if resource.has_key?('type') -%>
                           type="<%= resource['type'] %>" 
-                        <%- end -%>
+        <%- end -%>
                           >
-                        <%- if resource.has_key?('methods') -%>
-                            <%- resource['methods'].each do |method| -%>
-                                <method name="<%= method['name'] %>"/> 
-                            <%- end -%>
-                        <%- end -%>
+        <%- if resource.has_key?('methods') -%>
+          <%- resource['methods'].each do |method| -%>
+                  <method name="<%= method['name'] %>"/> 
+          <%- end -%>
+        <%- end -%>
                 </resource>
       <%- end -%>
             </resources>
