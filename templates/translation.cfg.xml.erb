@@ -22,6 +22,9 @@
     <response-translations>
   <% response_translations.each do |response_translation| %>
         <response-translation 
+    <%- if response_translation['code_regex'] -%>
+            code-regex="<%= response_translation['code_regex'] %>"
+    <% end %>
             content-type="<%= response_translation['content_type'] %>" 
             accept="<%= response_translation['accept'] %>"
             translated-content-type="<%= response_translation['translated_content_type'] %>">
