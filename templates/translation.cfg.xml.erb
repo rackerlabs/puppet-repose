@@ -27,7 +27,7 @@
             translated-content-type="<%= response_translation['translated_content_type'] %>">
             <style-sheets>
     <% styles.each do |style| %>
-                <style href="<%= style['filename'] %>" />
+                <style id="<%= style['id'] %>" href="<%= style['filename'] %>" />
     <% end %>
             </style-sheets>
         </response-translation>
