@@ -30,7 +30,7 @@
             accept="<%= response_translation['accept'] %>"
             translated-content-type="<%= response_translation['translated_content_type'] %>">
             <style-sheets>
-    <% styles.each do |style| %>
+    <% response_translation['styles'].each do |style| %>
                 <style id="<%= style['id'] %>" href="<%= style['filename'] %>" />
     <% end %>
             </style-sheets>
