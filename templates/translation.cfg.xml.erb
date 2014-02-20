@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- http://wiki.openrepose.org/display/REPOSE/Translation -->
-<translation xmlns="http://docs.rackspacecloud.com/repose/translation/v1.0">
+<translation xmlns="http://docs.rackspacecloud.com/repose/translation/v1.0"
+    xsl-engine="<%= xsl_engine %>" />
     <request-translations>
 <%- if @request_translations -%>
   <% request_translations.each do |request_translation| %>
