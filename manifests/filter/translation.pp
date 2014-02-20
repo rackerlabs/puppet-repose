@@ -26,6 +26,10 @@
 # and a list of styles
 # Defaults to <tt>undef</tt>
 #
+# [*xsl-engine*]
+# String.  XSL-Engine. 
+# Defaults to <tt>SaxonHE<tt>
+#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Translation
@@ -43,6 +47,7 @@ define repose::filter::translation (
   $app_name              = 'repose',
   $request_translations  = undef,
   $response_translations = undef,
+  $xsl_engine            = 'SaxonHE'
 ) {
 
 ### Validate parameters
