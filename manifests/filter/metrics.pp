@@ -24,6 +24,20 @@
 #
 # * https://repose.atlassian.net/wiki/display/REPOSE/JMX+Metrics
 #
+# === Examples
+#
+# repsoe::filter::metrics {
+#  'metrics':
+#     graphite_servers => [
+#       {
+#         'host'   => 'graphite.staging.ord1.us.ci.rackspace.net',
+#         'port'   => '2013',
+#         'period' => '10',
+#         'prefix' => 'test/1/metrics',
+#       },
+#     ]
+# }
+#
 # === Authors
 #
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
@@ -51,6 +65,11 @@ define repose::filter::metrics (
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
+
+  ## graphite_servers
+  if $graphite_servers == undef {
+     fail( 'graphite_servers is a required list' )
+  } 	
 
   ## Manage actions
 
