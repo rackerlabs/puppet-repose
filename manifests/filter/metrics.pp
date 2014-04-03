@@ -20,6 +20,18 @@
 # Lists containing host, port, period, prefix
 # Defaults to <tt>undef</tt>
 #
+# [*period*]
+# Interval in seconds between sending data to the graphite server
+# Defaults to <tt>60</tt>
+#
+# [*prefix*]
+# Graphite prefix for the JMX data item
+# Defaults to <tt>''</tt>
+#
+# [*enabled*]
+# Enable repose to report metrics
+# Defaults to <tt>true</tt>
+#
 # === Links
 #
 # * https://repose.atlassian.net/wiki/display/REPOSE/JMX+Metrics
@@ -30,10 +42,11 @@
 #  'metrics':
 #     graphite_servers => [
 #       {
-#         'host'   => 'graphite.staging.ord1.us.ci.rackspace.net',
-#         'port'   => '2013',
-#         'period' => '10',
-#         'prefix' => 'test/1/metrics',
+#         'host'    => 'graphite.staging.ord1.us.ci.rackspace.net',
+#         'port'    => 2013,
+#         'period'  => 10,
+#         'prefix'  => 'test/1/metrics',
+          'enabled' => true
 #       },
 #     ]
 # }
@@ -49,6 +62,9 @@ define repose::filter::metrics (
   $filename         = 'metrics.cfg.xml',
   $app_name         = 'repose',
   $graphite_servers = undef,
+  $period           = 60,
+  $prefix           = '',
+  $enabled          = true,
 ) {
 
   ### Validate parameters
@@ -68,8 +84,13 @@ define repose::filter::metrics (
 
   ## graphite_servers
   if $graphite_servers == undef {
-     fail( 'graphite_servers is a required list' )
+     fail( 'graphite_servers is a required item' )
   } 	
+
+  ## enabled
+  if $enabled != true && $enabled != false {
+     fail( 'enabled must be a boolean' )
+  }
 
   ## Manage actions
 
