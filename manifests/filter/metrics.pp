@@ -46,7 +46,7 @@
 #         'port'    => 2013,
 #         'period'  => 10,
 #         'prefix'  => 'test/1/metrics',
-          'enabled' => true
+#         'enabled' => true
 #       },
 #     ]
 # }
