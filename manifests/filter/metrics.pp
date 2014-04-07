@@ -88,7 +88,7 @@ define repose::filter::metrics (
   } 	
 
   ## enabled
-  if $enabled != true && $enabled != false {
+  if $enabled != true and $enabled != false {
      fail( 'enabled must be a boolean' )
   }
 
