@@ -116,10 +116,10 @@
 #
 # class repose::filter::http_connection_pool {
 #   additional_pools                 => [
-#     { id                           => 'my_settings',
+#     { id                           => 'client-auth-pool',
 #       is_default                   => false,
-#       conn_manager_max_total       => 10,
-#       conn_manager_max_per_route   => 2,
+#       conn_manager_max_total       => 200,
+#       conn_manager_max_per_route   => 100,
 #       socket_timeout               => 30000,
 #       socket_buffer_size           => 8192,
 #       conn_timeout                 => 30000,
@@ -141,8 +141,8 @@ class repose::filter::http_connection_pool (
   $ensure                               = present,
   $filename                             = 'http-connection-pool.cfg.xml',
   $default_is_default                   = true,
-  $default_conn_manager_max_total       = 10,
-  $default_conn_manager_max_per_route   = 2,
+  $default_conn_manager_max_total       = 200,
+  $default_conn_manager_max_per_route   = 20,
   $default_socket_timeout               = 30000,
   $default_socket_buffer_size           = 8192,
   $default_conn_timeout                 = 30000,
