@@ -173,7 +173,7 @@ class repose::filter::http_connection_pool (
   validate_bool($default_is_default)
   validate_bool($default_tcp_nodelay)
   if ($additional_pools != undef) {
-    validate_hash($additional_pools)
+    validate_array($additional_pools)
   }
 
 ## Manage actions
