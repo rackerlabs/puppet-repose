@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <client-auth xmlns="http://docs.rackspacecloud.com/repose/client-auth/v1.0">
-    <openstack-auth delegable="<%= delegable %>" tenanted="<%= tenanted %>" group-cache-timeout="<%= group_cache_timeout %>" xmlns="http://docs.openrepose.org/repose/client-auth/os-ids-auth/v1.0">
-        <identity-service username="<%= auth['user'] -%>" password="<%= auth['pass'] -%>" uri="<%= auth['uri'] -%>" />
-<% client_maps.each do |client_map| -%>
+    <openstack-auth delegable="<%= @delegable %>" tenanted="<%= @tenanted %>" group-cache-timeout="<%= @group_cache_timeout %>" <% if @connection_pool_id %>connectionPoolId="<%= @connection_pool_id %>"<% end %> xmlns="http://docs.openrepose.org/repose/client-auth/os-ids-auth/v1.0">
+        <identity-service username="<%= @auth['user'] -%>" password="<%= @auth['pass'] -%>" uri="<%= @auth['uri'] -%>" />
+<%- if @client_maps -%>
+  <% @client_maps.each do |client_map| -%>
         <client-mapping id-regex="<%= client_map %>"/>
-<% end -%>
+  <%- end -%>
+<%- end -%>
     </openstack-auth>
 <%- if @white_lists -%>
     <white-list>

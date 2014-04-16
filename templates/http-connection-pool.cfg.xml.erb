@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<http-connection-pools xmlns="http://docs.rackspacecloud.com/repose/http-connection-pool/v1.0">
+
+    <!-- Configuration for the default pool.  Any users of the service will by default, retrieve HTTP connections
+        using this default pool configuration.
+    -->
+    <pool id="default"
+        default="<%= @default_is_default %>"
+        http.conn-manager.max-total="<%= @default_conn_manager_max_total %>"
+        http.conn-manager.max-per-route="<%= @default_conn_manager_max_per_route %>"
+        http.socket.timeout="<%= @default_socket_timeout %>"
+        http.socket.buffer-size="<%= @default_socket_buffer_size %>"
+        http.connection.timeout="<%= @default_conn_timeout %>"
+        http.connection.max-line-length="<%= @default_conn_max_line_length %>"
+        http.connection.max-header-count="<%= @default_conn_max_header_count %>"
+        http.connection.max-status-line-garbage="<%= @default_conn_max_status_line_garbage %>"
+        http.tcp.nodelay="<%= @default_tcp_nodelay %>"
+        keepalive.timeout="<%= @default_keepalive_timeout %>"/>
+
+<%- if @additional_pools %>
+  <%- @additional_pools.each do |pool| %>
+    <pool id="<%= pool['id'] %>"
+          default="<%= pool['is_default'] %>"
+          http.conn-manager.max-total="<%= pool['conn_manager_max_total'] %>"
+          http.conn-manager.max-per-route="<%= pool['conn_manager_max_per_route'] %>"
+          http.socket.timeout="<%= pool['socket_timeout'] %>"
+          http.socket.buffer-size="<%= pool['socket_buffer_size'] %>"
+          http.connection.timeout="<%= pool['conn_timeout'] %>"
+          http.connection.max-line-length="<%= pool['conn_max_line_length'] %>"
+          http.connection.max-header-count="<%= pool['conn_max_header_count'] %>"
+          http.connection.max-status-line-garbage="<%= pool['conn_max_status_line_garbage'] %>"
+          http.tcp.nodelay="<%= pool['tcp_nodelay'] %>"
+          keepalive.timeout="<%= pool['keepalive_timeout'] %>"/>
+  <%- end -%>
+<%- end -%>
+</http-connection-pools>

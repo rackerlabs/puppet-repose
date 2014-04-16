@@ -33,6 +33,13 @@
 # Integer as String.
 # Defaults to <tt>60000</tt>
 #
+# [*connection_pool_id*]
+# String. The name of a pool from http-connection-pool.cfg.xml. Setting this
+# tells the connection pool service to map to the pool with specified id. If
+# default is chosen, the default connection pool configurations in connection
+# pool service is used.
+# Defaults to <tt>undef</tt>
+#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Client+Authentication+Filter
@@ -64,6 +71,7 @@ define repose::filter::client_auth_n (
   $delegable           = false,
   $tenanted            = false,
   $group_cache_timeout = '60000',
+  $connection_pool_id  = undef,
 ) {
 
 ### Validate parameters
