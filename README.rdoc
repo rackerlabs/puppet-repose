@@ -79,4 +79,3 @@ This module provides a re-usable and environment agnostic control of Repose Powe
 ==Authors
 [Alex Schultz] mailto:alex.schultz@rackspace.com
 [Greg Swift] mailto:greg.swift@rackspace.com
-[c/o Cloud Integration Ops] mailto:citops@rackspace.com
