@@ -1,4 +1,4 @@
-= repose
+= Repose
 This module provides a re-usable and environment agnostic control of Repose Power Proxy
 
 ---
