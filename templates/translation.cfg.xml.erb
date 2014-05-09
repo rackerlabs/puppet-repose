@@ -27,7 +27,9 @@
             code-regex="<%= response_translation['code_regex'] %>"
     <%- end -%>
             content-type="<%= response_translation['content_type'] %>" 
+    <%- if response_translation['accept'] -%>
             accept="<%= response_translation['accept'] %>"
+    <%- end -%>
             translated-content-type="<%= response_translation['translated_content_type'] %>">
             <style-sheets>
     <% response_translation['styles'].each do |style| %>
