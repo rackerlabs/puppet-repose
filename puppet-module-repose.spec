@@ -6,7 +6,7 @@ Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
 License:   GPLv3+
-URL:       http://github.com/rackerlabs/%{base_name}
+URL:       http://github.com/rackerlabs/puppet-%{base_name}
 Source0:   %{name}.tgz
 
 %description
