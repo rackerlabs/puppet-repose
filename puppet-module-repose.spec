@@ -13,7 +13,7 @@ Source0:   %{name}.tgz
 Repose is an API proxy service htat provides validation,
 keystone authentication, and several other features.
 
-%define module_dir /usr/share/puppet/modules/%{base_name}
+%define module_dir /etc/puppet/modules/%{base_name}
 
 %prep
 %setup -q -c -n %{base_name}
