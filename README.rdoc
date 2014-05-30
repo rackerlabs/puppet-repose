@@ -73,7 +73,7 @@ This module provides a re-usable and environment agnostic control of Repose Powe
 == Installing this module
 
 === via GIT
- git clone http://github.com/rackerlabs/puppet-repose.git /usr/share/puppet/modules/repose
+ git clone http://github.com/rackerlabs/puppet-repose.git /etc/puppet/modules/repose
 
 ---
 ==Authors
