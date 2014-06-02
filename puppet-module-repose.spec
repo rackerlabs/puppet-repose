@@ -1,19 +1,19 @@
 %define base_name repose
 
 Name:      puppet-module-%{base_name}
-Version:   1.0.4
+Version:   1.0.5
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
 License:   GPLv3+
-URL:       http://github.rackspace.com/cloud-integration-ops/%{base_name}
+URL:       http://github.com/rackerlabs/puppet-%{base_name}
 Source0:   %{name}.tgz
 
 %description
 Repose is an API proxy service htat provides validation,
 keystone authentication, and several other features.
 
-%define module_dir /usr/share/puppet/modules/%{base_name}
+%define module_dir /etc/puppet/modules/%{base_name}
 
 %prep
 %setup -q -c -n %{base_name}
@@ -27,9 +27,10 @@ cp -pr * %{buildroot}%{module_dir}/
 %files
 %defattr (0644,root,root)
 %{module_dir}
-%config %{module_dir}/manifests/config.pp
 
 %changelog
+* Mon May 19 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.5-1
+- slf4j http logging filter support
 * Thu Jan 09 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.4-1
 - Fix for service-cluster in system-model.cfg.xml
 * Mon Dec 16 2013 Alex Schultz <alex.schultz@rackspace.com> - 1.0.3-1

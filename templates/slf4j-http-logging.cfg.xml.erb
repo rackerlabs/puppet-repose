@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://repose.atlassian.net/wiki/display/REPOSE/SLF4J+HTTP+Logging+Filter -->
+<slf4j-http-logging xmlns="http://docs.rackspacecloud.com/repose/slf4j-http-logging/v1.0">
+    <!-- The id attribute is to help the user easily identify the log 
+         it can then be used in log4j backend to determin which appender to go to -->
+    <!-- The format includes what will be logged.  The arguments with % are a subset of the apache mod_log_config
+         found at http://httpd.apache.org/docs/2.2/mod/mod_log_config.html#formats -->
+<% log_files.each do |log_file| %>
+    <slf4j-http-log 
+            id="<%= log_file['id'] %>" 
+            format="<%= log_file['format'] %>" />
+<% end %>
+</slf4j-http-logging>
+
