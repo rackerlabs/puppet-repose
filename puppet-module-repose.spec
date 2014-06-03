@@ -1,7 +1,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{base_name}
-Version:   1.0.5
+Version:   1.0.6
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -29,6 +29,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Tue Jun 03 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.6-1
+- Fixing minor logic issues, adding spec tests
 * Mon May 19 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.5-1
 - slf4j http logging filter support
 * Thu Jan 09 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.4-1
