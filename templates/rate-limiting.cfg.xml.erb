@@ -13,7 +13,7 @@
     <limit-group id="<%= limit_group['id'] %>" groups="<%= limit_group['groups'] %>" default="<%= limit_group['default'] %>">
   <%- if limit_group.has_key?('limits') -%>
     <%- limit_group['limits'].each do |limit| %>
-      <limit uri="<%= limit['uri'] %>" uri-regex="<%= limit['uri_regex'] %>" http-methods="<%= limit['http_methods'] %>" unit="<%= limit['unit'] %>" value="<%= limit['value'] %>" />
+        <limit <% if limit.has_key?('id') %>id="<%= limit['id'] %>" <% end %>uri="<%= limit['uri'] %>" uri-regex="<%= limit['uri_regex'] %>" http-methods="<%= limit['http_methods'] %>" unit="<%= limit['unit'] %>" value="<%= limit['value'] %>" />
     <%- end -%>
   <%- end -%>
     </limit-group>
