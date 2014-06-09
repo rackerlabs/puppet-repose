@@ -40,7 +40,9 @@
 # Required Array of hashes.  Hashes should contain
 #   String(id), String(groups), Boolean(default), and ArrayofHashes(limits)
 # Where the hashes in limits should contain the Strings:
-#   uri, uri-regex, http-methods, unit, value
+#   uri, uri-regex, http-methods, unit, value, id
+# NOTE: the id in limits array  should only be used with repose 5.0.0+.
+# Setting id <5.0.0 will result in the error.
 #
 # === Links
 #
