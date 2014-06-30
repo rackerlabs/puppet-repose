@@ -2,14 +2,49 @@
 
 <!-- To configure Repose see: http://wiki.openrepose.org/display/REPOSE/Configuration -->
 <repose-container xmlns='http://docs.rackspacecloud.com/repose/container/v2.0'>
-    <deployment-config http-port="8080" connection-timeout="30000" read-timeout="600000" client-request-logging="<%= client_request_logging -%>">
+    <deployment-config
+<%- if @http_port -%>
+        http-port="<%= @http_port %>"
+<%- end -%>
+<%- if @https_port -%>
+        https-port="<%= @https_port %>"
+<%- end -%>
+<%- if @via -%>
+        via="<%= @via %>"
+<%- end -%>
+<%- if @content_body_read_limit -%>
+        content-body-read-limit="<%= @content_body_read_limit %>"
+<%- end -%>
+<%- if @connection_timeout -%>
+        connection-timeout="<%= @connection_timeout %>"
+<%- end -%>
+<%- if @read_timeout -%>
+        read-timeout="<%= @read_timeout %>"
+<%- end -%>
+<%- if @proxy_thread_pool -%>
+        proxy-thread-pool="<%= @proxy_thread_pool %>"
+<%- end -%>
+<%- if @client_request_logging -%>
+        client-request-logging="<%= @client_request_logging -%>"
+<%- end -%>
+<%- if @jmx_reset_time -%>
+        jmx-reset-time="<%= @jmx_reset_time -%>"
+<%- end -%>
+        >
 
-        <deployment-directory auto-clean="true">/var/repose</deployment-directory>
+        <deployment-directory auto-clean="<%= @deployment_directory_auto_clean %>"><%= @deployment_directory %></deployment-directory>
 
-        <artifact-directory check-interval="60000">/usr/share/repose/filters</artifact-directory>
+        <artifact-directory check-interval="<%= @artifact_directory_check_interval %>"><%= @artifact_directory %></artifact-directory>
 
-        <logging-configuration href="log4j.properties"/>
+        <logging-configuration href="<%= @logging_configuration %>"/>
 
+<%- if @ssl_enabled == true -%>
+        <ssl-configuration>
+            <keystore-filename><%= @ssl_keystore_filename %></keystore-filename>
+            <keystore-password><%= @ssl_keystore_password %></keystore-password>
+            <key-password><%= @ssl_key_password %></key-password>
+        </ssl-configuration>
+<%- end -%>
     </deployment-config>
 </repose-container>
 

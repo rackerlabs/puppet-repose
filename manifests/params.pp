@@ -134,4 +134,23 @@ class repose::params {
 
 ## run ops for repose-valve
   $run_opts = '-s $SHUTDOWN_PORT -p $RUN_PORT -c $CONFIG_DIRECTORY'
+
+## container deployment directory
+  $deployment_directory = '/var/repose'
+
+## container artifact directory
+  $artifact_directory = '/usr/share/repose/filters'
+
+## syslog_port
+  $syslog_port = 514
+
+## syslog_protocol
+  $syslog_protocol = 'udp'
+
+## logging configuration file
+  $logging_configuration = 'log4j.properties'
+
+## default log level
+  $log_level = 'WARN'
+
 }
