@@ -75,6 +75,19 @@
 # String. The password for the particular application key in the keystore.
 # Defaults to <tt>undef</tt>
 #
+# [*content_body_read_limit*]
+# Integer. Maximum size ofr request content in bytes
+# Defaults to <tt>undef</tt>
+#
+# [*jmx_reset_time*]
+# Integer. The number of seconds the JMX reporting service keeps
+# data. The data will be reset after this amount of time.
+# Defaults to <tt>undef</tt>
+#
+# [*client_request_logging*]
+# Bool. Logs communication between repose and the end service
+# Defaults to <tt>false</tt>
+#
 # [*http_port*]
 # DEPRECATED. This attribute is deprecated and will be ignored. This has
 # moved to the system-model configuration.
@@ -94,10 +107,6 @@
 # [*proxy_thread_pool*]
 # DEPRECATED. This attribute is deprecated and moved to the
 # http-connection-pool configuration.
-#
-# [*client_request_logging*]
-# DEPRECATED. Bool. Log the client request
-# Defaults to <tt>false</tt>
 #
 # === Examples
 #
@@ -129,13 +138,14 @@ class repose::filter::container (
   $ssl_keystore_filename             = undef,
   $ssl_keystore_password             = undef,
   $ssl_key_password                  = undef,
+  $content_body_read_limit           = undef,
+  $jmx_reset_time                    = undef,
   $client_request_logging            = undef,
   $http_port                         = undef,
   $https_port                        = undef,
   $connection_timeout                = undef,
   $read_timeout                      = undef,
   $proxy_thread_pool                 = undef,
-  $client_request_logging            = undef,
 ) inherits repose::params {
 
 ### Validate parameters
