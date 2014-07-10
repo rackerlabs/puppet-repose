@@ -20,6 +20,7 @@ log4j.rootLogger=<%= @log_level %>, <%= rootAppenders.join(", ") %>
 # File
 log4j.appender.defaultFile=org.apache.log4j.DailyRollingFileAppender
 log4j.appender.defaultFile.File=<%= @log_dir-%>/<%= @app_name -%>.log
+log4j.appender.defaultFile.Threshold=<%= @log_level %>
 log4j.appender.defaultFile.DatePattern=.yyyy-MM-dd
 log4j.appender.defaultFile.layout=org.apache.log4j.PatternLayout
 log4j.appender.defaultFile.maxBackupIndex=5
@@ -30,6 +31,7 @@ log4j.appender.syslog=org.apache.log4j.net.SyslogAppender
 log4j.appender.syslog.Facility=local0
 log4j.appender.syslog.FacilityPrinting=false
 log4j.appender.syslog.Header=true
+log4j.appender.syslog.Threshold=<%= @log_level %>
 log4j.appender.syslog.syslogHost=<%= @syslog_server %>
 log4j.appender.syslog.port=<%= @syslog_port %>
 log4j.appender.syslog.protocol=<%= @syslog_protocol %>
