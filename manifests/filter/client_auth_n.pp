@@ -70,6 +70,7 @@ define repose::filter::client_auth_n (
   $white_lists         = undef,
   $delegable           = false,
   $tenanted            = false,
+  $token_cache_timeout = undef,
   $group_cache_timeout = '60000',
   $connection_pool_id  = undef,
 ) {
