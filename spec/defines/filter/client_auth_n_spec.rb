@@ -98,5 +98,29 @@ describe 'repose::filter::client_auth_n', :type => :define do
       }
     end
 
+    context 'providing ignore_tenant_roles' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure              => 'present',
+        :filename            => 'client-auth-n.cfg.xml',
+        :auth                => {
+          'user' => 'username',
+          'pass' => 'password',
+          'uri'  => 'http://uri'
+        },
+        :ignore_tenant_roles => 'role',
+      } }
+      it {
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').with(
+          :ensure => 'file',
+          :owner => 'repose',
+          :group => 'repose'
+        )
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').
+          with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
+          with_content(/ignore-tenant-roles=\"role\"/)
+      }
+    end
+
   end
 end

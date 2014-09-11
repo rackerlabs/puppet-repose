@@ -21,6 +21,9 @@
 # [*white_lists*]
 # Array contianing uri regexes to white list
 #
+# [*ignore_tenant_roles*]
+# Array containing roles to exclude from restrictions
+#
 # [*delegable*]
 # Bool.
 # Defaults to <tt>false</tt>
@@ -68,6 +71,7 @@ define repose::filter::client_auth_n (
   $auth                = undef,
   $client_maps         = undef,
   $white_lists         = undef,
+  $ignore_tenant_roles = undef,
   $delegable           = false,
   $tenanted            = false,
   $token_cache_timeout = undef,

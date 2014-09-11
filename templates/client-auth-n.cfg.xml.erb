@@ -8,6 +8,13 @@
         <client-mapping id-regex="<%= client_map %>"/>
   <%- end -%>
 <%- end -%>
+<%- if @ignore_tenant_roles -%>
+    <ignore-tenant-roles>
+  <% @ignore_tenant_roles.each do |ignore_tenant_role| -%>
+        <role><%= ignore_tenant_role %></role>
+    </ignore-tenant-roles>
+  <%- end -%>
+<%- end -%>
     </openstack-auth>
 <%- if @white_lists -%>
     <white-list>
