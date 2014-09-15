@@ -13,6 +13,55 @@
 # String. Application name. Required
 # Defaults to <tt>undef</tt>
 #
+# [*artifact_directory*]
+# String.
+# Defaults to <tt>/usr/share/repose/filters</tt>
+#
+# [*artifact_directory_check_interval*]
+# Integer. Directory check interval in milliseconds.
+# Defaults to <tt>60000</tt>
+#
+# [*client_request_logging*]
+# Bool. Logs communication between repose and the end service
+# Defaults to <tt>false</tt>
+#
+# [*content_body_read_limit*]
+# Integer. Maximum size ofr request content in bytes
+# Defaults to <tt>undef</tt>
+#
+# [*deployment_directory*]
+# String. A string that points the directory where artifacts are extracted.
+# Defaults to <tt>/var/repose</tt>
+#
+# [*deployment_directory_auto_clean*]
+# Boolean. Set to true to clean up undeployed resources.
+# Defaults to <tt>true</tt>
+#
+# [*jmx_reset_time*]
+# Integer. The number of seconds the JMX reporting service keeps
+# data. The data will be reset after this amount of time.
+# Defaults to <tt>undef</tt>
+#
+# [*log_access_facility*]
+# String. The facility to use when sending access logs via syslog.
+# Defaults to <tt>local1</tt>
+#
+# [*log_access_local*]
+# Boolean. Should repose access logs be logged locally. Uses the log_local_*
+# Settings to determine retention policy.
+# Defaults to <tt>true</tt>
+#
+# [*log_access_local_name*]
+# String. The name of the local log file to be created for the local http
+# access logs. The name is appended with .log.
+# Defaults to <tt>http_repose</tt>
+#
+# [*log_access_syslog*]
+# Boolean. Should repose access logs be to a syslog. Uses the syslog_*
+# Settings to determine where to send the logs. You must also specify
+# a syslog_server in order for this to be enabled.
+# Defaults to <tt>true</tt>
+#
 # [*log_dir*]
 # String. Log file directory
 # Defaults to <tt>/var/log/repose</tt>
@@ -20,6 +69,33 @@
 # [*log_level*]
 # String. Default log level
 # Defaults to <tt>WARN</tt>
+#
+# [*log_local_policy*]
+# String. Log policy for repose.log and http_access.log.  Default setting uses
+# the log4j DailyRollingFileAppender with a suffix of .yyyy-MM-dd.  Can be one
+# of <tt>date</tt>,<tt>size</tt>,<tt>undef</tt>.  If set to size, the logs
+# are rotated based on size and use the <tt>log_local_size</tt> and
+# <tt>log_local_rotation_count</tt> for determining retention.  If set to
+# <tt>undef</tt> or anything other than <tt>date</tt> or <tt>size</tt>
+# the NullAppender is used which means it won't log.
+# Defaults to <tt>date</tt>
+#
+# [*log_local_size*]
+# String. The max file size for the log4j RollingFileAppender.
+# Defaults to <tt>100M</tt>
+#
+# [*log_local_rotation_count*]
+# Integer. The number of backup files to keeo for the log4j RollingFileAppender
+# Defaults to <tt>4</tt>
+#
+# [*log_repose_facility*]
+# String. The logging facility to send repose logs to when sending to a syslog
+# server.
+# Defaults to <tt>local0</tt>
+#
+# [*logging_configuration*]
+# String. The name of the logging configuration file.
+# Defaults to <tt>log4j.properties</tt>
 #
 # [*syslog_server*]
 # String.  If this host is provided, the repose log4j configuration will ship
@@ -34,30 +110,6 @@
 # [*syslog_protocol*]
 # String. The protocol to send syslog traffic as. Should be 'tcp' or 'udp'.
 # Defaults to <tt>udp</tt>
-#
-# [*via*]
-# String. String used in the Via header.
-# Defaults to <tt>undef</tt>
-#
-# [*deployment_directory*]
-# String. A string that points the directory where artifacts are extracted.
-# Defaults to <tt>/var/repose</tt>
-#
-# [*deployment_directory_auto_clean*]
-# Boolean. Set to true to clean up undeployed resources.
-# Defaults to <tt>true</tt>
-#
-# [*artifact_directory*]
-# String.
-# Defaults to <tt>/usr/share/repose/filters</tt>
-#
-# [*artifact_directory_check_interval*]
-# Integer. Directory check interval in milliseconds.
-# Defaults to <tt>60000</tt>
-#
-# [*logging_configuration*]
-# String. The name of the logging configuration file.
-# Defaults to <tt>log4j.properties</tt>
 #
 # [*ssl_enabled*]
 # Boolean. Enable ssl configuration for the container.
@@ -75,18 +127,9 @@
 # String. The password for the particular application key in the keystore.
 # Defaults to <tt>undef</tt>
 #
-# [*content_body_read_limit*]
-# Integer. Maximum size ofr request content in bytes
+# [*via*]
+# String. String used in the Via header.
 # Defaults to <tt>undef</tt>
-#
-# [*jmx_reset_time*]
-# Integer. The number of seconds the JMX reporting service keeps
-# data. The data will be reset after this amount of time.
-# Defaults to <tt>undef</tt>
-#
-# [*client_request_logging*]
-# Bool. Logs communication between repose and the end service
-# Defaults to <tt>false</tt>
 #
 # [*http_port*]
 # DEPRECATED. This attribute is deprecated and will be ignored. This has
@@ -123,24 +166,33 @@
 class repose::filter::container (
   $ensure                            = present,
   $app_name                          = undef,
-  $log_dir                           = $repose::params::logdir,
-  $log_level                         = $repose::params::log_level,
-  $syslog_server                     = undef,
-  $syslog_port                       = $repose::params::syslog_port,
-  $syslog_protocol                   = $repose::params::syslog_protocol,
-  $via                               = undef,
-  $deployment_directory              = $repose::params::deployment_directory,
-  $deployment_directory_auto_clean   = true,
   $artifact_directory                = $repose::params::artifact_directory,
   $artifact_directory_check_interval = 60000,
+  $client_request_logging            = undef,
+  $content_body_read_limit           = undef,
+  $deployment_directory              = $repose::params::deployment_directory,
+  $deployment_directory_auto_clean   = true,
+  $jmx_reset_time                    = undef,
+  $log_access_facility               = $repose::params::log_access_facility,
+  $log_access_local                  = $repose::params::log_access_local,
+  $log_access_local_name             = $repose::params::log_access_local_name,
+  $log_access_syslog                 = $repose::params::log_access_syslog,
+  $log_dir                           = $repose::params::logdir,
+  $log_level                         = $repose::params::log_level,
+  $log_local_policy                  = $repose::params::log_local_policy,
+  $log_local_size                    = $repose::params::log_local_size,
+  $log_local_rotation_count          = $repose::params::log_local_rotation_count,
+  $log_repose_facility               = $repose::params::log_repose_facility,
   $logging_configuration             = $repose::params::logging_configuration,
   $ssl_enabled                       = false,
   $ssl_keystore_filename             = undef,
   $ssl_keystore_password             = undef,
   $ssl_key_password                  = undef,
-  $content_body_read_limit           = undef,
-  $jmx_reset_time                    = undef,
-  $client_request_logging            = undef,
+  $syslog_server                     = undef,
+  $syslog_port                       = $repose::params::syslog_port,
+  $syslog_protocol                   = $repose::params::syslog_protocol,
+  $via                               = undef,
+  # BELOW ARE DEPRECATED
   $http_port                         = undef,
   $https_port                        = undef,
   $connection_timeout                = undef,
@@ -149,6 +201,13 @@ class repose::filter::container (
 ) inherits repose::params {
 
 ### Validate parameters
+  validate_bool($log_access_local)
+  validate_bool($log_access_syslog)
+  validate_string($log_access_facility)
+  validate_string($log_dir)
+  validate_string($log_level)
+  validate_string($log_access_local_name)
+  validate_string($log_syslog_facility)
 
 ## ensure
   if ! ($ensure in [ present, absent ]) {

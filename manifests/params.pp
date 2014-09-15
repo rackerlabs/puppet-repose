@@ -153,4 +153,27 @@ class repose::params {
 ## default log level
   $log_level = 'WARN'
 
+## default local log policy
+  $log_local_policy = 'date'
+
+## default local log size
+  $log_local_size = '100M'
+
+## default local log rotation count
+  $log_local_rotation_count = 4
+
+## default repose.log syslog facility
+  $log_repose_facility = 'local0'
+
+## default http access log syslog facility
+  $log_access_facility = 'local1'
+
+## default access logging locally
+  $log_access_local = true
+
+## default access log local filename
+  $log_access_local_name = 'http_repose'
+
+## default access logging to syslog
+  $log_access_syslog = true
 }

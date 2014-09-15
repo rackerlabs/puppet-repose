@@ -11,7 +11,7 @@ This module provides a re-usable and environment agnostic control of Repose Powe
   $api_protocol = 'https'
   $api_host     = "api-internal.${::domain}"
   $api_port     = '443'
-  $api_uri  = "${api_protocol}://${api_host}/${app_name}"
+  $api_uri      = "${api_protocol}://${api_host}/${app_name}"
   $repose_nodes = [ "repose-n01.${::domain}",
                     "repose-n02.${::domain}" ]
 
@@ -26,15 +26,14 @@ This module provides a re-usable and environment agnostic control of Repose Powe
 
   # Your http logging definitions
   $log_files = [
-    { 'id'   => 'http-log',
-      'format'   => "Response Code Modifiers=%200,201U\tModifier Negation=%!401a\tRemote IP=%a\tLocal IP=%A\tResponse Size(bytes)=%b",
-      'location' => "/var/log/repose/http_repose.log",
+    { 'id'     => 'http',
+      'format' => 'Response Code Modifiers=%200,201U\tModifier Negation=%!401a\tRemote IP=%a\tLocal IP=%A\tResponse Size(bytes)=%b',
     },
   ]
 
   # Your definitions for the system model
   $filters = {
-      10 => { 'name'      => 'http-logging' },
+      10 => { 'name'      => 'slf4j-http-logging' },
       20 => { 'name'      => 'client-auth',
               'uri-regex' => "/${app_name}/.*" },
       30 => { 'name'      => 'default-router' },
@@ -51,7 +50,7 @@ This module provides a re-usable and environment agnostic control of Repose Powe
 
   # Bringing it all together
   class { 'repose::valve': }
-  repose::filter::http_logging { 'default':
+  repose::filter::slf4j_http_logging { 'default':
     log_files => $log_files,
   }
   repose::filter::client_auth_n { 'default':
