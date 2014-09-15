@@ -118,7 +118,8 @@ describe 'repose::filter::client_auth_n', :type => :define do
         )
         should contain_file('/etc/repose/client-auth-n.cfg.xml').
           with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
-          with_content(/ignore-tenant-roles=\"role\"/)
+          with_content(/ignore-tenant-roles/).
+          with_content(/<role>role<\/role>/)
       }
     end
 

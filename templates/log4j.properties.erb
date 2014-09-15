@@ -18,12 +18,19 @@ log4j.rootLogger=<%= @log_level %>, <%= rootAppenders.join(", ") %>
 #log4j.logger.org.eclipse.jetty=OFF
 
 # File
+<%- if @log_local_policy == 'date' %>
 log4j.appender.defaultFile=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.defaultFile.DatePattern=.yyyy-MM-dd
+<%- elsif @log_local_policy == 'size' %>
+log4j.appender.defaultFile=org.apache.log4j.RollingFileAppender
+log4j.appender.defaultFile.maxFileSize=<%= @log_local_size %>
+log4j.appender.defaultFile.maxBackupIndex=<%= @log_local_rotation_count %>
+<%- else %>
+log4j.appender.defaultFile=org.apache.log4j.varia.NullAppender
+<%- end %>
 log4j.appender.defaultFile.File=<%= @log_dir-%>/<%= @app_name -%>.log
 log4j.appender.defaultFile.Threshold=<%= @log_level %>
-log4j.appender.defaultFile.DatePattern=.yyyy-MM-dd
 log4j.appender.defaultFile.layout=org.apache.log4j.PatternLayout
-log4j.appender.defaultFile.maxBackupIndex=5
 log4j.appender.defaultFile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n
 
 <%- if @syslog_server -%>
@@ -37,8 +44,20 @@ log4j.appender.syslog.port=<%= @syslog_port %>
 log4j.appender.syslog.protocol=<%= @syslog_protocol %>
 log4j.appender.syslog.layout=org.apache.log4j.PatternLayout
 log4j.appender.syslog.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n
+<%- end -%>
 
-log4j.logger.http=INFO, httpSyslog
+<%-
+# if setup the appropriate access log appenders
+httpAppenders = Array.new()
+if @log_access_syslog and @syslog_server
+  httpAppenders.push("httpSyslog")
+end
+if @log_access_local
+  httpAppenders.push("httpLocal")
+end
+-%>
+log4j.logger.http=INFO, <%= httpAppenders.join(", ") %>
+<%- if @log_access_syslog and @syslog_server %>
 log4j.appender.httpSyslog=org.apache.log4j.net.SyslogAppender
 log4j.appender.httpSyslog.Facility=local1
 log4j.appender.httpSyslog.FacilityPrinting=false
@@ -48,4 +67,20 @@ log4j.appender.httpSyslog.port=<%= @syslog_port %>
 log4j.appender.httpSyslog.protocol=<%= @syslog_protocol %>
 log4j.appender.httpSyslog.layout=org.apache.log4j.PatternLayout
 log4j.appender.httpSyslog.layout.ConversionPattern=%m%n
-<%- end -%>
+<%- end %>
+
+<%- if @log_access_local %>
+<%- if @log_local_policy == 'date' %>
+log4j.appender.httpLocal=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.httpLocal.DatePattern=.yyyy-MM-dd
+<%- elsif @log_local_policy == 'size' %>
+log4j.appender.httpLocal=org.apache.log4j.RollingFileAppender
+log4j.appender.httpLocal.maxFileSize=<%= @log_local_size %>
+log4j.appender.httpLocal.maxBackupIndex=<%= @log_local_rotation_count %>
+<%- else %>
+log4j.appender.httpLocal=org.apache.log4j.varia.NullAppender
+<%- end %>
+log4j.appender.httpLocal.File=<%= @log_dir -%>/<%= @log_access_local_name %>.log
+log4j.appender.httpLocal.layout=org.apache.log4j.PatternLayout
+log4j.appender.httpLocal.layout.ConversionPattern=%m%n
+<%- end %>
