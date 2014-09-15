@@ -1,5 +1,8 @@
 # == Resource: repose::filter::http_logging
 #
+# *DEPRECATED* THIS FILTER HAS BEEN DEPRECATED.
+# This filter has been replaced with the slf4j http logging filter. Please
+# update to use repose::filters::slf4j_http_logging
 # This is a resource for generating http logging configuration files
 #
 # === Parameters
@@ -55,6 +58,7 @@ define repose::filter::http_logging (
   $filename  = 'http-logging.cfg.xml',
   $log_files = undef,
 ) {
+  warning('repose::filter::http_logging has been deprecated')
 
 ### Validate parameters
 
