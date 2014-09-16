@@ -32,6 +32,10 @@
 # Bool.
 # Defaults to <tt>false</tt>
 #
+# [*request_groups*]
+# String containing values 'true' or 'false'
+# If undef, defaults to 'true'
+#
 # [*group_cache_timeout*]
 # Integer as String.
 # Defaults to <tt>60000</tt>
@@ -74,6 +78,7 @@ define repose::filter::client_auth_n (
   $ignore_tenant_roles = undef,
   $delegable           = false,
   $tenanted            = false,
+  $request_groups      = undef,
   $token_cache_timeout = undef,
   $group_cache_timeout = '60000',
   $connection_pool_id  = undef,
