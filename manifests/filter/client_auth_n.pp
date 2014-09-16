@@ -32,8 +32,9 @@
 # Bool.
 # Defaults to <tt>false</tt>
 #
-# [*reqeust_groups*]
-# Bool.
+# [*request_groups*]
+# String containing values 'true' or 'false'
+# If undef, defaults to 'true'
 #
 # [*group_cache_timeout*]
 # Integer as String.
