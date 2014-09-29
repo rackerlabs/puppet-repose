@@ -51,7 +51,11 @@
 # ]
 #
 # [*port*]
-# Port the cluster runs on
+# Port the cluster runs on. If you want to disable set to <tt>false</tt>
+# Defaults to <tt>$repose::params::port</tt>
+#
+# [*https_port*]
+# Port the cluster runs on when ssl enabled
 #
 # [*service_cluster*]
 # Hash with name and an array of nodes
@@ -112,6 +116,7 @@ define repose::filter::system_model (
   $services        = undef,
   $endpoints       = undef,
   $port            = $repose::params::port,
+  $https_port      = undef,
   $service_cluster = undef,
 ) {
 
