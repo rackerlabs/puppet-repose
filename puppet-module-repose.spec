@@ -1,7 +1,8 @@
+%define user citops
 %define base_name repose
 
-Name:      puppet-module-%{base_name}
-Version:   1.0.8
+Name:      puppet-module-%{user}-%{base_name}
+Version:   1.1.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -29,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Mon Sep 29 2014 Greg Swift <greg.swift@rackspace.com> - 1.1.0-1
+- Add support for running on https port
 * Tue Sep 15 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.7-1
 - Deprecation of http-logging filter, updates to log4j to support slf4j logging
 * Tue Jun 03 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.0.6-1
