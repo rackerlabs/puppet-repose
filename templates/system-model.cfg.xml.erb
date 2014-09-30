@@ -4,7 +4,7 @@
   <repose-cluster id="<%= app_name %>">
     <nodes>
 <%- nodes.sort.each do |node| -%>
-        <node id="<%= app_name %>_<%= node.split('.')[0] %>" hostname="<%= node %>" http-port="<%= port -%>"/>
+        <node id="<%= app_name %>_<%= node.split('.')[0] %>" hostname="<%= node %>"<%- if @port %> http-port="<%= port -%>"<%- end -%><%- if @https_port %> https-port="<%= https_port -%>"<%- end -%>/>
 <%- end -%>
     </nodes>
     <filters>
