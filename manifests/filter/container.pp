@@ -82,7 +82,7 @@
 #
 # [*log_local_size*]
 # String. The max file size for the log4j RollingFileAppender.
-# Defaults to <tt>100M</tt>
+# Defaults to <tt>100MB</tt>
 #
 # [*log_local_rotation_count*]
 # Integer. The number of backup files to keeo for the log4j RollingFileAppender

@@ -132,7 +132,7 @@ describe 'repose::filter::container' do
       let(:params) { {
         :app_name                 => 'app',
         :log_local_policy         => 'size',
-        :log_local_size           => '50M',
+        :log_local_size           => '50MB',
         :log_local_rotation_count => 2,
         :log_access_local_name    => 'repose_access'
       } }
@@ -140,7 +140,7 @@ describe 'repose::filter::container' do
         should contain_file('/etc/repose/log4j.properties').
           with_content(/log4j\.logger\.http=INFO, httpLocal/).
           with_content(/httpLocal=org\.apache\.log4j\.RollingFileAppender/).
-          with_content(/httpLocal\.maxFileSize=50M/).
+          with_content(/httpLocal\.maxFileSize=50MB/).
           with_content(/httpLocal\.maxBackupIndex=2/).
           with_content(/httpLocal.File=\/var\/log\/repose\/repose_access\.log/)
         should contain_file('/etc/repose/container.cfg.xml')

@@ -157,7 +157,7 @@ class repose::params {
   $log_local_policy = 'date'
 
 ## default local log size
-  $log_local_size = '100M'
+  $log_local_size = '100MB'
 
 ## default local log rotation count
   $log_local_rotation_count = 4
