@@ -111,9 +111,6 @@ class repose::params {
 ## run_port for valve
   $run_port = '9090'
 
-## shutdown port for valve
-  $shutdown_port = '8188'
-
 ## sourcedir
   $sourcedir = "puppet:///modules/${module_name}"
 
@@ -133,7 +130,7 @@ class repose::params {
   $daemonize_opts = '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
 
 ## run ops for repose-valve
-  $run_opts = '-s $SHUTDOWN_PORT -p $RUN_PORT -c $CONFIG_DIRECTORY'
+  $run_opts = '-p $RUN_PORT -c $CONFIG_DIRECTORY'
 
 ## container deployment directory
   $deployment_directory = '/var/repose'

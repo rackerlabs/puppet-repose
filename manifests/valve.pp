@@ -43,10 +43,6 @@
 # Integer.  The port the valve should run on
 # Defaults to <tt>9090</tt>
 #
-# [*shutdown_port*]
-# Integer. The port to listen on for shutdown
-# Defaults to <tt>8188</tt>
-#
 # [*daemon_home*]
 # String. Daemon home path
 # Defaults to <tt>/usr/share/lib/repose</tt>
@@ -73,7 +69,7 @@
 #
 # [*run_opts*]
 # String. The options sent to the run command
-# Defaults to <tt>-s $SHUTDOWN_PORT -p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
+# Defaults to <tt>-p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
 #
 # [*java_options*]
 # String. Additional java options to pass to java_opts 
@@ -105,7 +101,6 @@ class repose::valve (
   $enable          = $repose::params::enable,
   $autoupgrade     = $repose::params::autoupgrade,
   $run_port        = $repose::params::run_port,
-  $shutdown_port   = $repose::params::shutdown_port,
   $daemon_home     = $repose::params::daemon_home,
   $log_path        = $repose::params::logdir,
   $pid_file        = $repose::params::pid_file,
@@ -142,7 +137,6 @@ class repose::valve (
   # default repose valve sysconfig options
   $repose_sysconfig = [
     "set RUN_PORT '${run_port}'",
-    "set SHUTDOWN_PORT '${shutdown_port}'",
     "set DAEMON_HOME '${daemon_home}'",
     "set LOG_PATH '${log_path}'",
     "set PID_FILE '${pid_file}'",
