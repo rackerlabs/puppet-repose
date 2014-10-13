@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.1.1
+Version:   1.2.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Mon Oct 13 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.2.0-1
+- Removing -s shutdown port as it is not supported in repose >= 6.1.1.1
 * Wed Oct 01 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.1.1-1
 - fixing log_local_size to be MB not M
 * Mon Sep 29 2014 Greg Swift <greg.swift@rackspace.com> - 1.1.0-1
