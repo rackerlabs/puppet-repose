@@ -12,8 +12,8 @@
     <ignore-tenant-roles>
   <% @ignore_tenant_roles.each do |ignore_tenant_role| -%>
         <role><%= ignore_tenant_role %></role>
-    </ignore-tenant-roles>
   <%- end -%>
+    </ignore-tenant-roles>
 <%- end -%>
     </openstack-auth>
 <%- if @white_lists -%>
