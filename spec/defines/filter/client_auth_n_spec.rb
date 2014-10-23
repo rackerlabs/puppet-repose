@@ -119,7 +119,7 @@ describe 'repose::filter::client_auth_n', :type => :define do
           'pass' => 'password',
           'uri'  => 'http://uri'
         },
-        :ignore_tenant_roles => 'role',
+        :ignore_tenant_roles => [ 'role' ],
       } }
       it {
         should contain_file('/etc/repose/client-auth-n.cfg.xml').with(
