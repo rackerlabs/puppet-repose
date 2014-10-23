@@ -158,7 +158,7 @@ define repose::filter::system_model (
 ## Manage actions
 
   file { "${repose::params::configdir}/${filename}":
-    ensure  => file,
+    ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,

@@ -21,6 +21,17 @@ describe 'repose::filter::ip_identity', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/ip-identity.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing a whitelist' do
       let(:title) { 'whitelist' }
       let(:params) { { 

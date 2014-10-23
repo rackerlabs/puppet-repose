@@ -6,8 +6,15 @@
 #
 # === Parameters
 #
-# This class does not provide any parameters.
+# [*ensure*]
+#  String. If this is set to absent, then the service is stopped.  Otherwise
+#  if this is set, it will be set to running unless enable is set to false.
+#  Defaults to <tt>present</tt>
 #
+# [*enable*]
+#  Boolean/String. This toggles if the service should be stopped, running or
+#  manual.
+#  Defaults to <tt>true</tt>
 #
 # === Examples
 #
@@ -29,16 +36,16 @@ class repose::service (
 
 ### Logic
 
-## set params: in operation
-  if $ensure == present {
-    $service_ensure = $enable ? {
-      true  => running,
-      false => stopped,
-    }
-
 ## set params: off
-  } else {
+  if $ensure == absent {
     $service_ensure = stopped
+## set params: in operation
+  } else {
+    $service_ensure = $enable ? {
+      false   => stopped,
+      true    => running,
+      default => manual
+    }
   }
 
 ### Manage actions
@@ -46,7 +53,7 @@ class repose::service (
   service { $repose::params::service:
     ensure     => $service_ensure,
     enable     => $enable,
-    hasstatus  => $repose::params::service_hasrestart,
+    hasstatus  => $repose::params::service_hasstatus,
     hasrestart => $repose::params::service_hasrestart,
   }
 

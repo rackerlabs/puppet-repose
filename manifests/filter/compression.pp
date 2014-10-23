@@ -68,6 +68,11 @@ define repose::filter::compression (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
+    $content_template = template("${module_name}/compression.cfg.xml.erb")
+  } else {
+    $content_template = undef
+  }
 ## Manage actions
 
   file { "${repose::params::configdir}/${filename}":
@@ -76,7 +81,7 @@ define repose::filter::compression (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/compression.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

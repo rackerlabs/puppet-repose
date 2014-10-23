@@ -66,9 +66,14 @@ define repose::filter::slf4j_http_logging (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## log_files
-  if $log_files == undef {
-    fail('log_files is a required parameter. see documentation for details.')
+    if $log_files == undef {
+      fail('log_files is a required parameter. see documentation for details.')
+    }
+    $content_template = template("${module_name}/slf4j-http-logging.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 ## Manage actions
@@ -79,7 +84,7 @@ define repose::filter::slf4j_http_logging (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/slf4j-http-logging.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

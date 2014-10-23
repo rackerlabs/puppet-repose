@@ -23,6 +23,17 @@ describe 'repose::filter::header_translation', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/header-translation.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing a translations map' do
       let(:title) { 'header_translations' }
       let(:params) { { 

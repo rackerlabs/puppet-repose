@@ -21,6 +21,17 @@ describe 'repose::filter::slf4j_http_logging', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/slf4j-http-logging.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing log_files' do
       let(:title) { 'log_files' }
       let(:params) { { 

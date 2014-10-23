@@ -21,6 +21,17 @@ describe 'repose::filter::client_auth_n', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing a auth settings' do
       let(:title) { 'default' }
       let(:params) { {
@@ -108,7 +119,7 @@ describe 'repose::filter::client_auth_n', :type => :define do
           'pass' => 'password',
           'uri'  => 'http://uri'
         },
-        :ignore_tenant_roles => 'role',
+        :ignore_tenant_roles => [ 'role' ],
       } }
       it {
         should contain_file('/etc/repose/client-auth-n.cfg.xml').with(

@@ -21,6 +21,17 @@ describe 'repose::filter::dist_datastore', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/dist-datastore.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing a validator' do
       let(:title) { 'validator' }
       let(:params) { { 

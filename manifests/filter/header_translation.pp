@@ -56,6 +56,11 @@ define repose::filter::header_translation (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
+    $content_template = template("${module_name}/header-translation.cfg.xml.erb")
+  } else {
+    $content_template = undef
+  }
 ## Manage actions
 
   file { "${repose::params::configdir}/${filename}":
@@ -64,7 +69,7 @@ define repose::filter::header_translation (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/header-translation.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

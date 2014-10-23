@@ -71,9 +71,15 @@ define repose::filter::dist_datastore (
     debug("\$ensure = '${ensure}'")
   }
 
-## nodes
-  if $nodes == undef {
-    fail('nodes is a required parameter')
+## nodes only required if ensure is present
+  if $ensure == present {
+    if $nodes == undef {
+      fail('nodes is a required parameter')
+    }
+    $content_template = template("${module_name}/dist-datastore.cfg.xml.erb")
+  } else {
+    # ensure is absent so no need to us a template
+    $content_template = undef
   }
 
 
@@ -85,7 +91,7 @@ define repose::filter::dist_datastore (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/dist-datastore.cfg.xml.erb')
+    content => $content_template
   }
 
 }

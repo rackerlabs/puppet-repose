@@ -6,8 +6,9 @@
 # === Parameters
 #
 # [*ensure*]
-# String. Controls if the managed resources shall be <tt>present</tt> or
-# <tt>absent</tt>. If set to <tt>absent</tt>:
+# String. Controls if the managed resources shall be <tt>present</tt>,
+# <tt>absent</tt>, <tt>latest</tt> or a version nuymber. If set to
+# <tt>absent</tt>:
 # * The managed software packages are being uninstalled.
 # * Any traces of the packages will be purged as good as possible. This may
 # include existing configuration files. The exact behavior is provider
@@ -66,16 +67,16 @@ class repose (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
+  if ! ($ensure) {
+    fail("\"${ensure}\" is required. It should be present, absent, latest or a version")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
       absent  => absent,
+      default => file,
     }
     $dir_ensure = $ensure ? {
-      present => directory,
       absent  => absent,
+      default => directory,
     }
   }
   if $::debug {

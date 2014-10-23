@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe 'repose::valve' do
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -10,7 +10,7 @@ describe 'repose::valve' do
 
     context 'with defaults for all parameters' do
       let(:facts) { { :osfamily => 'RedHat' } }
-      it { 
+      it {
         should contain_class('repose').with(
           'ensure'      => 'present',
           'enable'      => 'true',
@@ -37,5 +37,23 @@ describe 'repose::valve' do
         ])
       }
     end
+
+    context 'with ensure absent' do
+      let(:facts) { { :osfamily => 'RedHat' } }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_class('repose').with(
+          'ensure'      => 'absent',
+          'enable'      => 'true',
+          'autoupgrade' => 'false',
+          'container'   => 'valve'
+        )
+        should contain_file('/etc/sysconfig/repose').with_ensure('absent')
+        should_not contain_augeas('repose_sysconfig')
+      }
+    end
+
   end
 end

@@ -11,6 +11,17 @@ describe 'repose::filter::compression', :type => :define do
     }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/compression.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'default parameters' do
       let(:title) { 'default' }
       it {
