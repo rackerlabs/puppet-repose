@@ -222,14 +222,23 @@ class repose::filter::container (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## app_name
-  if $app_name == undef {
-    fail('app_name is a required parameter')
+    if $app_name == undef {
+      fail('app_name is a required parameter')
+    }
+    $log4j_content_template = template("${module_name}/log4j.properties.erb")
+    $container_content_template = template("${module_name}/container.cfg.xml.erb")
+  } else {
+    $log4j_content_template = undef
+    $container_content_template = undef
   }
+
 
 ## Manage actions
 
   File {
+    ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
@@ -237,13 +246,11 @@ class repose::filter::container (
   }
 
   file { "${repose::params::configdir}/${logging_configuration}":
-    ensure  => file,
-    content => template('repose/log4j.properties.erb')
+    content => $log4j_content_template
   }
 
   file { "${repose::params::configdir}/container.cfg.xml":
-    ensure  => file,
-    content => template('repose/container.cfg.xml.erb')
+    content => $container_content_template
   }
 
 }

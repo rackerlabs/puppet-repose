@@ -18,6 +18,17 @@ describe 'repose::filter::content_normalization', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/content-normalization.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'with headers and media_types' do
       let(:title) { 'headers' }
       let(:params) { {

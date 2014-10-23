@@ -106,25 +106,30 @@ define repose::filter::rate_limiting (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## request_endpoint
-  if $request_endpoint == undef {
-    fail('request_endpoint is a required parameter. see documentation for details.')
-  }
+    if $request_endpoint == undef {
+      fail('request_endpoint is a required parameter. see documentation for details.')
+    }
 
 ## limit_groups
-  if $limit_groups == undef {
-    fail('limit_groups is a required parameter. see documentation for details.')
+    if $limit_groups == undef {
+      fail('limit_groups is a required parameter. see documentation for details.')
+    }
+    $content_template = template("${module_name}/rate-limiting.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 ## Manage actions
 
   file { "${repose::params::configdir}/${filename}":
-    ensure  => file,
+    ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/rate-limiting.cfg.xml.erb')
+    content => $content_template
   }
 
 }

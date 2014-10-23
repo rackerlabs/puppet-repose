@@ -21,6 +21,17 @@ describe 'repose::filter::metrics', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/metrics.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing a graphite server' do
       let(:title) { 'graphite_server' }
       let(:params) { { 

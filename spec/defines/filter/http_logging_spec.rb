@@ -21,6 +21,17 @@ describe 'repose::filter::http_logging', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/http-logging.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing a log_file' do
       let(:title) { 'log_file' }
       let(:params) { { 

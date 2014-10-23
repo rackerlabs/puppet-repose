@@ -21,6 +21,17 @@ describe 'repose::filter::response_messaging', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/response-messaging.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing status_codes' do
       let(:title) { 'status_codes' }
       let(:params) { { 

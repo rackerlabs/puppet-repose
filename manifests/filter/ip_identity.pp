@@ -63,9 +63,14 @@ define repose::filter::ip_identity (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ##whitelist
-  if $whitelist == undef {
-    fail('whitelist is a required parameters. see documentation for details.')
+    if $whitelist == undef {
+      fail('whitelist is a required parameters. see documentation for details.')
+    }
+    $content_template = template("${module_name}/ip-identity.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 ## Manage actions
@@ -76,7 +81,7 @@ define repose::filter::ip_identity (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/ip-identity.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

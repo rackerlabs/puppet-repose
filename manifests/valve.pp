@@ -120,7 +120,7 @@ class repose::valve (
   }
 
   file { '/etc/sysconfig/repose':
-    ensure  => file,
+    ensure  => $repose::file_ensure,
     owner   => root,
     group   => root,
     require => [ Package[$repose::params::valve_package] ],
@@ -157,10 +157,13 @@ class repose::valve (
     $saxon_sysconfig = 'rm SAXON_HOME'
   }
 
-  # run augeas with our changes
-  augeas {
-    'repose_sysconfig':
-      context => '/files/etc/sysconfig/repose',
-      changes => [ $repose_sysconfig, $saxon_sysconfig ]
+  # only run if ensure is not absent
+  if ! ($ensure == absent) {
+    # run augeas with our changes
+    augeas {
+      'repose_sysconfig':
+        context => '/files/etc/sysconfig/repose',
+        changes => [ $repose_sysconfig, $saxon_sysconfig ]
+    }
   }
 }

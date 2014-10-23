@@ -169,11 +169,16 @@ class repose::filter::http_connection_pool (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## validate input
-  validate_bool($default_is_default)
-  validate_bool($default_tcp_nodelay)
-  if ($additional_pools != undef) {
-    validate_array($additional_pools)
+    validate_bool($default_is_default)
+    validate_bool($default_tcp_nodelay)
+    if ($additional_pools != undef) {
+      validate_array($additional_pools)
+    }
+    $content_template = template("${module_name}/http-connection-pool.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 ## Manage actions
@@ -184,7 +189,7 @@ class repose::filter::http_connection_pool (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/http-connection-pool.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

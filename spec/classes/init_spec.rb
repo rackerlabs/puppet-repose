@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe 'repose' do
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -13,7 +13,7 @@ describe 'repose' do
     # 2) configure repose to use the valve container
     # 3) drop a repose file in limits.d
     context 'with defaults for all parameters' do
-      it { 
+      it {
         should contain_class('repose')
         should contain_class('repose::package').with_ensure('present')
         should contain_class('repose::service').with_ensure('present')
@@ -21,6 +21,18 @@ describe 'repose' do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose')
+      }
+    end
+
+    # Validate specifying a version properly passes ensure = 6.1.1.1
+    context 'with specific version' do
+      let(:params) { { :ensure => '6.1.1.1' } }
+      it {
+        should contain_class('repose')
+        should contain_class('repose::package').with_ensure('6.1.1.1')
+        should contain_package('repose-valve').with_ensure('6.1.1.1')
+        should contain_class('repose::service').with_ensure('6.1.1.1')
+        should contain_service('repose-valve').with_ensure('running')
       }
     end
 

@@ -75,20 +75,25 @@ define repose::filter::versioning (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## target_uri
-  if $target_uri == undef {
-    fail('target_uri is a required parameter')
+    if $target_uri == undef {
+      fail('target_uri is a required parameter')
+    }
+    $content_template = template("${module_name}/versioning.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 ## Manage actions
 
   file { "${repose::params::configdir}/${filename}":
-    ensure  => file,
+    ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/versioning.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

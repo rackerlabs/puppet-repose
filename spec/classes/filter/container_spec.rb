@@ -16,6 +16,19 @@ describe 'repose::filter::container' do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/log4j.properties').with_ensure(
+          'absent')
+        should contain_file('/etc/repose/container.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'with defaults with app_name' do
       let(:params) { {
         :app_name => 'app'

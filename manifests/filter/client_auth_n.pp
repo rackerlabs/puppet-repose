@@ -99,9 +99,14 @@ define repose::filter::client_auth_n (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## auth
-  if $auth == undef {
-    fail('auth is a required parameter')
+    if $auth == undef {
+      fail('auth is a required parameter')
+    }
+    $content_template = template("${module_name}/client-auth-n.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 ## Manage actions
@@ -112,7 +117,7 @@ define repose::filter::client_auth_n (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/client-auth-n.cfg.xml.erb')
+    content => $content_template
   }
 
 }

@@ -68,9 +68,14 @@ define repose::filter::response_messaging (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## validators
-  if $status_codes == undef {
-    fail('status_codes is a required list')
+    if $status_codes == undef {
+      fail('status_codes is a required list')
+    }
+    $content_template = template("${module_name}/response-messaging.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 
@@ -82,7 +87,7 @@ define repose::filter::response_messaging (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/response-messaging.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

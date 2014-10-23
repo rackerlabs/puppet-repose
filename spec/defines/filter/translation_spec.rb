@@ -26,6 +26,17 @@ describe 'repose::filter::translation', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/translation.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing parameters' do
       let(:title) { 'validator' }
       let(:params) { { 

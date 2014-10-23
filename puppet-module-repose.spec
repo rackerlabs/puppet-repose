@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.2.1
+Version:   1.3.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,9 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Thu Oct 23 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.3.0-1
+- Updating to support specifying a specific version of repose be installed
+- Fixing ensure absent on filters
 * Tue Oct 21 2014 Nick Bales <nick.bales@rackspace.com> - 1.2.1-1
 - moving ignore_tenant_role closing tag outside of loop
 * Mon Oct 13 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.2.0-1

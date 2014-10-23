@@ -82,24 +82,26 @@ define repose::filter::metrics (
     debug("\$ensure = '${ensure}'")
   }
 
-  ## graphite_servers
-  if $graphite_servers == undef {
-     fail( 'graphite_servers is a required item' )
-  } 	
+  if $ensure == present {
+## graphite_servers
+    if $graphite_servers == undef {
+      fail( 'graphite_servers is a required item' )
+    }
 
-  ## enabled
-  if $enabled != true and $enabled != false {
-     fail( 'enabled must be a boolean' )
+## enabled
+    validate_bool($enabled)
+    $content_template = template("${module_name}/metrics.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
-  ## Manage actions
-
+## Manage actions
   file { "${repose::params::configdir}/${filename}":
-    ensure  => file,
+    ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/metrics.cfg.xml.erb'),
-  }    
+    content => $content_template
+  }
 }

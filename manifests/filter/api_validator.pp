@@ -88,9 +88,14 @@ define repose::filter::api_validator (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $ensure == present {
 ## validators
-  if $validators == undef {
-    fail('validators is a required list')
+    if $validators == undef {
+      fail('validators is a required list')
+    }
+    $content_template = template("${module_name}/validator.cfg.xml.erb")
+  } else {
+    $content_template = undef
   }
 
 
@@ -102,7 +107,7 @@ define repose::filter::api_validator (
     group   => $repose::params::group,
     mode    => $repose::params::mode,
     require => Package['repose-filters'],
-    content => template('repose/validator.cfg.xml.erb'),
+    content => $content_template
   }
 
 }

@@ -30,6 +30,17 @@ describe 'repose::filter::http_connection_pool', :type => :class do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/http-connection-pool.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'with additional pool' do
       let(:params) { {
         :additional_pools => [ { 

@@ -21,6 +21,17 @@ describe 'repose::filter::versioning', :type => :define do
       }
     end
 
+    context 'with ensure absent' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure => 'absent'
+      } }
+      it {
+        should contain_file('/etc/repose/versioning.cfg.xml').with_ensure(
+          'absent')
+      }
+    end
+
     context 'providing target_uri' do
       let(:title) { 'target_uri' }
       let(:params) { { 
