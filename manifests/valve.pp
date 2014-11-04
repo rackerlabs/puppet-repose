@@ -149,7 +149,7 @@ class repose::valve (
 
   # if saxon_home provided for saxon license
   if $saxon_home {
-    $saxon_sysconfig = [ 
+    $saxon_sysconfig = [
       "set SAXON_HOME '${saxon_home}'",
       "set SAXON_HOME/export ''"
     ]

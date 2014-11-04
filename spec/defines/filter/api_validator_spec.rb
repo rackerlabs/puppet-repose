@@ -52,7 +52,9 @@ describe 'repose::filter::api_validator', :type => :define do
           'xsl_engine'                   => 'XalanC',
           'xsd_engine'                   => 'SaxonEE',
           'dot_output'                   => '/var/repose/validator.dot',
-          'join_xpath_checks'           => true,
+          'join_xpath_checks'            => true,
+          'enable_rax_roles'             => true,
+          'mask_rax_roles_403'           => true,
         }, ],
         :multi_role_match => true,
       } }
@@ -72,7 +74,9 @@ describe 'repose::filter::api_validator', :type => :define do
           with_content(/xsl-engine="XalanC"/).
           with_content(/xsd-engine="SaxonEE"/).
           with_content(/dot-output="\/var\/repose\/validator\.dot"/).
-          with_content(/join-xpath-checks="true"/)
+          with_content(/join-xpath-checks="true"/).
+          with_content(/enable-rax-roles="true"/).
+          with_content(/mask-rax-roles-403="true"/)
       }
     end
   end

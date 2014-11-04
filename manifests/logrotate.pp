@@ -56,7 +56,7 @@ class repose::logrotate (
   if ! ($rotate_frequency in [ 'daily', 'weekly', 'montly', 'yearly' ]) {
     fail("${rotate_frequency} is not a valid rotate_frequency")
   }
-  file { '/etc/logrotate.d/repose': 
+  file { '/etc/logrotate.d/repose':
     ensure  => $repose::file_ensure,
     owner   => 'root',
     group   => 'root',
