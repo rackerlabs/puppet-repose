@@ -54,6 +54,9 @@
   <%- if validator.has_key?('enable_rax_roles') -%>
         enable-rax-roles="<%= validator['enable_rax_roles'] %>"
   <%- end -%>
+  <%- if validator.has_key?('mask_rax_roles_403') -%>
+        mask-rax-roles-403="<%= validator['mask_rax_roles_403'] %>"
+  <%- end -%>
   <%- if validator.has_key?('use_saxon') -%>
         use-saxon="<%= validator['use_saxon'] %>"
   <%- end -%>
