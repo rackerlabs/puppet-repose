@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.3.1
+Version:   1.3.2
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Tue Nov 04 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.3.2-1
+- Adding rackspace-identity-basic-auth filter
 * Tue Nov 04 2014 Chad Wilson <chad.wilson@rackspace.com> - 1.3.1-1
 - Added mask_rax_roles_403 to validator template
 - Add tests for content if enable-rax-roles/mask-rax-roles-403 set in validator
