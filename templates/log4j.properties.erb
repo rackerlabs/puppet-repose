@@ -57,6 +57,8 @@ if @log_access_local
 end
 -%>
 log4j.logger.http=INFO, <%= httpAppenders.join(", ") %>
+# This prevents the INFO http logs from showing up in the other log files
+log4j.additivity.http=false
 <%- if @log_access_syslog and @syslog_server %>
 log4j.appender.httpSyslog=org.apache.log4j.net.SyslogAppender
 log4j.appender.httpSyslog.Facility=local1
