@@ -181,6 +181,7 @@ describe 'repose::filter::container' do
           with_content(/httpSyslog.syslogHost=syslog.example.com/).
           with_content(/httpSyslog.port=515/).
           with_content(/httpSyslog.protocol=tcp/).
+          with_content(/log4j.appender.httpSyslog.Facility=local1/).
           without_content(/log4j.appender.httpLocal.layout=org.apache.log4j.PatternLayout/)
         should contain_file('/etc/repose/container.cfg.xml')
       }
@@ -207,7 +208,34 @@ describe 'repose::filter::container' do
           without_content(/httpSyslog.syslogHost=syslog.example.com/).
           without_content(/httpSyslog.port=515/).
           without_content(/httpSyslog.protocol=tcp/).
-          with_content(/httpLocal.File=\/mypath\/http_repose.log/)
+          with_content(/httpLocal.File=\/mypath\/http_repose.log/).
+          with_content(/log4j.appender.syslog.Facility=local0/)
+        should contain_file('/etc/repose/container.cfg.xml')
+      }
+    end
+
+    context 'configure syslog facilities' do
+      let(:params) { {
+        :app_name            => 'app',
+        :log_dir             => '/mypath',
+        :log_level           => 'DEBUG',
+        :syslog_server       => 'syslog.example.com',
+        :log_access_syslog   => true,
+        :log_access_facility => 'local3',
+        :log_repose_facility => 'local4'
+      } }
+      it {
+        should contain_file('/etc/repose/log4j.properties').
+          with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/).
+          with_content(/log4j\.rootLogger=DEBUG, syslog, defaultFile/).
+          with_content(/syslog.syslogHost=syslog.example.com/).
+          with_content(/syslog.port=514/).
+          with_content(/log4j.logger.http=INFO, httpSyslog, httpLocal/).
+          with_content(/httpSyslog.syslogHost=syslog.example.com/).
+          with_content(/httpSyslog.port=514/).
+          with_content(/httpLocal.File=\/mypath\/http_repose.log/).
+          with_content(/log4j.appender.syslog.Facility=local4/).
+          with_content(/log4j.appender.httpSyslog.Facility=local3/)
         should contain_file('/etc/repose/container.cfg.xml')
       }
     end
