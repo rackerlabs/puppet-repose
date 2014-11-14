@@ -35,7 +35,7 @@ log4j.appender.defaultFile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-4r
 
 <%- if @syslog_server -%>
 log4j.appender.syslog=org.apache.log4j.net.SyslogAppender
-log4j.appender.syslog.Facility=local0
+log4j.appender.syslog.Facility=<%= @log_repose_facility %>
 log4j.appender.syslog.FacilityPrinting=false
 log4j.appender.syslog.Header=true
 log4j.appender.syslog.Threshold=<%= @log_level %>
@@ -61,7 +61,7 @@ log4j.logger.http=INFO, <%= httpAppenders.join(", ") %>
 log4j.additivity.http=false
 <%- if @log_access_syslog and @syslog_server %>
 log4j.appender.httpSyslog=org.apache.log4j.net.SyslogAppender
-log4j.appender.httpSyslog.Facility=local1
+log4j.appender.httpSyslog.Facility=<%= @log_access_facility %>
 log4j.appender.httpSyslog.FacilityPrinting=false
 log4j.appender.httpSyslog.Header=true
 log4j.appender.httpSyslog.syslogHost=<%= @syslog_server %>
