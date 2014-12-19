@@ -47,6 +47,10 @@
 # pool service is used.
 # Defaults to <tt>undef</tt>
 #
+# [*send_all_tenant_ids*]
+# Bool. Set to true to receive a list of all tenant ids associated with a token from identity.
+# Defaults to false
+#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Client+Authentication+Filter
@@ -82,6 +86,7 @@ define repose::filter::client_auth_n (
   $token_cache_timeout = undef,
   $group_cache_timeout = '60000',
   $connection_pool_id  = undef,
+  $send_all_tenant_ids = false,
 ) {
 
 ### Validate parameters
