@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.3.3
+Version:   1.3.4
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Fri Dec 19 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.3.4-1
+- Add send-all-tenant-ids for client_auth_n
 * Thu Nov 13 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.3.3-1
 - Actually allow facility configuration for syslog
 * Tue Nov 04 2014 Alex Schultz <alex.schultz@rackspace.com> - 1.3.2-1
