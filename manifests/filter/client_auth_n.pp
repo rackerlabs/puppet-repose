@@ -48,8 +48,9 @@
 # Defaults to <tt>undef</tt>
 #
 # [*send_all_tenant_ids*]
-# Bool. Set to true to receive a list of all tenant ids associated with a token from identity.
-# Defaults to false
+# Bool. Set to true to receive a list of all tenant ids associated with a token
+# from identity. NOTE: this is not valid for repose version < 6.1.x
+# Defaults to <tt>undef</tt>
 #
 # === Links
 #
@@ -86,7 +87,7 @@ define repose::filter::client_auth_n (
   $token_cache_timeout = undef,
   $group_cache_timeout = '60000',
   $connection_pool_id  = undef,
-  $send_all_tenant_ids = false,
+  $send_all_tenant_ids = undef,
 ) {
 
 ### Validate parameters

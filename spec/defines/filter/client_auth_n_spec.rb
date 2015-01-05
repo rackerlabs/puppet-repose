@@ -134,6 +134,29 @@ describe 'repose::filter::client_auth_n', :type => :define do
       }
     end
 
+    context 'do not provide send_all_tenant_ids' do
+      let(:title) { 'default' }
+      let(:params) { {
+          :ensure              => 'present',
+          :filename            => 'client-auth-n.cfg.xml',
+          :auth                => {
+              'user' => 'username',
+              'pass' => 'password',
+              'uri'  => 'http://uri'
+          },
+      } }
+      it {
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').with(
+                   :ensure => 'file',
+                   :owner => 'repose',
+                   :group => 'repose'
+               )
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').
+                   with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
+                   without_content(/send-all-tenant-ids/)
+      }
+    end
+
     context 'providing send_all_tenant_ids' do
       let(:title) { 'default' }
       let(:params) { {
