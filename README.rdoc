@@ -1,4 +1,7 @@
 = Repose
+
+{<img src="https://travis-ci.org/rackerlabs/puppet-repose.png?branch=master" alt="Build Status" />}[https://travis-ci.org/rackerlabs/puppet-repose]
+
 This module provides a re-usable and environment agnostic control of Repose Power Proxy
 
 ---
