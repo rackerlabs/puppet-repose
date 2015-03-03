@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.3.6
+Version:   2.0.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Tue Mar 03 2015 Alex Schultz <alex.schultz@rackspace.com> - 2.0.0-1
+- BREAKING CHANGE: Changing package names on RHEL/CentOS for repose >= 6.2.0
 * Tue Jan 20 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.3.6-1
 - Adding configuration for travis-ci
 * Mon Jan 05 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.3.5-1
