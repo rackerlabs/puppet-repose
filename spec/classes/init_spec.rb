@@ -36,6 +36,36 @@ describe 'repose' do
       }
     end
 
+    # Validating that the old package names will be used
+    context 'with specific version' do
+      let(:params) { { :use_old_packages => 'true' } }
+      it {
+        should contain_class('repose')
+        should contain_class('repose::package').with(
+          'use_old_packages' => 'true')
+        should contain_class('repose::service').with_ensure('present')
+        should contain_file('/etc/security/limits.d/repose').with(
+          'ensure' => 'file',
+          'owner'  => 'repose',
+          'group'  => 'repose')
+      }
+    end
+
+    # Validating that the new package names will be used
+    context 'with specific version' do
+      let(:params) { { :use_old_packages => 'false' } }
+      it {
+        should contain_class('repose')
+        should contain_class('repose::package').with(
+          'use_old_packages' => 'false')
+        should contain_class('repose::service').with_ensure('present')
+        should contain_file('/etc/security/limits.d/repose').with(
+          'ensure' => 'file',
+          'owner'  => 'repose',
+          'group'  => 'repose')
+      }
+    end
+
     # Validate uninstall properly passes ensure = absent around
     context 'uninstall parameters' do
       let(:params) { { :ensure => 'absent' } }

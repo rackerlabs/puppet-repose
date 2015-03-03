@@ -5,6 +5,10 @@
 #
 # === Parameters
 #
+# The default values for the parameters are set in repose::params. Have
+# a look at the corresponding <tt>params.pp</tt> manifest file if you need more
+# technical information about them.
+#
 # [*ensure*]
 # String. Controls if the managed resources shall be <tt>present</tt>,
 # <tt>absent</tt>, <tt>latest</tt> or a version nuymber. If set to
@@ -36,10 +40,12 @@
 # * {Puppet's package provider source code}[http://j.mp/wtVCaL]
 # Defaults to <tt>false</tt>.
 #
-# The default values for the parameters are set in repose::params. Have
-# a look at the corresponding <tt>params.pp</tt> manifest file if you need more
-# technical information about them.
-#
+# [*use_old_packages*]
+# Boolean. At version 6.2 repose renamed several of their packages to
+# standardize between deb/rpm.  This variable exposes access to the old
+# naming. It defaults to <tt>true</tt> for the time being to not break
+# existing users.
+# TODO: Determine a time to default to false. Then when to drop support.
 #
 # === Examples
 #
@@ -58,10 +64,11 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  $ensure      = $repose::params::ensure,
-  $enable      = $repose::params::enable,
-  $container   = $repose::params::container,
-  $autoupgrade = $repose::params::autoupgrade,
+  $ensure           = $repose::params::ensure,
+  $enable           = $repose::params::enable,
+  $container        = $repose::params::container,
+  $autoupgrade      = $repose::params::autoupgrade,
+  $use_old_packages = true,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -119,9 +126,10 @@ class repose (
 
 ## package(s)
   class { 'repose::package':
-    ensure      => $ensure,
-    autoupgrade => $autoupgrade,
-    container   => $container
+    ensure           => $ensure,
+    autoupgrade      => $autoupgrade,
+    container        => $container,
+    use_old_packages => $use_old_packages,
   }
 
 ## service

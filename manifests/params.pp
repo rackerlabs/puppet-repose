@@ -61,8 +61,12 @@ class repose::params {
   }
 
 ## packages
-  $packages = $::osfamily ? {
+  $old_packages = $::osfamily ? {
     /(RedHat|Debian)/ => [ 'repose-filters','repose-extension-filters' ],
+  }
+
+  $packages = $::osfamily ? {
+    /(RedHat|Debian)/ => [ 'repose-filter-bundle','repose-extension-filter-bundle' ],
   }
 
 ## tomcat7_package
