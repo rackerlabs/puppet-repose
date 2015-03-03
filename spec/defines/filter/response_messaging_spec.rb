@@ -4,7 +4,7 @@ describe 'repose::filter::response_messaging', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::response_messaging', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /status_codes is a required/)
+        should raise_error(Puppet::Error, /status_codes is a required/)
       }
     end
 
@@ -34,7 +32,7 @@ describe 'repose::filter::response_messaging', :type => :define do
 
     context 'providing status_codes' do
       let(:title) { 'status_codes' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'response-messaging.cfg.xml',
         :status_codes  => [
@@ -49,7 +47,7 @@ describe 'repose::filter::response_messaging', :type => :define do
           ]
         } ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/response-messaging.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',

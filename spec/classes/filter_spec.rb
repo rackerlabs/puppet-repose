@@ -3,9 +3,7 @@ describe 'repose::filter' do
 
   context 'with defaults for all parameters' do
     it do
-      expect {
-        should compile
-      }.to raise_error(Puppet::Error, /This class should not be used directly/)
+      should raise_error(Puppet::Error, /This class should not be used directly/)
     end
   end
 end

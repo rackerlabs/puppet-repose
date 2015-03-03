@@ -4,7 +4,7 @@ describe 'repose::filter::rate_limiting', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,48 +15,42 @@ describe 'repose::filter::rate_limiting', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /request_endpoint is a required/)
+        should raise_error(Puppet::Error, /request_endpoint is a required/)
       }
     end
 
     context 'only provide request_endpoint' do
       let(:title) { 'request_endpoint' }
-      let(:params) { { 
+      let(:params) { {
         :request_endpoint => {
           'uri-regex'              => '/limits/stuff/?',
           'include_absolut_limits' => 'false'
-        } 
+        }
       } }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /limit_groups is a required/)
+        should raise_error(Puppet::Error, /limit_groups is a required/)
       }
     end
 
     context 'only provide limit_groups' do
       let(:title) { 'limit_groups' }
-      let(:params) { { 
+      let(:params) { {
         :limit_groups => [ {
           'id'        => 'Some_Group',
           'groups'    => 'Some_Group',
           'default'   => true,
           'limits'    => [
-          { 
+          {
             'uri'          => '/.*',
             'uri_regex'    => '/.*',
             'http_methods' => 'GET',
             'unit'         => 'SECOND',
-            'value'        => '200' 
+            'value'        => '200'
           }, ],
         } ]
       } }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /request_endpoint is a required/)
+        should raise_error(Puppet::Error, /request_endpoint is a required/)
       }
     end
 
@@ -73,7 +67,7 @@ describe 'repose::filter::rate_limiting', :type => :define do
 
     context 'providing parameters' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'rate-limiting.cfg.xml',
         :request_endpoint => {
@@ -85,18 +79,18 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'groups'    => 'Some_Group',
           'default'   => true,
           'limits'    => [
-          { 
+          {
             'id'           => 'some_limit_id',
             'uri'          => '/.*',
             'uri_regex'    => '/.*',
             'http_methods' => 'GET',
             'unit'         => 'SECOND',
-            'value'        => '200' 
+            'value'        => '200'
           },
           ]
         } ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/rate-limiting.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',
@@ -111,7 +105,7 @@ describe 'repose::filter::rate_limiting', :type => :define do
 
     context 'providing parameters, skipping limit id for repose < 5.0.0' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'rate-limiting.cfg.xml',
         :request_endpoint => {
@@ -123,17 +117,17 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'groups'    => 'Some_Group',
           'default'   => true,
           'limits'    => [
-          { 
+          {
             'uri'          => '/.*',
             'uri_regex'    => '/.*',
             'http_methods' => 'GET',
             'unit'         => 'SECOND',
-            'value'        => '200' 
+            'value'        => '200'
           },
           ]
         } ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/rate-limiting.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',
@@ -149,7 +143,7 @@ describe 'repose::filter::rate_limiting', :type => :define do
 
     context 'providing overlimit' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'rate-limiting.cfg.xml',
         :request_endpoint => {
@@ -162,17 +156,17 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'groups'    => 'Some_Group',
           'default'   => true,
           'limits'    => [
-          { 
+          {
             'uri'          => '/.*',
             'uri_regex'    => '/.*',
             'http_methods' => 'GET',
             'unit'         => 'SECOND',
-            'value'        => '200' 
+            'value'        => '200'
           },
           ]
         } ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/rate-limiting.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',

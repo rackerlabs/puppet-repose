@@ -4,7 +4,7 @@ describe 'repose::filter::ip_identity', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::ip_identity', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /whitelist is a required parameters/)
+        should raise_error(Puppet::Error,/whitelist is a required parameter/)
       }
     end
 
@@ -34,7 +32,7 @@ describe 'repose::filter::ip_identity', :type => :define do
 
     context 'providing a whitelist' do
       let(:title) { 'whitelist' }
-      let(:params) { { 
+      let(:params) { {
         :ensure    => 'present',
         :filename  => 'ip-identity.cfg.xml',
         :quality   => '0.25',
@@ -43,7 +41,7 @@ describe 'repose::filter::ip_identity', :type => :define do
           'addresses' => [ '9.9.9.9', ],
         }
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/ip-identity.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',

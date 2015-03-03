@@ -4,7 +4,7 @@ describe 'repose::filter::api_validator', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::api_validator', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /validators is a required list/)
+        should raise_error(Puppet::Error,/validators is a required list/)
       }
     end
 
@@ -34,7 +32,7 @@ describe 'repose::filter::api_validator', :type => :define do
 
     context 'providing a validator' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'test-validator.cfg.xml',
         :validators => [ {
@@ -58,7 +56,7 @@ describe 'repose::filter::api_validator', :type => :define do
         }, ],
         :multi_role_match => true,
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/test-validator.cfg.xml')
         should contain_file('/etc/repose/test-validator.cfg.xml').
           with_content(/multi-role-match="true"/).

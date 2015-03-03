@@ -4,7 +4,7 @@ describe 'repose::filter::versioning', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::versioning', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /target_uri is a required/)
+        should raise_error(Puppet::Error, /target_uri is a required/)
       }
     end
 
@@ -34,12 +32,12 @@ describe 'repose::filter::versioning', :type => :define do
 
     context 'providing target_uri' do
       let(:title) { 'target_uri' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'versioning.cfg.xml',
         :target_uri => 'http://localhost/repose',
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/versioning.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',
@@ -51,7 +49,7 @@ describe 'repose::filter::versioning', :type => :define do
 
     context 'providing target_uri and version_mappings' do
       let(:title) { 'target_uri' }
-      let(:params) { { 
+      let(:params) { {
         :ensure           => 'present',
         :filename         => 'versioning.cfg.xml',
         :target_uri       => 'http://localhost/repose',
@@ -65,7 +63,7 @@ describe 'repose::filter::versioning', :type => :define do
           ]
         } ] ,
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/versioning.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',
