@@ -1,0 +1,14 @@
+{
+  "name": "citops-repose",
+  "version": "2.0.0",
+  "author": "citops",
+  "summary": "Puppet module to manage Repose software",
+  "license": "Apache-2.0",
+  "source": "https://github.com/rackerlabs/puppet-repose.git",
+  "project_page": "https://github.com/rackerlabs/puppet-repose",
+  "issues_url": "https://github.com/rackerlabs/puppet-repose/issues",
+  "description": "Repose is an api middleware that provides authentication,filtering, ratelimitting and several other features, this deploys it.",
+  "dependencies": [
+    {"version_requirement":">= 2.0.0","name":"puppetlabs/stdlib"}
+  ]
+}

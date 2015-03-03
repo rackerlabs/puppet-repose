@@ -8,13 +8,24 @@ describe 'repose::package' do
     }
     end
 
+    let(:pkg_names) {
+      [
+        'repose-valve',
+        'repose-filter-bundle',
+        'repose-extensions-filter-bundle'
+      ]
+    }
+
     # the defaults for the package class should
     # 1) install the package
     context 'with defaults for all parameters' do
       it {
+        pkg_names.each do |pkg|
+          should contain_package(pkg).with_ensure('present')
+        end
         should contain_package('repose-valve').with_ensure('present')
-        should contain_package('repose-filters').with_ensure('present')
-        should contain_package('repose-extension-filters').with_ensure('present')
+        should contain_package('repose-filter-bundle').with_ensure('present')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
       }
     end
 
@@ -22,12 +33,12 @@ describe 'repose::package' do
     # 1) install the package to a specific version
     context 'with package version' do
       let(:params) { {
-        :ensure => '6.1.1.1'
+        :ensure => '7.0.0.1'
       } }
       it {
-        should contain_package('repose-valve').with_ensure('6.1.1.1')
-        should contain_package('repose-filters').with_ensure('6.1.1.1')
-        should contain_package('repose-extension-filters').with_ensure('6.1.1.1')
+        pkg_names.each do |pkg|
+          should contain_package(pkg).with_ensure(params[:ensure])
+        end
       }
     end
 
@@ -38,9 +49,9 @@ describe 'repose::package' do
         :autoupgrade => true
       } }
       it {
-        should contain_package('repose-valve').with_ensure('latest')
-        should contain_package('repose-filters').with_ensure('latest')
-        should contain_package('repose-extension-filters').with_ensure('latest')
+        pkg_names.each do |pkg|
+          should contain_package(pkg).with_ensure('latest')
+        end
       }
     end
 
@@ -48,9 +59,9 @@ describe 'repose::package' do
     context 'uninstall parameters' do
       let(:params) { { :ensure => 'absent' } }
       it {
-        should contain_package('repose-valve').with_ensure('purged')
-        should contain_package('repose-filters').with_ensure('purged')
-        should contain_package('repose-extension-filters').with_ensure('purged')
+        pkg_names.each do |pkg|
+          should contain_package(pkg).with_ensure('purged')
+        end
       }
     end
   end

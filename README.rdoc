@@ -79,18 +79,29 @@ This module provides a re-usable and environment agnostic control of Repose Powe
 
 ---
 == Running tests with bundler
-  git clone http://github.com/rackerlabs/puppet-repose.git 
+  git clone http://github.com/rackerlabs/puppet-repose.git
   cd puppet-repose
   bundle install
   bundle exec rake validate
   bundle exec rake spec
 
 == Running tests
-  git clone http://github.com/rackerlabs/puppet-repose.git 
+  git clone http://github.com/rackerlabs/puppet-repose.git
   cd puppet-repose
   gem install rspec-puppet rspec-puppet-utils puppet puppetlabs_spec_helper --no-ri --no-rdoc
   rake validate
   rake spec
+
+
+
+---
+== Puppet Module Version Considerations
+
+The puppet module version < 2.0 supports repose < 6.2.x.  There was a package
+name change for rpms that makes the 2.x and greater modules incompatibile with
+the older versions of repose. If you need to configure repose < 6.2.x, please
+use the older module version (< 2.0).
+
 
 ---
 ==Authors
