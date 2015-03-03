@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe 'repose::logrotate' do
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -14,7 +14,7 @@ describe 'repose::logrotate' do
     # 3) keep 4 files
     # 4) compress, delaycompress, dateext are enabled
     context 'with defaults for all parameters' do
-      it { 
+      it {
         should contain_file('/etc/logrotate.d/repose').with(
           'ensure' => 'file',
           'owner'  => 'root',
@@ -30,7 +30,7 @@ describe 'repose::logrotate' do
     end
 
     context 'configure params parameters' do
-      let(:params) { { 
+      let(:params) { {
         :log_files        => [ '/repose1.log', '/repose2.log' ],
         :rotate_frequency => 'weekly',
         :rotate_count     => 10,

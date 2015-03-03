@@ -4,7 +4,7 @@ describe 'repose::filter::dist_datastore', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::dist_datastore', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /nodes is a required parameter/)
+        should raise_error(Puppet::Error,/nodes is a required parameter/)
       }
     end
 
@@ -34,12 +32,12 @@ describe 'repose::filter::dist_datastore', :type => :define do
 
     context 'providing a validator' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'dist-datastore.cfg.xml',
         :nodes      => [ 'test.example.com', ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/dist-datastore.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',

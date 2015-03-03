@@ -4,7 +4,7 @@ describe 'repose::filter::metrics', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::metrics', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /graphite_servers is a required/)
+        should raise_error(Puppet::Error, /graphite_servers is a required/)
       }
     end
 
@@ -34,7 +32,7 @@ describe 'repose::filter::metrics', :type => :define do
 
     context 'providing a graphite server' do
       let(:title) { 'graphite_server' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'metrics.cfg.xml',
         :graphite_servers => [ {
@@ -45,7 +43,7 @@ describe 'repose::filter::metrics', :type => :define do
           'enabled' => 'true'
         } ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/metrics.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',

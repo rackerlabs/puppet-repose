@@ -5,7 +5,7 @@ describe 'repose::filter::http_connection_pool', :type => :class do
   end
 
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -43,7 +43,7 @@ describe 'repose::filter::http_connection_pool', :type => :class do
 
     context 'with additional pool' do
       let(:params) { {
-        :additional_pools => [ { 
+        :additional_pools => [ {
            "id"                           => 'client-auth-pool',
            "is_default"                   => false,
            "conn_manager_max_total"       => 201,

@@ -4,7 +4,7 @@ describe 'repose::filter::slf4j_http_logging', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::slf4j_http_logging', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /log_files is a required/)
+        should raise_error(Puppet::Error, /log_files is a required/)
       }
     end
 
@@ -34,15 +32,15 @@ describe 'repose::filter::slf4j_http_logging', :type => :define do
 
     context 'providing log_files' do
       let(:title) { 'log_files' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'slf4j-http-logging.cfg.xml',
-        :log_files  => [ { 
-          'id'       => 'my-log', 
+        :log_files  => [ {
+          'id'       => 'my-log',
           'format'   => 'my format',
         } ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/slf4j-http-logging.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',

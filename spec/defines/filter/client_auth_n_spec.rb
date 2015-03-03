@@ -15,9 +15,7 @@ describe 'repose::filter::client_auth_n', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect {
-          should compile
-        }.to raise_error(Puppet::Error, /auth is a required parameter/)
+        should raise_error(Puppet::Error, /auth is a required parameter/)
       }
     end
 

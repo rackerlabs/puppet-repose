@@ -4,7 +4,7 @@ describe 'repose::filter::http_logging', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::http_logging', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /log_files is a required parameter/)
+        should raise_error(Puppet::Error, /log_files is a required parameter/)
       }
     end
 
@@ -34,16 +32,16 @@ describe 'repose::filter::http_logging', :type => :define do
 
     context 'providing a log_file' do
       let(:title) { 'log_file' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'http-logging.cfg.xml',
-        :log_files  => [ { 
-          'id'       => 'my-log', 
+        :log_files  => [ {
+          'id'       => 'my-log',
           'format'   => 'my format',
           'location' => '/var/log/repose/http.log'
         } ]
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/http-logging.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',

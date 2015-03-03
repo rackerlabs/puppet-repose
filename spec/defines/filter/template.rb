@@ -4,7 +4,7 @@ describe 'repose::filter::CHANGEME', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -15,9 +15,7 @@ describe 'repose::filter::CHANGEME', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        expect { 
-          should compile
-        }.to raise_error(Puppet::Error, /is a required/)
+        should raise_error(Puppet::Error, /is a required/)
       }
     end
 
@@ -33,11 +31,11 @@ describe 'repose::filter::CHANGEME', :type => :define do
     end
     context 'providing a validator' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'CHANGEME.cfg.xml',
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/CHANGEME.cfg.xml')
       }
     end

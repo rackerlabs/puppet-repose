@@ -4,7 +4,7 @@ describe 'repose::filter::rackspace_identity_basic_auth', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -33,23 +33,23 @@ describe 'repose::filter::rackspace_identity_basic_auth', :type => :define do
     end
     context 'providing a validator' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'my-config.cfg.xml',
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/my-config.cfg.xml')
       }
     end
 
     context 'lowering token cache' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure              => 'present',
         :filename            => 'rackspace-identity-basic-auth.cfg.xml',
         :token_cache_timeout => '1000'
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/rackspace-identity-basic-auth.cfg.xml').with_content(/token-cache-timeout-millis="1000"/)
       }
     end

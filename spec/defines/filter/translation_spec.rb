@@ -4,7 +4,7 @@ describe 'repose::filter::translation', :type => :define do
     'include repose'
   end
   context 'on RedHat' do
-    let :facts do 
+    let :facts do
     {
       :osfamily               => 'RedHat',
       :operationsystemrelease => '6',
@@ -39,7 +39,7 @@ describe 'repose::filter::translation', :type => :define do
 
     context 'providing parameters' do
       let(:title) { 'validator' }
-      let(:params) { { 
+      let(:params) { {
         :ensure     => 'present',
         :filename   => 'translation.cfg.xml',
         :response_translations => [
@@ -58,7 +58,7 @@ describe 'repose::filter::translation', :type => :define do
         ],
         :xsl_engine => 'SaxonEE'
       } }
-      it { 
+      it {
         should contain_file('/etc/repose/translation.cfg.xml').with(
           'ensure' => 'file',
           'owner'  => 'repose',
