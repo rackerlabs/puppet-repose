@@ -57,7 +57,7 @@ describe 'repose::package' do
     # the defaults for the package class should
     # 1) install the package
     context 'with defaults+newpackages for all parameters' do
-      let(:params) { { :use_old_packages => 'false' } }
+      let(:params) { { :rh_old_packages => 'false' } }
       it {
         should contain_package('repose-valve').with_ensure('present')
         should contain_package('repose-filter-bundle').with_ensure('present')
@@ -69,8 +69,8 @@ describe 'repose::package' do
     # 1) install the package to a specific version
     context 'with package version+newpackages' do
       let(:params) { {
-        :ensure           => '6.2.0.1',
-        :use_old_packages => 'false'
+        :ensure          => '6.2.0.1',
+        :rh_old_packages => 'false'
       } }
       it {
         should contain_package('repose-valve').with_ensure('6.2.0.1')
@@ -83,8 +83,8 @@ describe 'repose::package' do
     # 1) set the packages to latest
     context 'with autoupgrade true' do
       let(:params) { {
-        :autoupgrade      => true,
-        :use_old_packages => 'false'
+        :autoupgrade     => true,
+        :rh_old_packages => 'false'
       } }
       it {
         should contain_package('repose-valve').with_ensure('latest')
@@ -96,8 +96,8 @@ describe 'repose::package' do
     # Validate uninstall properly purged packages
     context 'uninstall parameters' do
       let(:params) { {
-        :ensure           => 'absent',
-        :use_old_packages => 'false'
+        :ensure          => 'absent',
+        :rh_old_packages => 'false'
       } }
       it {
         should contain_package('repose-valve').with_ensure('purged')

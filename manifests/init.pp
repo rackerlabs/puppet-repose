@@ -40,11 +40,11 @@
 # * {Puppet's package provider source code}[http://j.mp/wtVCaL]
 # Defaults to <tt>false</tt>.
 #
-# [*use_old_packages*]
+# [*rh_old_packages*]
 # Boolean. At version 6.2 repose renamed several of their packages to
 # standardize between deb/rpm.  This variable exposes access to the old
-# naming. It defaults to <tt>true</tt> for the time being to not break
-# existing users.
+# naming on rpm distros. It defaults to <tt>true</tt> for the time being
+# to not break existing users.
 # TODO: Determine a time to default to false. Then when to drop support.
 #
 # === Examples
@@ -68,7 +68,7 @@ class repose (
   $enable           = $repose::params::enable,
   $container        = $repose::params::container,
   $autoupgrade      = $repose::params::autoupgrade,
-  $use_old_packages = true,
+  $rh_old_packages  = true,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -129,7 +129,7 @@ class repose (
     ensure           => $ensure,
     autoupgrade      => $autoupgrade,
     container        => $container,
-    use_old_packages => $use_old_packages,
+    rh_old_packages  => $rh_old_packages,
   }
 
 ## service

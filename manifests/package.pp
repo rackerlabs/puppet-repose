@@ -34,11 +34,11 @@
 # The package list to use based on the container that is used to run
 # repose in this environment
 #
-# [*use_old_packages*]
+# [*rh_old_packages*]
 # Boolean. At version 6.2 repose renamed several of their packages to
 # standardize between deb/rpm.  This variable exposes access to the old
-# naming. It defaults to True for the time being to not break existing
-# users.
+# naming on rpm distros. It defaults to <tt>true</tt> for the time being
+# to not break existing users.
 #
 # === Examples
 #
@@ -57,7 +57,7 @@ class repose::package (
   $ensure           = $repose::params::ensure,
   $autoupgrade      = $repose::params::autoupgrade,
   $container        = $repose::params::container,
-  $use_old_packages = true,
+  $rh_old_packages  = true,
 ) inherits repose::params {
 
 ### Logic
@@ -95,7 +95,7 @@ class repose::package (
     before => $before,
   }
 
-  $filter_packages = $use_old_packages ? {
+  $filter_packages = $rh_old_packages ? {
     true    => $repose::params::old_packages,
     default => $repose::params::packages,
   }
