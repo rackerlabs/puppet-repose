@@ -33,12 +33,8 @@
 #            {
 #              'name'   => 'rate-limit-headers',
 #              'headers' => [
-#                {
-#                  'id' => 'X-PP-User',
-#                },
-#                {
-#                  'id' => 'X-PP-Groups',
-#                }
+#                'X-PP-User',
+#                'X-PP-Groups',
 #              ],
 #            }
 #          ],
@@ -46,12 +42,8 @@
 #            {
 #              'name'   => 'creds',
 #              'headers' => [
-#                {
-#                  'id' => 'X-Auth-Key',
-#                },
-#                {
-#                  'id' => 'X-Auth-User',
-#                }
+#                'X-Auth-Key',
+#                'X-Auth-User',
 #              ],
 #            }
 #          ],
