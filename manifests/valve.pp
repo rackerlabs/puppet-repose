@@ -5,6 +5,10 @@
 #
 # === Parameters
 #
+# The default values for the parameters are set in repose::params. Have
+# a look at the corresponding <tt>params.pp</tt> manifest file if you need more
+# technical information about them.
+#
 # [*ensure*]
 # String. Controls if the managed resources shall be <tt>present</tt> or
 # <tt>absent</tt>. If set to <tt>absent</tt>:
@@ -72,12 +76,20 @@
 # Defaults to <tt>-p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
 #
 # [*java_options*]
-# String. Additional java options to pass to java_opts 
+# String. Additional java options to pass to java_opts
 # Defaults to <tt>undef</tt>
 #
 # [*saxon_home*]
 # String. Home directory for Saxon. Sets SAXON_HOME
 # Defaults to <tt>undef</tt>
+#
+# [*rh_old_packages*]
+# Boolean. At version 6.2 repose renamed several of their packages to
+# standardize between deb/rpm.  This variable exposes access to the old
+# naming on rpm distros. It defaults to <tt>true</tt> for the time being
+# to not break existing users.
+# TODO: Determine a time to default to false. Then when to drop support.
+#
 #
 # === Examples
 #
@@ -110,13 +122,15 @@ class repose::valve (
   $run_opts        = $repose::params::run_opts,
   $java_options    = undef,
   $saxon_home      = undef,
+  $rh_old_packages = $repose::params::rh_old_packages,
 ) inherits repose::params {
 
   class { 'repose':
-    ensure      => $ensure,
-    enable      => $enable,
-    autoupgrade => $autoupgrade,
-    container   => 'valve',
+    ensure          => $ensure,
+    enable          => $enable,
+    autoupgrade     => $autoupgrade,
+    rh_old_packages => $rh_old_packages,
+    container       => 'valve',
   }
 
   file { '/etc/sysconfig/repose':

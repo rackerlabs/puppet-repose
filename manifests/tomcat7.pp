@@ -5,6 +5,10 @@
 #
 # === Parameters
 #
+# The default values for the parameters are set in repose::params. Have
+# a look at the corresponding <tt>params.pp</tt> manifest file if you need more
+# technical information about them.
+#
 # [*ensure*]
 # String. Controls if the managed resources shall be <tt>present</tt> or
 # <tt>absent</tt>. If set to <tt>absent</tt>:
@@ -35,9 +39,13 @@
 # * {Puppet's package provider source code}[http://j.mp/wtVCaL]
 # Defaults to <tt>false</tt>.
 #
-# The default values for the parameters are set in repose::params. Have
-# a look at the corresponding <tt>params.pp</tt> manifest file if you need more
-# technical information about them.
+# [*rh_old_packages*]
+# Boolean. At version 6.2 repose renamed several of their packages to
+# standardize between deb/rpm.  This variable exposes access to the old
+# naming on rpm distros. It defaults to <tt>true</tt> for the time being
+# to not break existing users.
+# TODO: Determine a time to default to false. Then when to drop support.
+#
 #
 # === Examples
 #
@@ -56,16 +64,18 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::tomcat7 (
-  $ensure      = $repose::params::ensure,
-  $enable      = $repose::params::enable,
-  $autoupgrade = $repose::params::autoupgrade,
+  $ensure           = $repose::params::ensure,
+  $enable           = $repose::params::enable,
+  $autoupgrade      = $repose::params::autoupgrade,
+  $rh_old_packages  = $repose::params::rh_old_packages,
 ) inherits repose::params {
 
   class { 'repose':
-    ensure      => $ensure,
-    enable      => $enable,
-    autoupgrade => $autoupgrade,
-    container   => 'tomcat7',
+    ensure          => $ensure,
+    enable          => $enable,
+    autoupgrade     => $autoupgrade,
+    rh_old_packages => $rh_old_packages,
+    container       => 'tomcat7',
   }
 
 }
