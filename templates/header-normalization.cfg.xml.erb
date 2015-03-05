@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<header-normalization xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                      xmlns='http://docs.openrepose.org/repose/header-normalization/v1.0'
+                      xsi:schemaLocation='http://docs.openrepose.org/repose/header-normalization/v1.0 ../config/header-normalization-configuration.xsd'>
+<%- if @header_filters -%>
+    <header-filters>
+  <%- @header_filters.each do |target| -%>
+        <target
+    <%- if target.has_key?('uri-regex') -%>
+            uri-regex="<%= target['uri-regex'] %>"
+    <%- end -%>
+    <%- if target.has_key?('http-methods') -%>
+            http-methods="<%= target['http-methods'] %>"
+    <%- end -%>
+            >
+    <%- if target.has_key?('whitelists') -%>
+      <%- target['whitelists'].each do |whitelist| -%>
+            <whitelist id="<%= whitelist['id'] %>">
+        <%- if whitelist.has_key?('headers') -%>
+           <%- whitelist['headers'].each do |header| -%>
+                <header id="<%= header %>"/>
+           <%- end -%>
+        <%- end -%>
+            </whitelist>
+      <%- end -%>
+    <%- end -%>
+    <%- if target.has_key?('blacklists') -%>
+      <%- target['blacklists'].each do |blacklist| -%>
+            <blacklist id="<%= blacklist['id'] %>">
+        <%- if blacklist.has_key?('headers') -%>
+           <%- blacklist['headers'].each do |header| -%>
+                <header id="<%= header %>"/>
+           <%- end -%>
+        <%- end -%>
+            </blacklist>
+      <%- end -%>
+    <%- end -%>
+    </target>
+  <%- end -%>
+    </header-filters>
+<%- end -%>
+</headers-normalization>

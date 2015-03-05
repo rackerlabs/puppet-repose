@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uri-normalization xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+       xmlns='http://docs.api.rackspacecloud.com/repose/uri-normalization/v1.0'
+       xsi:schemaLocation='http://docs.api.rackspacecloud.com/repose/uri-normalization/v1.0'>
+<%- if @uri_filters -%>
+    <uri-filters>
+  <%- @uri_filters.each do |target| -%>
+        <target
+    <%- if target.has_key?('uri-regex') -%>
+            uri-regex="<%= target['uri-regex'] %>"
+    <%- end -%>
+    <%- if target.has_key?('http-methods') -%>
+            http-methods="<%= target['http-methods'] %>"
+    <%- end -%>
+    <%- if target.has_key?('alphabetize') -%>
+            alphabetize="<%= target['alphabetize'] %>"
+    <%- end -%>
+            >
+    <%- if target.has_key?('whitelists') -%>
+      <%- target['whitelists'].each do |whitelist| -%>
+            <whitelist id="<%= whitelist['id'] %>">
+        <%- if whitelist.has_key?('parameters') -%>
+           <%- whitelist['parameters'].each do |params| -%>
+                <parameter <% params.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+           <%- end -%>
+        <%- end -%>
+            </whitelist>
+      <%- end -%>
+    <%- end -%>
+        </target>
+  <%- end -%>
+    </uri-filters>
+<%- end -%>
+<%- if @media_types -%>
+    <media-variants>
+  <%- @media_types.each do |type| -%>
+        <media-type <% type.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+  <%- end -%>
+    </media-variants>
+<%- end -%>
+</uri-normalization>
