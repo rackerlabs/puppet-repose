@@ -53,5 +53,57 @@ describe 'repose::package' do
         should contain_package('repose-extension-filters').with_ensure('purged')
       }
     end
+
+    # the defaults for the package class should
+    # 1) install the package
+    context 'with defaults+newpackages for all parameters' do
+      let(:params) { { :rh_old_packages => 'false' } }
+      it {
+        should contain_package('repose-valve').with_ensure('present')
+        should contain_package('repose-filter-bundle').with_ensure('present')
+        should contain_package('repose-extension-filter-bundle').with_ensure('present')
+      }
+    end
+
+    # specifying a version for the package class should
+    # 1) install the package to a specific version
+    context 'with package version+newpackages' do
+      let(:params) { {
+        :ensure          => '6.2.0.1',
+        :rh_old_packages => 'false'
+      } }
+      it {
+        should contain_package('repose-valve').with_ensure('6.2.0.1')
+        should contain_package('repose-filter-bundle').with_ensure('6.2.0.1')
+        should contain_package('repose-extension-filter-bundle').with_ensure('6.2.0.1')
+      }
+    end
+
+    # specifying autoupgrade is true for the package class should
+    # 1) set the packages to latest
+    context 'with autoupgrade true' do
+      let(:params) { {
+        :autoupgrade     => true,
+        :rh_old_packages => 'false'
+      } }
+      it {
+        should contain_package('repose-valve').with_ensure('latest')
+        should contain_package('repose-filter-bundle').with_ensure('latest')
+        should contain_package('repose-extension-filter-bundle').with_ensure('latest')
+      }
+    end
+
+    # Validate uninstall properly purged packages
+    context 'uninstall parameters' do
+      let(:params) { {
+        :ensure          => 'absent',
+        :rh_old_packages => 'false'
+      } }
+      it {
+        should contain_package('repose-valve').with_ensure('purged')
+        should contain_package('repose-filter-bundle').with_ensure('purged')
+        should contain_package('repose-extension-filter-bundle').with_ensure('purged')
+      }
+    end
   end
 end
