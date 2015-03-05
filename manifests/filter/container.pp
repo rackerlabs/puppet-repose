@@ -93,6 +93,11 @@
 # server.
 # Defaults to <tt>local0</tt>
 #
+# [*log_use_log4j2*]
+# Boolean. This option will enable the use of log4j2 xml configuration files.
+# This will override <tt>logging_configuration</tt> to use <tt>log4j2.xml</tt>.
+# Defaults to <tt>false</tt>.
+#
 # [*logging_configuration*]
 # String. The name of the logging configuration file.
 # Defaults to <tt>log4j.properties</tt>
@@ -183,6 +188,7 @@ class repose::filter::container (
   $log_local_size                    = $repose::params::log_local_size,
   $log_local_rotation_count          = $repose::params::log_local_rotation_count,
   $log_repose_facility               = $repose::params::log_repose_facility,
+  $log_use_log4j2                    = false,
   $logging_configuration             = $repose::params::logging_configuration,
   $ssl_enabled                       = false,
   $ssl_keystore_filename             = undef,
@@ -203,11 +209,12 @@ class repose::filter::container (
 ### Validate parameters
   validate_bool($log_access_local)
   validate_bool($log_access_syslog)
+  validate_bool($log_use_log4j2)
   validate_string($log_access_facility)
   validate_string($log_dir)
   validate_string($log_level)
   validate_string($log_access_local_name)
-  validate_string($log_syslog_facility)
+  validate_string($log_repose_facility)
 
 ## ensure
   if ! ($ensure in [ present, absent ]) {
@@ -222,20 +229,30 @@ class repose::filter::container (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $log_use_log4j2 == true {
+    $logging_configuration_real = 'log4j2.xml'
+  } else {
+    $logging_configuration_real = $logging_configuration
+  }
+
+  $logging_configuration_file = "${repose::params::configdir}/${logging_configuration_real}"
+## Manage actions
+
   if $ensure == present {
 ## app_name
     if $app_name == undef {
       fail('app_name is a required parameter')
     }
-    $log4j_content_template = template("${module_name}/log4j.properties.erb")
+    if $log_use_log4j2 == true {
+        $log4j_content_template = template("${module_name}/log4j2.xml.erb")
+    } else {
+        $log4j_content_template = template("${module_name}/log4j.properties.erb")
+    }
     $container_content_template = template("${module_name}/container.cfg.xml.erb")
   } else {
     $log4j_content_template = undef
     $container_content_template = undef
   }
-
-
-## Manage actions
 
   File {
     ensure  => $file_ensure,
@@ -245,7 +262,7 @@ class repose::filter::container (
     require => Package['repose-filters'],
   }
 
-  file { "${repose::params::configdir}/${logging_configuration}":
+  file { $logging_configuration_file:
     content => $log4j_content_template
   }
 

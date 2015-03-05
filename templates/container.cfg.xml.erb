@@ -36,7 +36,11 @@
 
         <artifact-directory check-interval="<%= @artifact_directory_check_interval %>"><%= @artifact_directory %></artifact-directory>
 
+<%- if @log_use_log4j2 == true -%>
+        <logging-configuration href="file://<%= @logging_configuration_file %>"/>
+<%- else -%>
         <logging-configuration href="<%= @logging_configuration %>"/>
+<%- end -%>
 
 <%- if @ssl_enabled == true -%>
         <ssl-configuration>

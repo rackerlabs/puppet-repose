@@ -52,6 +52,7 @@ describe 'repose::filter::client_auth_n', :type => :define do
           with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
           with_content(/client-mapping id-regex=\"testing\"/).
           with_content(/delegable=\"false\"/).
+          without_content(/delegating/).
           with_content(/tenanted=\"false\"/).
           with_content(/group-cache-timeout=\"60000\"/).
           without_content(/connectionPoolId/).
@@ -176,6 +177,37 @@ describe 'repose::filter::client_auth_n', :type => :define do
         should contain_file('/etc/repose/client-auth-n.cfg.xml').
                    with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
                    with_content(/send-all-tenant-ids=\"true\"/)
+      }
+    end
+
+    context 'providing delegating for repose 7+' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure     => 'present',
+        :filename   => 'client-auth-n.cfg.xml',
+        :auth       => {
+          'user' => 'username',
+          'pass' => 'password',
+          'uri'  => 'http://uri'
+        },
+        :client_maps => [ 'testing', ],
+        :delegating  => 'true'
+      } }
+      it {
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').with(
+          :ensure => 'file',
+          :owner => 'repose',
+          :group => 'repose'
+        )
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').
+          with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
+          with_content(/client-mapping id-regex=\"testing\"/).
+          without_content(/delegable=/).
+          with_content(/delegating=\"true\"/).
+          with_content(/tenanted=\"false\"/).
+          with_content(/group-cache-timeout=\"60000\"/).
+          without_content(/connectionPoolId/).
+          without_content(/token-cache-timeout/)
       }
     end
 

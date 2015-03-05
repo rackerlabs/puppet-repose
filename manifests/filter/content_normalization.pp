@@ -1,6 +1,9 @@
 # == Resource: repose::filter::content_normalization
 #
 # This is a resource for generating content-normalization configuration files
+# DEPRECATED: This has been removed from repose 7+, use URI normalization and
+# header normalization filters instead.
+# See: https://repose.atlassian.net/wiki/display/REPOSE/Upgrade+Repose
 #
 # === Parameters
 #
@@ -66,6 +69,8 @@ define repose::filter::content_normalization (
   $header_filters        = undef,
   $media_types           = undef,
 ) {
+
+  warning("${name} - content normalization filter is incompatibile with repose 7+")
 
 ### Validate parameters
 

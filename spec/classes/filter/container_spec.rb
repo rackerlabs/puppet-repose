@@ -237,5 +237,124 @@ describe 'repose::filter::container' do
         should contain_file('/etc/repose/container.cfg.xml')
       }
     end
+
+    context 'configure log4j2' do
+      let(:params) { {
+        :app_name       => 'app',
+        :log_use_log4j2 => true
+      } }
+      it {
+        should contain_file('/etc/repose/log4j2.xml').
+          with_content(/RollingFile name="defaultFile"/).
+          with_content(/filename="\/var\/log\/repose\/app.log"/).
+          with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/).
+          with_content(/RollingFile name="httpLocal"/).
+          with_content(/filename="\/var\/log\/repose\/http_repose.log"/).
+          with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"/).
+          with_content(/Root level="WARN"/).
+          with_content(/AppenderRef ref="defaultFile"/).
+          with_content(/Logger name="http" level="info"/).
+          with_content(/AppenderRef ref="httpLocal"/)
+
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+      }
+    end
+
+    context 'configure log4j2 log_local_policy is size' do
+      let(:params) { {
+        :app_name         => 'app',
+        :log_use_log4j2   => true,
+        :log_local_policy => 'size'
+      } }
+      it {
+        should contain_file('/etc/repose/log4j2.xml').
+          with_content(/RollingFile name="defaultFile"/).
+          with_content(/filename="\/var\/log\/repose\/app.log"/).
+          with_content(/filePattern="\/var\/log\/repose\/app.log.%i"/).
+          with_content(/SizeBasedTriggeringPolicy size=\"100MB\"/).
+          with_content(/DefaultRolloverStrategy max="4"/).
+          with_content(/RollingFile name="httpLocal"/).
+          with_content(/filename="\/var\/log\/repose\/http_repose.log"/).
+          with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%i"/).
+          with_content(/Root level="WARN"/).
+          with_content(/AppenderRef ref="defaultFile"/).
+          with_content(/Logger name="http" level="info"/).
+          with_content(/AppenderRef ref="httpLocal"/)
+
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+      }
+    end
+
+    context 'configure log4j2 without log_access_local' do
+      let(:params) { {
+        :app_name         => 'app',
+        :log_use_log4j2   => true,
+        :log_access_local => false
+      } }
+      it {
+        should contain_file('/etc/repose/log4j2.xml').
+          with_content(/RollingFile name="defaultFile"/).
+          with_content(/filename="\/var\/log\/repose\/app.log"/).
+          with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/).
+          without_content(/RollingFile name="httpLocal"/).
+          with_content(/Root level="WARN"/).
+          with_content(/AppenderRef ref="defaultFile"/).
+          with_content(/Logger name="http" level="info"/).
+          without_content(/AppenderRef ref="httpLocal"/)
+
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+      }
+    end
+
+    context 'configure log4j2 with syslog' do
+      let(:params) { {
+        :app_name         => 'app',
+        :log_use_log4j2   => true,
+        :syslog_server    => 'syslog.example.com',
+        :syslog_port      => 515,
+        :syslog_protocol  => 'tcp',
+
+      } }
+      it {
+        should contain_file('/etc/repose/log4j2.xml').
+          with_content(/RollingFile name="defaultFile"/).
+          with_content(/Syslog name="syslog" format="RFC5424"/).
+          with_content(/host="syslog.example.com"/).
+          with_content(/port="515"/).
+          with_content(/protocol="tcp"/).
+          with_content(/facility="local0"/).
+          with_content(/Syslog name="httpSyslog" format="RFC5424"/).
+          with_content(/facility="local1"/).
+          with_content(/Root level="WARN"/).
+          with_content(/AppenderRef ref="defaultFile"/).
+          with_content(/AppenderRef ref="syslog"/).
+          with_content(/Logger name="http" level="info"/).
+          with_content(/AppenderRef ref="httpLocal"/).
+          with_content(/AppenderRef ref="httpSyslog"/)
+
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+      }
+    end
+
+    context 'configure log4j2 with null appender' do
+      let(:params) { {
+        :app_name         => 'app',
+        :log_use_log4j2   => true,
+        :log_local_policy => 'none'
+      } }
+      it {
+        should contain_file('/etc/repose/log4j2.xml').
+          with_content(/File name="defaultFile" filename="\/dev\/null"/).
+          with_content(/File name="httpLocal" filename="\/dev\/null"/)
+
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+      }
+    end
+
   end
 end
