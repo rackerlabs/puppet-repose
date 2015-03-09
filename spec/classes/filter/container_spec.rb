@@ -1,5 +1,6 @@
 require 'spec_helper'
 describe 'repose::filter::container' do
+
   context 'on RedHat' do
     let :facts do
     {
@@ -353,6 +354,34 @@ describe 'repose::filter::container' do
 
         should contain_file('/etc/repose/container.cfg.xml').
           with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+      }
+    end
+
+    context 'with defaults with old namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => false }"
+      end
+
+      let(:params) { {
+        :app_name => 'app'
+      } }
+      it {
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/docs.rackspacecloud.com/)
+      }
+    end
+
+    context 'with defaults with new namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => true }"
+      end
+
+      let(:params) { {
+        :app_name => 'app'
+      } }
+      it {
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/docs.openrepose.org/)
       }
     end
 

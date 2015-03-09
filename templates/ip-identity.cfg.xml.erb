@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ip-identity  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-              xmlns='http://docs.api.rackspacecloud.com/repose/ip-identity/v1.0'
-              xsi:schemaLocation='http://docs.api.rackspacecloud.com/repose/ip-identity/v1.0'>
+    xmlns='http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/ip-identity/v1.0'
+    xsi:schemaLocation='http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/ip-identity/v1.0'>
     <quality><%= @quality %></quality>
     <white-list quality="<%= @whitelist['quality'] %>">
 <% @whitelist['addresses'].each do |address| %>

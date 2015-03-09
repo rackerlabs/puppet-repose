@@ -51,5 +51,47 @@ describe 'repose::filter::http_logging', :type => :define do
           with_content(/<file location=\"\/var\/log\/repose\/http.log\"\/>/)
       }
     end
+
+    context 'with defaults with old namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => false }"
+      end
+
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure     => 'present',
+        :filename   => 'http-logging.cfg.xml',
+        :log_files  => [ {
+          'id'       => 'my-log',
+          'format'   => 'my format',
+          'location' => '/var/log/repose/http.log'
+        } ]
+      } }
+      it {
+        should contain_file('/etc/repose/http-logging.cfg.xml').
+          with_content(/docs.rackspacecloud.com/)
+      }
+    end
+
+    context 'with defaults with new namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => true }"
+      end
+
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure     => 'present',
+        :filename   => 'http-logging.cfg.xml',
+        :log_files  => [ {
+          'id'       => 'my-log',
+          'format'   => 'my format',
+          'location' => '/var/log/repose/http.log'
+        } ]
+      } }
+      it {
+        should contain_file('/etc/repose/http-logging.cfg.xml').
+          with_content(/docs.openrepose.org/)
+      }
+    end
   end
 end

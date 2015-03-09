@@ -69,5 +69,29 @@ describe 'repose::filter::header_normalization', :type => :define do
           with_content(/header id="X-Auth-User"/)
       }
     end
+
+    context 'with defaults with old namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => false }"
+      end
+
+      let(:title) { 'default' }
+      it {
+        should contain_file('/etc/repose/header-normalization.cfg.xml').
+          with_content(/docs.rackspacecloud.com/)
+      }
+    end
+
+    context 'with defaults with new namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => true }"
+      end
+
+      let(:title) { 'default' }
+      it {
+        should contain_file('/etc/repose/header-normalization.cfg.xml').
+          with_content(/docs.openrepose.org/)
+      }
+    end
   end
 end

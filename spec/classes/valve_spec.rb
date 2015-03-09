@@ -68,5 +68,19 @@ describe 'repose::valve' do
       }
     end
 
+    context 'with new namespaces' do
+      let(:params) { { :cfg_new_namespace => 'true' } }
+      it {
+        should contain_class('repose').with(
+          'ensure'            => 'present',
+          'enable'            => 'true',
+          'autoupgrade'       => 'false',
+          'rh_old_packages'   => 'true',
+          'cfg_new_namespace' => 'true',
+          'container'         => 'valve'
+        )
+      }
+    end
+
   end
 end

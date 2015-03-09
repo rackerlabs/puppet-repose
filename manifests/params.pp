@@ -179,4 +179,7 @@ class repose::params {
 
 ## default access logging to syslog
   $log_access_syslog = true
+
+## use new namespace urls in configuration files
+  $cfg_new_namespace = false
 }

@@ -53,5 +53,29 @@ describe 'repose::filter::rackspace_identity_basic_auth', :type => :define do
         should contain_file('/etc/repose/rackspace-identity-basic-auth.cfg.xml').with_content(/token-cache-timeout-millis="1000"/)
       }
     end
+
+    context 'with defaults with old namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => false }"
+      end
+
+      let(:title) { 'default' }
+      it {
+        should contain_file('/etc/repose/rackspace-identity-basic-auth.cfg.xml').
+          with_content(/docs.rackspacecloud.com/)
+      }
+    end
+
+    context 'with defaults with new namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => true }"
+      end
+
+      let(:title) { 'default' }
+      it {
+        should contain_file('/etc/repose/rackspace-identity-basic-auth.cfg.xml').
+          with_content(/docs.openrepose.org/)
+      }
+    end
   end
 end

@@ -224,5 +224,67 @@ describe 'repose::filter::system_model', :type => :define do
           with_content(/endpoint default=\"true\" hostname=\"localhost\" id=\"localhost\" port=\"80\" protocol=\"http\" root-path=\"\"/)
       }
     end
+
+    context 'with defaults with old namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => false }"
+      end
+
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure     => 'present',
+        :filename   => 'system-model.cfg.xml',
+        :app_name   => 'repose',
+        :nodes      => ['app1', 'app2' ],
+        :filters    => {
+          90 => { 'name' => 'api-validator' },
+        },
+        :endpoints  => [
+          {
+            'id'        => 'localhost',
+            'protocol'  => 'http',
+            'hostname'  => 'localhost',
+            'root-path' => '',
+            'port'      => '80',
+            'default'   => 'true'
+          },
+        ]
+      } }
+      it {
+        should contain_file('/etc/repose/system-model.cfg.xml').
+          with_content(/docs.rackspacecloud.com/)
+      }
+    end
+
+    context 'with defaults with new namespace' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => true }"
+      end
+
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure     => 'present',
+        :filename   => 'system-model.cfg.xml',
+        :app_name   => 'repose',
+        :nodes      => ['app1', 'app2' ],
+        :filters    => {
+          90 => { 'name' => 'api-validator' },
+        },
+        :endpoints  => [
+          {
+            'id'        => 'localhost',
+            'protocol'  => 'http',
+            'hostname'  => 'localhost',
+            'root-path' => '',
+            'port'      => '80',
+            'default'   => 'true'
+          },
+        ]
+      } }
+      it {
+        should contain_file('/etc/repose/system-model.cfg.xml').
+          with_content(/docs.openrepose.org/)
+      }
+    end
   end
 end

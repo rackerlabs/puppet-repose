@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<content-compression xmlns="http://docs.api.rackspacecloud.com/repose/content-compression/v1.0">
+<content-compression xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/content-compression/v1.0">
     <compression compression-threshold="<%= @threshold %>" debug="<%= @debug %>" include-content-types="<%= @include_content_types.join(',') %>"<% if ! @exclude_content_types.nil? %> exclude-content-types="<%= @exclude_content_type.join(',') %>"<% end -%> />
 </content-compression>

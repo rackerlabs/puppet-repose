@@ -3,7 +3,7 @@
 <!-- http://wiki.openrepose.org/display/REPOSE/Response+Messaging+Service -->
 <!-- The Response Messaging Service (RMS) allows you to configure the HTTP response returned to the client
      for specific HTTP status codes. -->
-<response-messaging xmlns="http://docs.rackspacecloud.com/repose/response-messaging/v1.0">
+<response-messaging xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/response-messaging/v1.0">
 <% @status_codes.each do |code| -%>
     <status-code id="<%= code['id'] %>" code-regex="<%= code['code-regex'] %>" <% if code.has_key?('overwrite') %>overwrite="<%= code['overwrite'] %>"<% end %>>
   <%- code['messages'].each do |message| -%>

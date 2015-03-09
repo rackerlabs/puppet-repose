@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<http-connection-pools xmlns="http://docs.rackspacecloud.com/repose/http-connection-pool/v1.0">
+<http-connection-pools xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/http-connection-pool/v1.0">
 
     <!-- Configuration for the default pool.  Any users of the service will by default, retrieve HTTP connections
         using this default pool configuration.

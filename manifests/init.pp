@@ -47,6 +47,14 @@
 # to not break existing users.
 # TODO: Determine a time to default to false. Then when to drop support.
 #
+# [*cfg_new_namespace*]
+# Boolean. Repose 7 introducted new namespaces for the configuration files.
+# This flag is used to indicate the use of the new docs.openrepose.org
+# namespace instead of the docs.rackspacecloud.com namespace. The old namespace
+# url should work but there have been some issues. If running repose >= 7,
+# set this to true.
+# TODO: Determine a time to default to false. Then when to drop support.
+#
 # === Examples
 #
 # * Installation:
@@ -64,11 +72,12 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  $ensure           = $repose::params::ensure,
-  $enable           = $repose::params::enable,
-  $container        = $repose::params::container,
-  $autoupgrade      = $repose::params::autoupgrade,
-  $rh_old_packages  = $repose::params::rh_old_packages,
+  $ensure            = $repose::params::ensure,
+  $enable            = $repose::params::enable,
+  $container         = $repose::params::container,
+  $autoupgrade       = $repose::params::autoupgrade,
+  $rh_old_packages   = $repose::params::rh_old_packages,
+  $cfg_new_namespace = $repose::params::cfg_new_namespace,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -121,6 +130,12 @@ class repose (
     debug("\$container = '${container}'")
   }
 
+## figure out cfg namespace host
+  if $cfg_new_namespace {
+    $cfg_namespace_host = 'docs.openrepose.org'
+  } else {
+    $cfg_namespace_host = 'docs.rackspacecloud.com'
+  }
 
 ### Manage actions
 
