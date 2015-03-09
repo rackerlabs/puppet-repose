@@ -69,14 +69,20 @@
 #
 # [*daemonize_opts*]
 # String. The daemonize options to be passed into daemonize.
+# DEPRECATED. This does nothing for repose 7+. This is replaced by a different
+# variable in the sysconfig file but we are not supporting overwriting it.
+# at this time.
 # Defaults to <tt>-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME</tt>
 #
 # [*run_opts*]
-# String. The options sent to the run command
+# String. The options sent to the run command.
+# DEPRECATED. This does nothing for repose 7+. This is replaced by a different
+# variable in the sysconfig file but we are not supporting overwriting it.
 # Defaults to <tt>-p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
 #
 # [*java_options*]
 # String. Additional java options to pass to java_opts
+# NOTE: this also sets JAVA_OPTS for repose 7+
 # Defaults to <tt>undef</tt>
 #
 # [*saxon_home*]
@@ -168,6 +174,7 @@ class repose::valve (
     "set daemonize_opts '\"${daemonize_opts}\"'",
     "set run_opts '\"${run_opts}\"'",
     "set java_opts '\"\${java_opts} ${java_options}\"'",
+    "set JAVA_OPTS '\"\${JAVA_OPTS} ${java_options}\"'",
   ]
 
   # if saxon_home provided for saxon license
