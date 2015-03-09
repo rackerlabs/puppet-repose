@@ -38,10 +38,8 @@
                 port="<%= @syslog_port %>"
                 protocol="<%= @syslog_protocol %>"
                 facility="<%= @log_repose_facility %>"
+                mcdId="mcd"
                 >
-            <PatternLayout>
-                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n</Pattern>
-            </PatternLayout>
         </Syslog>
 <%- end -%>
 <%- if @log_access_syslog and @syslog_server -%>
@@ -50,10 +48,8 @@
                 port="<%= @syslog_port %>"
                 protocol="<%= @syslog_protocol %>"
                 facility="<%= @log_access_facility %>"
+                mcdId="mcd"
                 >
-            <PatternLayout>
-                <Pattern>%m%n</Pattern>
-            </PatternLayout>
         </Syslog>
 <%- end -%>
 <%- if @log_access_local -%>

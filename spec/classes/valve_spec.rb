@@ -31,7 +31,8 @@ describe 'repose::valve' do
           "set daemonize '/usr/sbin/daemonize'",
           "set daemonize_opts '\"-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME\"'",
           "set run_opts '\"-p $RUN_PORT -c $CONFIG_DIRECTORY\"'",
-          "set java_opts '\"${java_opts} \"'"
+          "set java_opts '\"${java_opts} \"'",
+          "set JAVA_OPTS '\"${JAVA_OPTS} \"'"
           ],
           "rm SAXON_HOME"
         ])
