@@ -55,5 +55,18 @@ describe 'repose::valve' do
       }
     end
 
+    context 'with new packages' do
+      let(:params) { { :rh_old_packages => 'false' } }
+      it {
+        should contain_class('repose').with(
+          'ensure'          => 'present',
+          'enable'          => 'true',
+          'autoupgrade'     => 'false',
+          'rh_old_packages' => 'false',
+          'container'       => 'valve'
+        )
+      }
+    end
+
   end
 end

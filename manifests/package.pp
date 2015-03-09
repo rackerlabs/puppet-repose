@@ -40,6 +40,7 @@
 # naming on rpm distros. It defaults to <tt>true</tt> for the time being
 # to not break existing users.
 #
+#
 # === Examples
 #
 # Primarily to be used by the repose base class, but you can use:
@@ -57,7 +58,7 @@ class repose::package (
   $ensure           = $repose::params::ensure,
   $autoupgrade      = $repose::params::autoupgrade,
   $container        = $repose::params::container,
-  $rh_old_packages  = true,
+  $rh_old_packages  = $repose::params::rh_old_packages,
 ) inherits repose::params {
 
 ### Logic

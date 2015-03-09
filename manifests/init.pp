@@ -68,7 +68,7 @@ class repose (
   $enable           = $repose::params::enable,
   $container        = $repose::params::container,
   $autoupgrade      = $repose::params::autoupgrade,
-  $rh_old_packages  = true,
+  $rh_old_packages  = $repose::params::rh_old_packages,
 ) inherits repose::params {
 
 ### Validate parameters
