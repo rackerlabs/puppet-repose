@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uri-normalization xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xmlns='http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/uri-normalization/v1.0'
-    xsi:schemaLocation='http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/uri-normalization/v1.0'>
+<uri-normalization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/uri-normalization/v1.0"
+    xsi:schemaLocation="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/uri-normalization/v1.0">
 <%- if @uri_filters -%>
     <uri-filters>
   <%- @uri_filters.each do |target| -%>

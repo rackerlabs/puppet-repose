@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<header-normalization xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xmlns='http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/header-normalization/v1.0'
-    xsi:schemaLocation='http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/header-normalization/v1.0 ../config/header-normalization-configuration.xsd'>
+<header-normalization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/header-normalization/v1.0"
+    xsi:schemaLocation="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/header-normalization/v1.0 ../config/header-normalization-configuration.xsd">
 <%- if @header_filters -%>
     <header-filters>
   <%- @header_filters.each do |target| -%>
