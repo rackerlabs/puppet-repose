@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
+<Configuration monitorInterval="30">
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout>
@@ -114,7 +114,7 @@ end
         <Logger name="org.rackspace.deproxy" level="info"/>
         <Logger name="org.springframework" level="warn"/>
         <Logger name="intrafilter-logging" level="info"/>
-        <Logger name="http" level="info">
+        <Logger name="http" level="info" additivity="false">
 <%-
 # if setup the appropriate access log appenders
 httpAppenders = Array.new()
