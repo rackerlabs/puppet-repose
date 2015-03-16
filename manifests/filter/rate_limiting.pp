@@ -128,7 +128,7 @@ define repose::filter::rate_limiting (
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
-    require => Package['repose-filters'],
+    require => Class['::repose::package'],
     content => $content_template
   }
 

@@ -141,10 +141,10 @@ class repose (
 
 ## package(s)
   class { 'repose::package':
-    ensure           => $ensure,
-    autoupgrade      => $autoupgrade,
-    container        => $container,
-    rh_old_packages  => $rh_old_packages,
+    ensure          => $ensure,
+    autoupgrade     => $autoupgrade,
+    container       => $container,
+    rh_old_packages => $rh_old_packages,
   }
 
 ## service
@@ -160,7 +160,7 @@ class repose (
     mode    => $repose::params::dirmode,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
-    require => Package[$repose::package::packages],
+    require => Package[$repose::package::container_package],
   }
 
   file { $repose::params::configdir:

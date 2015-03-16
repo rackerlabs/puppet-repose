@@ -130,7 +130,7 @@ define repose::filter::client_auth_n (
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
-    require => Package['repose-filters'],
+    require => Class['::repose::package'],
     content => $content_template
   }
 

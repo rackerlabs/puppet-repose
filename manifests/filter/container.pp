@@ -268,7 +268,7 @@ class repose::filter::container (
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
-    require => Package['repose-filters'],
+    require => Class['::repose::package'],
   }
 
   file { $logging_configuration_file:
