@@ -62,7 +62,7 @@ class repose::params {
 
 ## packages
   $packages = $::osfamily ? {
-    /(RedHat|Debian)/ => [ 'repose-filter-bundle','repose-extension-filter-bundle' ],
+    /(RedHat|Debian)/ => [ 'repose-filter-bundle','repose-extensions-filter-bundle' ],
   }
 
   $old_packages = $::osfamily ? {
