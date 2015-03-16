@@ -46,6 +46,11 @@
 # String. The facility to use when sending access logs via syslog.
 # Defaults to <tt>local1</tt>
 #
+# [*log_access_app_name*]
+# String. This is the app name to be sent to syslog as part of the RFC5424
+# message format. This defaults to blank.
+# Defaults to <tt></tt>.
+#
 # [*log_access_local*]
 # Boolean. Should repose access logs be logged locally. Uses the log_local_*
 # Settings to determine retention policy.
@@ -96,6 +101,9 @@
 # [*log_use_log4j2*]
 # Boolean. This option will enable the use of log4j2 xml configuration files.
 # This will override <tt>logging_configuration</tt> to use <tt>log4j2.xml</tt>.
+# This uses RFC5424 formated syslog messages if syslog enabled. Additional info
+# can be parsed out in rsyslog using the mmpstrucdata module.
+# http://www.rsyslog.com/doc/master/configuration/modules/mmpstrucdata.html
 # Defaults to <tt>false</tt>.
 #
 # [*logging_configuration*]
@@ -179,6 +187,7 @@ class repose::filter::container (
   $deployment_directory_auto_clean   = true,
   $jmx_reset_time                    = undef,
   $log_access_facility               = $repose::params::log_access_facility,
+  $log_access_app_name               = $repose::params::log_access_app_name,
   $log_access_local                  = $repose::params::log_access_local,
   $log_access_local_name             = $repose::params::log_access_local_name,
   $log_access_syslog                 = $repose::params::log_access_syslog,

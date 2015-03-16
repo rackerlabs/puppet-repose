@@ -38,8 +38,16 @@
                 port="<%= @syslog_port %>"
                 protocol="<%= @syslog_protocol %>"
                 facility="<%= @log_repose_facility %>"
+                appName="<%= @app_name %>"
                 mcdId="mcd"
                 >
+            <LoggerFields>
+                <KeyValuePair key="thread" value="%t"/>
+                <KeyValuePair key="priority" value="%p"/>
+                <KeyValuePair key="category" value="%c"/>
+                <KeyValuePair key="level" value="%-5p"/>
+                <KeyValuePair key="ndc" value="%x"/>
+            </LoggerFields>
         </Syslog>
 <%- end -%>
 <%- if @log_access_syslog and @syslog_server -%>
@@ -48,6 +56,7 @@
                 port="<%= @syslog_port %>"
                 protocol="<%= @syslog_protocol %>"
                 facility="<%= @log_access_facility %>"
+                appName="<%= @log_access_app_name %>"
                 mcdId="mcd"
                 >
         </Syslog>
