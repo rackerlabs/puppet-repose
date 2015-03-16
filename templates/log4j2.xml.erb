@@ -39,7 +39,7 @@
                 protocol="<%= @syslog_protocol %>"
                 facility="<%= @log_repose_facility %>"
                 appName="<%= @app_name %>"
-                mcdId="mcd"
+                mdcId="mdc"
                 >
             <LoggerFields>
                 <KeyValuePair key="thread" value="%t"/>
@@ -57,7 +57,7 @@
                 protocol="<%= @syslog_protocol %>"
                 facility="<%= @log_access_facility %>"
                 appName="<%= @log_access_app_name %>"
-                mcdId="mcd"
+                mdcId="mdc"
                 >
         </Syslog>
 <%- end -%>
