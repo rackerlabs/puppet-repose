@@ -69,14 +69,20 @@
 #
 # [*daemonize_opts*]
 # String. The daemonize options to be passed into daemonize.
+# DEPRECATED. This does nothing for repose 7+. This is replaced by a different
+# variable in the sysconfig file but we are not supporting overwriting it.
+# at this time.
 # Defaults to <tt>-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME</tt>
 #
 # [*run_opts*]
-# String. The options sent to the run command
+# String. The options sent to the run command.
+# DEPRECATED. This does nothing for repose 7+. This is replaced by a different
+# variable in the sysconfig file but we are not supporting overwriting it.
 # Defaults to <tt>-p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
 #
 # [*java_options*]
 # String. Additional java options to pass to java_opts
+# NOTE: this also sets JAVA_OPTS for repose 7+
 # Defaults to <tt>undef</tt>
 #
 # [*saxon_home*]
@@ -90,6 +96,13 @@
 # to not break existing users.
 # TODO: Determine a time to default to false. Then when to drop support.
 #
+# [*cfg_new_namespace*]
+# Boolean. Repose 7 introducted new namespaces for the configuration files.
+# This flag is used to indicate the use of the new docs.openrepose.org
+# namespace instead of the docs.rackspacecloud.com namespace. The old namespace
+# url should work but there have been some issues. If running repose >= 7,
+# set this to true.
+# TODO: Determine a time to default to false. Then when to drop support.
 #
 # === Examples
 #
@@ -109,28 +122,30 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::valve (
-  $ensure          = $repose::params::ensure,
-  $enable          = $repose::params::enable,
-  $autoupgrade     = $repose::params::autoupgrade,
-  $run_port        = $repose::params::run_port,
-  $daemon_home     = $repose::params::daemon_home,
-  $log_path        = $repose::params::logdir,
-  $pid_file        = $repose::params::pid_file,
-  $user            = $repose::params::user,
-  $daemonize       = $repose::params::daemonize,
-  $daemonize_opts  = $repose::params::daemonize_opts,
-  $run_opts        = $repose::params::run_opts,
-  $java_options    = undef,
-  $saxon_home      = undef,
-  $rh_old_packages = $repose::params::rh_old_packages,
+  $ensure            = $repose::params::ensure,
+  $enable            = $repose::params::enable,
+  $autoupgrade       = $repose::params::autoupgrade,
+  $run_port          = $repose::params::run_port,
+  $daemon_home       = $repose::params::daemon_home,
+  $log_path          = $repose::params::logdir,
+  $pid_file          = $repose::params::pid_file,
+  $user              = $repose::params::user,
+  $daemonize         = $repose::params::daemonize,
+  $daemonize_opts    = $repose::params::daemonize_opts,
+  $run_opts          = $repose::params::run_opts,
+  $java_options      = undef,
+  $saxon_home        = undef,
+  $rh_old_packages   = $repose::params::rh_old_packages,
+  $cfg_new_namespace = $repose::params::cfg_new_namespace,
 ) inherits repose::params {
 
   class { 'repose':
-    ensure          => $ensure,
-    enable          => $enable,
-    autoupgrade     => $autoupgrade,
-    rh_old_packages => $rh_old_packages,
-    container       => 'valve',
+    ensure            => $ensure,
+    enable            => $enable,
+    autoupgrade       => $autoupgrade,
+    rh_old_packages   => $rh_old_packages,
+    cfg_new_namespace => $cfg_new_namespace,
+    container         => 'valve',
   }
 
   file { '/etc/sysconfig/repose':
@@ -159,6 +174,7 @@ class repose::valve (
     "set daemonize_opts '\"${daemonize_opts}\"'",
     "set run_opts '\"${run_opts}\"'",
     "set java_opts '\"\${java_opts} ${java_options}\"'",
+    "set JAVA_OPTS '\"\${JAVA_OPTS} ${java_options}\"'",
   ]
 
   # if saxon_home provided for saxon license

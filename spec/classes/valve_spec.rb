@@ -31,7 +31,8 @@ describe 'repose::valve' do
           "set daemonize '/usr/sbin/daemonize'",
           "set daemonize_opts '\"-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME\"'",
           "set run_opts '\"-p $RUN_PORT -c $CONFIG_DIRECTORY\"'",
-          "set java_opts '\"${java_opts} \"'"
+          "set java_opts '\"${java_opts} \"'",
+          "set JAVA_OPTS '\"${JAVA_OPTS} \"'"
           ],
           "rm SAXON_HOME"
         ])
@@ -64,6 +65,20 @@ describe 'repose::valve' do
           'autoupgrade'     => 'false',
           'rh_old_packages' => 'false',
           'container'       => 'valve'
+        )
+      }
+    end
+
+    context 'with new namespaces' do
+      let(:params) { { :cfg_new_namespace => 'true' } }
+      it {
+        should contain_class('repose').with(
+          'ensure'            => 'present',
+          'enable'            => 'true',
+          'autoupgrade'       => 'false',
+          'rh_old_packages'   => 'true',
+          'cfg_new_namespace' => 'true',
+          'container'         => 'valve'
         )
       }
     end

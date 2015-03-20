@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- http://wiki.openrepose.org/display/REPOSE/Versioning+Filter -->
-<versioning xmlns="http://docs.rackspacecloud.com/repose/versioning/v2.0">
+<versioning xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/versioning/v2.0">
     <service-root href="<%= target_uri %>" />
 <%- if @version_mappings -%>
   <%- @version_mappings.each do |map| -%>

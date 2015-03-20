@@ -162,7 +162,7 @@ define repose::filter::system_model (
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
-    require => Package['repose-filters'],
+    require => Class['::repose::package'],
     content => template('repose/system-model.cfg.xml.erb')
   }
 

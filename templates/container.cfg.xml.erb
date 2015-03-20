@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- To configure Repose see: http://wiki.openrepose.org/display/REPOSE/Configuration -->
-<repose-container xmlns='http://docs.rackspacecloud.com/repose/container/v2.0'>
+<repose-container xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/container/v2.0">
     <deployment-config
 <%- if @http_port -%>
         http-port="<%= @http_port %>"
@@ -36,7 +36,11 @@
 
         <artifact-directory check-interval="<%= @artifact_directory_check_interval %>"><%= @artifact_directory %></artifact-directory>
 
+<%- if @log_use_log4j2 == true -%>
+        <logging-configuration href="file://<%= @logging_configuration_file %>"/>
+<%- else -%>
         <logging-configuration href="<%= @logging_configuration %>"/>
+<%- end -%>
 
 <%- if @ssl_enabled == true -%>
         <ssl-configuration>

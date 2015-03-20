@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<content-normalization xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-                       xmlns='http://docs.api.rackspacecloud.com/repose/content-normalization/v1.0'>
+<content-normalization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/content-normalization/v1.0">
 <%- if @header_filters -%>
     <header-filters>
   <%- @header_filters.each do |filter| -%>

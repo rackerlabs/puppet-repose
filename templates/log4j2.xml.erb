@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d %-r4 [%t] %-5p %c - %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+<%- if @log_local_policy == 'date' -%>
+        <RollingFile name="defaultFile"
+            filename="<%= @log_dir-%>/<%= @app_name -%>.log"
+            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+<%- elsif @log_local_policy == 'size' -%>
+        <RollingFile name="defaultFile"
+            filename="<%= @log_dir-%>/<%= @app_name -%>.log"
+            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%i">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="<%= @log_local_size %>" />
+            </Policies>
+            <DefaultRolloverStrategy max="<%= @log_local_rotation_count %>"/>
+        </RollingFile>
+<%- else -%>
+        <File name="defaultFile" filename="/dev/null" />
+<%- end -%>
+<%- if @syslog_server -%>
+        <Syslog name="syslog" format="RFC5424"
+                host="<%= @syslog_server %>"
+                port="<%= @syslog_port %>"
+                protocol="<%= @syslog_protocol %>"
+                facility="<%= @log_repose_facility %>"
+                appName="<%= @app_name %>"
+                mdcId="mdc"
+                >
+            <LoggerFields>
+                <KeyValuePair key="thread" value="%t"/>
+                <KeyValuePair key="priority" value="%p"/>
+                <KeyValuePair key="category" value="%c"/>
+                <KeyValuePair key="level" value="%-5p"/>
+                <KeyValuePair key="ndc" value="%x"/>
+            </LoggerFields>
+        </Syslog>
+<%- end -%>
+<%- if @log_access_syslog and @syslog_server -%>
+        <Syslog name="httpSyslog" format="RFC5424"
+                host="<%= @syslog_server %>"
+                port="<%= @syslog_port %>"
+                protocol="<%= @syslog_protocol %>"
+                facility="<%= @log_access_facility %>"
+                appName="<%= @log_access_app_name %>"
+                mdcId="mdc"
+                >
+        </Syslog>
+<%- end -%>
+<%- if @log_access_local -%>
+  <%- if @log_local_policy == 'date' -%>
+        <RollingFile name="httpLocal"
+            filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
+            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>%m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+  <%- elsif @log_local_policy == 'size' -%>
+        <RollingFile name="httpLocal"
+            filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
+            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%i">
+            <PatternLayout>
+                <Pattern>%m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="<%= @log_local_size %>" />
+            </Policies>
+            <DefaultRolloverStrategy max="<%= @log_local_rotation_count %>"/>
+        </RollingFile>
+  <%- else -%>
+        <File name="httpLocal" filename="/dev/null" />
+  <%- end -%>
+<%- end -%>
+    </Appenders>
+    <Loggers>
+<%-
+# if syslog_server is provided, then add it to the root appenders
+if @syslog_server
+  rootAppenders = [ "syslog", "defaultFile" ]
+else
+  rootAppenders = [ "defaultFile" ]
+end
+-%>
+        <Root level="<%= @log_level %>">
+<%-
+  rootAppenders.each do |appender|
+-%>
+            <AppenderRef ref="<%= appender %>"/>
+<%- end -%>
+        </Root>
+        <Logger name="com.sun.jersey" level="off"/>
+        <Logger name="net.sf.ehcache" level="error"/>
+        <Logger name="org.apache.commons.httpclient" level="warn"/>
+        <Logger name="org.eclipse.jetty" level="off"/>
+        <Logger name="org.openrepose" level="info"/>
+        <Logger name="org.rackspace.deproxy" level="info"/>
+        <Logger name="org.springframework" level="warn"/>
+        <Logger name="intrafilter-logging" level="info"/>
+        <Logger name="http" level="info" additivity="false">
+<%-
+# if setup the appropriate access log appenders
+httpAppenders = Array.new()
+if @log_access_syslog and @syslog_server
+  httpAppenders.push("httpSyslog")
+end
+if @log_access_local
+  httpAppenders.push("httpLocal")
+end
+if ! httpAppenders.empty?
+  httpAppenders.each do |appender|
+-%>
+            <AppenderRef ref="<%= appender %>"/>
+  <%- end -%>
+<%- end -%>
+        </Logger>
+    </Loggers>
+</Configuration>

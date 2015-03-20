@@ -1,46 +1,53 @@
-# == Resource: repose::filter::content_normalization
+# == Resource: repose::filter::uri_normalization
 #
-# This is a resource for generating content-normalization configuration files
-# DEPRECATED: This has been removed from repose 7+, use URI normalization and
-# header normalization filters instead.
-# See: https://repose.atlassian.net/wiki/display/REPOSE/Upgrade+Repose
+# This is a resource for generating uri normalization configuration files
+# NOTE: The uri-normalization and header-translation filters replace the
+# content-normalization filter in repose 7+
 #
 # === Parameters
 #
 # [*ensure*]
-# Bool. Ensure file present/absent
+# Bool. Ensure config file present/absent
 # Defaults to <tt>present</tt>
 #
 # [*filename*]
 # String. Config filename
-# Defaults to <tt>content-normalization.cfg.xml</tt>
+# Defaults to <tt>header-translaction.cfg.xml</tt>
 #
-# [*app_name*]
-# String. Application name.
-# Defaults to <tt>repose</tt>
-#
-# [*header_filters*]
-# List of filters containing name, id, headers
+# [*uri_filters*]
+# Array of hashes containing array of hashes of targets, whitelists and
+# parameters.  See documentation and example for hash structure.
+# Defaults to <tt>undef</tt>
 #
 # [*media_types*]
 # List of media_types, each containing name, variant-extension, preferred
+# Defaults to <tt>undef</tt>
 #
 # === Links
 #
-# * http://wiki.openrepose.org/display/REPOSE/Content+Normalization
+# * https://repose.atlassian.net/wiki/display/REPOSE/URI+Normalization+filter
 #
 # === Examples
 #
-# repose::filter::content_normalization {
+# repose::filter::uri_normalization {
 #   'default':
-#     header_filters => [
+#     uri_filters => [
 #       {
-#         name    => 'blacklist',
-#         id      => 'ReposeHeaders',
-#         headers => [
-#           'X-Authorization',
-#           'X-User-Name',
-#         ]
+#          'uri-regex'    => '',
+#          'http-methods' => 'GET',
+#          'alphabetize'  => 'false',
+#          'whitelists'   => [
+#            {
+#              'id'         => 'something',
+#              'parameters' => [
+#                {
+#                  'name'           => 'test',
+#                  'multiplicity'   => '0',
+#                  'case-sensitive' => 'false',
+#                }
+#              ],
+#            }
+#          ],
 #       }
 #     ],
 #     media_types => [
@@ -61,16 +68,12 @@
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
-define repose::filter::content_normalization (
-  $ensure                = present,
-  $filename              = 'content-normalization.cfg.xml',
-  $app_name              = 'repose',
-  $content_normalization = undef,
-  $header_filters        = undef,
-  $media_types           = undef,
+define repose::filter::uri_normalization (
+  $ensure      = present,
+  $filename    = 'uri-normalization.cfg.xml',
+  $uri_filters = undef,
+  $media_types = undef,
 ) {
-
-  warning("${name} - content normalization filter is incompatibile with repose 7+")
 
 ### Validate parameters
 
@@ -88,7 +91,7 @@ define repose::filter::content_normalization (
   }
 
   if $ensure == present {
-    $content_template = template("${module_name}/content-normalization.cfg.xml.erb")
+    $content_template = template("${module_name}/uri-normalization.cfg.xml.erb")
   } else {
     $content_template = undef
   }

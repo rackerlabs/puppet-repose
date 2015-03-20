@@ -46,6 +46,11 @@
 # String. The facility to use when sending access logs via syslog.
 # Defaults to <tt>local1</tt>
 #
+# [*log_access_app_name*]
+# String. This is the app name to be sent to syslog as part of the RFC5424
+# message format. This defaults to blank.
+# Defaults to <tt></tt>.
+#
 # [*log_access_local*]
 # Boolean. Should repose access logs be logged locally. Uses the log_local_*
 # Settings to determine retention policy.
@@ -92,6 +97,14 @@
 # String. The logging facility to send repose logs to when sending to a syslog
 # server.
 # Defaults to <tt>local0</tt>
+#
+# [*log_use_log4j2*]
+# Boolean. This option will enable the use of log4j2 xml configuration files.
+# This will override <tt>logging_configuration</tt> to use <tt>log4j2.xml</tt>.
+# This uses RFC5424 formated syslog messages if syslog enabled. Additional info
+# can be parsed out in rsyslog using the mmpstrucdata module.
+# http://www.rsyslog.com/doc/master/configuration/modules/mmpstrucdata.html
+# Defaults to <tt>false</tt>.
 #
 # [*logging_configuration*]
 # String. The name of the logging configuration file.
@@ -174,6 +187,7 @@ class repose::filter::container (
   $deployment_directory_auto_clean   = true,
   $jmx_reset_time                    = undef,
   $log_access_facility               = $repose::params::log_access_facility,
+  $log_access_app_name               = $repose::params::log_access_app_name,
   $log_access_local                  = $repose::params::log_access_local,
   $log_access_local_name             = $repose::params::log_access_local_name,
   $log_access_syslog                 = $repose::params::log_access_syslog,
@@ -183,6 +197,7 @@ class repose::filter::container (
   $log_local_size                    = $repose::params::log_local_size,
   $log_local_rotation_count          = $repose::params::log_local_rotation_count,
   $log_repose_facility               = $repose::params::log_repose_facility,
+  $log_use_log4j2                    = false,
   $logging_configuration             = $repose::params::logging_configuration,
   $ssl_enabled                       = false,
   $ssl_keystore_filename             = undef,
@@ -203,11 +218,12 @@ class repose::filter::container (
 ### Validate parameters
   validate_bool($log_access_local)
   validate_bool($log_access_syslog)
+  validate_bool($log_use_log4j2)
   validate_string($log_access_facility)
   validate_string($log_dir)
   validate_string($log_level)
   validate_string($log_access_local_name)
-  validate_string($log_syslog_facility)
+  validate_string($log_repose_facility)
 
 ## ensure
   if ! ($ensure in [ present, absent ]) {
@@ -222,30 +238,40 @@ class repose::filter::container (
     debug("\$ensure = '${ensure}'")
   }
 
+  if $log_use_log4j2 == true {
+    $logging_configuration_real = 'log4j2.xml'
+  } else {
+    $logging_configuration_real = $logging_configuration
+  }
+
+  $logging_configuration_file = "${repose::params::configdir}/${logging_configuration_real}"
+## Manage actions
+
   if $ensure == present {
 ## app_name
     if $app_name == undef {
       fail('app_name is a required parameter')
     }
-    $log4j_content_template = template("${module_name}/log4j.properties.erb")
+    if $log_use_log4j2 == true {
+        $log4j_content_template = template("${module_name}/log4j2.xml.erb")
+    } else {
+        $log4j_content_template = template("${module_name}/log4j.properties.erb")
+    }
     $container_content_template = template("${module_name}/container.cfg.xml.erb")
   } else {
     $log4j_content_template = undef
     $container_content_template = undef
   }
 
-
-## Manage actions
-
   File {
     ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
-    require => Package['repose-filters'],
+    require => Class['::repose::package'],
   }
 
-  file { "${repose::params::configdir}/${logging_configuration}":
+  file { $logging_configuration_file:
     content => $log4j_content_template
   }
 

@@ -171,6 +171,9 @@ class repose::params {
 ## default http access log syslog facility
   $log_access_facility = 'local1'
 
+## default http access log syslog app name
+  $log_access_app_name = ''
+
 ## default access logging locally
   $log_access_local = true
 
@@ -179,4 +182,7 @@ class repose::params {
 
 ## default access logging to syslog
   $log_access_syslog = true
+
+## use new namespace urls in configuration files
+  $cfg_new_namespace = false
 }

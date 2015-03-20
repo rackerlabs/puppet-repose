@@ -25,8 +25,15 @@
 # Array containing roles to exclude from restrictions
 #
 # [*delegable*]
-# Bool.
+# DEPRECATED: Replaced with delegating in repose 7, defining
+# <tt>delegating</tt> will remove this from the configration.
+# Bool. Delegate the decision to authenticate a request down the chain to
+# either another filter or to the origin service.
 # Defaults to <tt>false</tt>
+#
+# [*delegating*]
+# Bool. This replaces delagable in repose 7+.
+# Defaults to <tt>undef</tt>
 #
 # [*tendanted*]
 # Bool.
@@ -82,6 +89,7 @@ define repose::filter::client_auth_n (
   $white_lists         = undef,
   $ignore_tenant_roles = undef,
   $delegable           = false,
+  $delegating          = undef,
   $tenanted            = false,
   $request_groups      = undef,
   $token_cache_timeout = undef,
@@ -122,7 +130,7 @@ define repose::filter::client_auth_n (
     owner   => $repose::params::owner,
     group   => $repose::params::group,
     mode    => $repose::params::mode,
-    require => Package['repose-filters'],
+    require => Class['::repose::package'],
     content => $content_template
   }
 
