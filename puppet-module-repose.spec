@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.3.6
+Version:   1.4.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Fri Mar 20 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.4.0-1
+- Repose 7 configuration support
 * Tue Jan 20 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.3.6-1
 - Adding configuration for travis-ci
 * Mon Jan 05 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.3.5-1
