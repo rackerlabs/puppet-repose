@@ -60,7 +60,7 @@ describe 'repose::filter::dist_datastore', :type => :define do
       } }
       it {
         should contain_file('/etc/repose/dist-datastore.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
+          with_content(/openrepose.org/)
       }
     end
 

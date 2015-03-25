@@ -133,8 +133,20 @@ class repose (
 ## figure out cfg namespace host
   if $cfg_new_namespace {
     $cfg_namespace_host = 'docs.openrepose.org'
+    # these are needed for historical differences in namespace hosts
+    $cfg_namespace_host_header = 'docs.openrepose.org'
+    $cfg_namespace_host_validator = 'docs.openrepose.org'
+    $cfg_namespace_host_ip = 'docs.openrepose.org'
+    $cfg_namespace_host_compression = 'docs.openrepose.org'
+    $cfg_namespace_host_dist = 'docs.openrepose.org'
   } else {
     $cfg_namespace_host = 'docs.rackspacecloud.com'
+    # these are needed for historical differences in namespace hosts
+    $cfg_namespace_host_header = 'docs.api.rackspacecloud.com'
+    $cfg_namespace_host_validator = 'openrepose.org'
+    $cfg_namespace_host_ip = 'docs.api.rackspacecloud.com'
+    $cfg_namespace_host_compression = 'docs.api.rackspacecloud.com'
+    $cfg_namespace_host_dist = 'openrepose.org'
   }
 
 ### Manage actions

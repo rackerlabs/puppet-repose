@@ -61,7 +61,7 @@ describe 'repose::filter::header_translation', :type => :define do
       let(:title) { 'default' }
       it {
         should contain_file('/etc/repose/header-translation.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
+          with_content(/docs.api.rackspacecloud.com/)
       }
     end
 

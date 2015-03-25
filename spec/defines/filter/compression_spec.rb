@@ -38,7 +38,7 @@ describe 'repose::filter::compression', :type => :define do
       let(:title) { 'default' }
       it {
         should contain_file('/etc/repose/compression.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
+          with_content(/docs.api.rackspacecloud.com/)
       }
     end
 
