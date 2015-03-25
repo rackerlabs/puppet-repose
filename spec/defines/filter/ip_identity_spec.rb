@@ -70,7 +70,7 @@ describe 'repose::filter::ip_identity', :type => :define do
       } }
       it {
         should contain_file('/etc/repose/ip-identity.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
+          with_content(/docs.api.rackspacecloud.com/)
       }
     end
 

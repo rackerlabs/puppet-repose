@@ -96,7 +96,7 @@ describe 'repose::filter::api_validator', :type => :define do
 
       it {
         should contain_file('/etc/repose/validator.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
+          with_content(/openrepose.org/)
       }
     end
 
