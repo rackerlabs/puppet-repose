@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.4.1
+Version:   1.4.2
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Mon Mar 30 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.4.2-1
+- Adding Highly Efficient Record Processor configuration
 * Wed Mar 25 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.4.1-1
 - Backwards compatibility config file fixes
 * Fri Mar 20 2015 Alex Schultz <alex.schultz@rackspace.com> - 1.4.0-1
