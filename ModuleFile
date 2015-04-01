@@ -1,5 +1,5 @@
 name 'citops-repose'
-version '1.4.2'
+version '1.4.3'
 description "Repose is an api middleware that provides authentication,
 filtering, ratelimitting and several other features, this deploys it."
 project_page 'https://github.com/rackerlabs/puppet-repose'
