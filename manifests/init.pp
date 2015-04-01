@@ -139,6 +139,8 @@ class repose (
     $cfg_namespace_host_ip = 'docs.openrepose.org'
     $cfg_namespace_host_compression = 'docs.openrepose.org'
     $cfg_namespace_host_dist = 'docs.openrepose.org'
+    $cfg_namespace_host_destination_router = 'docs.openrepose.org'
+    $cfg_namespace_host_uri_stripper = 'docs.openrepose.org'
   } else {
     $cfg_namespace_host = 'docs.rackspacecloud.com'
     # these are needed for historical differences in namespace hosts
@@ -147,6 +149,8 @@ class repose (
     $cfg_namespace_host_ip = 'docs.api.rackspacecloud.com'
     $cfg_namespace_host_compression = 'docs.api.rackspacecloud.com'
     $cfg_namespace_host_dist = 'openrepose.org'
+    $cfg_namespace_host_destination_router = 'openrepose.org'
+    $cfg_namespace_host_uri_stripper = 'docs.api.rackspacecloud.com'
   }
 
 ### Manage actions
