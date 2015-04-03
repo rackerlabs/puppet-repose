@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<add-headers xmlns="http://docs.api.rackspacecloud.com/repose/add-header/v1.0">
+    <!-- This section is for headers to add in the request -->
+    <request>
+<%- @request_headers.each do |req| -%>
+        <header name="<%= req['name'] %>"<%- if req.has_key?('overwrite') %> overwrite="<%= req['overwrite'] %>"<%- end -%><%- if req.has_key?('quality') %> quality="<%= req['quality'] %>"<%- end -%>><%= req['value'] %></header>
+<%- end -%>
+    </request>
+    <!-- this section is for headers to add in the response -->
+    <response>
+<%- @response_headers.each do |res| -%>
+        <header name="<%= res['name'] %>"<%- if res.has_key?('overwrite') %> overwrite="<%= res['overwrite'] %>"<%- end -%><%- if res.has_key?('quality') %> quality="<%= res['quality'] %>"<%- end -%>><%= res['value'] %></header>
+<%- end -%>
+    </response>
+</add-headers>
