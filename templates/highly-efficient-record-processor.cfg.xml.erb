@@ -9,51 +9,44 @@
     <!-- todo: methodLabel, host.address -->
     <![CDATA[
         <?xml version="1.0"?>
-        <atom:entry xmlns:atom="http://www.w3.org/2005/Atom"
-                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                    xmlns="http://www.w3.org/2001/XMLSchema">
-            <atom:title>UserAccessEvent</atom:title>
-            <atom:content type="application/xml">
-                <cadf:event xmlns:cadf="http://schemas.dmtf.org/cloud/audit/1.0/"
-                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                            xsi:schemaLocation='http://schemas.dmtf.org/cloud/audit/1.0/ user-access-cadf.xsd'
-                            xmlns:ua="http://feeds.api.rackspacecloud.com/cadf/user-access-event"
-                            id="{{guid}}"
-                            eventType="activity"
-                            typeURI="http://schemas.dmtf.org/cloud/audit/1.0/event"
-                            eventTime="{{cadfTimestamp timestamp}}"
-                            action="{{cadfMethod requestMethod}}"
-                            outcome="{{cadfOutcome responseCode}}">
-                    <cadf:initiator id="{{#if impersonatorName}}impersonatorName{{else}}{{userName}}{{/if}}"
-                                    typeURI="network/node" name="{{#if impersonatorName}}impersonatorName{{else}}{{userName}}{{/if}}">
-                        <cadf:host address="{{requestorIp}}" agent="{{userAgent}}" />
-                    </cadf:initiator>
-                    <cadf:target typeURI="service" name="{{serviceCode}}" >
-                        <cadf:host address="{{targetHost}}" />
-                    </cadf:target>
-                    <cadf:attachments>
-                        <cadf:attachment name="auditData" contentType="ua:auditData">
-                            <cadf:content>
-                                <ua:auditData>
-                                    <ua:region>{{region}}</ua:region>
-                                    <ua:dataCenter>{{dataCenter}}</ua:dataCenter>
-                                    <ua:methodLabel>TODO</ua:methodLabel>
-                                    <ua:requestURL>{{requestURL}}</ua:requestURL>
-                                    <ua:queryString>{{requestQueryString}}</ua:queryString>
-                                    <ua:tenantId>{{defaultProjectId}}</ua:tenantId>
-                                    <ua:responseMessage>{{responseMessage}}</ua:responseMessage>
-                                    <ua:userName>{{userName}}</ua:userName>
-                                    <ua:roles>{{#each roles}}{{#if @index}} {{/if}}{{.}}{{/each}}</ua:roles>
-                                </ua:auditData>
-                            </cadf:content>
-                        </cadf:attachment>
-                    </cadf:attachments>
-                    <cadf:observer id="{{serviceCode}}-{{clusterId}}-{{nodeId}}" name="repose-7.0.0.1" typeURI="service/security" />
-                    <cadf:reason reasonCode="{{responseCode}}"
-                                 reasonType="http://www.iana.org/assignments/http-status-codes/http-status-codes.xml"/>
-                </event>
-            </atom:content>
-        </atom:entry>
+        <cadf:event xmlns:cadf="http://schemas.dmtf.org/cloud/audit/1.0/"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation='http://schemas.dmtf.org/cloud/audit/1.0/ user-access-cadf.xsd'
+                    xmlns:ua="http://feeds.api.rackspacecloud.com/cadf/user-access-event"
+                    id="{{guid}}"
+                    eventType="activity"
+                    typeURI="http://schemas.dmtf.org/cloud/audit/1.0/event"
+                    eventTime="{{cadfTimestamp timestamp}}"
+                    action="{{cadfMethod requestMethod}}"
+                    outcome="{{cadfOutcome responseCode}}">
+            <cadf:initiator id="{{#if impersonatorName}}impersonatorName{{else}}{{userName}}{{/if}}"
+                            typeURI="network/node" name="{{#if impersonatorName}}impersonatorName{{else}}{{userName}}{{/if}}">
+                <cadf:host address="{{requestorIp}}" agent="{{userAgent}}" />
+            </cadf:initiator>
+            <cadf:target typeURI="service" name="{{serviceCode}}" >
+                <cadf:host address="{{targetHost}}" />
+            </cadf:target>
+            <cadf:attachments>
+                <cadf:attachment name="auditData" contentType="ua:auditData">
+                    <cadf:content>
+                        <ua:auditData>
+                            <ua:region>{{region}}</ua:region>
+                            <ua:dataCenter>{{dataCenter}}</ua:dataCenter>
+                            <ua:methodLabel>TODO</ua:methodLabel>
+                            <ua:requestURL>{{requestURL}}</ua:requestURL>
+                            <ua:queryString>{{requestQueryString}}</ua:queryString>
+                            <ua:tenantId>{{defaultProjectId}}</ua:tenantId>
+                            <ua:responseMessage>{{responseMessage}}</ua:responseMessage>
+                            <ua:userName>{{userName}}</ua:userName>
+                            <ua:roles>{{#each roles}}{{#if @index}} {{/if}}{{.}}{{/each}}</ua:roles>
+                        </ua:auditData>
+                    </cadf:content>
+                </cadf:attachment>
+            </cadf:attachments>
+            <cadf:observer id="{{serviceCode}}-{{clusterId}}-{{nodeId}}" name="repose-7.0.0.1" typeURI="service/security" />
+            <cadf:reason reasonCode="{{responseCode}}"
+                         reasonType="http://www.iana.org/assignments/http-status-codes/http-status-codes.xml"/>
+        </cadf:event>
         ]]>
 <%- else -%>
     <%= @template %>
