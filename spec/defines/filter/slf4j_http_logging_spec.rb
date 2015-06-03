@@ -15,7 +15,9 @@ describe 'repose::filter::slf4j_http_logging', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error, /log_files is a required/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /log_files is a required/)
       }
     end
 

@@ -15,7 +15,9 @@ describe 'repose::filter::api_validator', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error,/validators is a required list/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error,/validators is a required list/)
       }
     end
 

@@ -15,7 +15,9 @@ describe 'repose::filter::response_messaging', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error, /status_codes is a required/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /status_codes is a required/)
       }
     end
 

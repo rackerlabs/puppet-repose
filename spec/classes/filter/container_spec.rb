@@ -11,7 +11,9 @@ describe 'repose::filter::container' do
 
     context 'with defaults for all parameters' do
       it {
-        should raise_error(Puppet::Error, /app_name is a required parameter/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /app_name is a required parameter/)
       }
     end
 

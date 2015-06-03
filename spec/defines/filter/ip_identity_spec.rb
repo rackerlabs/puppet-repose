@@ -15,7 +15,9 @@ describe 'repose::filter::ip_identity', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error,/whitelist is a required parameter/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error,/whitelist is a required parameter/)
       }
     end
 

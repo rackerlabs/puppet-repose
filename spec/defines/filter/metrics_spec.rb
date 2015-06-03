@@ -15,7 +15,9 @@ describe 'repose::filter::metrics', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error, /graphite_servers is a required/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /graphite_servers is a required/)
       }
     end
 

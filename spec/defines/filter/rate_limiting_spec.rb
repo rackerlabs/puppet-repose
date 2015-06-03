@@ -15,7 +15,9 @@ describe 'repose::filter::rate_limiting', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error, /request_endpoint is a required/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /request_endpoint is a required/)
       }
     end
 
@@ -28,7 +30,9 @@ describe 'repose::filter::rate_limiting', :type => :define do
         }
       } }
       it {
-        should raise_error(Puppet::Error, /limit_groups is a required/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /limit_groups is a required/)
       }
     end
 
@@ -50,7 +54,9 @@ describe 'repose::filter::rate_limiting', :type => :define do
         } ]
       } }
       it {
-        should raise_error(Puppet::Error, /request_endpoint is a required/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /request_endpoint is a required/)
       }
     end
 
