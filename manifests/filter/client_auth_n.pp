@@ -61,7 +61,8 @@
 #
 # [*token_expire_feed*]
 # Optional. If set, this will configure Repose to listen to Feeds Identity
-# token revocation events. Needs a hash containing feed_url, interval.
+# token revocation events. Needs a hash containing feed_url, interval,
+# user, pass.
 #
 # === Links
 #
