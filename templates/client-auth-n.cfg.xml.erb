@@ -14,13 +14,21 @@
   <%- end -%>
 <%- end -%>
 <%- if @ignore_tenant_roles -%>
-    <ignore-tenant-roles>
+        <ignore-tenant-roles>
   <% @ignore_tenant_roles.each do |ignore_tenant_role| -%>
-        <role><%= ignore_tenant_role %></role>
+            <role><%= ignore_tenant_role %></role>
   <%- end -%>
-    </ignore-tenant-roles>
+        </ignore-tenant-roles>
 <%- end -%>
     </openstack-auth>
+
+<%- if @token_expire_feed -%>
+    <atom-feeds check-interval="<%= @token_expire_feed['interval'] -%>">
+        <rs-identity-feed id="identity-token-revocation-feed" uri="<%= @token_expire_feed['feed_url'] -%>" 
+                          isAuthed="true" user="<%= @auth['user'] -%>" password="<%= @auth['pass'] -%>"/>
+    </atom-feeds>
+<%- end -%>
+
 <%- if @white_lists -%>
     <white-list>
   <%- @white_lists.each do |white_list| -%>
