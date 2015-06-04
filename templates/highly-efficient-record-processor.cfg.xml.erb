@@ -6,7 +6,6 @@
                                    service-code="<%= @service_code %>" region="<%= @region %>" data-center="<%= @datacenter %>">
     <template crush="<%= @template_crush %>">
 <%- if @template.nil? -%>
-    <!-- todo: methodLabel, host.address -->
     <![CDATA[
         <?xml version="1.0"?>
         <cadf:event xmlns:cadf="http://schemas.dmtf.org/cloud/audit/1.0/"
@@ -29,10 +28,10 @@
             <cadf:attachments>
                 <cadf:attachment name="auditData" contentType="ua:auditData">
                     <cadf:content>
-                        <ua:auditData>
+                        <ua:auditData version="1">
                             <ua:region>{{region}}</ua:region>
                             <ua:dataCenter>{{dataCenter}}</ua:dataCenter>
-                            <ua:methodLabel>TODO</ua:methodLabel>
+                            <ua:methodLabel>{{methodLabel}}</ua:methodLabel>
                             <ua:requestURL>{{requestURL}}</ua:requestURL>
                             <ua:queryString>{{requestQueryString}}</ua:queryString>
                             <ua:tenantId>{{defaultProjectId}}</ua:tenantId>
@@ -55,7 +54,7 @@
 <%- @filterOut.each do |filter| -%>
     <filterOut>
   <%- filter['match'].each do |match| -%>
-      <match field="<%= match['field'] %> regex="<%= match['regex'] %>/>
+      <match field="<%= match['field'] %>" regex="<%= match['regex'] %>"/>
   <%- end -%>
     </filterOut>
 <%- end -%>
