@@ -101,7 +101,7 @@ define repose::filter::client_auth_n (
   $group_cache_timeout = '60000',
   $connection_pool_id  = undef,
   $send_all_tenant_ids = undef,
-  $token_expire_feed   = undef
+  $token_expire_feed   = undef,
 ) {
 
 ### Validate parameters
