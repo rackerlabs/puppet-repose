@@ -180,12 +180,12 @@ class repose (
   }
 
   file { $repose::params::configdir:
-    ensure  => $dir_ensure,
+    ensure => $dir_ensure,
   }
 
   file { '/etc/security/limits.d/repose':
-    ensure  => $file_ensure,
-    source  => 'puppet:///modules/repose/limits',
+    ensure => $file_ensure,
+    source => 'puppet:///modules/repose/limits',
   }
 
 }
