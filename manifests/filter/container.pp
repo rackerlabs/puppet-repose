@@ -144,7 +144,7 @@
 # String. String used in the Via header.
 # Defaults to <tt>undef</tt>
 #
-# [*herp_enabled*]
+# [*herp*]
 # Enable herp filter publishing to flume.
 # Defaults to <tt>false</tt>
 #
@@ -211,7 +211,7 @@ class repose::filter::container (
   $syslog_port                       = $repose::params::syslog_port,
   $syslog_protocol                   = $repose::params::syslog_protocol,
   $via                               = undef,
-  $herp_enabled                      = false,
+  $herp                              = false,
   # BELOW ARE DEPRECATED
   $http_port                         = undef,
   $https_port                        = undef,

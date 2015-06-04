@@ -64,11 +64,6 @@
 # token revocation events. Needs a hash containing feed_url, interval,
 # user, pass.
 #
-# [*delegating_enabled*]
-# Enable delegating mode to allow the herp/derp filters to publish
-# rejected requests to flume.
-# Defaults to <tt>false</tt>
-#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Client+Authentication+Filter
