@@ -29,6 +29,11 @@
 # [*version*]
 # Version number for the validator configuration
 #
+# [*delegating_enabled*]
+# Enable delegating mode to allow the herp/derp filters to publish
+# rejected requests to flume.
+# Defaults to <tt>false</tt>
+#
 # === Links
 #
 # * http://wiki.openrepose.org/pages/viewpage.action?pageId=327755
@@ -65,12 +70,13 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::api_validator (
-  $ensure           = present,
-  $filename         = 'validator.cfg.xml',
-  $app_name         = 'repose',
-  $validators       = undef,
-  $multi_role_match = false,
-  $version          = undef,
+  $ensure             = present,
+  $filename           = 'validator.cfg.xml',
+  $app_name           = 'repose',
+  $validators         = undef,
+  $multi_role_match   = false,
+  $version            = undef,
+  $delegating_enabled = false
 ) {
 
 ### Validate parameters

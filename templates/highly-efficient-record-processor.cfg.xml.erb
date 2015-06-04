@@ -7,7 +7,6 @@
     <template crush="<%= @template_crush %>">
 <%- if @template.nil? -%>
     <![CDATA[
-        <?xml version="1.0"?>
         <cadf:event xmlns:cadf="http://schemas.dmtf.org/cloud/audit/1.0/"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation='http://schemas.dmtf.org/cloud/audit/1.0/ user-access-cadf.xsd'
@@ -42,7 +41,7 @@
                     </cadf:content>
                 </cadf:attachment>
             </cadf:attachments>
-            <cadf:observer id="{{serviceCode}}-{{clusterId}}-{{nodeId}}" name="repose-7.0.0.1" typeURI="service/security" />
+            <cadf:observer id="{{serviceCode}}-{{clusterId}}-{{nodeId}}" name="repose" typeURI="service/security" />
             <cadf:reason reasonCode="{{responseCode}}"
                          reasonType="http://www.iana.org/assignments/http-status-codes/http-status-codes.xml"/>
         </cadf:event>

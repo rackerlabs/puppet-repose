@@ -64,6 +64,11 @@
 # token revocation events. Needs a hash containing feed_url, interval,
 # user, pass.
 #
+# [*delegating_enabled*]
+# Enable delegating mode to allow the herp/derp filters to publish
+# rejected requests to flume.
+# Defaults to <tt>false</tt>
+#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Client+Authentication+Filter
@@ -102,6 +107,7 @@ define repose::filter::client_auth_n (
   $connection_pool_id  = undef,
   $send_all_tenant_ids = undef,
   $token_expire_feed   = undef,
+  $delegating_enabled  = false,
 ) {
 
 ### Validate parameters

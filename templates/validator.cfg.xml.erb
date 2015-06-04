@@ -2,6 +2,9 @@
 <validators
     multi-role-match="<%= @multi_role_match %>"
     xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host_validator') %>/repose/validator/v1.0"<% if ! @version.nil? %> version="<%= @version %>"<% end -%>>
+<%- if @delegating_enabled -%>
+    <delegating/>
+<%- end -%>
 <% @validators.each do |validator| -%>
     <validator 
         role="<%= validator['role'] %>" 
