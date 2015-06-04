@@ -1,6 +1,6 @@
-<metrics xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/metrics/v1.0" enabled="<%= enabled %>">
+<metrics xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/metrics/v1.0" enabled="<%= @enabled %>">
     <graphite>
-    <%- graphite_servers.each do | server | -%>
+    <%- @graphite_servers.each do | server | -%>
         <server host="<%= server[ 'host' ] %>"
                 port="<%= server[ 'port' ] %>"
                 period="<%= server[ 'period' ] %>"

@@ -106,7 +106,7 @@ describe 'repose::filter::versioning', :type => :define do
       } }
       it {
         should contain_file('/etc/repose/versioning.cfg.xml').
-          with_content(/docs.openrepose.org/)
+          with_content(/localhost\/repose/)
       }
     end
 

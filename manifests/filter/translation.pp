@@ -27,7 +27,7 @@
 # Defaults to <tt>undef</tt>
 #
 # [*xsl-engine*]
-# String.  XSL-Engine. 
+# String.  XSL-Engine.
 # Defaults to <tt>SaxonHE<tt>
 #
 # === Links

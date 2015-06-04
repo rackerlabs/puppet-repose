@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- To configure Repose see: http://wiki.openrepose.org/display/REPOSE/Configuration -->
 <system-model xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/system-model/v2.0">
-  <repose-cluster id="<%= app_name %>">
+  <repose-cluster id="<%= @app_name %>">
     <nodes>
-<%- nodes.sort.each do |node| -%>
-        <node id="<%= app_name %>_<%= node.split('.')[0] %>" hostname="<%= node %>"<%- if @port %> http-port="<%= port -%>"<%- end -%><%- if @https_port %> https-port="<%= https_port -%>"<%- end -%>/>
+<%- @nodes.sort.each do |node| -%>
+        <node id="<%= @app_name %>_<%= node.split('.')[0] %>" hostname="<%= node %>"<%- if @port %> http-port="<%= @port -%>"<%- end -%><%- if @https_port %> https-port="<%= @https_port -%>"<%- end -%>/>
 <%- end -%>
     </nodes>
     <filters>
-<%- filters.keys.sort.each do |key| -%>
-      <filter <% filters[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+<%- @filters.keys.sort.each do |key| -%>
+      <filter <% @filters[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
 <%- end -%>
     </filters>
 <%- if ! @services.nil? %>
     <services>
-  <%- services.keys.sort.each do |key| -%>
-      <service <% services[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
+  <%- @services.keys.sort.each do |key| -%>
+      <service <% @services[key].sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
   <%- end -%>
     </services>
 <%- end -%>
     <destinations>
-<%- endpoints.each do |endpoint| -%>
+<%- @endpoints.each do |endpoint| -%>
       <endpoint <% endpoint.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
 <%- end -%>
     </destinations>
@@ -29,7 +29,7 @@
   <service-cluster id="<%= @service_cluster['name'] %>">
     <nodes>
   <%- @service_cluster['nodes'].each do |endpoint| -%>
-      <node id="<%= app_name %>_<%= endpoint.split('.')[0] -%>" hostname="<%= endpoint %>" http-port="<%= port -%>"/>
+      <node id="<%= @app_name %>_<%= endpoint.split('.')[0] -%>" hostname="<%= endpoint %>" http-port="<%= port -%>"/>
   <%- end -%>
     </nodes>
   </service-cluster>

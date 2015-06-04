@@ -2,15 +2,15 @@
 
 <!-- http://wiki.openrepose.org/display/REPOSE/Distributed+Datastore -->
 <distributed-datastore xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host_dist') %>/repose/distributed-datastore/v1.0">
-   <allowed-hosts allow-all="<%= allow_all %>">
+   <allowed-hosts allow-all="<%= @allow_all %>">
       <allow host="127.0.0.1" />
-<% nodes.each do |node| -%>
+<% @nodes.each do |node| -%>
       <allow host="<%= node %>" />
 <% end -%>
    </allowed-hosts>
 <% if @port_config -%>
    <port-config>
-  <%- port_config.each do |port| -%>
+  <%- @port_config.each do |port| -%>
      <port port="<%= port['port'] %>" cluster="<%= port['cluster'] %>"<% if port.has_key?('node') %> node="<%= port['node'] %>"<% end -%> />
   <%- end -%>
    </port-config>
