@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- http://wiki.openrepose.org/display/REPOSE/Versioning+Filter -->
 <versioning xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/versioning/v2.0">
-    <service-root href="<%= target_uri %>" />
+    <service-root href="<%= @target_uri %>" />
 <%- if @version_mappings -%>
   <%- @version_mappings.each do |map| -%>
-    <version-mapping id="<%= map['id'] %>" pp-dest-id="<%= app_name %>" status="<%= map['status'] %>">
+    <version-mapping id="<%= map['id'] %>" pp-dest-id="<%= @app_name %>" status="<%= map['status'] %>">
         <media-types>
     <%- map['media_types'].each do |type| -%>
             <media-type <% type.sort.map do |param,value| %><%= param %>="<%= value %>" <% end %>/>

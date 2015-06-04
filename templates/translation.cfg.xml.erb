@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- http://wiki.openrepose.org/display/REPOSE/Translation -->
 <translation xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/translation/v1.0"
-    xsl-engine="<%= xsl_engine %>" >
+    xsl-engine="<%= @xsl_engine %>" >
     <request-translations>
 <%- if @request_translations -%>
-  <% request_translations.each do |request_translation| %>
+  <% @request_translations.each do |request_translation| %>
         <request-translation 
             http-methods="<%= request_translation['http_methods'] %>" 
             content-type="<%= request_translation['content_type'] %>" 
@@ -21,7 +21,7 @@
     </request-translations>
 <%- if @response_translations -%>
     <response-translations>
-  <% response_translations.each do |response_translation| %>
+  <% @response_translations.each do |response_translation| %>
         <response-translation 
     <%- if response_translation['code_regex'] -%>
             code-regex="<%= response_translation['code_regex'] %>"
