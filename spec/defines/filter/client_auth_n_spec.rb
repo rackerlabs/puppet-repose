@@ -255,5 +255,35 @@ describe 'repose::filter::client_auth_n', :type => :define do
       }
     end
 
+    context 'providing token_expire_feed' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure              => 'present',
+        :filename            => 'client-auth-n.cfg.xml',
+        :auth                => {
+          'user' => 'username',
+          'pass' => 'password',
+          'uri'  => 'http://uri'
+        },
+        :token_expire_feed   => {
+          'feed_url' => 'https://atomvip/identity/events',
+          'user'     => 'username',
+          'pass'     => 'password',
+          'interval' => '60000'
+        }
+      } }
+      it {
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').with(
+          :ensure => 'file',
+          :owner => 'repose',
+          :group => 'repose'
+        )
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').
+          with_content(/atom-feeds check-interval=\"60000\"/).
+          with_content(/rs-identity-feed id=\"identity-token-revocation-feed\" uri=\"https:\/\/atomvip\/identity\/events\"/).
+          with_content(/isAuthed=\"true\" user=\"username\" password=\"password\"/)
+      }
+    end
+
   end
 end

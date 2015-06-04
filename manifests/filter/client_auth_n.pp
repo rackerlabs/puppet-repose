@@ -59,6 +59,11 @@
 # from identity. NOTE: this is not valid for repose version < 6.1.x
 # Defaults to <tt>undef</tt>
 #
+# [*token_expire_feed*]
+# Optional. If set, this will configure Repose to listen to Feeds Identity
+# token revocation events. Needs a hash containing feed_url, interval,
+# user, pass.
+#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Client+Authentication+Filter
@@ -96,6 +101,7 @@ define repose::filter::client_auth_n (
   $group_cache_timeout = '60000',
   $connection_pool_id  = undef,
   $send_all_tenant_ids = undef,
+  $token_expire_feed   = undef,
 ) {
 
 ### Validate parameters

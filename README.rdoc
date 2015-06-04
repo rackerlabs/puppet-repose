@@ -78,17 +78,26 @@ This module provides a re-usable and environment agnostic control of Repose Powe
  git clone http://github.com/rackerlabs/puppet-repose.git /etc/puppet/modules/repose
 
 ---
-== Running tests with bundler
+== Running tests 
+
+=== Requirements
+Must have:
+* ruby 2.1.5
+* rspec-core 3.1.7
+* puppet 3.7.4
+
+=== With bundler
   git clone http://github.com/rackerlabs/puppet-repose.git 
   cd puppet-repose
   bundle install
   bundle exec rake validate
   bundle exec rake spec
 
-== Running tests
+=== Straight rake
   git clone http://github.com/rackerlabs/puppet-repose.git 
   cd puppet-repose
-  gem install rspec-puppet rspec-puppet-utils puppet puppetlabs_spec_helper --no-ri --no-rdoc
+  rvm use ruby-2.1.5@repose --create
+  gem install rspec-core:3.1.7 puppet:3.7.4 rspec-puppet rspec-puppet-utils puppet puppetlabs_spec_helper puppet-lint rake --no-ri --no-rdoc
   rake validate
   rake spec
 
