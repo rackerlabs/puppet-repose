@@ -29,7 +29,7 @@
 # [*version*]
 # Version number for the validator configuration
 #
-# [*delegating_enabled*]
+# [*delegating*]
 # Enable delegating mode to allow the herp/derp filters to publish
 # rejected requests to flume.
 # Defaults to <tt>false</tt>
@@ -76,7 +76,7 @@ define repose::filter::api_validator (
   $validators         = undef,
   $multi_role_match   = false,
   $version            = undef,
-  $delegating_enabled = false
+  $delegating         = false
 ) {
 
 ### Validate parameters

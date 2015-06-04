@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <client-auth xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/client-auth/v1.0">
-<%- if @delegating_enabled -%>
-    <delegating/>
-<%- end -%>
-    <openstack-auth <% if @delegating.nil? %>delegable="<%= @delegable %>"<% end %> tenanted="<%= @tenanted %>" group-cache-timeout="<%= @group_cache_timeout %>" <% if @connection_pool_id %>connectionPoolId="<%= @connection_pool_id %>"<% end %> <% if @token_cache_timeout %>token-cache-timeout="<%= @token_cache_timeout %>"<% end %> <% if @request_groups %>request-groups="<%= @request_groups %>"<% end %> <% if @send_all_tenant_ids %>send-all-tenant-ids="<%= @send_all_tenant_ids %>"<% end %> xmlns="http://docs.openrepose.org/repose/client-auth/os-ids-auth/v1.0">
 <%- if ! @delegating.nil? -%>
   <%- if @delegating %>
-        <delegating quality="0.5"/>
+        <delegating/>
   <%- end -%>
-<%- end -%>
+<%- end -%>    <openstack-auth <% if @delegating.nil? %>delegable="<%= @delegable %>"<% end %> tenanted="<%= @tenanted %>" group-cache-timeout="<%= @group_cache_timeout %>" <% if @connection_pool_id %>connectionPoolId="<%= @connection_pool_id %>"<% end %> <% if @token_cache_timeout %>token-cache-timeout="<%= @token_cache_timeout %>"<% end %> <% if @request_groups %>request-groups="<%= @request_groups %>"<% end %> <% if @send_all_tenant_ids %>send-all-tenant-ids="<%= @send_all_tenant_ids %>"<% end %> xmlns="http://docs.openrepose.org/repose/client-auth/os-ids-auth/v1.0">
         <identity-service username="<%= @auth['user'] -%>" password="<%= @auth['pass'] -%>" uri="<%= @auth['uri'] -%>" />
 <%- if @client_maps -%>
   <% @client_maps.each do |client_map| -%>
