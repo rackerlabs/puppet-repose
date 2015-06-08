@@ -24,7 +24,8 @@
 <%- if @token_expire_feed -%>
     <atom-feeds check-interval="<%= @token_expire_feed['interval'] -%>">
         <rs-identity-feed id="identity-token-revocation-feed" uri="<%= @token_expire_feed['feed_url'] -%>" 
-                          isAuthed="true" user="<%= @token_expire_feed['user'] -%>" password="<%= @token_expire_feed['pass'] -%>"/>
+                          isAuthed="true" auth-uri="<%= @token_expire_feed['auth_url'] -%>"
+                          user="<%= @token_expire_feed['user'] -%>" password="<%= @token_expire_feed['pass'] -%>"/>
     </atom-feeds>
 <%- end -%>
 
