@@ -62,7 +62,8 @@
 # [*token_expire_feed*]
 # Optional. If set, this will configure Repose to listen to Feeds Identity
 # token revocation events. Needs a hash containing feed_url, interval,
-# user, pass.
+# use_auth (boolean flag), auth_url, user, pass.
+# If use_auth is true, then auth_url, user, and pass are required.
 #
 # === Links
 #

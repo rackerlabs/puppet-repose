@@ -255,7 +255,7 @@ describe 'repose::filter::client_auth_n', :type => :define do
       }
     end
 
-    context 'providing token_expire_feed' do
+    context 'providing token_expire_feed with use_auth=true' do
       let(:title) { 'default' }
       let(:params) { {
         :ensure              => 'present',
@@ -267,6 +267,8 @@ describe 'repose::filter::client_auth_n', :type => :define do
         },
         :token_expire_feed   => {
           'feed_url' => 'https://atomvip/identity/events',
+          'use_auth' => true,
+          'auth_url' => 'https://identity-service-url/v2.0',
           'user'     => 'username',
           'pass'     => 'password',
           'interval' => '60000'
@@ -281,7 +283,41 @@ describe 'repose::filter::client_auth_n', :type => :define do
         should contain_file('/etc/repose/client-auth-n.cfg.xml').
           with_content(/atom-feeds check-interval=\"60000\"/).
           with_content(/rs-identity-feed id=\"identity-token-revocation-feed\" uri=\"https:\/\/atomvip\/identity\/events\"/).
-          with_content(/isAuthed=\"true\" user=\"username\" password=\"password\"/)
+          with_content(/isAuthed=\"true\" auth-uri=\"https:\/\/identity-service-url\/v2.0\"/).
+          with_content(/user=\"username\" password=\"password\"/)
+      }
+    end
+
+    context 'providing token_expire_feed with use_auth=false' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure              => 'present',
+        :filename            => 'client-auth-n.cfg.xml',
+        :auth                => {
+          'user' => 'username',
+          'pass' => 'password',
+          'uri'  => 'http://uri'
+        },
+        :token_expire_feed   => {
+          'feed_url' => 'https://atomvip/identity/events',
+          'use_auth' => false,
+          'auth_url' => 'https://identity-service-url/v2.0',
+          'user'     => 'username',
+          'pass'     => 'password',
+          'interval' => '60000'
+        }
+      } }
+      it {
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').with(
+          :ensure => 'file',
+          :owner => 'repose',
+          :group => 'repose'
+        )
+        should contain_file('/etc/repose/client-auth-n.cfg.xml').
+          with_content(/atom-feeds check-interval=\"60000\"/).
+          with_content(/rs-identity-feed id=\"identity-token-revocation-feed\" uri=\"https:\/\/atomvip\/identity\/events\"/).
+          without_content(/isAuthed=\"true\" auth-uri=\"https:\/\/identity-service-url\/v2.0\"/).
+          without_content(/user=\"username\" password=\"password\"/)
       }
     end
 
