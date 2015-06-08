@@ -6,6 +6,12 @@
                 <Pattern>%d %-r4 [%t] %-5p %c - %m%n</Pattern>
             </PatternLayout>
         </Console>
+<%- if @herp -%>
+        <Flume name="EventLogger" compress="false">
+            <Agent host="<%= @flume_host  -%>" port="<%= @flume_port -%>"/>
+                <PatternLayout pattern="%m"/>
+        </Flume>
+<%- end -%>
 <%- if @log_local_policy == 'date' -%>
         <RollingFile name="defaultFile"
             filename="<%= @log_dir-%>/<%= @app_name -%>.log"
