@@ -203,7 +203,7 @@ describe 'repose::filter::client_auth_n', :type => :define do
           with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
           with_content(/client-mapping id-regex=\"testing\"/).
           without_content(/delegable=/).
-          with_content(/delegating quality=\"0\.5\"/).
+          with_content(/delegating/).
           with_content(/tenanted=\"false\"/).
           with_content(/group-cache-timeout=\"60000\"/).
           without_content(/connectionPoolId/).

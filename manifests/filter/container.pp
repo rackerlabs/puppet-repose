@@ -144,6 +144,10 @@
 # String. String used in the Via header.
 # Defaults to <tt>undef</tt>
 #
+# [*herp*]
+# Enable herp filter publishing to flume.
+# Defaults to <tt>false</tt>
+#
 # [*http_port*]
 # DEPRECATED. This attribute is deprecated and will be ignored. This has
 # moved to the system-model configuration.
@@ -207,6 +211,7 @@ class repose::filter::container (
   $syslog_port                       = $repose::params::syslog_port,
   $syslog_protocol                   = $repose::params::syslog_protocol,
   $via                               = undef,
+  $herp                              = false,
   # BELOW ARE DEPRECATED
   $http_port                         = undef,
   $https_port                        = undef,
