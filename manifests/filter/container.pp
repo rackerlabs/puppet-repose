@@ -148,6 +148,14 @@
 # Enable herp filter publishing to flume.
 # Defaults to <tt>false</tt>
 #
+# [*flume_host*]
+# The hostname of the flume server.
+# Defaults to <tt>localhost</tt>
+#
+# [*flume_port*]
+# The port which the flume server is listening on.
+# Defaults to <tt>10000</tt>
+#
 # [*http_port*]
 # DEPRECATED. This attribute is deprecated and will be ignored. This has
 # moved to the system-model configuration.
@@ -212,6 +220,8 @@ class repose::filter::container (
   $syslog_protocol                   = $repose::params::syslog_protocol,
   $via                               = undef,
   $herp                              = false,
+  $flume_host                        = $repose::params::flume_host,
+  $flume_port                        = $repose::params::flume_port,
   # BELOW ARE DEPRECATED
   $http_port                         = undef,
   $https_port                        = undef,

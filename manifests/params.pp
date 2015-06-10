@@ -150,6 +150,12 @@ class repose::params {
 ## syslog_protocol
   $syslog_protocol = 'udp'
 
+## flume host
+  $flume_host = 'localhost'
+
+## flume port
+  $flume_port = 10000
+
 ## logging configuration file
   $logging_configuration = 'log4j.properties'
 
