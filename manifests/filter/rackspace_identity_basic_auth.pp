@@ -26,6 +26,10 @@
 # rejected requests to flume.
 # Defaults to <tt>false</tt>
 #
+# [*delegating_quality*]
+# Set the quality for this filter when returning error responses.
+# Default is <tt>undef</tt> (repose default is 0.9)
+#
 # === Links
 #
 # * https://repose.atlassian.net/wiki/display/REPOSE/Rackspace+Identity+Basic+Authentication+filter
@@ -47,6 +51,7 @@ define repose::filter::rackspace_identity_basic_auth (
   $identity_service_url = 'https://identity.api.rackspacecloud.com/v2.0/tokens',
   $token_cache_timeout  = '600000',
   $delegating           = false,
+  $delegating_quality   = undef,
 ) {
 
 ### Validate parameters
