@@ -138,7 +138,7 @@ if ! httpAppenders.empty?
 <%- end -%>
         </Logger>
 <%- if @herp -%>
-        <Logger name="org.openrepose.herp.post.filter" level="info">
+        <Logger name="org.openrepose.herp.post.filter" level="info" additivity="false">
             <AppenderRef ref="EventLogger"/>
         </Logger>
 <%- end -%>

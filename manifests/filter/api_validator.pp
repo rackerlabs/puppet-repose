@@ -34,6 +34,10 @@
 # rejected requests to flume.
 # Defaults to <tt>false</tt>
 #
+# [*delegating_quality*]
+# Set the quality for this filter when returning error responses.
+# Default is <tt>undef</tt> (repose default is 0.3)
+#
 # === Links
 #
 # * http://wiki.openrepose.org/pages/viewpage.action?pageId=327755
@@ -76,7 +80,8 @@ define repose::filter::api_validator (
   $validators         = undef,
   $multi_role_match   = false,
   $version            = undef,
-  $delegating         = false
+  $delegating         = false,
+  $delegating_quality = undef,
 ) {
 
 ### Validate parameters

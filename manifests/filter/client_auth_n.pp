@@ -35,6 +35,10 @@
 # Bool. This replaces delagable in repose 7+.
 # Defaults to <tt>undef</tt>
 #
+# [*delegating_quality*]
+# Set the quality for this filter when returning error responses.
+# Default is <tt>undef</tt> (repose default is 0.7)
+#
 # [*tendanted*]
 # Bool.
 # Defaults to <tt>false</tt>
@@ -96,6 +100,7 @@ define repose::filter::client_auth_n (
   $ignore_tenant_roles = undef,
   $delegable           = false,
   $delegating          = undef,
+  $delegating_quality  = undef,
   $tenanted            = false,
   $request_groups      = undef,
   $token_cache_timeout = undef,
