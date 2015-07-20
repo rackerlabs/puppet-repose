@@ -41,7 +41,9 @@
                     </cadf:content>
                 </cadf:attachment>
             </cadf:attachments>
-            <cadf:observer id="{{serviceCode}}-{{clusterId}}-{{nodeId}}" name="repose" typeURI="service/security" />
+            <cadf:observer id="{{serviceCode}}-{{clusterId}}-{{nodeId}}" name="repose" typeURI="service/security">
+                <cadf:host address="{{nodeId}}" />
+            </cadf:observer>
             <cadf:reason reasonCode="{{responseCode}}"
                          reasonType="http://www.iana.org/assignments/http-status-codes/http-status-codes.xml"/>
         </cadf:event>
