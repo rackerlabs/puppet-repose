@@ -77,5 +77,18 @@ describe 'repose::filter::rackspace_identity_basic_auth', :type => :define do
           with_content(/docs.openrepose.org/)
       }
     end
+
+    context 'with delegating & delegating_quality' do
+      let(:title) { 'default' }
+      let(:params) { {
+        :delegating         => true,
+        :delegating_quality => '0.7'
+      } }
+      it {
+        should contain_file('/etc/repose/rackspace-identity-basic-auth.cfg.xml').
+          with_content(/delegating quality="0.7"/)
+      }
+    end
+
   end
 end
