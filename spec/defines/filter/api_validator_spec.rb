@@ -54,7 +54,9 @@ describe 'repose::filter::api_validator', :type => :define do
           'enable_rax_roles'             => true,
           'mask_rax_roles_403'           => true,
         }, ],
-        :multi_role_match => true,
+        :multi_role_match   => true,
+        :delegating         => true,
+        :delegating_quality => '0.7'
       } }
       it {
         should contain_file('/etc/repose/test-validator.cfg.xml')
@@ -74,7 +76,8 @@ describe 'repose::filter::api_validator', :type => :define do
           with_content(/dot-output="\/var\/repose\/validator\.dot"/).
           with_content(/join-xpath-checks="true"/).
           with_content(/enable-rax-roles="true"/).
-          with_content(/mask-rax-roles-403="true"/)
+          with_content(/mask-rax-roles-403="true"/).
+          with_content(/delegating quality="0.7"/)
       }
     end
 
