@@ -31,7 +31,7 @@
 #
 # === Examples
 #
-# class { 'repose::logrotate': 
+# class { 'repose::logrotate':
 #   log_files => [
 #     '/var/log/repose/repose.log',
 #     '/var/log/repose/credentials.log',

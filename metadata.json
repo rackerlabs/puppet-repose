@@ -1,0 +1,26 @@
+{
+    "name": "rackerlabs-repose",
+    "version": "1.6.4",
+    "author": "Rackspace",
+    "license": "Apache-2.0",
+    "summary": "Repose is an api middleware that provides authentication, filtering, ratelimitting and several other features, this deploys it.",
+    "source": "https://github.com/rackerlabs/puppet-repose.git",
+    "project_page": "https://github.com/rackerlabs/puppet-repose",
+    "issues_url": "https://github.com/rackerlabs/puppet-repose/issues",
+    "tags": [
+        "repose"
+    ],
+    "operatingsystem_support": [
+        {
+            "operatingsystem":"RedHat",
+            "operatingsystemrelease":[ "5.0", "6.0", "7.0" ]
+        },
+        {
+            "operatingsystem": "Ubuntu",
+            "operatingsystemrelease": [ "12.04", "10.04" ]
+        }
+    ],
+    "dependencies": [
+        { "name": "puppetlabs/stdlib", "version_requirement": ">=3.2.0 <5.0.0" }
+    ]
+}
