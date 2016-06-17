@@ -108,16 +108,17 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::system_model (
-  $ensure          = present,
-  $filename        = 'system-model.cfg.xml',
-  $app_name        = 'repose',
-  $nodes           = undef,
-  $filters         = undef,
-  $services        = undef,
-  $endpoints       = undef,
-  $port            = $repose::params::port,
-  $https_port      = undef,
-  $service_cluster = undef,
+  $ensure              = present,
+  $filename            = 'system-model.cfg.xml',
+  $app_name            = 'repose',
+  $nodes               = undef,
+  $filters             = undef,
+  $services            = undef,
+  $endpoints           = undef,
+  $port                = $repose::params::port,
+  $https_port          = undef,
+  $rewrite_host_header = undef,
+  $service_cluster     = undef,
 ) {
 
 ### Validate parameters
