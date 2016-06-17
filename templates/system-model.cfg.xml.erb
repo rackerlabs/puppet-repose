@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- To configure Repose see: http://wiki.openrepose.org/display/REPOSE/Configuration -->
 <system-model xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/system-model/v2.0">
+<%- if ! @rewrite_host_header.nil? %>
+  <repose-cluster id="<%= @app_name %>" rewrite-host-header="<%= @rewrite_host_header %>">
+<% else %>
   <repose-cluster id="<%= @app_name %>">
+<% end %>
     <nodes>
 <%- @nodes.sort.each do |node| -%>
         <node id="<%= @app_name %>_<%= node.split('.')[0] %>" hostname="<%= node %>"<%- if @port %> http-port="<%= @port -%>"<%- end -%><%- if @https_port %> https-port="<%= @https_port -%>"<%- end -%>/>
