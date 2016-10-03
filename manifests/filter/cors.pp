@@ -26,8 +26,10 @@
 # Defaults to <tt>undef</tt>
 #
 # [*resources*]
-# Hash of resources, name of hash being the resource path, hash cintains allowed_methods (Array of HTTP verbs) and comment (XML/HTTP style comment). Specifies
-# configuration for a resource
+# Specifies configuration for a resource
+# Array of Hashes of resources, each hash containing the keys, name of hash
+# being the resource path, allowed_methods (Array of HTTP verbs) and optional
+# comment (XML/HTTP style comment).
 # Defaults to <tt>undef</tt>
 #
 # === Links
@@ -40,7 +42,7 @@
 #   'default':
 #     allowed_origins => { 10 => { 'is_regex' => 'true', 'origin' => '.*' },
 #     allowed_methods => [ ],
-#     resources => { },
+#     resources => [ ],
 # }
 #
 # === Authors

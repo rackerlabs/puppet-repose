@@ -29,7 +29,7 @@ describe 'repose::filter::cors', :type => :define do
         :filename   => 'cors.cfg.xml',
         :allowed_origins      => { 10 => { 'is_regex' => 'true', 'origin' => '.*' },
         :allowed_methods => [ ],
-        :resources       => { },
+        :resources       => [ ],
       } }
       it {
         should contain_file('/etc/repose/cors.cfg.xml').with(
