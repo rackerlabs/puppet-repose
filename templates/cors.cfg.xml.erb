@@ -17,12 +17,12 @@
 <%- unless @resources.empty? -%> 
     <resources>
   <%- @resources.each do | resource | -%>
-    <%- unless @resource['comment'].empty? -%>
-      <%= @resource['comment'] %>
+    <%- unless resource['comment'].empty? -%>
+      <%= resource['comment'] %>
     <%- end -%>
       <resource path="<%= resource['name'] %>">
-    <%- unless @resource['allowed_methods'].empty? -%>
-      <%- @resource['allowed_methods'].each do | method | -%>
+    <%- unless resource['allowed_methods'].empty? -%>
+      <%- resource['allowed_methods'].each do | method | -%>
       <method><%= method %></method>
       <%- end -%>
     <%- end -%>
