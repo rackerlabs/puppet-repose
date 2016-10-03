@@ -1,0 +1,33 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<cross-origin-resource-sharing>
+    <allowed-origins>
+<%- @allowed_origins.keys.sort.each do | origin | -%>
+        <origin regex="<%= origin['is_regex'] %>"><%= origin['origin'] %></origin>
+<%- end -%>
+    </allowed-origins>
+ 
+<%- unless @allowed_methods.empty? -%>
+    <allowed-methods>
+  <%- @allowed_methods.each do | method | -%>
+        <method><%= method %></method>
+  <%- end -%>
+    </allowed-methods>
+<%- end -%>
+
+<%- unless @resources.empty? -%> 
+    <resources>
+  <%- @resources.each do | resource | -%>
+    <%- unless resource['comment'].empty? -%>
+      <%= resource['comment'] %>
+    <%- end -%>
+      <resource path="<%= resource['name'] %>">
+    <%- unless resource['allowed_methods'].empty? -%>
+      <%- resource['allowed_methods'].each do | method | -%>
+      <method><%= method %></method>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+
+    </resources>
+<%- end -%>
+</cross-origin-resource-sharing>
