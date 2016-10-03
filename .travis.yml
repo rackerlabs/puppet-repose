@@ -12,6 +12,7 @@ before_install:
 gemfile:
   - .gemfiles/Gemfile.rspec
   - .gemfiles/Gemfile.ruby187.rspec
+  - .gemfiles/Gemfile.ruby193.rspec
 
 script:
  - "bundle exec rake spec SPEC_OPTS='--format documentation'"
@@ -31,12 +32,20 @@ matrix:
   exclude:
     - rvm: 1.8.7
       gemfile: .gemfiles/Gemfile.rspec
+    - rvm: 1.8.7
+      gemfile: .gemfiles/Gemfile.ruby193.rspec
     - rvm: 1.9.3
       gemfile: .gemfiles/Gemfile.ruby187.rspec
+    - rvm: 1.9.3
+      gemfile: .gemfiles/Gemfile.rspec
     - rvm: 2.0.0
       gemfile: .gemfiles/Gemfile.ruby187.rspec
+    - rvm: 2.0.0
+      gemfile: .gemfiles/Gemfile.ruby193.rspec
     - rvm: 2.1.1
       gemfile: .gemfiles/Gemfile.ruby187.rspec
+    - rvm: 2.1.1
+      gemfile: .gemfiles/Gemfile.ruby193.rspec
     - rvm: 1.9.3
       env: PUPPET_VERSION="~> 2.7.0"
     - rvm: 2.0.0

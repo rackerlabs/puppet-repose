@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+puppetversion = ENV['PUPPET_VERSION']
+gem 'json_pure', '~>1.8.0', :require => false
+gem 'puppet', puppetversion, :require => false
+gem 'puppet-lint'
+gem 'rspec-core', '3.1.7'
+gem 'rspec-puppet'
+gem 'rspec-puppet-utils'
+gem 'puppetlabs_spec_helper'
