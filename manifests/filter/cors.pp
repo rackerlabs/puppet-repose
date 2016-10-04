@@ -13,12 +13,12 @@
 # Defaults to <tt>cors.cfg.xml</tt>
 #
 # [*allowed_origins*]
-# Required - Hash of Hashes. Allows you to specify which origins are allowed
+# Required - Array of Hashes. Allows you to specify which origins are allowed
 # to request resources from this server. Nested hashes have values is_regex
 # valid values: (true | false), and origin, origin can be a regex if is_regex
 # is true, and a full string match of a URL containing port (i.e. 
 # https://www.somehost.com:443) 
-# Defaults to <tt>{ 10 => { 'is_regex' => 'true', 'origin' => '.*' }</tt>
+# Defaults to <tt>[{ 'is_regex' => 'true', 'origin' => '.*' }]</tt>
 #
 # [*allowed_methods*]
 # Array of HTTP VERBS. Allows you to specify which HTTP methods are allowed
@@ -40,7 +40,7 @@
 #
 # repose::filter::cors {
 #   'default':
-#     allowed_origins => { 10 => { 'is_regex' => 'true', 'origin' => '.*' },
+#     allowed_origins => [{ 'is_regex' => 'true', 'origin' => '.*' }],
 #     allowed_methods => [ ],
 #     resources => [ ],
 # }
@@ -53,7 +53,7 @@
 define repose::filter::cors (
   $ensure          = present,
   $filename        = 'cors.cfg.xml',
-  $allowed_origins = { 10 => { 'is_regex' => 'true', 'origin' => '.*' } },
+  $allowed_origins = [{ 'is_regex' => 'true', 'origin' => '.*' }],
   $allowed_methods = undef, 
   $resources       = undef,
 ) {
