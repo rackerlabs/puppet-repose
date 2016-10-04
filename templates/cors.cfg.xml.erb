@@ -1,7 +1,7 @@
  <?xml version="1.0" encoding="UTF-8"?>
 <cross-origin-resource-sharing>
     <allowed-origins>
-<%- @allowed_origins.keys.sort.each do | origin | -%>
+<%- @allowed_origins.each do | origin | -%>
         <origin regex="<%= origin['is_regex'] %>"><%= origin['origin'] %></origin>
 <%- end -%>
     </allowed-origins>
