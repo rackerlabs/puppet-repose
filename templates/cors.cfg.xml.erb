@@ -17,7 +17,7 @@
 <%- unless @resources.empty? -%> 
     <resources>
   <%- @resources.each do | resource | -%>
-    <%- unless resource['comment'].empty? -%>
+    <%- if resource.key?('comment') -%>
       <%= resource['comment'] %>
     <%- end -%>
       <resource path="<%= resource['name'] %>">
