@@ -189,6 +189,24 @@ class repose::params {
 ## default access logging to syslog
   $log_access_syslog = true
 
+## default herp log syslog app name
+  $log_herp_app_name = ''
+
+## default herp log syslog facility
+  $log_herp_facility = 'local2'
+
+## default  herp logging to flume
+  $log_herp_flume = false
+
+## default herp logging to syslog
+  $log_herp_syslog = false
+
+## default herp logging syslog postfilter logger name
+  $log_herp_syslog_postfilter = 'herp_syslog_postfilter'
+
+## default herp logging syslog prefilter logger name
+  $log_herp_syslog_prefilter = 'herp_syslog_prefilter'
+
 ## use new namespace urls in configuration files
   $cfg_new_namespace = false
 }
