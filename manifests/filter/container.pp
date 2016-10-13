@@ -144,8 +144,34 @@
 # String. String used in the Via header.
 # Defaults to <tt>undef</tt>
 #
-# [*herp*]
+# [*log_herp_flume*]
 # Enable herp filter publishing to flume.
+# Defaults to <tt>false</tt>
+#
+# [*log_herp_facility*]
+# String. The logging facility to send herp logs to when sending to a syslog
+# server.
+# Defaults to <tt>local2</tt>
+#
+# [*log_herp_app_name*]
+# String. This is the app name to be sent to syslog as part of the RFC5424
+# message format. This defaults to blank.
+# Defaults to <tt></tt>.
+#
+# [*log_herp_syslog_prefilter*]
+# String. The name of the Logger used to send prefiltered herp logs to syslog.
+# This should match the pre_filter_logger_name parameter set for the
+# highly_efficient_record_processor filter.
+# Defaults to <tt>herp_syslog_prefilter</tt>.
+#
+# [*log_herp_syslog_postfilter*]
+# String. The name of the Logger used to send postfiltered herp logs to syslog.
+# This should match the post_filter_logger_name parameter set for the
+# highly_efficient_record_processor filter.
+# Defaults to <tt>herp_syslog_postfilter</tt>.
+#
+# [*log_herp_syslog*]
+# Enable herp filter publishing to syslog.
 # Defaults to <tt>false</tt>
 #
 # [*flume_host*]
@@ -155,6 +181,10 @@
 # [*flume_port*]
 # The port which the flume server is listening on.
 # Defaults to <tt>10000</tt>
+#
+# [*herp*]
+# DEPRECATED. Use log_herp_flume. Enable herp filter publishing to flume.
+# Defaults to <tt>false</tt>
 #
 # [*http_port*]
 # DEPRECATED. This attribute is deprecated and will be ignored. This has
@@ -204,6 +234,12 @@ class repose::filter::container (
   $log_access_local_name             = $repose::params::log_access_local_name,
   $log_access_syslog                 = $repose::params::log_access_syslog,
   $log_dir                           = $repose::params::logdir,
+  $log_herp_app_name                 = $repose::params::log_herp_app_name,
+  $log_herp_facility                 = $repose::params::log_herp_facility,
+  $log_herp_flume                    = $repose::params::log_herp_flume,
+  $log_herp_syslog                   = $repose::params::log_herp_syslog,
+  $log_herp_syslog_postfilter        = $repose::params::log_herp_syslog_postfilter,
+  $log_herp_syslog_prefilter         = $repose::params::log_herp_syslog_prefilter,
   $log_level                         = $repose::params::log_level,
   $log_local_policy                  = $repose::params::log_local_policy,
   $log_local_size                    = $repose::params::log_local_size,
@@ -219,10 +255,10 @@ class repose::filter::container (
   $syslog_port                       = $repose::params::syslog_port,
   $syslog_protocol                   = $repose::params::syslog_protocol,
   $via                               = undef,
-  $herp                              = false,
   $flume_host                        = $repose::params::flume_host,
   $flume_port                        = $repose::params::flume_port,
   # BELOW ARE DEPRECATED
+  $herp                              = false,
   $http_port                         = undef,
   $https_port                        = undef,
   $connection_timeout                = undef,

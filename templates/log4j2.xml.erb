@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration monitorInterval="30" <%- if @herp -%>packages="org.apache.logging.log4j.flume.appender"<%- end -%>>
+<Configuration monitorInterval="30" <%- if @herp or @log_herp_flume -%>packages="org.apache.logging.log4j.flume.appender"<%- end -%>>
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout>
                 <Pattern>%d %-r4 [%t] %-5p %c - %m%n</Pattern>
             </PatternLayout>
         </Console>
-<%- if @herp -%>
+<%- if @herp or @log_herp_flume -%>
         <Flume name="EventLogger" compress="false">
             <Agent host="<%= @flume_host  -%>" port="<%= @flume_port -%>"/>
                 <PatternLayout pattern="%m"/>
@@ -63,6 +63,17 @@
                 protocol="<%= @syslog_protocol %>"
                 facility="<%= @log_access_facility %>"
                 appName="<%= @log_access_app_name %>"
+                mdcId="mdc"
+                >
+        </Syslog>
+<%- end -%>
+<%- if @log_herp_syslog and @syslog_server -%>
+        <Syslog name="herpSyslog" format="RFC5424"
+                host="<%= @syslog_server %>"
+                port="<%= @syslog_port %>"
+                protocol="<%= @syslog_protocol %>"
+                facility="<%= @log_herp_facility %>"
+                appName="<%= @log_herp_app_name %>"
                 mdcId="mdc"
                 >
         </Syslog>
@@ -137,7 +148,13 @@ if ! httpAppenders.empty?
   <%- end -%>
 <%- end -%>
         </Logger>
-<%- if @herp -%>
+<%- if @log_herp_syslog and @syslog_server-%>
+        <Logger name="<%= @log_herp_syslog_prefilter %>" level="warn" />
+        <Logger name="<%= @log_herp_syslog_postfilter %>" level="info" additivity="false">
+            <AppenderRef ref="herpSyslog"/>
+        </Logger>
+<%- end -%>
+<%- if @herp or @log_herp_flume -%>
         <Logger name="org.openrepose.herp.pre.filter" level="warn"/>
         <Logger name="org.openrepose.herp.post.filter" level="info" additivity="false">
             <AppenderRef ref="EventLogger"/>
