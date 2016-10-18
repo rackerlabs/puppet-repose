@@ -1,5 +1,5 @@
  <?xml version="1.0" encoding="UTF-8"?>
-<cross-origin-resource-sharing>
+<cross-origin-resource-sharing xmlns="http://docs.openrepose.org/repose/cross-origin-resource-sharing/v1.0">
     <allowed-origins>
 <%- @allowed_origins.each do | origin | -%>
         <origin regex="<%= origin['is_regex'] %>"><%= origin['origin'] %></origin>
@@ -21,11 +21,14 @@
       <%= resource['comment'] %>
     <%- end -%>
       <resource path="<%= resource['name'] %>">
+        <allowed-methods>
     <%- unless resource['allowed_methods'].empty? -%>
       <%- resource['allowed_methods'].each do | method | -%>
-      <method><%= method %></method>
+          <method><%= method %></method>
       <%- end -%>
     <%- end -%>
+        </allowed-methods>
+      </resource>
   <%- end -%>
 
     </resources>
