@@ -38,7 +38,7 @@ describe 'repose::filter::cors', :type => :define do
           :group   => 'repose',
           :mode    => '0660',
           :content => ' <?xml version="1.0" encoding="UTF-8"?>
-<cross-origin-resource-sharing>
+<cross-origin-resource-sharing xmlns="http://docs.openrepose.org/repose/cross-origin-resource-sharing/v1.0">
     <allowed-origins>
         <origin regex="true">.*</origin>
     </allowed-origins>
@@ -75,7 +75,7 @@ describe 'repose::filter::cors', :type => :define do
           :group   => 'repose',
           :mode    => '0660',
           :content => ' <?xml version="1.0" encoding="UTF-8"?>
-<cross-origin-resource-sharing>
+<cross-origin-resource-sharing xmlns="http://docs.openrepose.org/repose/cross-origin-resource-sharing/v1.0">
     <allowed-origins>
         <origin regex="true">.*</origin>
     </allowed-origins>
@@ -88,9 +88,12 @@ describe 'repose::filter::cors', :type => :define do
     <resources>
       <!-- v2.0/tokens allows for OPTIONS, POST, and GET -->
       <resource path="/v2.0/tokens">
-      <method>POST</method>
-      <method>GET</method>
-      <method>OPTIONS</method>
+        <allowed-methods>
+          <method>POST</method>
+          <method>GET</method>
+          <method>OPTIONS</method>
+        </allowed-methods>
+      </resource>
 
     </resources>
 </cross-origin-resource-sharing>
