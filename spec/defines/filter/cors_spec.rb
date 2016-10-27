@@ -37,7 +37,7 @@ describe 'repose::filter::cors', :type => :define do
           :owner   => 'repose',
           :group   => 'repose',
           :mode    => '0660',
-          :content => ' <?xml version="1.0" encoding="UTF-8"?>
+          :content => '<?xml version="1.0" encoding="UTF-8"?>
 <cross-origin-resource-sharing xmlns="http://docs.openrepose.org/repose/cross-origin-resource-sharing/v1.0">
     <allowed-origins>
         <origin regex="true">.*</origin>
@@ -74,7 +74,7 @@ describe 'repose::filter::cors', :type => :define do
           :owner   => 'repose',
           :group   => 'repose',
           :mode    => '0660',
-          :content => ' <?xml version="1.0" encoding="UTF-8"?>
+          :content => '<?xml version="1.0" encoding="UTF-8"?>
 <cross-origin-resource-sharing xmlns="http://docs.openrepose.org/repose/cross-origin-resource-sharing/v1.0">
     <allowed-origins>
         <origin regex="true">.*</origin>
