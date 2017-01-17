@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip-user xmlns="http://docs.openrepose.org/repose/ip-user/v1.0">
+<%- if @user_header -%>
+    <user-header name="<%= @user_header %>" quality="<%= @quality %>"/>
+<%- end -%>
+<%- if @group_header -%>
+    <group-header name="<%= @group_header %>" quality="<%= @quality %>"/>
+<%- end -%>
+<%- @filter_groups.each do | group | -%>
+    <group name="<%= group['name'] %>">
+  <%- group['addresses'].each do | address | -%>
+      <cidr-ip><%= address %></cidr-ip>
+  <%- end -%>
+    </group>
+<%- end -%>
+</ip-user>
