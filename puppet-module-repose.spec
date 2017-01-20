@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.9.0
+Version:   1.10.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Fri Jan 20 2017 Josh Bell <josh.bell@rackspace.com> - 1.10.0-1
+- Add uri-user filter and supporting template and tests
 * Tue Jan 17 2017 Josh Bell <josh.bell@rackspace.com> - 1.9.0-1
 - Add ip-user filter and supporting template and tests
 * Wed Jun 17 2016 Josh Bell <josh.bell@rackspace.com> - 1.6.5-1
