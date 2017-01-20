@@ -22,8 +22,9 @@
 # Defaults to <tt>60000</tt>
 #
 # [*client_request_logging*]
-# Bool. Logs communication between repose and the end service
-# Defaults to <tt>false</tt>
+# Bool. Logs communication between repose and the end service. Depreciated in
+# Repose version 8 and above, must not be set. 
+# Defaults to <tt>undef</tt>
 #
 # [*content_body_read_limit*]
 # Integer. Maximum size ofr request content in bytes
@@ -196,15 +197,15 @@
 #
 # [*connection_timeout*]
 # DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration.
+# http-connection-pool configuration. Must not be used with Repose 8 and above.
 #
 # [*read_timeout*]
 # DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration.
+# http-connection-pool configuration. Must not be used with Repose 8 and above.
 #
 # [*proxy_thread_pool*]
 # DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration.
+# http-connection-pool configuration. Must not be used with Repose 8 and above.
 #
 # === Examples
 #
