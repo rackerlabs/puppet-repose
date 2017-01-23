@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<uri-user xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+              xmlns='http://docs.openrepose.org/repose/uri-user/v1.0'
+              xsi:schemaLocation='http://docs.openrepose.org/repose/uri-user/v1.0 ../config/uri-user-configuration.xsd'>
+
+    <!-- list of regexes to match against the URI - the first match will be used -->
+    <identification-mappings>
+        <!-- first capture group will be used as the value of the X-PP-User header -->
+<%- @mappings.each do | mapping | -%>
+        <mapping id="<%= mapping['id'] %>" identification-regex="<%= mapping['regex'] %>"/>
+<% end %>
+    </identification-mappings>
+<%- if @group -%>
+
+    <!-- value to put into the X-PP-Groups header -->
+    <group><%= @group %></group>
+<% end %>
+<%- if @quality -%>
+
+    <!-- header quality for both the X-PP-User and X-PP-Groups headers -->
+    <quality><%= @quality %></quality>
+<% end %>
+
+</uri-user>
