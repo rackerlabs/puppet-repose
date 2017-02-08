@@ -11,5 +11,11 @@ fixtures:
     java_ks:
       repo: "puppetlabs/java_ks"
       ref: "1.4.1"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "2.6.0"
+    systemd:
+      repo: "camptocamp/systemd"
+      ref: "1.1.1"
   symlinks:
     repose: "#{source_dir}"

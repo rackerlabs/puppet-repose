@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.6.0
+Version:   2.7.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Thu Feb 08 2017 Josh Bell <josh.bell@rackspace.com> - 2.7.0-1
+- Add systemd support for local override of service envrionment i.e. JAVA_OPTS
 * Fri Jan 26 2018 Josh Bell <josh.bell@rackspace.com> - 2.6.0-1
 - Add support to modify per filter logging levels in log4j2
 * Fri Nov 10 2017 Josh Bell <josh.bell@rackspace.com> - 2.4.0-1

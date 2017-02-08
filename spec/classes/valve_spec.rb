@@ -8,8 +8,11 @@ describe 'repose::valve' do
     }
     end
 
-    context 'with defaults for all parameters' do
-      let(:facts) { { :osfamily => 'RedHat' } }
+    context 'with defaults for all parameters on system without systemd' do
+      let(:facts) { {
+        :osfamily => 'RedHat',
+        :systemd => false,
+      } }
       it {
         should contain_class('repose').with(
           'ensure'      => 'present',
@@ -36,6 +39,22 @@ describe 'repose::valve' do
           ],
           "rm SAXON_HOME"
         ])
+      }
+    end
+
+    context 'with defaults for all parameters on system with systemd' do
+      let(:facts) { {
+        :osfamily => 'RedHat',
+        :systemd => true,
+      } }
+      it {
+        should contain_class('repose').with(
+          'ensure'      => 'present',
+          'enable'      => 'true',
+          'autoupgrade' => 'false',
+          'container'   => 'valve'
+        )
+        should contain_file('/etc/systemd/system/repose-valve.service.d/local.conf')
       }
     end
 

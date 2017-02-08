@@ -139,6 +139,8 @@ class repose::valve (
   $cfg_new_namespace = $repose::params::cfg_new_namespace,
 ) inherits repose::params {
 
+  include systemd::systemctl::daemon_reload
+
   class { 'repose':
     ensure            => $ensure,
     enable            => $enable,
@@ -189,11 +191,26 @@ class repose::valve (
 
   # only run if ensure is not absent
   if ! ($ensure == absent) {
-    # run augeas with our changes
-    augeas {
-      'repose_sysconfig':
-        context => '/files/etc/sysconfig/repose',
-        changes => [ $repose_sysconfig, $saxon_sysconfig ]
+    if $::systemd == 'true' {
+      file { "/etc/systemd/system/repose-valve.service.d":
+        ensure => 'directory',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
+      }
+
+      file {"/etc/systemd/system/repose-valve.service.d/local.conf":
+        content => template('systemd-local.conf.erb'),
+        before  => Service[$repose::params::service],
+      } ~>
+      Class['systemd::systemctl::daemon_reload']
+    } else {
+      # run augeas with our changes
+      augeas {
+        'repose_sysconfig':
+          context => '/files/etc/sysconfig/repose',
+          changes => [ $repose_sysconfig, $saxon_sysconfig ]
+      }
     }
   }
 }
