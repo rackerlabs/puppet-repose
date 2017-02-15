@@ -255,7 +255,10 @@ describe 'repose::filter::container' do
           with_content(/Root level="WARN"/).
           with_content(/AppenderRef ref="defaultFile"/).
           with_content(/Logger name="http" level="info"/).
-          with_content(/AppenderRef ref="httpLocal"/)
+          with_content(/AppenderRef ref="httpLocal"/).
+          with_content(/Logger name="intrafilter-logging" level="info"/).
+          with_content(/Logger name="org.openrepose" level="info"/).
+          with_content(/Logger name="org.apache.http.wire" level="off"/)
 
         should contain_file('/etc/repose/container.cfg.xml').
           with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
@@ -351,6 +354,33 @@ describe 'repose::filter::container' do
         should contain_file('/etc/repose/log4j2.xml').
           with_content(/File name="defaultFile" filename="\/dev\/null"/).
           with_content(/File name="httpLocal" filename="\/dev\/null"/)
+
+        should contain_file('/etc/repose/container.cfg.xml').
+          with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+      }
+    end
+
+    context 'configure log4j2 with intrafilter trace logging true' do
+      let(:params) { {
+        :app_name              => 'app',
+        :log_use_log4j2        => true,
+        :log_intrafilter_trace => true
+      } }
+      it {
+        should contain_file('/etc/repose/log4j2.xml').
+          with_content(/RollingFile name="defaultFile"/).
+          with_content(/filename="\/var\/log\/repose\/app.log"/).
+          with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/).
+          with_content(/RollingFile name="httpLocal"/).
+          with_content(/filename="\/var\/log\/repose\/http_repose.log"/).
+          with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"/).
+          with_content(/Root level="WARN"/).
+          with_content(/AppenderRef ref="defaultFile"/).
+          with_content(/Logger name="http" level="info"/).
+          with_content(/AppenderRef ref="httpLocal"/).
+          with_content(/Logger name="intrafilter-logging" level="trace"/).
+          with_content(/Logger name="org.openrepose" level="debug"/).
+          with_content(/Logger name="org.apache.http.wire" level="trace"/)
 
         should contain_file('/etc/repose/container.cfg.xml').
           with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)

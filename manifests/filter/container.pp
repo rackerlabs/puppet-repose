@@ -107,6 +107,11 @@
 # http://www.rsyslog.com/doc/master/configuration/modules/mmpstrucdata.html
 # Defaults to <tt>false</tt>.
 #
+# [*log_intrafilter_trace*]
+# Boolean. Adds intrafilter trace logging to repose - log_use_log4j2 must also
+# be set true.
+# Defaults to <tt>false</tt>
+#
 # [*logging_configuration*]
 # String. The name of the logging configuration file.
 # Defaults to <tt>log4j.properties</tt>
@@ -241,6 +246,7 @@ class repose::filter::container (
   $log_herp_syslog                   = $repose::params::log_herp_syslog,
   $log_herp_syslog_postfilter        = $repose::params::log_herp_syslog_postfilter,
   $log_herp_syslog_prefilter         = $repose::params::log_herp_syslog_prefilter,
+  $log_intrafilter_trace             = $repose::params::log_intrafilter_trace,
   $log_level                         = $repose::params::log_level,
   $log_local_policy                  = $repose::params::log_local_policy,
   $log_local_size                    = $repose::params::log_local_size,

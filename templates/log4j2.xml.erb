@@ -130,7 +130,15 @@ end
         <Logger name="org.openrepose" level="info"/>
         <Logger name="org.rackspace.deproxy" level="info"/>
         <Logger name="org.springframework" level="warn"/>
+  <%- if @log_intrafilter_trace -%>
+        <Logger name="intrafilter-logging" level="trace"/>
+        <Logger name="org.openrepose" level="debug"/>
+        <Logger name="org.apache.http.wire" level="trace"/>
+  <%- else -%>
         <Logger name="intrafilter-logging" level="info"/>
+        <Logger name="org.openrepose" level="info"/>
+        <Logger name="org.apache.http.wire" level="off"/>
+  <%- end -%>
         <Logger name="http" level="info" additivity="false">
 <%-
 # if setup the appropriate access log appenders
