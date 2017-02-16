@@ -189,6 +189,9 @@ class repose::params {
 ## default access logging to syslog
   $log_access_syslog = true
 
+## logging intrafilter trace logs
+  $log_intrafilter_trace = false
+
 ## default herp log syslog app name
   $log_herp_app_name = ''
 
