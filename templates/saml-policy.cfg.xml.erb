@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<saml-policy xmlns="http://docs.openrepose.org/repose/samlpolicy/v1.0">
+<%- unless @policy_bypass_issuers.empty? -%>
+    <policy-bypass-issuers> 
+  <%- @policy_bypass_issuers.each do | issuer | -%>
+        <issuer><%= issuer %></issuer>
+  <% end %>
+    </policy-bypass-issuers>
+<% end %>
+    <policy-acquisition>
+        <keystone-credentials uri="<%= @keystone_uri %>" 
+<%- if @keystone_pool -%>
+            connection-pool-id="<%= @keystone_pool %>"
+<% end %>
+            username="<%= @keystone_user %>" 
+            password="<%= @keystone_password %>"/> 
+        <policy-endpoint uri="<%= @policy_uri %>" 
+<%- if @policy_pool -%>
+            connection-pool-id="<%= @policy_pool %>"
+<% end %>
+            /> 
+        <cache ttl="<%= @policy_cache_ttl %>" 
+<%- if @policy_cache_feed_id -%>
+            atom-feed-id="<%= @policy_cache_feed_id %>"
+<% end %>
+            /> 
+    </policy-acquisition>
+    <signature-credentials keystore-filename="<%= @signature_keystore_path %>" 
+        keystore-password="<%= @signature_keystore_password %>" 
+        key-name="<%= @signature_keystore_certname %>" 
+        key-password="<%= @signature_keystore_keypass %>"/> 
+</saml-policy>
