@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   1.11.0
+Version:   1.12.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Fri Feb 24 2017 Josh Bell <josh.bell@rackspace.com> - 1.12.0-1
+- Add saml-policy filter, template and supporting tests 
 * Wed Feb 15 2017 Josh Bell <josh.bell@rackspace.com> - 1.11.0-1
 - Add option to enable intrafilter trace logging
 * Fri Jan 20 2017 Josh Bell <josh.bell@rackspace.com> - 1.10.0-1

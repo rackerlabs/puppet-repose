@@ -1,5 +1,12 @@
 fixtures:
   repositories:
     stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+  forge_modules:
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "2.6.0"
+    java_ks:
+      repo: "puppetlabs/java_ks"
+      ref: "1.4.1"
   symlinks:
     repose: "#{source_dir}"
