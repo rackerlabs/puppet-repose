@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scripting xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/scripting/v1.0"
+           language="<%= @script_lang %>">
+<%- if @mod_script -%>
+    <%= @mod_script %>
+<%- end -%>
+</scripting>

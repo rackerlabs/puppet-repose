@@ -105,5 +105,34 @@ describe 'repose::package' do
         should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
       }
     end
+
+    # the defaults for the package class + install experimental filter bundle
+    context 'with defaults+newpackages for all parameters including experimental filter bundle' do
+      let(:params) { { 
+        :rh_old_packages => 'false',
+        :experimental_filters => true
+      } }
+      it {
+        should contain_package('repose-valve').with_ensure('present')
+        should contain_package('repose-filter-bundle').with_ensure('present')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
+        should contain_package('repose-experimental-filter-bundle').with_ensure('present')
+      }
+    end
+
+    # Validate uninstall properly purged packages including experiemtnal bundle
+    context 'uninstall parameters including experiemental filter bundle' do
+      let(:params) { {
+        :ensure               => 'absent',
+        :rh_old_packages      => 'false',
+        :experimental_filters => true
+      } }
+      it {
+        should contain_package('repose-valve').with_ensure('purged')
+        should contain_package('repose-filter-bundle').with_ensure('purged')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
+        should contain_package('repose-experimental-filter-bundle').with_ensure('purged')
+      }
+    end
   end
 end
