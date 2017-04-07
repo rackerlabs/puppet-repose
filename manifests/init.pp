@@ -72,12 +72,13 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  $ensure            = $repose::params::ensure,
-  $enable            = $repose::params::enable,
-  $container         = $repose::params::container,
-  $autoupgrade       = $repose::params::autoupgrade,
-  $rh_old_packages   = $repose::params::rh_old_packages,
-  $cfg_new_namespace = $repose::params::cfg_new_namespace,
+  $ensure               = $repose::params::ensure,
+  $enable               = $repose::params::enable,
+  $container            = $repose::params::container,
+  $autoupgrade          = $repose::params::autoupgrade,
+  $rh_old_packages      = $repose::params::rh_old_packages,
+  $cfg_new_namespace    = $repose::params::cfg_new_namespace,
+  $experimental_filters = $repose::params::experimental_filters,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -157,10 +158,11 @@ class repose (
 
 ## package(s)
   class { 'repose::package':
-    ensure          => $ensure,
-    autoupgrade     => $autoupgrade,
-    container       => $container,
-    rh_old_packages => $rh_old_packages,
+    ensure               => $ensure,
+    autoupgrade          => $autoupgrade,
+    container            => $container,
+    rh_old_packages      => $rh_old_packages,
+    experimental_filters => $experimental_filters,
   }
 
 ## service

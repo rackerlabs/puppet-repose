@@ -23,6 +23,7 @@
 #
 # === Authors
 #
+# * Josh Bell <mailto:josh.bell@rackspace.com>
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
@@ -70,6 +71,13 @@ class repose::params {
     /Debian/ => $packages,
   }
   $rh_old_packages = true
+
+##  experimental filters bundle package 
+  $experimental_filters = false
+
+  $experimental_filters_packages = $::osfamily ? {
+    /(RedHat|Debian)/ => [ 'repose-experimental-filter-bundle' ],
+  }
 
 ## tomcat7_package
   $tomcat7_package = $::osfamily ? {

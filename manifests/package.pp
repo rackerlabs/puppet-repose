@@ -40,25 +40,31 @@
 # naming on rpm distros. It defaults to <tt>true</tt> for the time being
 # to not break existing users.
 #
+# [*experimental_filters*]
+# Boolean. Install the experimental filters bundle package
+# Defaults to <tt>false</tt>
 #
 # === Examples
 #
 # Primarily to be used by the repose base class, but you can use:
-#   class { 'repose::package': contaienr => 'valve' }
+#   class { 'repose::package': container => 'valve' }
 #
 # It is not intended to be used directly by external resources like node
 # definitions or other modules.
 #
 # === Authors
 #
+# * Josh Bell <mailto:josh.bell@rackspace.com>
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
+# * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  $ensure           = $repose::params::ensure,
-  $autoupgrade      = $repose::params::autoupgrade,
-  $container        = $repose::params::container,
-  $rh_old_packages  = $repose::params::rh_old_packages,
+  $ensure                        = $repose::params::ensure,
+  $autoupgrade                   = $repose::params::autoupgrade,
+  $container                     = $repose::params::container,
+  $rh_old_packages               = $repose::params::rh_old_packages,
+  $experimental_filters          = $repose::params::experimental_filters,
 ) inherits repose::params {
 
 ### Logic
@@ -104,6 +110,18 @@ class repose::package (
   package { $filter_packages:
     ensure  => $package_ensure,
     require => Package[$container_package],
+  }
+
+  if $experimental_filters == true {
+    package { $repose::params::experimental_filters_packages:
+      ensure => $package_ensure, 
+      require => Package[$container_package],
+    }
+  } else {
+    package { $repose::params::experimental_filters_packages:
+      ensure => absent, 
+      require => Package[$container_package],
+    }
   }
 
 }
