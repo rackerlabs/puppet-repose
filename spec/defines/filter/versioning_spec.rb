@@ -15,7 +15,9 @@ describe 'repose::filter::versioning', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error, /target_uri is a required/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /target_uri is a required/)
       }
     end
 

@@ -14,7 +14,9 @@ describe 'repose::filter::destination_router', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error, /targets is a required parameter/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error, /targets is a required parameter/)
       }
     end
 

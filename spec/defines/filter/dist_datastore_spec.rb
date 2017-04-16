@@ -15,7 +15,9 @@ describe 'repose::filter::dist_datastore', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should raise_error(Puppet::Error,/nodes is a required parameter/)
+        expect {
+          should compile
+        }.to raise_error(Puppet::Error,/nodes is a required parameter/)
       }
     end
 
