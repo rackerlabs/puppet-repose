@@ -107,8 +107,8 @@ describe 'repose::filter::container' do
           with_content(/<keystore-filename>keystore.name<\/keystore-filename>/).
           with_content(/<keystore-password>mypassword<\/keystore-password>/).
           with_content(/<key-password>keypassword<\/key-password>/).
-          with_content(/<include-cipher>/).
-          with_content(/<exclude-cipher>/).
+          with_content(/<included-ciphers>/).
+          with_content(/<excluded-ciphers>/).
           with_content(/<\/ssl-configuration>/)
       }
     end
