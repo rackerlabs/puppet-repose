@@ -77,6 +77,8 @@ describe 'repose::filter::container' do
         :ssl_keystore_filename             => 'keystore.name',
         :ssl_keystore_password             => 'mypassword',
         :ssl_key_password                  => 'keypassword',
+        :ssl_include_cipher		   => ['include'],
+        :ssl_exclude_cipher		   => ['exclude'],
         :content_body_read_limit           => '10240000',
         :jmx_reset_time                    => '3600000',
         :client_request_logging            => 'false',
@@ -105,6 +107,8 @@ describe 'repose::filter::container' do
           with_content(/<keystore-filename>keystore.name<\/keystore-filename>/).
           with_content(/<keystore-password>mypassword<\/keystore-password>/).
           with_content(/<key-password>keypassword<\/key-password>/).
+          with_content(/<include-cipher>/).
+          with_content(/<exclude-cipher>/).
           with_content(/<\/ssl-configuration>/)
       }
     end

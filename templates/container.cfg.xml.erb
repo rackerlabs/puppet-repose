@@ -47,6 +47,20 @@
             <keystore-filename><%= @ssl_keystore_filename %></keystore-filename>
             <keystore-password><%= @ssl_keystore_password %></keystore-password>
             <key-password><%= @ssl_key_password %></key-password>
+	    <%- if @ssl_include_cipher != undef -%>
+	    <included-ciphers>
+	        <%- @ssl_include_cipher.each do |cipher| -%>
+		<cipher><%= cipher %></cipher>
+                <%- end -%>
+	    </included-ciphers>
+            <%- end -%>
+	    <%- if @ssl_exclude_cipher != undef -%>
+	    <excluded-ciphers>
+	        <%- @ssl_exclude_cipher.each do |cipher| -%>
+		<cipher><%= cipher %></cipher>
+                <%- end -%>
+	    </excluded-ciphers>
+            <%- end -%>
         </ssl-configuration>
 <%- end -%>
     </deployment-config>
