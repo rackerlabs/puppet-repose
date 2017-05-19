@@ -146,6 +146,14 @@
 # String. The password for the particular application key in the keystore.
 # Defaults to <tt>undef</tt>
 #
+# [*ssl_include_cipher*]
+# Array [String]. The cipher strings to allow connections for.
+# Defaults to <tt>undef</tt>
+#
+# [*ssl_exclude_cipher*]
+# Array [String]. The cipher strings to deny connections for.
+# Defaults to <tt>undef</tt>
+#
 # [*via*]
 # String. String used in the Via header.
 # Defaults to <tt>undef</tt>
@@ -258,6 +266,8 @@ class repose::filter::container (
   $ssl_keystore_filename             = undef,
   $ssl_keystore_password             = undef,
   $ssl_key_password                  = undef,
+  $ssl_include_cipher                = undef,
+  $ssl_exclude_cipher                = undef,
   $syslog_server                     = undef,
   $syslog_port                       = $repose::params::syslog_port,
   $syslog_protocol                   = $repose::params::syslog_protocol,
@@ -282,6 +292,12 @@ class repose::filter::container (
   validate_string($log_level)
   validate_string($log_access_local_name)
   validate_string($log_repose_facility)
+  if ($ssl_include_cipher != undef) {
+    validate_array($ssl_include_cipher)
+  }
+  if ($ssl_exclude_cipher != undef) {
+    validate_array($ssl_exclude_cipher)
+  }
 
 ## ensure
   if ! ($ensure in [ present, absent ]) {
