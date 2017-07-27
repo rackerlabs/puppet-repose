@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- http://wiki.openrepose.org/display/REPOSE/Distributed+Datastore -->
-<distributed-datastore xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host_dist') %>/repose/distributed-datastore/v1.0">
+<distributed-datastore xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host_dist') %>/repose/distributed-datastore/v1.0"
+<% if @connection_pool_id -%>
+                       connection-pool-id="<%= @connection_pool_id %>"
+<% end -%>
+>
    <allowed-hosts allow-all="<%= @allow_all %>">
       <allow host="127.0.0.1" />
 <% @nodes.each do |node| -%>

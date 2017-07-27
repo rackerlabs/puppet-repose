@@ -26,6 +26,11 @@
 # Bool. Whether or not to just allow anyone to just access the datastore
 # Defaults to <tt>false</tt>
 #
+# [*connection_pool_id*]
+# String.  Connection pool ID name for distributed datastore in 
+# http-connection-pool.cfg.xml.
+# Defaults to <tt>undef</tt>
+#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Datastore#Datastore-distributed
@@ -49,11 +54,12 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::dist_datastore (
-  $ensure      = present,
-  $filename    = 'dist-datastore.cfg.xml',
-  $nodes       = undef,
-  $port_config = undef,
-  $allow_all   = false,
+  $allow_all           = false,
+  $connection_pool_id  = undef,
+  $ensure              = present,
+  $filename            = 'dist-datastore.cfg.xml',
+  $nodes               = undef,
+  $port_config         = undef,
 ) {
 
 ### Validate parameters
