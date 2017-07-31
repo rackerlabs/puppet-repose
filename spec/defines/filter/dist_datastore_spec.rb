@@ -47,6 +47,24 @@ describe 'repose::filter::dist_datastore', :type => :define do
       }
     end
 
+    context 'providing a connection pool ID' do
+      let(:title) { 'validator' }
+      let(:params) { {
+        :connection_pool_id => 'connection-pool',
+        :ensure             => 'present',
+        :filename           => 'dist-datastore.cfg.xml',
+        :nodes              => [ 'test.example.com', ]
+      } }
+      it {
+        should contain_file('/etc/repose/dist-datastore.cfg.xml').with(
+          'ensure' => 'file',
+          'owner'  => 'repose',
+          'group'  => 'repose',
+          'mode'   => '0660').
+          with_content(/connection-pool-id=\"connection-pool\"/)
+      }
+    end
+
     context 'with defaults with old namespace' do
       let :pre_condition do
         "class { 'repose': cfg_new_namespace => false }"
