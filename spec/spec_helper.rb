@@ -5,5 +5,6 @@ require 'rspec-puppet-utils'
 RSpec.configure do |c|
   c.default_facts = {
     :debug                     => 'true',
+    :concat_basedir            => '/tmp',
   }
 end
