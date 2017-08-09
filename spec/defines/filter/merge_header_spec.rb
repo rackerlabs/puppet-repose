@@ -62,18 +62,6 @@ describe 'repose::filter::merge_header', :type => :define do
       }
     end
 
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/merge-header.cfg.xml').
-          with_content(/docs.api.rackspacecloud.com/)
-      }
-    end
-
     context 'with defaults with new namespace' do
       let :pre_condition do
         "class { 'repose': cfg_new_namespace => true }"
