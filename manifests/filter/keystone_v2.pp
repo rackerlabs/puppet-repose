@@ -77,8 +77,8 @@
 # from identity.
 # Defaults to <tt>undef</tt>, which indicates false
 #
-# [*tenant_regex*]
-# Client mapping regex for tenanted mode.
+# [*tenant_regexs*]
+# Client mapping regexs for tenanted mode. Prior to 8.6.3.0 only one is allwoed.
 #
 # [*legacy_roles_mode*]
 # Determines whether or not to send all role tenant ids associated with a user.
@@ -152,7 +152,7 @@ define repose::filter::keystone_v2 (
   $endpoints_cache_timeout = undef,
   $atom_feed_id            = undef,
   $send_all_tenant_ids     = undef,
-  $tenant_regex            = undef,
+  $tenant_regexs           = undef,
   $legacy_roles_mode       = undef,
   $send_tenant_quality     = undef,
   $default_tenant_quality  = undef,

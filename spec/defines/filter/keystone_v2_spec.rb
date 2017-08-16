@@ -211,7 +211,7 @@ describe 'repose::filter::keystone_v2', :type => :define do
           :filename            => 'keystone-v2.cfg.xml',
           :uri                 => 'http://uri',
           :send_all_tenant_ids => true,
-          :tenant_regex        => '/foo',
+          :tenant_regexs       => ['/foo', '/bar'],
           :legacy_roles_mode   => false,
           :send_tenant_quality => true,
           :default_tenant_quality => '0.9',
@@ -229,6 +229,7 @@ describe 'repose::filter::keystone_v2', :type => :define do
             with_content(/<tenant-handling send-all-tenant-ids=\"true\"/).
             with_content(/<validate-tenant enable-legacy-roles-mode=\"false\"/).
             with_content(/<uri-extraction-regex>\/foo<\/uri-extraction-regex>/).
+            with_content(/<uri-extraction-regex>\/bar<\/uri-extraction-regex>/).
             with_content(/<send-tenant-id-quality/).
             with_content(/default-tenant-quality=\"0.9\"/).
             with_content(/uri-tenant-quality=\"0.8\"/).

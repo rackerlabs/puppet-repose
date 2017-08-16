@@ -57,9 +57,11 @@
 
 <%- if (! @send_all_tenant_ids.nil?) || (! @tenant_regex.nil?) || (! @legacy_roles_mode.nil?) || (! @send_tenant_quality.nil?) || (! @default_tenant_quality.nil?) || (! @uri_tenant_quality.nil?) || (! @roles_tenant_quality.nil?) -%>
     <tenant-handling<%- if ! @send_all_tenant_ids.nil? -%> send-all-tenant-ids="<%= @send_all_tenant_ids %>"<%- end -%>>
-  <%- if ! @tenant_regex.nil? -%>
+  <%- if ! @tenant_regexs.nil? -%>
         <validate-tenant<%- if !@legacy_roles_mode.nil? -%> enable-legacy-roles-mode="<%= @legacy_roles_mode %>"<%- end -%>>
-            <uri-extraction-regex><%= @tenant_regex %></uri-extraction-regex>
+    <%- @tenant_regexs.each do |tenant_regex| -%>
+            <uri-extraction-regex><%= tenant_regex %></uri-extraction-regex>
+    <%- end -%>
         </validate-tenant>
   <%- end -%>
   <%- if(! @send_tenant_quality.nil?) || (! @default_tenant_quality.nil?) || (! @uri_tenant_quality.nil?) || (! @roles_tenant_quality.nil?) -%>
