@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<keystone-v2 xmlns="http://docs.openrepose.org/repose/keystone-v2/v1.0">
+    <identity-service
+            uri="<%= @uri %>"
+<%- if ! @connection_pool_id.nil? -%>
+            connection-pool-id="<%= @connection_pool_id %>"
+<%- end -%>
+<%- if ! @send_roles.nil? -%>
+            set-roles-in-header="<%= @send_roles %>"
+<%- end -%>
+<%- if ! @send_groups.nil? -%>
+            set-groups-in-header="<%= @send_groups %>"
+<%- end -%>
+<%- if ! @send_catalog.nil? -%>
+            set-catalog-in-header="<%= @send_catalog %>"
+<%- end -%>
+<%- if ! @apply_rcn_roles.nil? -%>
+            apply-rcn-roles="<%= @apply_rcn_roles %>"
+<%- end -%>
+    />
+
+<%- if ! @delegating.nil? -%>
+  <%- if @delegating %>
+    <delegating<%- if ! @delegating_quality.nil? -%> quality="<%= @delegating_quality %>"<%- end -%>/>
+  <%- end -%>
+<%- end -%>
+
+<%- if @white_lists -%>
+    <white-list>
+  <%- @white_lists.each do |white_list| -%>
+        <uri-regex><%= white_list %></uri-regex>
+  <%- end -%>
+    </white-list>
+<%- end -%>
+
+<%- if (! @cache_variability.nil?) || (! @token_cache_timeout.nil?) || (! @group_cache_timeout.nil?) || (! @endpoints_cache_timeout.nil?) || (! @atom_feed_id.nil?) -%>
+    <cache>
+  <%- if (! @cache_variability.nil?) || (! @token_cache_timeout.nil?) || (! @group_cache_timeout.nil?) || (! @endpoints_cache_timeout.nil?) -%>
+        <timeouts<%- if ! @cache_variability.nil? -%> variability="<%= @cache_variability %>"<%- end -%>>
+    <%- if ! @token_cache_timeout.nil? -%>
+            <token><%= @token_cache_timeout %></token>
+    <%- end -%>
+    <%- if ! @group_cache_timeout.nil? -%>
+            <group><%= @group_cache_timeout %></group>
+    <%- end -%>
+    <%- if ! @endpoints_cache_timeout.nil? -%>
+            <endpoints><%= @endpoints_cache_timeout %></endpoints>
+    <%- end -%>
+        </timeouts>
+  <%- end -%>
+  <%- if ! @atom_feed_id.nil? -%>
+        <atom-feed id="<%= @atom_feed_id %>"/>
+  <%- end -%>
+    </cache>
+<%- end -%>
+
+<%- if (! @send_all_tenant_ids.nil?) || (! @tenant_regex.nil?) || (! @legacy_roles_mode.nil?) || (! @send_tenant_quality.nil?) || (! @default_tenant_quality.nil?) || (! @uri_tenant_quality.nil?) || (! @roles_tenant_quality.nil?) -%>
+    <tenant-handling<%- if ! @send_all_tenant_ids.nil? -%> send-all-tenant-ids="<%= @send_all_tenant_ids %>"<%- end -%>>
+  <%- if ! @tenant_regexs.nil? -%>
+        <validate-tenant<%- if !@legacy_roles_mode.nil? -%> enable-legacy-roles-mode="<%= @legacy_roles_mode %>"<%- end -%>>
+    <%- @tenant_regexs.each do |tenant_regex| -%>
+            <uri-extraction-regex><%= tenant_regex %></uri-extraction-regex>
+    <%- end -%>
+        </validate-tenant>
+  <%- end -%>
+  <%- if(! @send_tenant_quality.nil?) || (! @default_tenant_quality.nil?) || (! @uri_tenant_quality.nil?) || (! @roles_tenant_quality.nil?) -%>
+    <%- if(@send_tenant_quality.nil?) || @send_tenant_quality -%>
+        <send-tenant-id-quality
+      <%- if ! @default_tenant_quality.nil? -%>
+            default-tenant-quality="<%= @default_tenant_quality %>"
+      <%- end -%>
+      <%- if ! @uri_tenant_quality.nil? -%>
+            uri-tenant-quality="<%= @uri_tenant_quality %>"
+      <%- end -%>
+      <%- if ! @roles_tenant_quality.nil? -%>
+            roles-tenant-quality="<%= @roles_tenant_quality %>"
+      <%- end -%>
+            />
+    <%- end -%>
+  <%- end -%>
+    </tenant-handling>
+<%- end -%>
+
+<%- if ! @endpoint_url.nil? -%>
+    <require-service-endpoint
+        public-url="<%= @endpoint_url %>"
+  <%- if ! @endpoint_region.nil? -%>
+        region="<%= @endpoint_region %>"
+  <%- end -%>
+  <%- if ! @endpoint_name.nil? -%>
+        name="<%= @endpoint_name %>"
+  <%- end -%>
+  <%- if ! @endpoint_type.nil? -%>
+        type="<%= @endpoint_type %>"
+        />
+  <%- end -%>
+<%- end -%>
+
+<%- if @pre_authorized_roles -%>
+    <pre-authorized-roles>
+  <% @pre_authorized_roles.each do |pre_authorized_role| -%>
+        <role><%= pre_authorized_role %></role>
+  <%- end -%>
+    </pre-authorized-roles>
+<%- end -%>
+
+</keystone-v2>

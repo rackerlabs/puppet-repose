@@ -1,6 +1,7 @@
 # == Resource: repose::filter::client_auth_n
 #
-# This is a resource for generating client-auth-n configuration files
+# This is a resource for generating client-auth-n configuration files.
+# DEPRECATED: Replaced by keystone_v2 in repose >= 8.0.0.0
 #
 # === Parameters
 #
