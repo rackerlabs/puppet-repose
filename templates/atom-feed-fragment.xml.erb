@@ -1,0 +1,21 @@
+    <!-- <%= @title %> -->
+    <feed id="<%= @feed_id %>"
+          uri="<%= @feed_uri %>"
+<%- if ! @connection_pool_id.nil? -%>
+          connection-pool-id="<%= @connection_pool_id %>"
+<%- end -%>
+<%- if ! @entry_order.nil? -%>
+          entry-order="<%= @entry_order %>"
+<%- end -%>
+          >
+<%- if ! @auth_uri.nil? -%>
+        <authentication xsi:type="OpenStackIdentityV2AuthenticationType"
+                        uri="<%= @auth_uri %>"
+                        username="<%= @auth_username %>"
+                        password="<%= @auth_password %>"
+  <%- if ! @auth_timeout.nil? -%>
+                        timeout="<%= @auth_timeout %>"
+  <%- end %>
+                        />
+<%- end -%>
+    </feed>

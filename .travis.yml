@@ -15,7 +15,7 @@ gemfile:
   - .gemfiles/Gemfile.ruby193.rspec
 
 script:
- - "bundle exec rake spec SPEC_OPTS='--format documentation'"
+ - "STRICT_VARIABLES=no bundle exec rake spec SPEC_OPTS='--format documentation'"
 
 env:
   - PUPPET_VERSION="~> 2.7.0"
