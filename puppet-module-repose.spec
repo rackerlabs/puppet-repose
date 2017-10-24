@@ -2,14 +2,13 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.2.0
+Version:   2.3.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
 License:   GPLv3+
 URL:       http://github.com/rackerlabs/puppet-%{base_name}
 Source0:   %{name}.tgz
-
 %description
 Repose is an API proxy service htat provides validation,
 keystone authentication, and several other features.
@@ -30,6 +29,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Tue Aug 08 2017 Meynard Alconis <meynard.alconis@rackspace.com> - 2.3.0
+- Add merge-header filter, template and supporting tests
 * Thu Jul 27 2017 Geoffrey McCammon <geoff.mccammon@rackspace.com> - 2.2.0-1
 - Add connection pool ID configuration for dist datastore
 * Fri May 19 2017 Jason Straw <jason.straw@rackspace.com> - 2.1.0-1
