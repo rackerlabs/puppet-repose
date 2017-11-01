@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.2.0
+Version:   2.3.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Tue Oct 31 2017 Senthil Natarajan <senthil.natarajan@rackspace.com> - 2.3.0-1
+- Add header-user filter, template and supporting tests
 * Thu Jul 27 2017 Geoffrey McCammon <geoff.mccammon@rackspace.com> - 2.2.0-1
 - Add connection pool ID configuration for dist datastore
 * Fri May 19 2017 Jason Straw <jason.straw@rackspace.com> - 2.1.0-1
