@@ -68,6 +68,13 @@
 #   ]
 # }
 #
+# [*tracing_header*]
+# Hash with key value pairs of options for tracing header configuration
+# options found in the System Model documentation Here:
+# https://repose.atlassian.net/wiki/spaces/REPOSE/pages/526529/System+model
+# WARNING: This is a Repose version 8 and above feature only.
+# Defaults to <tt>{}</tt> Empty hash
+#
 # === Examples
 #
 # $app_name = 'repose'
@@ -93,16 +100,18 @@
 # ]
 # repose::filter::system_model {
 #   'default':
-#     app_name  => $app_name,
-#     nodes     => $app_nodes,
-#     port      => $app_port,
-#     filters   => $filters,
-#     services  => $services,
-#     endpoints => $endpoints,
+#     app_name       => $app_name,
+#     nodes          => $app_nodes,
+#     port           => $app_port,
+#     filters        => $filters,
+#     services       => $services,
+#     endpoints      => $endpoints,
+#     tracing_header => { 'enabled' => 'true' },
 # }
 #
 # === Authors
 #
+# * Josh Bell <mailto:josh.bell@rackspace.com>
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
@@ -119,6 +128,7 @@ define repose::filter::system_model (
   $https_port          = undef,
   $rewrite_host_header = undef,
   $service_cluster     = undef,
+  $tracing_header      = {},
 ) {
 
 ### Validate parameters
