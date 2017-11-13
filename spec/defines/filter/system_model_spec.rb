@@ -200,7 +200,8 @@ describe 'repose::filter::system_model', :type => :define do
             'port'      => '80',
             'default'   => 'true'
           },
-        ]
+        ],
+        :tracing_header => { 'secondary-plain-text' => 'true' },
       } }
       it {
         should contain_file('/etc/repose/system-model.cfg.xml').with(
@@ -221,7 +222,8 @@ describe 'repose::filter::system_model', :type => :define do
           with_content(/name=\"rate-limiting\"/).
           with_content(/configuration=\"http-logging\.cfg\.xml\" name=\"http-logging\"/).
           with_content(/name=\"compression\"/).
-          with_content(/endpoint default=\"true\" hostname=\"localhost\" id=\"localhost\" port=\"80\" protocol=\"http\" root-path=\"\"/)
+          with_content(/endpoint default=\"true\" hostname=\"localhost\" id=\"localhost\" port=\"80\" protocol=\"http\" root-path=\"\"/).
+          with_content(/tracing-header secondary-plain-text=\"true\"/)
       }
     end
 

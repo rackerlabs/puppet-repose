@@ -38,5 +38,8 @@
     </nodes>
   </service-cluster>
 <%- end -%>
+<%- if ! @tracing_header.nil? -%>
+  <tracing-header <% @tracing_header.each do | param, value| %><%= param -%>="<%= value -%>" <%end %>/>
+<%- end -%>
 </system-model>
 
