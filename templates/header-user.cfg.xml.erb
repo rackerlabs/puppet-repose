@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- http://wiki.openrepose.org/display/REPOSE/Header+Identity -->
-<header-user xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-                 xmlns='http://docs.openrepose.org/repose/header-user/v1.0'
-                 xsi:schemaLocation='http://docs.openrepose.org/repose/header-user/v1.0 ../config/header-identity-configuration.xsd'>
-
+<header-user xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host_header') %>/repose/header-user/v1.0"
+    xsi:schemaLocation="http://<%= scope.lookupvar('::repose::cfg_namespace_host_header_norm') %>/repose/header-user/v1.0 ../config/header-user-configuration.xsd">
+<%- if @source_headers -%>
     <source-headers>
-        <header id="X-Auth-Token" quality=".95"/>
-        <header id="X-Forwarded-For" quality="0.5"/>
+      <%- @source_headers.each do |header| -%>
+        <header <% header.sort.map do |name, value| %> id="<%= name %>" quality="<%= value %>" <% end %>/>
     </source-headers>
-
+<%- end -%>
 </header-user>
