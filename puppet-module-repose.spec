@@ -30,7 +30,6 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
-<<<<<<< c834c1df18458f35e81b780f13f668775a5efa10
 * Fri Nov 10 2017 Josh Bell <josh.bell@rackspace.com> - 2.4.0-1
 - Add support for Repose 8 tracing header options
 * Tue Oct 31 2017 Senthil Natarajan <senthil.natarajan@rackspace.com> - 2.3.0-1
