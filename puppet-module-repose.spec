@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.4.0
+Version:   2.5.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -33,10 +33,8 @@ cp -pr * %{buildroot}%{module_dir}/
 <<<<<<< c834c1df18458f35e81b780f13f668775a5efa10
 * Fri Nov 10 2017 Josh Bell <josh.bell@rackspace.com> - 2.4.0-1
 - Add support for Repose 8 tracing header options
-=======
 * Tue Oct 31 2017 Senthil Natarajan <senthil.natarajan@rackspace.com> - 2.3.0-1
 - Add header-user filter, template and supporting tests
->>>>>>> Changes to add header-user filter
 * Thu Jul 27 2017 Geoffrey McCammon <geoff.mccammon@rackspace.com> - 2.2.0-1
 - Add connection pool ID configuration for dist datastore
 * Fri May 19 2017 Jason Straw <jason.straw@rackspace.com> - 2.1.0-1
