@@ -8,7 +8,7 @@
 <%- if @source_headers -%>
     <source-headers>
       <%- @source_headers.each do |header| -%>
-        <header <% header.sort.map do |name, value| %> id="<%= name %>" quality="<%= value %>" <% end %>/>
+        <header <% header.sort.map do |name, value| %>id="<%= name %>" quality="<%= value %>" <% end %>/>
     </source-headers>
 <%- end -%>
 </header-user>

@@ -46,7 +46,7 @@ describe 'repose::filter::header_user', :type => :define do
           } }
           it {
               should contain_file('/etc/repose/header-user.cfg.xml').with_content(
-                    /<header id="header_name1" value=".95"\/>/
+                    /<header id="header_name1" value=".95" \/>/
               )
             }
         end
