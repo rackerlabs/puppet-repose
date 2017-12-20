@@ -24,6 +24,7 @@
 # === Authors
 #
 # * Senthil Natarajan <mailto:senthil.natarajan@rackspace.com>
+# * Joel Rizner <mailto:joel.rizner@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::header_user (
