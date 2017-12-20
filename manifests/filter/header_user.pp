@@ -13,9 +13,8 @@
 # Defaults to <tt>header-user.cfg.xml</tt>
 #
 # [*source-headers*]
-# List containing source headers with the ids X-Auth-Token and X-Forwarded-For.
-# X-Auth-Token defaults to <tt>.95</tt>
-# X-Forwarded-For defaults to <tt>0.5</tt>
+# List containing source headers with the ids of the source headers and their
+# coresponding values
 #
 # === Links
 #
@@ -29,7 +28,8 @@
 #
 define repose::filter::header_user (
   $ensure         = present,
-  $filename       = 'header-user.cfg.xml'
+  $filename       = 'header-user.cfg.xml',
+  $source_headers = [ ]
 ) {
 
   ### Validate parameters

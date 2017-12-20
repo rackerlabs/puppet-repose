@@ -34,16 +34,21 @@ describe 'repose::filter::header_user', :type => :define do
       }
     end
 
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/header-user.cfg.xml').
-                   with_content(/docs.openrepose.org/)
-      }
-    end
+        context 'providing merge header definitions' do
+          let(:title) { 'merge_header' }
+          let(:params) { {
+                :ensure     => 'present',
+                :filename   => 'header-user.cfg.xml',
+                :source_headers => [
+                        { 'header_name1' => '.95' },
+                        { 'header_name2' => '.05' }
+                     ],
+          } }
+          it {
+              should contain_file('/etc/repose/header-user.cfg.xml').with_content(
+                    /<header id="header_name1" value=".95"\/>/
+              )
+            }
+        end
   end
 end
