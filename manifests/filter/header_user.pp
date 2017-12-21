@@ -13,8 +13,16 @@
 # Defaults to <tt>header-user.cfg.xml</tt>
 #
 # [*source-headers*]
-# List containing source headers with the ids of the source headers and their
+# Array of hashes containing source headers with the ids of the source headers and their
 # coresponding values
+# Example:
+# [
+#   {
+#     'X-Auth-Token' => '.90',
+#     'X-PP-User'    => '.07',
+#     'X-User-Name'  => '.03',
+#   },
+# ]
 #
 # === Links
 #
