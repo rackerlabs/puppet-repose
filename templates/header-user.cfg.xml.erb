@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://wiki.openrepose.org/display/REPOSE/Header+Identity -->
+<header-user xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                 xmlns='http://docs.openrepose.org/repose/header-user/v1.0'
+                 xsi:schemaLocation='http://docs.openrepose.org/repose/header-user/v1.0 ../config/header-identity-configuration.xsd'>
+
+<%- if @source_headers -%>
+    <source-headers>
+      <%- @source_headers.each do |header| -%>
+        <header <% header.sort.map do |name, value| %>id="<%= name %>" quality="<%= value %>" <% end %>/>
+      <%- end -%>
+    </source-headers>
+<%- end -%>
+</header-user>

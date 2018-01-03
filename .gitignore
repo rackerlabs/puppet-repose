@@ -22,3 +22,4 @@ doc/
 
 # Tarball and RPM artifacts
 build/
+/.idea/

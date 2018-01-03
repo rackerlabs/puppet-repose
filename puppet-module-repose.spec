@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.4.0
+Version:   2.5.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
