@@ -37,7 +37,7 @@
 define repose::filter::header_user (
   $ensure         = present,
   $filename       = 'header-user.cfg.xml',
-  $source_headers = undef
+  $source_headers
 ) {
 
   ### Validate parameters
@@ -56,9 +56,8 @@ define repose::filter::header_user (
   }
 
   if $ensure == present {
-    if $source_headers == undef {
-      fail('source_headers is a required parameter. see documentation for details.')
-    }
+    validate_array($source_headers)
+
     $content_template = template("${module_name}/header-user.cfg.xml.erb")
   } else {
     $content_template = undef
