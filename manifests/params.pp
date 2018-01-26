@@ -197,6 +197,29 @@ class repose::params {
 ## default access logging to syslog
   $log_access_syslog = true
 
+## default loggers and their log level for log4j2
+  $log_log4j2_default_loggers = {
+    "com.sun.jersey" => { "level" => "off",},
+    "intrafilter-logging" => { "level" => "info",},
+    "net.sf.ehcache" => { "level" => "error",},
+    "org.apache.commons.httpclient" => { "level" => "warn",},
+    "org.apache.http.wire" => { "level" => "off",},
+    "org.eclipse.jetty" => { "level" => "off",},
+    "org.openrepose" => {"level" => "info",},
+    "org.rackspace.deproxy" => { "level" => "info",},
+    "org.springframework" => { "level" => "warn", },
+  }
+
+## User defined log4j2l loggers 
+  $log_log4j2_optional_loggers = {}
+
+## Intrafilter tracing loggers 
+  $log_log4j2_intrafilter_trace_loggers = {
+    "intrafilter-logging"  => { "level" => "trace",},
+    "org.apache.http.wire" => { "level" => "trace",},
+    "org.openrepose"       => { "level" => "debug",},
+  }
+
 ## logging intrafilter trace logs
   $log_intrafilter_trace = false
 

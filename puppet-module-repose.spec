@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.5.0
+Version:   2.6.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Fri Jan 26 2018 Josh Bell <josh.bell@rackspace.com> - 2.6.0-1
+- Add support to modify per filter logging levels in log4j2
 * Fri Nov 10 2017 Josh Bell <josh.bell@rackspace.com> - 2.4.0-1
 - Add support for Repose 8 tracing header options
 * Thu Jul 27 2017 Geoffrey McCammon <geoff.mccammon@rackspace.com> - 2.2.0-1

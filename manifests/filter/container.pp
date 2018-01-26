@@ -107,6 +107,25 @@
 # http://www.rsyslog.com/doc/master/configuration/modules/mmpstrucdata.html
 # Defaults to <tt>false</tt>.
 #
+# [*log_log4j2_optional_loggers*]
+# Hash of Hashes. A Hash of key value pairs where the key is the repose class
+# name for a filter and the value is a hash of key value paris of log4j2
+# logger fields (level is required, but optional feields can be added. level
+# can be one of `off`, `error`, `warn`, `info`, `debug`, and `trace`.
+# # Example:
+# $log_log4j2_optional_loggers: {
+#    "intrafilter-logging"  => { "level" => "trace",},
+#    "org.apache.http.wire" => { "level" => "trace", "additivity" => "true",},
+#    "org.openrepose"       => { "level" => "debug",},
+#  }
+# The attribute log_use_log4j2 must be set true for this to modify the correct
+# template.
+# Note:
+# The followg classes loggeers should not be modified as they require more
+# advanced configuration than this feature provides and they are handled
+# elsewhere. Those classes are: http, org.openrepose.herp.pre.filter and
+# org.openrepose.herp.post.filter 
+#
 # [*log_intrafilter_trace*]
 # Boolean. Adds intrafilter trace logging to repose - log_use_log4j2 must also
 # be set true.
@@ -233,54 +252,57 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::filter::container (
-  $ensure                            = present,
-  $app_name                          = undef,
-  $artifact_directory                = $repose::params::artifact_directory,
-  $artifact_directory_check_interval = 60000,
-  $client_request_logging            = undef,
-  $content_body_read_limit           = undef,
-  $deployment_directory              = $repose::params::deployment_directory,
-  $deployment_directory_auto_clean   = true,
-  $jmx_reset_time                    = undef,
-  $log_access_facility               = $repose::params::log_access_facility,
-  $log_access_app_name               = $repose::params::log_access_app_name,
-  $log_access_local                  = $repose::params::log_access_local,
-  $log_access_local_name             = $repose::params::log_access_local_name,
-  $log_access_syslog                 = $repose::params::log_access_syslog,
-  $log_dir                           = $repose::params::logdir,
-  $log_herp_app_name                 = $repose::params::log_herp_app_name,
-  $log_herp_facility                 = $repose::params::log_herp_facility,
-  $log_herp_flume                    = $repose::params::log_herp_flume,
-  $log_herp_syslog                   = $repose::params::log_herp_syslog,
-  $log_herp_syslog_postfilter        = $repose::params::log_herp_syslog_postfilter,
-  $log_herp_syslog_prefilter         = $repose::params::log_herp_syslog_prefilter,
-  $log_intrafilter_trace             = $repose::params::log_intrafilter_trace,
-  $log_level                         = $repose::params::log_level,
-  $log_local_policy                  = $repose::params::log_local_policy,
-  $log_local_size                    = $repose::params::log_local_size,
-  $log_local_rotation_count          = $repose::params::log_local_rotation_count,
-  $log_repose_facility               = $repose::params::log_repose_facility,
-  $log_use_log4j2                    = false,
-  $logging_configuration             = $repose::params::logging_configuration,
-  $ssl_enabled                       = false,
-  $ssl_keystore_filename             = undef,
-  $ssl_keystore_password             = undef,
-  $ssl_key_password                  = undef,
-  $ssl_include_cipher                = undef,
-  $ssl_exclude_cipher                = undef,
-  $syslog_server                     = undef,
-  $syslog_port                       = $repose::params::syslog_port,
-  $syslog_protocol                   = $repose::params::syslog_protocol,
-  $via                               = undef,
-  $flume_host                        = $repose::params::flume_host,
-  $flume_port                        = $repose::params::flume_port,
+  $ensure                               = present,
+  $app_name                             = undef,
+  $artifact_directory                   = $repose::params::artifact_directory,
+  $artifact_directory_check_interval    = 60000,
+  $client_request_logging               = undef,
+  $content_body_read_limit              = undef,
+  $deployment_directory                 = $repose::params::deployment_directory,
+  $deployment_directory_auto_clean      = true,
+  $jmx_reset_time                       = undef,
+  $log_access_facility                  = $repose::params::log_access_facility,
+  $log_access_app_name                  = $repose::params::log_access_app_name,
+  $log_access_local                     = $repose::params::log_access_local,
+  $log_access_local_name                = $repose::params::log_access_local_name,
+  $log_access_syslog                    = $repose::params::log_access_syslog,
+  $log_dir                              = $repose::params::logdir,
+  $log_herp_app_name                    = $repose::params::log_herp_app_name,
+  $log_herp_facility                    = $repose::params::log_herp_facility,
+  $log_herp_flume                       = $repose::params::log_herp_flume,
+  $log_herp_syslog                      = $repose::params::log_herp_syslog,
+  $log_herp_syslog_postfilter           = $repose::params::log_herp_syslog_postfilter,
+  $log_herp_syslog_prefilter            = $repose::params::log_herp_syslog_prefilter,
+  $log_log4j2_default_loggers           = $repose::params::log_log4j2_default_loggers,
+  $log_log4j2_optional_loggers          = $repose::params::log_log4j2_optional_loggers,
+  $log_log4j2_intrafilter_trace_loggers = $repose::params::log_log4j2_intrafilter_trace_loggers,
+  $log_intrafilter_trace                = $repose::params::log_intrafilter_trace,
+  $log_level                            = $repose::params::log_level,
+  $log_local_policy                     = $repose::params::log_local_policy,
+  $log_local_size                       = $repose::params::log_local_size,
+  $log_local_rotation_count             = $repose::params::log_local_rotation_count,
+  $log_repose_facility                  = $repose::params::log_repose_facility,
+  $log_use_log4j2                       = false,
+  $logging_configuration                = $repose::params::logging_configuration,
+  $ssl_enabled                          = false,
+  $ssl_keystore_filename                = undef,
+  $ssl_keystore_password                = undef,
+  $ssl_key_password                     = undef,
+  $ssl_include_cipher                   = undef,
+  $ssl_exclude_cipher                   = undef,
+  $syslog_server                        = undef,
+  $syslog_port                          = $repose::params::syslog_port,
+  $syslog_protocol                      = $repose::params::syslog_protocol,
+  $via                                  = undef,
+  $flume_host                           = $repose::params::flume_host,
+  $flume_port                           = $repose::params::flume_port,
   # BELOW ARE DEPRECATED
-  $herp                              = false,
-  $http_port                         = undef,
-  $https_port                        = undef,
-  $connection_timeout                = undef,
-  $read_timeout                      = undef,
-  $proxy_thread_pool                 = undef,
+  $herp                                 = false,
+  $http_port                            = undef,
+  $https_port                           = undef,
+  $connection_timeout                   = undef,
+  $read_timeout                         = undef,
+  $proxy_thread_pool                    = undef,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -314,6 +336,12 @@ class repose::filter::container (
 
   if $log_use_log4j2 == true {
     $logging_configuration_real = 'log4j2.xml'
+    # also merge logger options hashes. 
+    if $log_intrafilter_trace == true {
+      $log_log4j2_loggers = deep_merge($log_log4j2_default_loggers, $log_log4j2_optional_loggers, $log_log4j2_intrafilter_trace_loggers)
+    } else {
+      $log_log4j2_loggers = deep_merge($log_log4j2_default_loggers, $log_log4j2_optional_loggers)
+    }
   } else {
     $logging_configuration_real = $logging_configuration
   }
