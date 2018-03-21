@@ -18,9 +18,14 @@
 # Example:
 # [
 #   {
-#     'X-Auth-Token' => '.90',
-#     'X-PP-User'    => '.07',
-#     'X-User-Name'  => '.03',
+#     'name'  => 'X-Auth-Token',
+#     'value' => '.90',
+#   },{
+#     'name'  => 'X-PP-User'
+#     'value' => '.07',
+#   },{
+#     'name'  => 'X-User-Name',
+#     'value' => '.03',
 #   },
 # ]
 #
@@ -37,7 +42,7 @@
 define repose::filter::header_user (
   $ensure         = present,
   $filename       = 'header-user.cfg.xml',
-  $source_headers
+  $source_headers = [],
 ) {
 
   ### Validate parameters
