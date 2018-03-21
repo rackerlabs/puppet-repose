@@ -34,19 +34,19 @@ describe 'repose::filter::header_user', :type => :define do
       }
     end
 
-        context 'providing merge header definitions' do
-          let(:title) { 'merge_header' }
+        context 'providing header user definitions' do
+          let(:title) { 'header_user' }
           let(:params) { {
                 :ensure     => 'present',
                 :filename   => 'header-user.cfg.xml',
                 :source_headers => [
-                        { 'header_name1' => '.95' },
-                        { 'header_name2' => '.05' }
+                        { 'name' => 'header_name1', 'value'  => '.95' },
+                        { 'name' => 'header_name2', 'value'  => '.05' }
                      ],
           } }
           it {
               should contain_file('/etc/repose/header-user.cfg.xml').with_content(
-                    /<header id="header_name1" value=".95" \/>/
+                    /<header id="header_name1" quality=".95" \/>/
               )
             }
         end
