@@ -470,5 +470,95 @@ describe 'repose::filter::open_tracing', :type => :define do
           with_content(/docs.openrepose.org/)
       }
     end
+
+    context 'validate hashes' do
+      context 'validate connection_http' do
+        let(:title) { 'validate_connection_http' }
+  
+        let(:params) { {
+          :ensure     => 'present',
+          :filename   => 'open-tracing.cfg.xml',
+          :service_name => 'test-repose',
+          :connection_http => 'random',
+          :sampling_constant => {
+            'toggle' => 'on'
+          }
+        } }
+        it {
+          should raise_error(Puppet::Error, /\"random\" is not a Hash.  It looks to be a String/)
+        }
+      end
+
+      context 'validate connection_udp' do
+        let(:title) { 'validate_connection_udp' }
+  
+        let(:params) { {
+          :ensure     => 'present',
+          :filename   => 'open-tracing.cfg.xml',
+          :service_name => 'test-repose',
+          :connection_udp => 'random',
+          :sampling_constant => {
+            'toggle' => 'on'
+          }
+        } }
+        it {
+          should raise_error(Puppet::Error, /\"random\" is not a Hash.  It looks to be a String/)
+        }
+      end
+
+      context 'validate sampling_constant' do
+        let(:title) { 'validate_sampling_constant' }
+  
+        let(:params) { {
+          :ensure     => 'present',
+          :filename   => 'open-tracing.cfg.xml',
+          :service_name => 'test-repose',
+          :connection_udp => {
+            'host' => 'localhost',
+            'port' => 5775
+          },
+          :sampling_constant => 'test'
+        } }
+        it {
+          should raise_error(Puppet::Error, /\"test\" is not a Hash.  It looks to be a String/)
+        }
+      end
+
+      context 'validate sampling_rate_limiting' do
+        let(:title) { 'validate_sampling_rate_limiting' }
+  
+        let(:params) { {
+          :ensure     => 'present',
+          :filename   => 'open-tracing.cfg.xml',
+          :service_name => 'test-repose',
+          :connection_udp => {
+            'host' => 'localhost',
+            'port' => 5775
+          },
+          :sampling_rate_limiting => 'test'
+        } }
+        it {
+          should raise_error(Puppet::Error, /\"test\" is not a Hash.  It looks to be a String/)
+        }
+      end
+
+      context 'validate sampling_probabilistic' do
+        let(:title) { 'validate_sampling_probabilistic' }
+  
+        let(:params) { {
+          :ensure     => 'present',
+          :filename   => 'open-tracing.cfg.xml',
+          :service_name => 'test-repose',
+          :connection_udp => {
+            'host' => 'localhost',
+            'port' => 5775
+          },
+          :sampling_probabilistic => 'test'
+        } }
+        it {
+          should raise_error(Puppet::Error, /\"test\" is not a Hash.  It looks to be a String/)
+        }
+      end
+    end
   end
 end

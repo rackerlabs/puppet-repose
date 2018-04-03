@@ -129,6 +129,7 @@ define repose::filter::open_tracing (
 ## if http
     if $connection_http {
       ## must have endpoint
+      validate_hash($connection_http)
       if !$connection_http['endpoint'] {
         fail( 'must define http endpoint for connection_http' )
       }
@@ -143,6 +144,7 @@ define repose::filter::open_tracing (
         }        
       }
     } else {
+      validate_hash($connection_udp)
       if !$connection_udp['host'] or !$connection_udp['port'] {
         fail( 'must specify host and port for connection_udp' )
       }
@@ -151,6 +153,14 @@ define repose::filter::open_tracing (
 ## at least one of the sampling algos must be defined
     if !$sampling_probabilistic and !$sampling_rate_limiting and !$sampling_constant {
       fail( 'must define at a sampling algorithm' )
+    }
+
+    if $sampling_constant {
+      validate_hash($sampling_constant)
+    } elsif $sampling_probabilistic {
+      validate_hash($sampling_probabilistic)
+    } elsif $sampling_rate_limiting {
+      validate_hash($sampling_rate_limiting)
     }
 
     $content_template = template("${module_name}/open-tracing.cfg.xml.erb")
