@@ -13,6 +13,14 @@
             http-methods="<%= target['http-methods'] %>"
     <%- end -%>
             >
+    <%- if target.has_key?('direction') -%>
+       <%- if target['direction'] == 'request' -%>
+          <request> 
+       <%- elsif target['direction'] == 'response' -%>
+          <response> 
+       <%- end -%>
+    <%- end -%>
+
     <%- if target.has_key?('whitelists') -%>
       <%- target['whitelists'].each do |whitelist| -%>
             <whitelist id="<%= whitelist['id'] %>">
@@ -34,6 +42,13 @@
         <%- end -%>
             </blacklist>
       <%- end -%>
+    <%- end -%>
+    <%- if target.has_key?('direction') -%>
+       <%- if target['direction'] == 'request' -%>
+          </request> 
+       <%- elsif target['direction'] == 'response' -%>
+          </response> 
+       <%- end -%>
     <%- end -%>
     </target>
   <%- end -%>

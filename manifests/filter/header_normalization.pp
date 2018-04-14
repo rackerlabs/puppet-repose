@@ -28,6 +28,7 @@
 #   'default':
 #     header_filters => [
 #       {
+#          'direction'    => 'request',
 #          'http-methods' => 'GET',
 #          'blacklists'   => [
 #            {
