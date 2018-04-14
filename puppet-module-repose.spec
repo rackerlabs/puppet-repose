@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.6.2
+Version:   2.6.3
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Fri Apr 13 2018 Meynard Alconis <meynard.alconis@rackspace.com> - 2.6.3-1
+- Updated header-normalization module to allow definition of blacklist/whitelist for header filters
 * Wed Mar 21 2018 Meynard Alconis <meynard.alconis@rackspace.com> - 2.6.2-1
 - Fix for header user module and tests
 * Mon Mar 19 2018 Meynard Alconis <meynard.alconis@rackspace.com> - 2.6.1-1

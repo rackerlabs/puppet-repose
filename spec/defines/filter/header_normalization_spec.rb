@@ -66,7 +66,147 @@ describe 'repose::filter::header_normalization', :type => :define do
           with_content(/header id="X-PP-Groups"/).
           with_content(/whitelist id="creds"/).
           with_content(/header id="X-Auth-Key"/).
-          with_content(/header id="X-Auth-User"/)
+          with_content(/header id="X-Auth-User"/).
+          without_content(/<request>/).
+          without_content(/<\/request>/).
+          without_content(/<response>/).
+          without_content(/<\/response>/)
+      }
+    end
+
+    context 'with direction for header_filters' do
+      let(:title) { 'headers' }
+      let(:params) { {
+        :header_filters => [
+         {
+            'direction'    => 'request',
+            'uri-regex'    => '/.*test',
+            'http-methods' => 'GET',
+            'blacklists'   => [
+              {
+                'id'    => 'rate-limit-headers',
+                'headers' => [
+                  'X-PP-User',
+                  'X-PP-Groups'
+                ]
+              }
+            ],
+            'whitelists'   => [
+              {
+                'id'    => 'creds',
+                'headers' => [
+                  'X-Auth-Key',
+                  'X-Auth-User'
+                ]
+              }
+            ],
+         }
+       ]
+      } }
+      it {
+        should contain_file('/etc/repose/header-normalization.cfg.xml').
+          with_content(/uri-regex="\/\.\*test"/).
+          with_content(/http-methods="GET"/).
+          with_content(/blacklist id="rate-limit-headers"/).
+          with_content(/header id="X-PP-User"/).
+          with_content(/header id="X-PP-Groups"/).
+          with_content(/whitelist id="creds"/).
+          with_content(/header id="X-Auth-Key"/).
+          with_content(/header id="X-Auth-User"/).
+          with_content(/<request>/).
+          with_content(/<\/request>/).
+          without_content(/<response>/)
+      }
+    end
+
+    context 'with direction response for header_filters' do
+      let(:title) { 'headers' }
+      let(:params) { {
+        :header_filters => [
+         {
+            'direction'    => 'response',
+            'uri-regex'    => '/.*test',
+            'http-methods' => 'GET',
+            'blacklists'   => [
+              {
+                'id'    => 'rate-limit-headers',
+                'headers' => [
+                  'X-PP-User',
+                  'X-PP-Groups'
+                ]
+              }
+            ],
+            'whitelists'   => [
+              {
+                'id'    => 'creds',
+                'headers' => [
+                  'X-Auth-Key',
+                  'X-Auth-User'
+                ]
+              }
+            ],
+         }
+       ]
+      } }
+      it {
+        should contain_file('/etc/repose/header-normalization.cfg.xml').
+          with_content(/uri-regex="\/\.\*test"/).
+          with_content(/http-methods="GET"/).
+          with_content(/blacklist id="rate-limit-headers"/).
+          with_content(/header id="X-PP-User"/).
+          with_content(/header id="X-PP-Groups"/).
+          with_content(/whitelist id="creds"/).
+          with_content(/header id="X-Auth-Key"/).
+          with_content(/header id="X-Auth-User"/).
+          without_content(/<request>/).
+          without_content(/<\/request>/).
+          with_content(/<response>/).
+          with_content(/<\/response>/)
+      }
+    end
+
+    context 'with two targets direction response for header_filters' do
+      let(:title) { 'headers' }
+      let(:params) { {
+        :header_filters => [
+         {
+            'direction'    => 'response',
+            'blacklists'   => [
+              {
+                'id'    => 'rate-limit-headers',
+                'headers' => [
+                  'X-PP-User',
+                  'X-PP-Groups'
+                ]
+              }
+            ]
+         },
+         {
+            'direction'    => 'request',
+            'blacklists'   => [
+              {
+                'id'    => 'rate-limit-headers',
+                'headers' => [
+                  'X-PP-User',
+                  'X-PP-Groups'
+                ]
+              }
+            ]
+         }
+       ]
+      } }
+      it {
+        should contain_file('/etc/repose/header-normalization.cfg.xml').
+          without_content(/uri-regex="\/\.\*test"/).
+          without_content(/http-methods="GET"/).
+          with_content(/blacklist id="rate-limit-headers"/).
+          with_content(/header id="X-PP-User"/).
+          with_content(/header id="X-PP-Groups"/).
+          without_content(/whitelist id="creds"/).
+          with_content(/<request>/).
+          with_content(/<\/request>/).
+          with_content(/<response>/).
+          with_content(/<\/response>/)
       }
     end
 
