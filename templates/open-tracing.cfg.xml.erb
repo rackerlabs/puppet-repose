@@ -1,22 +1,22 @@
 <open-tracing xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/open-tracing-service/v1.0"
  service-name="<%= @service_name %>">
     <jaeger>
-    <%- if @connection_http -%>
-        <connection-http endpoint="<%= @connection_http['endpoint'] %>"
-            <%- if ! @connection_http['username'].nil? -%> username="<%= @connection_http['username'] %>"<%- end -%> 
-            <%- if ! @connection_http['password'].nil? -%> password="<%= @connection_http['password'] %>"<%- end -%>
-            <%- if ! @connection_http['token'].nil? -%> token="<%= @connection_http['token'] %>"<%- end -%>
+    <%- if @connection_type == 'http' -%>
+        <connection-http endpoint="<%= @connection_endpoint %>"
+            <%- if ! @connection_username.nil? -%> username="<%= @connection_username %>"<%- end -%> 
+            <%- if ! @connection_password.nil? -%> password="<%= @connection_password %>"<%- end -%>
+            <%- if ! @connection_token.nil? -%> token="<%= @connection_token %>"<%- end -%>
         />
-    <%- elsif @connection_udp -%>
-        <connection-udp port="<%= @connection_udp['port'] %>" host="<%= @connection_udp['host'] %>" />
+    <%- elsif @connection_type == 'udp' -%>
+        <connection-udp port="<%= @connection_port %>" host="<%= @connection_host %>" />
     <%- end -%>
     
-    <%- if @sampling_constant -%>
-        <sampling-constant <%- if ! @sampling_constant['toggle'].nil? -%>toggle="<%= @sampling_constant['toggle'] %>"<%- end -%>/>
-    <%- elsif @sampling_probabilistic -%>
-        <sampling-probabilistic <%- if ! @sampling_probabilistic['probability'].nil? -%>probability="<%= @sampling_probabilistic['probability'] %>"<%- end -%>/>
-    <%- elsif @sampling_rate_limiting -%>
-        <sampling-rate-limiting <%- if ! @sampling_rate_limiting['max_traces_per_second'].nil? -%>max-traces-per-second="<%= @sampling_rate_limiting['max_traces_per_second'] %>"<%- end -%>/>
+    <%- if @sampling_type == 'probabilistic' -%>
+        <sampling-probabilistic probability="<%= @probability %>" />
+    <%- elsif @sampling_type == 'rate-limiting' -%>
+        <sampling-rate-limiting max-traces-per-second="<%= @max_traces_per_second %>" />
+    <%- elsif @sampling_type == 'constant' -%>
+        <sampling-constant toggle="<%= @constant_toggle %>"/>
     <%- end -%>
     </jaeger>
 </open-tracing>
