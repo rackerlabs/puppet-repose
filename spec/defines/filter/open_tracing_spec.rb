@@ -596,7 +596,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           :connection_port => 'localhost'
         } }
         it {
-          should raise_error(Puppet::Error, /Expected first argument to be an Integer or Array, got String/)
+          should raise_error(Puppet::Error, /connection_port must be an integer/)
         }
       end
 
@@ -640,7 +640,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           :max_traces_per_second => 'random'
         } }
         it {
-          should raise_error(Puppet::Error, /Expected first argument to be a Numeric or Array/)
+          should raise_error(Puppet::Error, /max_traces_per_second must be an float/)
         }
       end
 
@@ -655,7 +655,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           :probability => 'random'
         } }
         it {
-          should raise_error(Puppet::Error, /Expected first argument to be a Numeric or Array/)
+          should raise_error(Puppet::Error, /probability must be an float/)
         }
       end
     end

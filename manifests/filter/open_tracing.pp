@@ -133,6 +133,7 @@ define repose::filter::open_tracing (
       }
     } elsif $connection_type == 'udp' {
       # validates ipv4 (allows invalid ips), hostname, ipv6 (only standard notation)
+      # cannot use validate_ip_* or anything like that since it could be a hostname OR ip address
       validate_re(
         $connection_host, 
         [
@@ -141,7 +142,11 @@ define repose::filter::open_tracing (
           '^(?:[A-Fa-f0-9]{0,4}:){7}[A-Fa-f0-9]{1,4}$'
         ],
         'Must provide valid host for connection_host for connection_type udp')
-      validate_integer($connection_port)
+      # validate_integer($connection_port) - cannot use validate_integer due to ruby 1.8.7 support.  Comment left here for any future reviewer.
+      # Update if we deprecated 1.8.7 support
+      if ! is_integer($connection_port) {
+        fail( 'connection_port must be an integer' )
+      }
     }
 
 ## at least one of the sampling algos must be defined
@@ -149,9 +154,15 @@ define repose::filter::open_tracing (
     if $sampling_type == 'constant' {
       validate_re($constant_toggle, ['on','off'], 'constant_toggle must be set to on or off')
     } elsif $sampling_type == 'rate-limiting' {
-      validate_numeric($max_traces_per_second)
+      # validate_numeric($max_traces_per_second) - cannot use validate_numeric due to ruby 1.8.7 support.  Comment left here for any future reviewer.
+      # Update if we deprecated 1.8.7 support
+      if ! is_float($max_traces_per_second) {
+        fail( 'max_traces_per_second must be an float' )
+      }
     } elsif $sampling_type == 'probabilistic' {
-      validate_numeric($probability)
+      if ! is_float($probability) {
+        fail( 'probability must be an float' )
+      }
     }
 
     $content_template = template("${module_name}/open-tracing.cfg.xml.erb")
