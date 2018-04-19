@@ -59,7 +59,7 @@
 #
 # === Examples
 #
-# repsoe::filter::open_tracing {
+# repose::filter::open_tracing {
 #  'open_tracing':
 #     service_name => 'awesome-repose',
 #     http_connection_endpoint => 'https://jaeger-collector.example.com/api/traces',

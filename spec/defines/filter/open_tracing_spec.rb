@@ -414,21 +414,6 @@ describe 'repose::filter::open_tracing', :type => :define do
         }
       end
 
-      context 'validate connection_host' do
-        let(:title) { 'validate_connection_host' }
-  
-        let(:params) { {
-          :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
-          :service_name => 'test-repose',
-          :udp_connection_port => 5755,
-          :udp_connection_host => ''
-        } }
-        it {
-          should raise_error(Puppet::Error, /Must provide valid host for udp_connection_host/)
-        }
-      end
-
       context 'validate connection_host only' do
         let(:title) { 'validate_connection_host_only' }
   
