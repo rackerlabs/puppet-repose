@@ -19,7 +19,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           'owner'  => 'repose',
           'group'  => 'repose',
           'mode'   => '0660').
-          with_content(/connection-udp port=\"5775\" host=\"localhost\"/).
+          with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/).
           with_content(/service-name=\"repose\"/).
           with_content(/<sampling-constant toggle=\"off\"/)
       }
@@ -36,14 +36,13 @@ describe 'repose::filter::open_tracing', :type => :define do
       }
     end
 
-    context 'providing http connection - no auth' do
-      let(:title) { 'connection_http_no_auth' }
+    context 'providing http connection - endpoint' do
+      let(:title) { 'connection_http_endpoint' }
       let(:params) { {
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_endpoint => 'http://example.com/api/traces',
+        :http_connection_endpoint => 'http://example.com/api/traces',
         :constant_toggle => 'on'
       } }
       it {
@@ -64,13 +63,12 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :connection_username => 'reposeuser',
+        :http_connection_endpoint => 'http://example.com/api/traces',
+        :http_connection_username => 'reposeuser',
         :constant_toggle => 'on'
       } }
       it {
-        should raise_error(Puppet::Error, /must define password since username is defined for http connection_type/)
+        should raise_error(Puppet::Error, /must define password since username is defined/)
       }
     end
 
@@ -80,10 +78,9 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :connection_username => 'reposeuser',
-        :connection_password => 'reposepass',
+        :http_connection_endpoint => 'http://example.com/api/traces',
+        :http_connection_username => 'reposeuser',
+        :http_connection_password => 'reposepass',
         :constant_toggle => 'on'
       } }
       it {
@@ -106,15 +103,14 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :connection_username => 'reposeuser',
-        :connection_password => 'reposepass',
-        :connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces',
+        :http_connection_username => 'reposeuser',
+        :http_connection_password => 'reposepass',
+        :http_connection_token    => 'mytoken',
         :constant_toggle => 'on'
       } }
       it {
-        should raise_error(Puppet::Error, /cannot define both token and username for http connection_type/)
+        should raise_error(Puppet::Error, /cannot define both token and username for http/)
       }
     end
 
@@ -124,9 +120,8 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces',
+        :http_connection_token    => 'mytoken',
         :constant_toggle => 'on'
       } }
       it {
@@ -148,8 +143,7 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
+        :http_connection_token    => 'mytoken',
         :constant_toggle => 'on'
       } }
       it {
@@ -165,35 +159,14 @@ describe 'repose::filter::open_tracing', :type => :define do
       }
     end
 
-    context 'providing udp connection - default' do
-      let(:title) { 'connection_udp_default' }
+    context 'providing udp connection' do
+      let(:title) { 'connection_udp' }
       let(:params) { {
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'udp',
-        :constant_toggle => 'on'
-      } }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-udp port=\"5775\" host=\"localhost\" /).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/<sampling-constant toggle=\"on\"/)
-      }
-    end
-
-    context 'providing udp connection - only host' do
-      let(:title) { 'connection_udp_only_host' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
-        :service_name => 'test-repose',
-        :connection_type => 'udp',
-        :connection_host => 'newhost.example.com',
+        :udp_connection_host => 'newhost.example.com',
+        :udp_connection_port => 5775,
         :constant_toggle => 'on'
       } }
       it {
@@ -214,8 +187,8 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'udp',
-        :connection_host => '127.0.0.1',
+        :udp_connection_host => '127.0.0.1',
+        :udp_connection_port => 5775,
         :constant_toggle => 'on'
       } }
       it {
@@ -236,8 +209,8 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'udp',
-        :connection_host => '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
+        :udp_connection_host => '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
+        :udp_connection_port => 5775,
         :constant_toggle => 'on'
       } }
       it {
@@ -258,9 +231,8 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
+        :http_connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces',
         :constant_toggle => 'on'
       } }
       it {
@@ -282,9 +254,8 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
+        :http_connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces',
         :constant_toggle => 'off'
       } }
       it {
@@ -300,41 +271,15 @@ describe 'repose::filter::open_tracing', :type => :define do
       }
     end
 
-    context 'providing rate limiting sampling - default' do
-      let(:title) { 'rate_limiting_sampling_default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
-        :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :sampling_type => 'rate-limiting'
-      } }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/<sampling-rate-limiting/)
-      }
-    end
-
     context 'providing rate limiting sampling - set' do
       let(:title) { 'rate_limiting_sampling_set' }
       let(:params) { {
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :sampling_type => 'rate-limiting',
-        :max_traces_per_second => '5.6'
+        :http_connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces',
+        :rate_limiting_max_traces_per_second => '5.6'
       } }
       it {
         should contain_file('/etc/repose/open-tracing.cfg.xml').with(
@@ -349,40 +294,14 @@ describe 'repose::filter::open_tracing', :type => :define do
       }
     end
 
-    context 'providing probabilistic sampling - default' do
-      let(:title) { 'probabilistic_sampling_default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
-        :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :sampling_type => 'probabilistic'
-      } }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/<sampling-probabilistic probability=\"0.001\"/)
-      }
-    end
-
     context 'providing probabilistic sampling - set' do
       let(:title) { 'probabilistic_sampling_set' }
       let(:params) { {
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :sampling_type => 'probabilistic',
+        :http_connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces',
         :probability => '1.0'
       } }
       it {
@@ -408,10 +327,8 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :sampling_type => 'rate-limiting'
+        :http_connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces'
       } }
       it {
         should contain_file('/etc/repose/open-tracing.cfg.xml').
@@ -429,10 +346,8 @@ describe 'repose::filter::open_tracing', :type => :define do
         :ensure     => 'present',
         :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
-        :connection_type => 'http',
-        :connection_token    => 'mytoken',
-        :connection_endpoint => 'http://example.com/api/traces',
-        :sampling_type => 'rate-limiting'
+        :http_connection_token    => 'mytoken',
+        :http_connection_endpoint => 'http://example.com/api/traces'
       } }
       it {
         should contain_file('/etc/repose/open-tracing.cfg.xml').
@@ -441,20 +356,6 @@ describe 'repose::filter::open_tracing', :type => :define do
     end
 
     context 'validate entries' do
-      context 'validate connection_type' do
-        let(:title) { 'validate_connection_type' }
-  
-        let(:params) { {
-          :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
-          :service_name => 'test-repose',
-          :connection_type => 'random'
-        } }
-        it {
-          should raise_error(Puppet::Error, /connection_type parameter must be either http or udp/)
-        }
-      end
-
       context 'validate connection_endpoint' do
         let(:title) { 'validate_connection_endpoint' }
   
@@ -462,11 +363,10 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'http',
-          :connection_endpoint => 'random'
+          :http_connection_endpoint => 'random'
         } }
         it {
-          should raise_error(Puppet::Error, /Must provide valid http:\/\/ endpoint for connection_endpoint for connection_type http/)
+          should raise_error(Puppet::Error, /Must provide valid http:\/\/ endpoint for http_connection_endpoint/)
         }
       end
 
@@ -477,9 +377,8 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'http',
-          :connection_username => true,
-          :connection_password => 'reposepass',
+          :http_connection_username => true,
+          :http_connection_password => 'reposepass',
         } }
         it {
           should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
@@ -493,9 +392,8 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'http',
-          :connection_username => 'test',
-          :connection_password => true
+          :http_connection_username => 'test',
+          :http_connection_password => true
         } }
         it {
           should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
@@ -509,8 +407,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'http',
-          :connection_token => true
+          :http_connection_token => true
         } }
         it {
           should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
@@ -524,12 +421,54 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'udp',
-          :connection_host => ''
+          :udp_connection_port => 5755,
+          :udp_connection_host => ''
         } }
         it {
-          should raise_error(Puppet::Error, /Must provide valid host for connection_host for connection_type udp/)
+          should raise_error(Puppet::Error, /Must provide valid host for udp_connection_host/)
         }
+      end
+
+      context 'validate connection_host only' do
+        let(:title) { 'validate_connection_host_only' }
+  
+        let(:params) { {
+          :ensure     => 'present',
+          :filename   => 'open-tracing.cfg.xml',
+          :service_name => 'test-repose',
+          :udp_connection_host => 'localhost'
+        } }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/).
+            with_content(/service-name=\"test-repose\"/).
+            with_content(/<sampling-constant toggle=\"off\"/)
+          }
+      end
+
+      context 'validate connection_port only' do
+        let(:title) { 'validate_connection_port_only' }
+  
+        let(:params) { {
+          :ensure     => 'present',
+          :filename   => 'open-tracing.cfg.xml',
+          :service_name => 'test-repose',
+          :udp_connection_port => 5755
+        } }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/).
+            with_content(/service-name=\"test-repose\"/).
+            with_content(/<sampling-constant toggle=\"off\"/)
+          }
       end
 
       context 'validate connection_host invalid' do
@@ -539,11 +478,11 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'udp',
-          :connection_host => 'this~is{bad'
+          :udp_connection_port => 5775,
+          :udp_connection_host => 'this~is{bad'
         } }
         it {
-          should raise_error(Puppet::Error, /Must provide valid host for connection_host for connection_type udp/)
+          should raise_error(Puppet::Error, /Must provide valid host for udp_connection_host/)
         }
       end
 
@@ -554,8 +493,8 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'udp',
-          :connection_host => '127.0.0'
+          :udp_connection_port => 5775,
+          :udp_connection_host => '127.0.0'
         } }
         it {
           should contain_file('/etc/repose/open-tracing.cfg.xml').with(
@@ -566,7 +505,7 @@ describe 'repose::filter::open_tracing', :type => :define do
             with_content(/connection-udp port=\"5775\" host=\"127.0.0\"/).
             with_content(/service-name=\"test-repose\"/).
             with_content(/<sampling-constant toggle=\"off\"/)
-            }
+          }
       end
 
       context 'validate connection_host invalid ipv6' do
@@ -576,11 +515,11 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'udp',
-          :connection_host => '2001:0db8:85a3:0000:0000:8a2e:x:5'
+          :udp_connection_port => 5775,
+          :udp_connection_host => '2001:0db8:85a3:0000:0000:8a2e:x:5'
         } }
         it {
-          should raise_error(Puppet::Error, /Must provide valid host for connection_host for connection_type udp/)
+          should raise_error(Puppet::Error, /Must provide valid host for udp_connection_host/)
         }
       end
 
@@ -591,26 +530,11 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :connection_type => 'udp',
-          :connection_host => 'localhost',
-          :connection_port => 'localhost'
+          :udp_connection_host => 'localhost',
+          :udp_connection_port => 'localhost'
         } }
         it {
           should raise_error(Puppet::Error, /connection_port must be an integer/)
-        }
-      end
-
-      context 'validate sampling_type' do
-        let(:title) { 'validate_sampling_type' }
-  
-        let(:params) { {
-          :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
-          :service_name => 'test-repose',
-          :sampling_type => 'random'
-        } }
-        it {
-          should raise_error(Puppet::Error, /sampling_type parameter must be one of constant, probabilistic, or rate-limting/)
         }
       end
 
@@ -621,7 +545,6 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :sampling_type => 'constant',
           :constant_toggle => 'random'
         } }
         it {
@@ -636,8 +559,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :sampling_type => 'rate-limiting',
-          :max_traces_per_second => 'random'
+          :rate_limiting_max_traces_per_second => 'random'
         } }
         it {
           should raise_error(Puppet::Error, /max_traces_per_second must be an float/)
@@ -651,7 +573,6 @@ describe 'repose::filter::open_tracing', :type => :define do
           :ensure     => 'present',
           :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :sampling_type => 'probabilistic',
           :probability => 'random'
         } }
         it {
