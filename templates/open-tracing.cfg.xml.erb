@@ -1,22 +1,22 @@
 <open-tracing xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/open-tracing-service/v1.0"
  service-name="<%= @service_name %>">
     <jaeger>
-    <%- if ! @udp_connection_port.nil? && ! @udp_connection_host.nil? -%>
+<%- if ! @udp_connection_port.nil? && ! @udp_connection_host.nil? -%>
         <connection-udp port="<%= @udp_connection_port %>" host="<%= @udp_connection_host %>" />
-    <%- elsif ! @http_connection_endpoint.nil? -%>
+<%- elsif ! @http_connection_endpoint.nil? -%>
         <connection-http endpoint="<%= @http_connection_endpoint %>"
             <%- if ! @http_connection_username.nil? -%> username="<%= @http_connection_username %>"<%- end -%> 
             <%- if ! @http_connection_password.nil? -%> password="<%= @http_connection_password %>"<%- end -%>
             <%- if ! @http_connection_token.nil? -%> token="<%= @http_connection_token %>"<%- end -%>
         />
-    <%- end -%>
+<%- end -%>
     
-    <%- if ! @probability.nil? -%>
+<%- if ! @probability.nil? -%>
         <sampling-probabilistic probability="<%= @probability %>" />
-    <%- elsif ! @rate_limiting_max_traces_per_second.nil? -%>
+<%- elsif ! @rate_limiting_max_traces_per_second.nil? -%>
         <sampling-rate-limiting max-traces-per-second="<%= @rate_limiting_max_traces_per_second %>" />
-    <%- elsif ! @constant_toggle.nil? -%>
+<%- elsif ! @constant_toggle.nil? -%>
         <sampling-constant toggle="<%= @constant_toggle %>"/>
-    <%- end -%>
+<%- end -%>
     </jaeger>
 </open-tracing>
