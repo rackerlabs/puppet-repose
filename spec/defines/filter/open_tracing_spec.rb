@@ -18,10 +18,16 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/).
-          with_content(/service-name=\"repose\"/).
-          with_content(/<sampling-constant toggle=\"off\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
       }
     end
 
@@ -50,10 +56,16 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/<sampling-constant/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant/)
       }
     end
 
@@ -88,13 +100,23 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/username=\"reposeuser\"/).
-          with_content(/password=\"reposepass\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/<sampling-constant/)
-    }
+          'mode'   => '0660')
+        }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/username=\"reposeuser\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/password=\"reposepass\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant/)
+      }
     end
 
     context 'providing http connection - username + password + token' do
@@ -129,11 +151,19 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/<sampling-constant toggle=\"on\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/token=\"mytoken\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"on\"/)
       }
     end
 
@@ -151,11 +181,19 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/<sampling-constant toggle=\"on\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/token=\"mytoken\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"on\"/)
       }
     end
 
@@ -174,10 +212,16 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-udp port=\"5775\" host=\"newhost.example.com\" /).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/<sampling-constant toggle=\"on\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-udp port=\"5775\" host=\"newhost.example.com\" /)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"on\"/)
       }
     end
 
@@ -196,10 +240,16 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-udp port=\"5775\" host=\"127.0.0.1\" /).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/<sampling-constant toggle=\"on\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-udp port=\"5775\" host=\"127.0.0.1\" /)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"on\"/)
       }
     end
 
@@ -218,10 +268,16 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-udp port=\"5775\" host=\"2001:0db8:85a3:0000:0000:8a2e:0370:7334\" /).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/<sampling-constant toggle=\"on\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-udp port=\"5775\" host=\"2001:0db8:85a3:0000:0000:8a2e:0370:7334\" /)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"on\"/)
       }
     end
 
@@ -240,11 +296,19 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/<sampling-constant/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/token=\"mytoken\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant/)
       }
     end
 
@@ -263,11 +327,19 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/<sampling-constant toggle=\"off\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/token=\"mytoken\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
       }
     end
 
@@ -286,11 +358,19 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/<sampling-rate-limiting max-traces-per-second=\"5.6\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/token=\"mytoken\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-rate-limiting max-traces-per-second=\"5.6\"/)
       }
     end
 
@@ -309,11 +389,19 @@ describe 'repose::filter::open_tracing', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/).
-          with_content(/service-name=\"test-repose\"/).
-          with_content(/token=\"mytoken\"/).
-          with_content(/<sampling-probabilistic probability=\"1.0\"/)
+          'mode'   => '0660')
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/token=\"mytoken\"/)
+      }
+      it {
+        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-probabilistic probability=\"1.0\"/)
       }
     end
 
@@ -428,11 +516,17 @@ describe 'repose::filter::open_tracing', :type => :define do
             'ensure' => 'file',
             'owner'  => 'repose',
             'group'  => 'repose',
-            'mode'   => '0660').
-            with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/).
-            with_content(/service-name=\"test-repose\"/).
-            with_content(/<sampling-constant toggle=\"off\"/)
-          }
+            'mode'   => '0660')
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
+        }
       end
 
       context 'validate connection_port only' do
@@ -449,11 +543,17 @@ describe 'repose::filter::open_tracing', :type => :define do
             'ensure' => 'file',
             'owner'  => 'repose',
             'group'  => 'repose',
-            'mode'   => '0660').
-            with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/).
-            with_content(/service-name=\"test-repose\"/).
-            with_content(/<sampling-constant toggle=\"off\"/)
-          }
+            'mode'   => '0660')
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
+        }
       end
 
       context 'validate connection_host invalid' do
@@ -486,11 +586,17 @@ describe 'repose::filter::open_tracing', :type => :define do
             'ensure' => 'file',
             'owner'  => 'repose',
             'group'  => 'repose',
-            'mode'   => '0660').
-            with_content(/connection-udp port=\"5775\" host=\"127.0.0\"/).
-            with_content(/service-name=\"test-repose\"/).
-            with_content(/<sampling-constant toggle=\"off\"/)
-          }
+            'mode'   => '0660')
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-udp port=\"5775\" host=\"127.0.0\"/)
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
+        }
+        it {
+          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
+        }
       end
 
       context 'validate connection_host invalid ipv6' do
