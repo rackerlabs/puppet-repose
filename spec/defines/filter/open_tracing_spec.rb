@@ -14,20 +14,7 @@ describe 'repose::filter::open_tracing', :type => :define do
     context 'default parameters' do
       let(:title) { 'default' }
       it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660')
-      }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
-      }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"repose\"/)
-      }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
+        should raise_error(Puppet::Error, /either udp or http connection parameters must be defined/)
       }
     end
 
@@ -46,7 +33,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_http_endpoint' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_endpoint => 'http://example.com/api/traces',
         :constant_toggle => 'on'
@@ -73,7 +59,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_http_only_username' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_endpoint => 'http://example.com/api/traces',
         :http_connection_username => 'reposeuser',
@@ -88,7 +73,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_http_username_and_password' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_endpoint => 'http://example.com/api/traces',
         :http_connection_username => 'reposeuser',
@@ -123,7 +107,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_http_username_and_password_and_token' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_endpoint => 'http://example.com/api/traces',
         :http_connection_username => 'reposeuser',
@@ -140,7 +123,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_http_only_token' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_endpoint => 'http://example.com/api/traces',
         :http_connection_token    => 'mytoken',
@@ -171,29 +153,12 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_http_no_endpoint' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_token    => 'mytoken',
         :constant_toggle => 'on'
       } }
       it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660')
-      }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
-      }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/token=\"mytoken\"/)
-      }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
-      }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"on\"/)
+        should raise_error(Puppet::Error, /either udp or http connection parameters must be defined/)
       }
     end
 
@@ -201,7 +166,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_udp' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :udp_connection_host => 'newhost.example.com',
         :udp_connection_port => 5775,
@@ -229,7 +193,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_udp_only_host' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :udp_connection_host => '127.0.0.1',
         :udp_connection_port => 5775,
@@ -257,7 +220,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'connection_udp_only_host' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :udp_connection_host => '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
         :udp_connection_port => 5775,
@@ -281,11 +243,22 @@ describe 'repose::filter::open_tracing', :type => :define do
       }
     end
 
+    context 'providing no sampling' do
+      let(:title) { 'connection_http_endpoint' }
+      let(:params) { {
+        :ensure     => 'present',
+        :service_name => 'test-repose',
+        :http_connection_endpoint => 'http://example.com/api/traces'
+      } }
+      it {
+        raise_error(Puppet::Error, /one of sampling parameters must be defined/)
+      }
+    end
+
     context 'providing constant sampling - default' do
       let(:title) { 'constant_sampling_default' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_token    => 'mytoken',
         :http_connection_endpoint => 'http://example.com/api/traces',
@@ -316,7 +289,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'constant_sampling_off' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_token    => 'mytoken',
         :http_connection_endpoint => 'http://example.com/api/traces',
@@ -347,7 +319,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'rate_limiting_sampling_set' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_token    => 'mytoken',
         :http_connection_endpoint => 'http://example.com/api/traces',
@@ -378,7 +349,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       let(:title) { 'probabilistic_sampling_set' }
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_token    => 'mytoken',
         :http_connection_endpoint => 'http://example.com/api/traces',
@@ -413,10 +383,10 @@ describe 'repose::filter::open_tracing', :type => :define do
 
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_token    => 'mytoken',
-        :http_connection_endpoint => 'http://example.com/api/traces'
+        :http_connection_endpoint => 'http://example.com/api/traces',
+        :constant_toggle => 'off'
       } }
       it {
         should contain_file('/etc/repose/open-tracing.cfg.xml').
@@ -432,10 +402,10 @@ describe 'repose::filter::open_tracing', :type => :define do
 
       let(:params) { {
         :ensure     => 'present',
-        :filename   => 'open-tracing.cfg.xml',
         :service_name => 'test-repose',
         :http_connection_token    => 'mytoken',
-        :http_connection_endpoint => 'http://example.com/api/traces'
+        :http_connection_endpoint => 'http://example.com/api/traces',
+        :constant_toggle => 'off'
       } }
       it {
         should contain_file('/etc/repose/open-tracing.cfg.xml').
@@ -449,7 +419,6 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
           :http_connection_endpoint => 'random'
         } }
@@ -463,10 +432,11 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
+          :http_connection_endpoint => 'http://localhost/api/traces',
           :http_connection_username => true,
           :http_connection_password => 'reposepass',
+          :constant_toggle => 'off'
         } }
         it {
           should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
@@ -478,10 +448,11 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
+          :http_connection_endpoint => 'http://localhost/api/traces',
           :http_connection_username => 'test',
-          :http_connection_password => true
+          :http_connection_password => true,
+          :constant_toggle => 'off'
         } }
         it {
           should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
@@ -493,9 +464,10 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
-          :http_connection_token => true
+          :http_connection_endpoint => 'http://localhost/api/traces',
+          :http_connection_token => true,
+          :constant_toggle => 'off'
         } }
         it {
           should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
@@ -507,25 +479,11 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
           :udp_connection_host => 'localhost'
         } }
         it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660')
-        }
-        it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
-        }
-        it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
-        }
-        it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
+          should raise_error(Puppet::Error, /either udp or http connection parameters must be defined/)
         }
       end
 
@@ -534,25 +492,11 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
           :udp_connection_port => 5755
         } }
         it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660')
-        }
-        it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/localhost:12682\/api\/traces\"/)
-        }
-        it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
-        }
-        it {
-          should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
+          should raise_error(Puppet::Error, /either udp or http connection parameters must be defined/)
         }
       end
 
@@ -561,7 +505,6 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
           :udp_connection_port => 5775,
           :udp_connection_host => 'this~is{bad'
@@ -576,10 +519,10 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
           :udp_connection_port => 5775,
-          :udp_connection_host => '127.0.0'
+          :udp_connection_host => '127.0.0',
+          :constant_toggle => 'off'
         } }
         it {
           should contain_file('/etc/repose/open-tracing.cfg.xml').with(
@@ -604,7 +547,6 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
           :udp_connection_port => 5775,
           :udp_connection_host => '2001:0db8:85a3:0000:0000:8a2e:x:5'
@@ -619,7 +561,6 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
           :udp_connection_host => 'localhost',
           :udp_connection_port => 'localhost'
@@ -634,8 +575,8 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
+          :http_connection_endpoint => 'http://localhost/api/traces',
           :constant_toggle => 'random'
         } }
         it {
@@ -648,8 +589,8 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
+          :http_connection_endpoint => 'http://localhost/api/traces',
           :rate_limiting_max_traces_per_second => 'random'
         } }
         it {
@@ -662,8 +603,8 @@ describe 'repose::filter::open_tracing', :type => :define do
   
         let(:params) { {
           :ensure     => 'present',
-          :filename   => 'open-tracing.cfg.xml',
           :service_name => 'test-repose',
+          :http_connection_endpoint => 'http://localhost/api/traces',
           :probability => 'random'
         } }
         it {

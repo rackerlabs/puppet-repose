@@ -9,17 +9,13 @@
 # Bool. Ensure config file present/absent
 # Defaults to <tt>present</tt>
 #
-# [*filename*]
-# String. Config filename.
-# Defaults to <tt>open-tracing.cfg.xml</tt>
-#
 # [*service_name*]
 # String. Application name
 # Defaults to <tt>repose</tt>
 #
 # [*http_connection_endpoint*]
 # String. Set to http endpoint to push traces to.
-# Defaults to <tt>http://localhost:12682/api/traces</tt>
+# Defaults to <tt>undef</tt>
 #
 # [*http_connection_username*]
 # String. Set if http endpoint requires username/password authentication.  Must be used in conjunction with password
@@ -43,7 +39,7 @@
 #
 # [*constant_toggle*]
 # String that sets constant sampling. Can be 'on' or 'off'
-# Defaults to <tt>off</tt>
+# Defaults to <tt>undef</tt>
 #
 # [*rate_limiting_max_traces_per_second*]
 # Double. Set to the maximum traces to sample per second.  Sets rate-limiting sampling algorithm.
@@ -72,15 +68,14 @@
 #
 define repose::filter::open_tracing (
   $ensure                               = present,
-  $filename                             = 'open-tracing.cfg.xml',
   $service_name                         = 'repose',
-  $http_connection_endpoint             = 'http://localhost:12682/api/traces',
+  $http_connection_endpoint             = undef,
   $http_connection_username             = undef,
   $http_connection_password             = undef,
   $http_connection_token                = undef,
   $udp_connection_port                  = undef,
   $udp_connection_host                  = undef,
-  $constant_toggle                      = 'off',
+  $constant_toggle                      = undef,
   $rate_limiting_max_traces_per_second  = undef,
   $probability                          = undef
 ) {
@@ -159,7 +154,7 @@ define repose::filter::open_tracing (
   }
 
 ## Manage actions
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::params::configdir}/open-tracing.cfg.xml":
     ensure  => $file_ensure,
     owner   => $repose::params::owner,
     group   => $repose::params::group,
