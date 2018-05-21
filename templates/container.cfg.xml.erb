@@ -48,19 +48,36 @@
             <keystore-password><%= @ssl_keystore_password %></keystore-password>
             <key-password><%= @ssl_key_password %></key-password>
 	    <%- unless @ssl_include_cipher.nil? -%>
-	    <included-ciphers>
-	        <%- @ssl_include_cipher.each do |cipher| -%>
-		<cipher><%= cipher %></cipher>
-                <%- end -%>
-	    </included-ciphers>
-            <%- end -%>
+          <included-ciphers>
+	      <%- @ssl_include_cipher.each do |cipher| -%>
+            <cipher><%= cipher %></cipher>
+          <%- end -%>
+          </included-ciphers>
+        <%- end -%>
 	    <%- unless @ssl_exclude_cipher.nil? -%>
-	    <excluded-ciphers>
-	        <%- @ssl_exclude_cipher.each do |cipher| -%>
-		<cipher><%= cipher %></cipher>
-                <%- end -%>
-	    </excluded-ciphers>
-            <%- end -%>
+          <excluded-ciphers>
+          <%- @ssl_exclude_cipher.each do |cipher| -%>
+            <cipher><%= cipher %></cipher>
+          <%- end -%>
+	      </excluded-ciphers>
+        <%- end -%>
+	    <%- unless @ssl_exclude_protocol.nil? -%>
+          <excluded-protocols>
+	      <%- @ssl_exclude_protocol.each do |protocol| -%>
+            <protocol><%= protocol %></protocol>
+          <%- end -%>
+          </excluded-protocols>
+        <%- end -%>
+	    <%- unless @ssl_include_protocol.nil? -%>
+          <included-protocols>
+	      <%- @ssl_include_protocol.each do |protocol| -%>
+            <protocol><%= protocol %></protocol>
+          <%- end -%>
+          </included-protocols>
+        <%- end -%>
+        <%- unless @ssl_tls_renegotiation.nil? -%>
+          <tls-renegotiation-allowed><%= @ssl_tls_renegotiation -%></tls-renegotiation-allowed>
+        <%- end -%>
         </ssl-configuration>
 <%- end -%>
     </deployment-config>
