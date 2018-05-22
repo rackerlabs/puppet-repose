@@ -1,7 +1,9 @@
 # == Class: repose::filter::container
 #
 # This is a class for managing the container configuration file
-# and log4j.properties
+# and log4j.properties Container configuration is fully documented in the
+# Repose project wiki.
+# https://repose.atlassian.net/wiki/spaces/REPOSE/pages/527236/Container
 #
 # === Parameters
 #
@@ -173,6 +175,18 @@
 # Array [String]. The cipher strings to deny connections for.
 # Defaults to <tt>undef</tt>
 #
+# [*ssl_include_protocol*]
+# Array [String]. The protocol strings to allow connections for.
+# Defaults to <tt>undef</tt>
+#
+# [*ssl_exclude_protocol*]
+# Array [String]. The protocol strings to deny connections for.
+# Defaults to <tt>undef</tt>
+#
+# [*ssl_tls_renegotiation*]
+# Boolean. Explicitly allow or deny TLS renegotiation.
+# Defaults to <tt>undef</tt>
+#
 # [*via*]
 # String. String used in the Via header.
 # Defaults to <tt>undef</tt>
@@ -290,6 +304,9 @@ class repose::filter::container (
   $ssl_key_password                     = undef,
   $ssl_include_cipher                   = undef,
   $ssl_exclude_cipher                   = undef,
+  $ssl_include_protocol                 = undef,
+  $ssl_exclude_protocol                 = undef,
+  $ssl_tls_renegotiation                = undef,
   $syslog_server                        = undef,
   $syslog_port                          = $repose::params::syslog_port,
   $syslog_protocol                      = $repose::params::syslog_protocol,

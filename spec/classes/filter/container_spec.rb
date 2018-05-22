@@ -77,8 +77,11 @@ describe 'repose::filter::container' do
         :ssl_keystore_filename             => 'keystore.name',
         :ssl_keystore_password             => 'mypassword',
         :ssl_key_password                  => 'keypassword',
-        :ssl_include_cipher		   => ['include'],
-        :ssl_exclude_cipher		   => ['exclude'],
+        :ssl_include_cipher                => ['include'],
+        :ssl_exclude_cipher                => ['exclude'],
+        :ssl_include_protocol              => ['include'],
+        :ssl_exclude_protocol              => ['exclude'],
+        :ssl_tls_renegotiation             => 'true',
         :content_body_read_limit           => '10240000',
         :jmx_reset_time                    => '3600000',
         :client_request_logging            => 'false',
@@ -109,6 +112,9 @@ describe 'repose::filter::container' do
           with_content(/<key-password>keypassword<\/key-password>/).
           with_content(/<included-ciphers>/).
           with_content(/<excluded-ciphers>/).
+          with_content(/<included-protocols>/).
+          with_content(/<excluded-protocols>/).
+          with_content(/<tls-renegotiation-allowed>true<\/tls-renegotiation-allowed>/).
           with_content(/<\/ssl-configuration>/)
       }
     end
