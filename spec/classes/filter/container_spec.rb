@@ -397,6 +397,18 @@ describe 'repose::filter::container' do
       }
     end
 
+    context 'define via_header option' do
+      let(:params) { {
+        :app_name => 'app',
+        :via_header => { 'response-header' => 'Salad', 'repose-version' => 'false' }
+      } }
+      it {
+        should contain_file('/etc/repose/container.cfg.xml').
+        with_content(/response-header="Salad"/).
+        with_content(/repose-version="false"/)
+      }
+    end
+
     context 'with defaults with old namespace' do
       let :pre_condition do
         "class { 'repose': cfg_new_namespace => false }"

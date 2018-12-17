@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.8.0
+Version:   2.9.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,8 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Mon Dec 17 2018 Josh Bell <josh.bell@rackspace.com> - 2.9.0-1
+- Add via_header and repose_version options to container filter
 * Mon May 12 2018  Josh Bell <josh.bell@rackspace.com> - 2.8.0-1
 - Add ssl protocol and tls renegotiation options to container filter
 * Mon Apr 02 2018 Dimitry Ushakov <dimitry.ushakov@rackspace.com> - 2.7.0-1
