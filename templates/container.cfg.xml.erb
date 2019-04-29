@@ -42,6 +42,14 @@
         <logging-configuration href="<%= @logging_configuration %>"/>
 <%- end -%>
 
+<%- if @via_header -%>
+    <via-header
+    <%- @via_header.each_pair do | name, value| -%>
+        <%= name %>="<%= value %>"
+    <%- end -%>
+    />
+<%- end %>
+
 <%- if @ssl_enabled == true -%>
         <ssl-configuration>
             <keystore-filename><%= @ssl_keystore_filename %></keystore-filename>
