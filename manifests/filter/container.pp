@@ -101,6 +101,13 @@
 # server.
 # Defaults to <tt>local0</tt>
 #
+# [*log_file_perm*]
+# String. This option can be used to provide world read access on repose logs.
+# if value='private' OR [not equals 'public'] will follow the os umap 
+# permission of repose user.
+# if value='public' will provide world read access on log files.
+# Defaults to <tt>private</tt>
+#
 # [*log_use_log4j2*]
 # Boolean. This option will enable the use of log4j2 xml configuration files.
 # This will override <tt>logging_configuration</tt> to use <tt>log4j2.xml</tt>.
@@ -308,6 +315,7 @@ class repose::filter::container (
   $log_local_size                       = $repose::params::log_local_size,
   $log_local_rotation_count             = $repose::params::log_local_rotation_count,
   $log_repose_facility                  = $repose::params::log_repose_facility,
+  $log_file_perm                        = $repose::params::log_file_perm,
   $log_use_log4j2                       = false,
   $logging_configuration                = $repose::params::logging_configuration,
   $ssl_enabled                          = false,
