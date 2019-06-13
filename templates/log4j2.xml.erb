@@ -24,9 +24,16 @@
             </Policies>
         </RollingFile>
 <%- elsif @log_local_policy == 'size' -%>
-        <RollingFile name="defaultFile"
+          <%- if @log_file_perm == 'public' -%>     
+           <RollingFile name="defaultFile"
+            filename="<%= @log_dir-%>/<%= @app_name -%>.log"
+            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%i"
+            filePermissions="rw-r--r--">
+          <%- else -%>
+           <RollingFile name="defaultFile"
             filename="<%= @log_dir-%>/<%= @app_name -%>.log"
             filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%i">
+          <%- end -%>
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n</Pattern>
             </PatternLayout>
@@ -91,9 +98,16 @@
             </Policies>
         </RollingFile>
   <%- elsif @log_local_policy == 'size' -%>
+       <%- if @log_file_perm == 'public' -%>
         <RollingFile name="httpLocal"
             filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
+            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%i"
+            filePermissions="rw-r--r--">
+        <%- else -%>
+            <RollingFile name="httpLocal"
+            filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
             filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%i">
+        <%- end -%>
             <PatternLayout>
                 <Pattern>%m%n</Pattern>
             </PatternLayout>
