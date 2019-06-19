@@ -243,4 +243,7 @@ class repose::params {
 
 ## use new namespace urls in configuration files
   $cfg_new_namespace = false
+  
+## default log file permissions
+  $log_file_perm = 'private'
 }
