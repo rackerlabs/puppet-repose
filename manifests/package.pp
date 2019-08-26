@@ -44,6 +44,10 @@
 # Boolean. Install the experimental filters bundle package
 # Defaults to <tt>false</tt>
 #
+# [*identity_filters*]
+# Boolean. Install the identity filters bundle package
+# Defaults to <tt>false</tt>
+#
 # === Examples
 #
 # Primarily to be used by the repose base class, but you can use:
@@ -65,6 +69,7 @@ class repose::package (
   $container                     = $repose::params::container,
   $rh_old_packages               = $repose::params::rh_old_packages,
   $experimental_filters          = $repose::params::experimental_filters,
+  $identity_filters              = $repose::params::identity_filters,
 ) inherits repose::params {
 
 ### Logic
@@ -85,11 +90,14 @@ class repose::package (
   $container_package = $container ? {
     'tomcat7' => $repose::params::tomcat7_package,
     'valve'   => $repose::params::valve_package,
+    'repose9'   => $repose::params::repose9_package,
   }
 
 ## Handle adding a dependency of service for valve
   if $container == 'valve' {
     $before = Service[$repose::params::service]
+  } elsif $container == 'repose9' {
+    $before = Service[$repose::params::repose9_service]
   } else {
     $before = undef
   }
@@ -114,12 +122,19 @@ class repose::package (
 
   if $experimental_filters == true {
     package { $repose::params::experimental_filters_packages:
-      ensure => $package_ensure, 
+      ensure => $package_ensure,
       require => Package[$container_package],
     }
   } else {
     package { $repose::params::experimental_filters_packages:
       ensure => absent, 
+      require => Package[$container_package],
+    }
+  }
+
+  if $identity_filters == true {
+    package { $repose::params::identity_filters_packages:
+      ensure => $package_ensure,
       require => Package[$container_package],
     }
   }

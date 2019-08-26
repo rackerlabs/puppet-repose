@@ -79,6 +79,7 @@ class repose (
   $rh_old_packages      = $repose::params::rh_old_packages,
   $cfg_new_namespace    = $repose::params::cfg_new_namespace,
   $experimental_filters = $repose::params::experimental_filters,
+  $identity_filters     = $repose::params::identity_filters,
 ) inherits repose::params {
 
 ### Validate parameters
@@ -163,13 +164,15 @@ class repose (
     container            => $container,
     rh_old_packages      => $rh_old_packages,
     experimental_filters => $experimental_filters,
+    identity_filters     => $identity_filters,
   }
 
 ## service
-  if $container == 'valve' {
+  if ( $container in [ 'valve', 'repose9' ]) {
     class { 'repose::service':
-      ensure => $ensure,
-      enable => $enable,
+      ensure    => $ensure,
+      enable    => $enable,
+      container => $container,
     }
   }
 

@@ -16,6 +16,10 @@
 #  manual.
 #  Defaults to <tt>true</tt>
 #
+# [*container*]
+#  String. This sets the container type, used in this manifest to determine
+#  the service name to use. 
+#
 # === Examples
 #
 # This class may be imported by other classes to use its functionality:
@@ -26,12 +30,14 @@
 #
 # === Authors
 #
+# * Josh Bell <mailto: josh.bell@rackspace.com>
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::service (
-  $ensure = $repose::params::ensure,
-  $enable = $repose::params::enable,
+  $ensure    = $repose::params::ensure,
+  $enable    = $repose::params::enable,
+  $container = $repose::params::container,
 ) inherits repose::params {
 
 ### Logic
@@ -50,11 +56,20 @@ class repose::service (
 
 ### Manage actions
 
-  service { $repose::params::service:
-    ensure     => $service_ensure,
-    enable     => $enable,
-    hasstatus  => $repose::params::service_hasstatus,
-    hasrestart => $repose::params::service_hasrestart,
-  }
+  if $container == 'valve' {
+    service { $repose::params::service:
+      ensure     => $service_ensure,
+      enable     => $enable,
+      hasstatus  => $repose::params::service_hasstatus,
+      hasrestart => $repose::params::service_hasrestart,
+    }
+ } elsif $container == 'repose9' {
+    service { $repose::params::repose9_service:
+      ensure     => $service_ensure,
+      enable     => $enable,
+      hasstatus  => $repose::params::service_hasstatus,
+      hasrestart => $repose::params::service_hasrestart,
+    }
+ }
 
 }
