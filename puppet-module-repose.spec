@@ -30,6 +30,9 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Thu Aug 21 2019 Josh Bell <josh.bell@rackspace.com> 2.11.0-1
+- Add basic support for Repose 9 in system model and other filters
+- Add support for installing identity filter bundle
 * Tue Jun 18 2019 Lokesh Belwal <Lokesh.Belwal@rackspace.com> - 2.10.0-1
 - Add log_file_perm param to provide world read access on logs if set to 'public' 
 * Mon Dec 17 2018 Josh Bell <josh.bell@rackspace.com> - 2.9.0-1

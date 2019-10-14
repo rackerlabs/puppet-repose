@@ -15,7 +15,7 @@
 <% if @port_config -%>
    <port-config>
   <%- @port_config.each do |port| -%>
-     <port port="<%= port['port'] %>" cluster="<%= port['cluster'] %>"<% if port.has_key?('node') %> node="<%= port['node'] %>"<% end -%> />
+      <port port="<%= port['port'] %>"<% if port.has_key?('cluster') %> cluster="<%= port['cluster'] %>"<% end -%><% if port.has_key?('node') %> node="<%= port['node'] %>"<% end -%> />
   <%- end -%>
    </port-config>
 <%- end -%>

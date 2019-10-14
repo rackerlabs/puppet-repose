@@ -44,5 +44,24 @@ describe 'repose::service' do
           'enable' => 'manual')
       }
     end
+
+    # ensures the repose9 service is running
+    context 'with repose9 container parameter' do
+      let(:params) { { :container => 'repose9' } }
+      it {
+        should contain_service('repose').with_ensure('running')
+      }
+    end
+
+    # Validate ensure is absent properly stops repose9 service
+    context 'ensure is absent' do
+      let(:params) { { 
+          :ensure => 'absent',
+          :container => 'repose9',
+      } }
+      it {
+        should contain_service('repose').with_ensure('stopped')
+      }
+    end
   end
 end
