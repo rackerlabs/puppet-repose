@@ -137,6 +137,7 @@ define repose::filter::system_model (
   $rewrite_host_header = undef,
   $service_cluster     = undef,
   $tracing_header      = {},
+  $encoded_headers      = [],
 ) {
 
 ### Validate parameters
