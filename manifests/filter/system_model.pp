@@ -82,6 +82,9 @@
 # system-model config.
 # Defaults to <tt>false</tt> False
 #
+# [*encoded_headers*]
+# Array of header names that need to be encoded before being sent to the origin service.
+#
 # === Examples
 #
 # $app_name = 'repose'
@@ -137,6 +140,7 @@ define repose::filter::system_model (
   $rewrite_host_header = undef,
   $service_cluster     = undef,
   $tracing_header      = {},
+  $encoded_headers     = [],
 ) {
 
 ### Validate parameters
