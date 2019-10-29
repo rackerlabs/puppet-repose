@@ -26,7 +26,6 @@ describe 'repose::repose9' do
           "set RUN_PORT '9090'",
           "set DAEMON_HOME '/usr/share/lib/repose'",
           "set LOG_PATH '/var/log/repose'",
-          "set PID_FILE '/var/run/repose-valve.pid'",
           "set USER 'repose'",
           "set daemonize '/usr/sbin/daemonize'",
           "set daemonize_opts '\"-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME\"'",
