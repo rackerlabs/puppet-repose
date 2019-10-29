@@ -14,7 +14,7 @@
         http.connection.timeout="<%= @default_conn_timeout %>"
         http.connection.max-line-length="<%= @default_conn_max_line_length %>"
         http.connection.max-header-count="<%= @default_conn_max_header_count %>"
-        http.connection.max-status-line-garbage="<%= @default_conn_max_status_line_garbage %>"
+        <% if ! @repose9 %>http.connection.max-status-line-garbage="<%= @default_conn_max_status_line_garbage %>"<% end -%>
         http.tcp.nodelay="<%= @default_tcp_nodelay %>"
         keepalive.timeout="<%= @default_keepalive_timeout %>"/>
 

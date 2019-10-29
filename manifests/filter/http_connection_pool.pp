@@ -152,6 +152,7 @@ class repose::filter::http_connection_pool (
   $default_tcp_nodelay                  = true,
   $default_keepalive_timeout            = 0,
   $additional_pools                     = undef,
+  $repose9                              = false,
 ) {
 
 ### Validate parameters

@@ -1,17 +1,16 @@
 language: ruby
 rvm:
-  - 1.8.7
   - 1.9.3
   - 2.0.0
   - 2.1.1
 
 before_install:
   - rm .gemfiles/Gemfile.rspec.lock || true
-  - rm .gemfiles/Gemfile.ruby187.rspec.lock || true
+  - rm .gemfiles/Gemfile.ruby193.rspec.lock || true
+  - rm .gemfiles/Gemfile.ruby200.rspec.lock || true
 
 gemfile:
   - .gemfiles/Gemfile.rspec
-  - .gemfiles/Gemfile.ruby187.rspec
   - .gemfiles/Gemfile.ruby193.rspec
 
 script:
@@ -35,10 +34,6 @@ env:
 
 matrix:
   exclude:
-    - rvm: 1.8.7
-      gemfile: .gemfiles/Gemfile.rspec
-    - rvm: 1.8.7
-      gemfile: .gemfiles/Gemfile.ruby193.rspec
     - rvm: 1.9.3
       gemfile: .gemfiles/Gemfile.ruby187.rspec
     - rvm: 1.9.3
@@ -51,24 +46,6 @@ matrix:
       gemfile: .gemfiles/Gemfile.ruby187.rspec
     - rvm: 2.1.1
       gemfile: .gemfiles/Gemfile.ruby193.rspec
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.0.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.1.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.2.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.3.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.4.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.5.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.6.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.7.0"
-    - rvm: 1.8.7
-      env: PUPPET_VERSION="~> 4.8.0"
     - rvm: 1.9.3
       env: PUPPET_VERSION="~> 2.7.0"
     - rvm: 2.0.0

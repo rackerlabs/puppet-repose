@@ -321,5 +321,78 @@ describe 'repose::filter::system_model', :type => :define do
           without_content(/services/)
       }
     end
+
+    context 'defaults plus setting repose9 param' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => true }"
+      end
+
+      let(:title) { 'default' }
+      let(:params) { {
+        :ensure     => 'present',
+        :repose9    => 'true',
+        :filename   => 'system-model.cfg.xml',
+        :app_name   => 'repose',
+        :nodes      => ['app1', 'app2' ],
+        :filters    => {
+          10 => { 'name' => 'ip-identity' },
+        },
+        :endpoints  => [
+          {
+            'id'        => 'localhost',
+            'protocol'  => 'http',
+            'hostname'  => 'localhost',
+            'root-path' => '',
+            'port'      => '80',
+            'default'   => 'true'
+          },
+        ]
+      } }
+      it {
+        should contain_file('/etc/repose/system-model.cfg.xml').
+          without_content(/tracing-header/).
+          without_content(/rewrite-host-header/).
+          without_content(/repose-cluster/).
+          without_content(/services/)
+      }
+    end
+
+    context 'defaults plus setting repose9 param with encoded headers' do
+      let :pre_condition do
+        "class { 'repose': cfg_new_namespace => true }"
+      end
+
+      let(:title) { 'default' }
+      let(:params) { {
+          :ensure     => 'present',
+          :repose9    => 'true',
+          :filename   => 'system-model.cfg.xml',
+          :app_name   => 'repose',
+          :nodes      => ['app1', 'app2' ],
+          :filters    => {
+              10 => { 'name' => 'ip-identity' },
+          },
+          :endpoints  => [
+              {
+                  'id'        => 'localhost',
+                  'protocol'  => 'http',
+                  'hostname'  => 'localhost',
+                  'root-path' => '',
+                  'port'      => '80',
+                  'default'   => 'true'
+              },
+          ],
+          :encoded_headers    => ['x-user-name', 'x-rax-roles'],
+
+      } }
+      it {
+        should contain_file('/etc/repose/system-model.cfg.xml').
+                   without_content(/tracing-header/).
+                   without_content(/rewrite-host-header/).
+                   without_content(/repose-cluster/).
+                   without_content(/services/).
+                   with_content(/url-encode-headers="x-user-name,x-rax-roles"/)
+      }
+    end
   end
 end

@@ -120,6 +120,20 @@ describe 'repose::package' do
       }
     end
 
+    # the defaults for the package class + install identity filter bundle
+    context 'with defaults+newpackages for all parameters including identity filter bundle' do
+      let(:params) { { 
+        :rh_old_packages => 'false',
+        :identity_filters => true
+      } }
+      it {
+        should contain_package('repose-valve').with_ensure('present')
+        should contain_package('repose-filter-bundle').with_ensure('present')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
+        should contain_package('repose-identity-filter-bundle').with_ensure('present')
+      }
+    end
+
     # Validate uninstall properly purged packages including experiemtnal bundle
     context 'uninstall parameters including experiemental filter bundle' do
       let(:params) { {
@@ -132,6 +146,21 @@ describe 'repose::package' do
         should contain_package('repose-filter-bundle').with_ensure('purged')
         should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
         should contain_package('repose-experimental-filter-bundle').with_ensure('purged')
+      }
+    end
+
+    # Validate uninstall properly purged packages including identity bundle
+    context 'uninstall parameters including experiemental filter bundle' do
+      let(:params) { {
+        :ensure               => 'absent',
+        :rh_old_packages      => 'false',
+        :identity_filters     => true
+      } }
+      it {
+        should contain_package('repose-valve').with_ensure('purged')
+        should contain_package('repose-filter-bundle').with_ensure('purged')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
+        should contain_package('repose-identity-filter-bundle').with_ensure('purged')
       }
     end
   end

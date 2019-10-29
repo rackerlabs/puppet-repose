@@ -43,13 +43,18 @@ class repose::params {
   $container = 'valve'
 
 ## container_options
-  $container_options = ['valve','tomcat7']
+  $container_options = ['valve','tomcat7','repose9']
 
 ### Package specific in
 
 ## service
   $service = $::osfamily ? {
     /(RedHat|Debian)/ => 'repose-valve',
+  }
+
+## repose 9 service
+  $repose9_service = $::osfamily ? {
+    /(RedHat|Debian)/ => 'repose',
   }
 
 ## service capabilities
@@ -79,6 +84,13 @@ class repose::params {
     /(RedHat|Debian)/ => [ 'repose-experimental-filter-bundle' ],
   }
 
+##  identity filters bundle package
+  $identity_filters = false
+
+  $identity_filters_packages = $::osfamily ? {
+    /(RedHat|Debian)/ => [ 'repose-identity-filter-bundle' ],
+  }
+
 ## tomcat7_package
   $tomcat7_package = $::osfamily ? {
     /(RedHat|Debian)/ => 'repose-war',
@@ -87,6 +99,11 @@ class repose::params {
 ## valve_package
   $valve_package = $::osfamily ? {
     /(RedHat|Debian)/ => 'repose-valve',
+  }
+
+## repose9_package
+  $repose9_package = $::osfamily ? {
+    /(RedHat|Debian)/ => 'repose',
   }
 
 ## configdir
@@ -246,4 +263,7 @@ class repose::params {
 
 ## use new namespace urls in configuration files
   $cfg_new_namespace = false
+  
+## default log file permissions
+  $log_file_perm = 'private'
 }

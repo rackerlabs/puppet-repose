@@ -106,6 +106,13 @@
 # server.
 # Defaults to <tt>local0</tt>
 #
+# [*log_file_perm*]
+# String. This option can be used to provide world read access on repose logs.
+# if value='private' OR [not equals 'public'] will follow the os umap 
+# permission of repose user.
+# if value='public' will provide world read access on log files.
+# Defaults to <tt>private</tt>
+#
 # [*log_use_log4j2*]
 # Boolean. This option will enable the use of log4j2 xml configuration files.
 # This will override <tt>logging_configuration</tt> to use <tt>log4j2.xml</tt>.
@@ -194,7 +201,19 @@
 #
 # [*via*]
 # String. String used in the Via header.
+# Deprecated, to be removed in Repose 9.0.0.0
 # Defaults to <tt>undef</tt>
+#
+# [*via_header*]
+# Hash. Hash containing any or all of the following optional keys:
+# request-prefix, response-prefix, and/or repose-version. The keys
+# request-prefix and response-prefix are simple Strings, the key repose-version
+# is a Boolean. This can not be set at the same time as the `via` option - it
+# will result in an unparsable file by Repose.
+# Requires Repose version 8.4.1.0 or higher
+# Example:
+# via_header = { 'response-prefix' => 'Salad', 'repose-version' => 'false' }
+# Defaults to <tt>{}</tt>
 #
 # [*log_herp_flume*]
 # Enable herp filter publishing to flume.
@@ -302,6 +321,7 @@ class repose::filter::container (
   $log_local_compress                   = $repose::params::log_local_compress,
   $log_local_rotation_count             = $repose::params::log_local_rotation_count,
   $log_repose_facility                  = $repose::params::log_repose_facility,
+  $log_file_perm                        = $repose::params::log_file_perm,
   $log_use_log4j2                       = false,
   $logging_configuration                = $repose::params::logging_configuration,
   $ssl_enabled                          = false,
@@ -317,6 +337,7 @@ class repose::filter::container (
   $syslog_port                          = $repose::params::syslog_port,
   $syslog_protocol                      = $repose::params::syslog_protocol,
   $via                                  = undef,
+  $via_header                           = {},
   $flume_host                           = $repose::params::flume_host,
   $flume_port                           = $repose::params::flume_port,
   # BELOW ARE DEPRECATED
@@ -365,6 +386,11 @@ class repose::filter::container (
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
+  }
+
+## error if both via options are used which would produce an unparsable config
+  if ($via and $via_header!={}) {
+    fail("The parameters \'via\' and \'via_header\' can not be used at the same time. The paramater \'via_header\' requires Repose v8.4.10 or newer.")
   }
 
   if $log_use_log4j2 == true {

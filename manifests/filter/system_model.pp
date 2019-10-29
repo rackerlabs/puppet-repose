@@ -75,6 +75,16 @@
 # WARNING: This is a Repose version 8 and above feature only.
 # Defaults to <tt>{}</tt> Empty hash
 #
+# [*repose9*]
+# Boolean value which signals the system-model template to leave out the
+# cluster element in support of Repose v.9 and above. This is a half-step
+# measure before supporting the new way Repose handles clustering in the
+# system-model config.
+# Defaults to <tt>false</tt> False
+#
+# [*encoded_headers*]
+# Array of header names that need to be encoded before being sent to the origin service.
+#
 # === Examples
 #
 # $app_name = 'repose'
@@ -126,9 +136,11 @@ define repose::filter::system_model (
   $endpoints           = undef,
   $port                = $repose::params::port,
   $https_port          = undef,
+  $repose9             = false,
   $rewrite_host_header = undef,
   $service_cluster     = undef,
   $tracing_header      = {},
+  $encoded_headers     = [],
 ) {
 
 ### Validate parameters

@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.8.0
+Version:   2.12.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -30,6 +30,15 @@ cp -pr * %{buildroot}%{module_dir}/
 %{module_dir}
 
 %changelog
+* Tue Oct 22 2019 Senthil Natarajan <senthil.natarajan@rackspace.com> 2.12.0-1
+- Added support for url encoded header
+* Thu Aug 21 2019 Josh Bell <josh.bell@rackspace.com> 2.11.0-1
+- Add basic support for Repose 9 in system model and other filters
+- Add support for installing identity filter bundle
+* Tue Jun 18 2019 Lokesh Belwal <Lokesh.Belwal@rackspace.com> - 2.10.0-1
+- Add log_file_perm param to provide world read access on logs if set to 'public' 
+* Mon Dec 17 2018 Josh Bell <josh.bell@rackspace.com> - 2.9.0-1
+- Add via_header and repose_version options to container filter
 * Mon May 12 2018  Josh Bell <josh.bell@rackspace.com> - 2.8.0-1
 - Add ssl protocol and tls renegotiation options to container filter
 * Mon Apr 02 2018 Dimitry Ushakov <dimitry.ushakov@rackspace.com> - 2.7.0-1
