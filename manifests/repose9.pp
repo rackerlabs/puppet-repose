@@ -55,10 +55,6 @@
 # String. Log file directory path
 # Defaults to <tt>/var/log/repose</tt>
 #
-# [*pid_file*]
-# String. Pid file location
-# Defaults to <tt>/var/run/repose-valve.pid</tt>
-#
 # [*user*]
 # String. User to run the valve as
 # Defaults to <tt>repose</tt>
@@ -129,7 +125,6 @@ class repose::repose9 (
   $run_port          = $repose::params::run_port,
   $daemon_home       = $repose::params::daemon_home,
   $log_path          = $repose::params::logdir,
-  $pid_file          = $repose::params::pid_file,
   $user              = $repose::params::user,
   $daemonize         = $repose::params::daemonize,
   $daemonize_opts    = $repose::params::daemonize_opts,
@@ -169,7 +164,6 @@ class repose::repose9 (
     "set RUN_PORT '${run_port}'",
     "set DAEMON_HOME '${daemon_home}'",
     "set LOG_PATH '${log_path}'",
-    "set PID_FILE '${pid_file}'",
     "set USER '${user}'",
     "set daemonize '${daemonize}'",
     "set daemonize_opts '\"${daemonize_opts}\"'",
