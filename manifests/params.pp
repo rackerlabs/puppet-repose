@@ -196,6 +196,9 @@ class repose::params {
 ## default local log rotation count
   $log_local_rotation_count = 4
 
+## default log local compress is 'none'
+  $log_local_compress = 'none'
+
 ## default repose.log syslog facility
   $log_repose_facility = 'local0'
 

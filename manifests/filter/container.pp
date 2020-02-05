@@ -92,6 +92,11 @@
 # String. The max file size for the log4j RollingFileAppender.
 # Defaults to <tt>100MB</tt>
 #
+# [*log_local_compress*]
+# String. Whether to compress the rotated log or not. 
+# Can be one of <tt>none</tt>,<tt>gz</tt>,<tt>zip</tt>
+# Defaults to <tt>none</tt>
+#
 # [*log_local_rotation_count*]
 # Integer. The number of backup files to keeo for the log4j RollingFileAppender
 # Defaults to <tt>4</tt>
@@ -313,6 +318,7 @@ class repose::filter::container (
   $log_level                            = $repose::params::log_level,
   $log_local_policy                     = $repose::params::log_local_policy,
   $log_local_size                       = $repose::params::log_local_size,
+  $log_local_compress                   = $repose::params::log_local_compress,
   $log_local_rotation_count             = $repose::params::log_local_rotation_count,
   $log_repose_facility                  = $repose::params::log_repose_facility,
   $log_file_perm                        = $repose::params::log_file_perm,
@@ -358,6 +364,16 @@ class repose::filter::container (
   if ($ssl_exclude_cipher != undef) {
     validate_array($ssl_exclude_cipher)
   }
+
+## log_local_compress_ext
+  if ! ($log_local_compress in [ 'none', 'gz', 'zip' ]) {
+    fail("\"${log_local_compress}\" is not a valid log_local_compress parameter value")
+  } else {
+    $log_local_compress_ext = $log_local_compress ? {
+      'none' => '',
+      'gz'   => '.gz',
+      'zip'  => '.zip',
+    }
 
 ## ensure
   if ! ($ensure in [ present, absent ]) {

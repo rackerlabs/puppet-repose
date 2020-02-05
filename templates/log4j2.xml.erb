@@ -15,7 +15,7 @@
 <%- if @log_local_policy == 'date' -%>
         <RollingFile name="defaultFile"
             filename="<%= @log_dir-%>/<%= @app_name -%>.log"
-            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%d{yyyy-MM-dd}">
+            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%d{yyyy-MM-dd}<%= @log_local_compress_ext -%>">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n</Pattern>
             </PatternLayout>
@@ -26,7 +26,7 @@
 <%- elsif @log_local_policy == 'size' -%>
         <RollingFile name="defaultFile"
             filename="<%= @log_dir-%>/<%= @app_name -%>.log"
-            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%i" 
+            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%i<%= @log_local_compress_ext -%>">
             <%- if @log_file_perm == 'public' -%>
               filePermissions="rw-r--r--"
             <%- end -%>
@@ -86,7 +86,7 @@
   <%- if @log_local_policy == 'date' -%>
         <RollingFile name="httpLocal"
             filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
-            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%d{yyyy-MM-dd}">
+            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%d{yyyy-MM-dd}<%= @log_local_compress_ext -%>">
             <PatternLayout>
                 <Pattern>%m%n</Pattern>
             </PatternLayout>
@@ -97,11 +97,12 @@
   <%- elsif @log_local_policy == 'size' -%>
         <RollingFile name="httpLocal"
             filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
-            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%i"
+            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%i<%= @log_local_compress_ext -%>">
             <%- if @log_file_perm == 'public' -%>
               filePermissions="rw-r--r--"
             <%- end -%>
               >
+
             <PatternLayout>
                 <Pattern>%m%n</Pattern>
             </PatternLayout>
