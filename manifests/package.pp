@@ -88,15 +88,11 @@ class repose::package (
 
 ## Pick packages
   $container_package = $container ? {
-    'tomcat7' => $repose::params::tomcat7_package,
-    'valve'   => $repose::params::valve_package,
     'repose9'   => $repose::params::repose9_package,
   }
 
 ## Handle adding a dependency of service for valve
-  if $container == 'valve' {
-    $before = Service[$repose::params::service]
-  } elsif $container == 'repose9' {
+  if $container == 'repose9' {
     $before = Service[$repose::params::repose9_service]
   } else {
     $before = undef

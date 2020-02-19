@@ -12,7 +12,7 @@ describe 'repose::package' do
     # 1) install the package
     context 'with defaults for all parameters' do
       it {
-        should contain_package('repose-valve').with_ensure('present')
+        should contain_package('repose').with_ensure('present')
         should contain_package('repose-filters').with_ensure('present')
         should contain_package('repose-extension-filters').with_ensure('present')
       }
@@ -25,7 +25,7 @@ describe 'repose::package' do
         :ensure => '6.1.1.1'
       } }
       it {
-        should contain_package('repose-valve').with_ensure('6.1.1.1')
+        should contain_package('repose').with_ensure('6.1.1.1')
         should contain_package('repose-filters').with_ensure('6.1.1.1')
         should contain_package('repose-extension-filters').with_ensure('6.1.1.1')
       }
@@ -38,7 +38,7 @@ describe 'repose::package' do
         :autoupgrade => true
       } }
       it {
-        should contain_package('repose-valve').with_ensure('latest')
+        should contain_package('repose').with_ensure('latest')
         should contain_package('repose-filters').with_ensure('latest')
         should contain_package('repose-extension-filters').with_ensure('latest')
       }
@@ -48,7 +48,7 @@ describe 'repose::package' do
     context 'uninstall parameters' do
       let(:params) { { :ensure => 'absent' } }
       it {
-        should contain_package('repose-valve').with_ensure('purged')
+        should contain_package('repose').with_ensure('purged')
         should contain_package('repose-filters').with_ensure('purged')
         should contain_package('repose-extension-filters').with_ensure('purged')
       }
@@ -59,7 +59,7 @@ describe 'repose::package' do
     context 'with defaults+newpackages for all parameters' do
       let(:params) { { :rh_old_packages => 'false' } }
       it {
-        should contain_package('repose-valve').with_ensure('present')
+        should contain_package('repose').with_ensure('present')
         should contain_package('repose-filter-bundle').with_ensure('present')
         should contain_package('repose-extensions-filter-bundle').with_ensure('present')
       }
@@ -73,7 +73,7 @@ describe 'repose::package' do
         :rh_old_packages => 'false'
       } }
       it {
-        should contain_package('repose-valve').with_ensure('6.2.0.1')
+        should contain_package('repose').with_ensure('6.2.0.1')
         should contain_package('repose-filter-bundle').with_ensure('6.2.0.1')
         should contain_package('repose-extensions-filter-bundle').with_ensure('6.2.0.1')
       }
@@ -87,7 +87,7 @@ describe 'repose::package' do
         :rh_old_packages => 'false'
       } }
       it {
-        should contain_package('repose-valve').with_ensure('latest')
+        should contain_package('repose').with_ensure('latest')
         should contain_package('repose-filter-bundle').with_ensure('latest')
         should contain_package('repose-extensions-filter-bundle').with_ensure('latest')
       }
@@ -100,7 +100,7 @@ describe 'repose::package' do
         :rh_old_packages => 'false'
       } }
       it {
-        should contain_package('repose-valve').with_ensure('purged')
+        should contain_package('repose').with_ensure('purged')
         should contain_package('repose-filter-bundle').with_ensure('purged')
         should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
       }
@@ -113,7 +113,7 @@ describe 'repose::package' do
         :experimental_filters => true
       } }
       it {
-        should contain_package('repose-valve').with_ensure('present')
+        should contain_package('repose').with_ensure('present')
         should contain_package('repose-filter-bundle').with_ensure('present')
         should contain_package('repose-extensions-filter-bundle').with_ensure('present')
         should contain_package('repose-experimental-filter-bundle').with_ensure('present')
@@ -127,7 +127,7 @@ describe 'repose::package' do
         :identity_filters => true
       } }
       it {
-        should contain_package('repose-valve').with_ensure('present')
+        should contain_package('repose').with_ensure('present')
         should contain_package('repose-filter-bundle').with_ensure('present')
         should contain_package('repose-extensions-filter-bundle').with_ensure('present')
         should contain_package('repose-identity-filter-bundle').with_ensure('present')
@@ -142,7 +142,7 @@ describe 'repose::package' do
         :experimental_filters => true
       } }
       it {
-        should contain_package('repose-valve').with_ensure('purged')
+        should contain_package('repose').with_ensure('purged')
         should contain_package('repose-filter-bundle').with_ensure('purged')
         should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
         should contain_package('repose-experimental-filter-bundle').with_ensure('purged')
@@ -157,7 +157,7 @@ describe 'repose::package' do
         :identity_filters     => true
       } }
       it {
-        should contain_package('repose-valve').with_ensure('purged')
+        should contain_package('repose').with_ensure('purged')
         should contain_package('repose-filter-bundle').with_ensure('purged')
         should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
         should contain_package('repose-identity-filter-bundle').with_ensure('purged')

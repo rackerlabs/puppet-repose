@@ -168,7 +168,7 @@ class repose (
   }
 
 ## service
-  if ( $container in [ 'valve', 'repose9' ]) {
+  if ( $container in [ 'repose9' ]) {
     class { 'repose::service':
       ensure    => $ensure,
       enable    => $enable,

@@ -30,9 +30,9 @@ describe 'repose' do
       it {
         should contain_class('repose')
         should contain_class('repose::package').with_ensure('6.1.1.1')
-        should contain_package('repose-valve').with_ensure('6.1.1.1')
+        should contain_package('repose').with_ensure('6.1.1.1')
         should contain_class('repose::service').with_ensure('6.1.1.1')
-        should contain_service('repose-valve').with_ensure('running')
+        should contain_service('repose').with_ensure('running')
       }
     end
 
