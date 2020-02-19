@@ -34,12 +34,6 @@
 # The package list to use based on the container that is used to run
 # repose in this environment
 #
-# [*rh_old_packages*]
-# Boolean. At version 6.2 repose renamed several of their packages to
-# standardize between deb/rpm.  This variable exposes access to the old
-# naming on rpm distros. It defaults to <tt>true</tt> for the time being
-# to not break existing users.
-#
 # [*experimental_filters*]
 # Boolean. Install the experimental filters bundle package
 # Defaults to <tt>false</tt>
@@ -67,7 +61,6 @@ class repose::package (
   $ensure                        = $repose::params::ensure,
   $autoupgrade                   = $repose::params::autoupgrade,
   $container                     = $repose::params::container,
-  $rh_old_packages               = $repose::params::rh_old_packages,
   $experimental_filters          = $repose::params::experimental_filters,
   $identity_filters              = $repose::params::identity_filters,
 ) inherits repose::params {
@@ -104,11 +97,6 @@ class repose::package (
   package { $container_package:
     ensure => $package_ensure,
     before => $before,
-  }
-
-  $filter_packages = $rh_old_packages ? {
-    true    => $repose::params::old_packages,
-    default => $repose::params::packages,
   }
 
   package { $filter_packages:

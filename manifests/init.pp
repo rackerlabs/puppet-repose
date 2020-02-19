@@ -40,12 +40,6 @@
 # * {Puppet's package provider source code}[http://j.mp/wtVCaL]
 # Defaults to <tt>false</tt>.
 #
-# [*rh_old_packages*]
-# Boolean. At version 6.2 repose renamed several of their packages to
-# standardize between deb/rpm.  This variable exposes access to the old
-# naming on rpm distros. It defaults to <tt>true</tt> for the time being
-# to not break existing users.
-# TODO: Determine a time to default to false. Then when to drop support.
 #
 # [*cfg_new_namespace*]
 # Boolean. Repose 7 introducted new namespaces for the configuration files.
@@ -76,7 +70,6 @@ class repose (
   $enable               = $repose::params::enable,
   $container            = $repose::params::container,
   $autoupgrade          = $repose::params::autoupgrade,
-  $rh_old_packages      = $repose::params::rh_old_packages,
   $cfg_new_namespace    = $repose::params::cfg_new_namespace,
   $experimental_filters = $repose::params::experimental_filters,
   $identity_filters     = $repose::params::identity_filters,
@@ -162,7 +155,6 @@ class repose (
     ensure               => $ensure,
     autoupgrade          => $autoupgrade,
     container            => $container,
-    rh_old_packages      => $rh_old_packages,
     experimental_filters => $experimental_filters,
     identity_filters     => $identity_filters,
   }

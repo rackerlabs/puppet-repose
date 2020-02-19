@@ -70,8 +70,6 @@ class repose::params {
     /RedHat/ => [ 'repose-filters','repose-extension-filters' ],
     /Debian/ => $packages,
   }
-  $rh_old_packages = true
-
 ##  experimental filters bundle package 
   $experimental_filters = false
 

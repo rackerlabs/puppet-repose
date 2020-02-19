@@ -56,13 +56,11 @@ describe 'repose::repose9' do
     end
 
     context 'with new packages' do
-      let(:params) { { :rh_old_packages => 'false' } }
       it {
         should contain_class('repose').with(
           'ensure'          => 'present',
           'enable'          => 'true',
           'autoupgrade'     => 'false',
-          'rh_old_packages' => 'false',
           'container'       => 'repose9'
         )
       }
@@ -75,7 +73,6 @@ describe 'repose::repose9' do
           'ensure'            => 'present',
           'enable'            => 'true',
           'autoupgrade'       => 'false',
-          'rh_old_packages'   => 'true',
           'cfg_new_namespace' => 'true',
           'container'         => 'repose9'
         )
