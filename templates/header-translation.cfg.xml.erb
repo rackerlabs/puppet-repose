@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <header-translation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://<%= scope.lookupvar('::repose::cfg_namespace_host_header') %>/repose/header-translation/v1.0 ../config/header-translation.xsd"
-    xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host_header') %>/repose/header-translation/v1.0">
+    xsi:schemaLocation="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/header-translation/v1.0 ../config/header-translation.xsd"
+    xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/header-translation/v1.0">
 <%- if @header_translations -%>
   <%- @header_translations.each do |header_translation| -%>
     <header original-name="<%= header_translation['original_name'] -%>" new-name="<%= header_translation['new_name'] -%>" remove-original="<%= header_translation['remove_original'] -%>" />

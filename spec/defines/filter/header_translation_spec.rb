@@ -52,29 +52,5 @@ describe 'repose::filter::header_translation', :type => :define do
         )
       }
     end
-
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/header-translation.cfg.xml').
-          with_content(/docs.api.rackspacecloud.com/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/header-translation.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
   end
 end

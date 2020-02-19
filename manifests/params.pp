@@ -45,7 +45,10 @@ class repose::params {
 ## container_options
   $container_options = ['repose9']
 
-### Package specific in
+### Package specific info
+
+## namespace
+  $cfg_namespace_host = 'docs.openrepose.org'
 
 ## repose 9 service
   $repose9_service = $::osfamily ? {
@@ -66,10 +69,6 @@ class repose::params {
     /(RedHat|Debian)/ => [ 'repose-filter-bundle','repose-extensions-filter-bundle' ],
   }
 
-  $old_packages = $::osfamily ? {
-    /RedHat/ => [ 'repose-filters','repose-extension-filters' ],
-    /Debian/ => $packages,
-  }
 ##  experimental filters bundle package 
   $experimental_filters = false
 
@@ -240,9 +239,6 @@ class repose::params {
 
 ## default herp logging syslog prefilter logger name
   $log_herp_syslog_prefilter = 'herp_syslog_prefilter'
-
-## use new namespace urls in configuration files
-  $cfg_new_namespace = false
   
 ## default log file permissions
   $log_file_perm = 'private'

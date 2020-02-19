@@ -84,13 +84,6 @@
 # [*saxon_home*]
 # String. Home directory for Saxon. Sets SAXON_HOME
 # Defaults to <tt>undef</tt>
-# [*cfg_new_namespace*]
-# Boolean. Repose 7 introducted new namespaces for the configuration files.
-# This flag is used to indicate the use of the new docs.openrepose.org
-# namespace instead of the docs.rackspacecloud.com namespace. The old namespace
-# url should work but there have been some issues. If running repose >= 7,
-# set this to true.
-# TODO: Determine a time to default to false. Then when to drop support.
 #
 # === Examples
 #
@@ -123,14 +116,12 @@ class repose::repose9 (
   $run_opts          = $repose::params::run_opts,
   $java_options      = undef,
   $saxon_home        = undef,
-  $cfg_new_namespace = $repose::params::cfg_new_namespace,
 ) inherits repose::params {
 
   class { 'repose':
     ensure            => $ensure,
     enable            => $enable,
     autoupgrade       => $autoupgrade,
-    cfg_new_namespace => $cfg_new_namespace,
     container         => 'repose9',
   }
 

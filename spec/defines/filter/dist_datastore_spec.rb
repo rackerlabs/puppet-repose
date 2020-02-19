@@ -64,39 +64,5 @@ describe 'repose::filter::dist_datastore', :type => :define do
           with_content(/connection-pool-id=\"connection-pool\"/)
       }
     end
-
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'dist-datastore.cfg.xml',
-        :nodes      => [ 'test.example.com', ]
-      } }
-      it {
-        should contain_file('/etc/repose/dist-datastore.cfg.xml').
-          with_content(/openrepose.org/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'dist-datastore.cfg.xml',
-        :nodes      => [ 'test.example.com', ]
-      } }
-      it {
-        should contain_file('/etc/repose/dist-datastore.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
   end
 end

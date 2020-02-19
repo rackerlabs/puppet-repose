@@ -375,44 +375,6 @@ describe 'repose::filter::open_tracing', :type => :define do
       }
     end
 
-    context 'with defaults with old namespace' do
-      let(:title) { 'old_namespace_default' }
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:params) { {
-        :ensure     => 'present',
-        :service_name => 'test-repose',
-        :http_connection_token    => 'mytoken',
-        :http_connection_endpoint => 'http://example.com/api/traces',
-        :constant_toggle => 'off'
-      } }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let(:title) { 'new_namespace_default' }
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:params) { {
-        :ensure     => 'present',
-        :service_name => 'test-repose',
-        :http_connection_token    => 'mytoken',
-        :http_connection_endpoint => 'http://example.com/api/traces',
-        :constant_toggle => 'off'
-      } }
-      it {
-        should contain_file('/etc/repose/open-tracing.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
-
     context 'validate entries' do
       context 'validate connection_endpoint' do
         let(:title) { 'validate_connection_endpoint' }

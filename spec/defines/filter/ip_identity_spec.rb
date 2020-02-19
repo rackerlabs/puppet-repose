@@ -52,47 +52,5 @@ describe 'repose::filter::ip_identity', :type => :define do
           with_content(/<ip-address>9\.9\.9\.9<\/ip-address>/)
       }
     end
-
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure    => 'present',
-        :filename  => 'ip-identity.cfg.xml',
-        :quality   => '0.25',
-        :whitelist => {
-          'quality'   => '0.3',
-          'addresses' => [ '9.9.9.9', ],
-        }
-      } }
-      it {
-        should contain_file('/etc/repose/ip-identity.cfg.xml').
-          with_content(/docs.api.rackspacecloud.com/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure    => 'present',
-        :filename  => 'ip-identity.cfg.xml',
-        :quality   => '0.25',
-        :whitelist => {
-          'quality'   => '0.3',
-          'addresses' => [ '9.9.9.9', ],
-        }
-      } }
-      it {
-        should contain_file('/etc/repose/ip-identity.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
   end
 end

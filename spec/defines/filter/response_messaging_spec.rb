@@ -58,59 +58,5 @@ describe 'repose::filter::response_messaging', :type => :define do
           with_content(/\{ \"overLimit\" : \{ \"code\" : 413, \"message\" : \"OverLimit Retry\.\.\.\", \"details\" : \"whatever\": \} \}/)
       }
     end
-
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'response-messaging.cfg.xml',
-        :status_codes  => [
-        {
-          'id'         => '413',
-          'code-regex' => '413',
-          'messages'   => [
-            {
-              'media-type' => '*/*',
-              'body' => '{ "overLimit" : { "code" : 413, "message" : "OverLimit Retry...", "details" : "whatever": } }',
-            }
-          ]
-        } ]
-      } }
-      it {
-        should contain_file('/etc/repose/response-messaging.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'response-messaging.cfg.xml',
-        :status_codes  => [
-        {
-          'id'         => '413',
-          'code-regex' => '413',
-          'messages'   => [
-            {
-              'media-type' => '*/*',
-              'body' => '{ "overLimit" : { "code" : 413, "message" : "OverLimit Retry...", "details" : "whatever": } }',
-            }
-          ]
-        } ]
-      } }
-      it {
-        should contain_file('/etc/repose/response-messaging.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
   end
 end

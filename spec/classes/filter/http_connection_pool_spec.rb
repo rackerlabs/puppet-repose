@@ -86,28 +86,5 @@ describe 'repose::filter::http_connection_pool', :type => :class do
         )
       }
     end
-
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      it {
-        should contain_file('/etc/repose/http-connection-pool.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      it {
-        should contain_file('/etc/repose/http-connection-pool.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
-
   end
 end
