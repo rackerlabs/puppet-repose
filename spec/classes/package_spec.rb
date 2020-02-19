@@ -22,12 +22,12 @@ describe 'repose::package' do
     # 1) install the package to a specific version
     context 'with package version' do
       let(:params) { {
-        :ensure => '6.1.1.1'
+        :ensure => '9.1.0.0'
       } }
       it {
-        should contain_package('repose').with_ensure('6.1.1.1')
-        should contain_package('repose-filters').with_ensure('6.1.1.1')
-        should contain_package('repose-extension-filters').with_ensure('6.1.1.1')
+        should contain_package('repose').with_ensure('9.1.0.0')
+        should contain_package('repose-filters').with_ensure('9.1.0.0')
+        should contain_package('repose-extension-filters').with_ensure('9.1.0.0')
       }
     end
 
