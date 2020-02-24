@@ -16,8 +16,8 @@ describe 'repose::package' do
     context 'with defaults for all parameters' do
       it {
         should contain_package('repose').with_ensure('present')
-        should contain_package('repose-filters').with_ensure('present')
-        should contain_package('repose-extension-filters').with_ensure('present')
+        should contain_package('repose-filter-bundle').with_ensure('present')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
       }
     end
 
@@ -29,8 +29,8 @@ describe 'repose::package' do
       } }
       it {
         should contain_package('repose').with_ensure('9.1.0.0')
-        should contain_package('repose-filters').with_ensure('9.1.0.0')
-        should contain_package('repose-extension-filters').with_ensure('9.1.0.0')
+        should contain_package('repose-filter-bundle').with_ensure('9.1.0.0')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('9.1.0.0')
       }
     end
 
@@ -42,8 +42,8 @@ describe 'repose::package' do
       } }
       it {
         should contain_package('repose').with_ensure('latest')
-        should contain_package('repose-filters').with_ensure('latest')
-        should contain_package('repose-extension-filters').with_ensure('latest')
+        should contain_package('repose-filter-bundle').with_ensure('latest')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('latest')
       }
     end
 
@@ -52,8 +52,8 @@ describe 'repose::package' do
       let(:params) { { :ensure => 'absent' } }
       it {
         should contain_package('repose').with_ensure('purged')
-        should contain_package('repose-filters').with_ensure('purged')
-        should contain_package('repose-extension-filters').with_ensure('purged')
+        should contain_package('repose-filter-bundle').with_ensure('purged')
+        should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
       }
     end
 

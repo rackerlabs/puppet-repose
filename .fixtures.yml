@@ -4,12 +4,15 @@ fixtures:
   forge_modules:
     concat:
       repo: "puppetlabs/concat"
-      ref: "1.1.0"
+      ref: "6.2.0"
     stdlib:
       repo: "puppetlabs/stdlib"
-      ref: "2.6.0"
+      ref: "6.2.0"
     java_ks:
       repo: "puppetlabs/java_ks"
-      ref: "1.4.1"
+      ref: "3.1.0"
+    augeas_core:
+      repo: "puppetlabs/augeas_core"
+      ref: "1.0.5"
   symlinks:
     repose: "#{source_dir}"

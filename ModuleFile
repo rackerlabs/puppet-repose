@@ -7,3 +7,5 @@ project_page 'https://github.com/rackerlabs/puppet-repose'
 dependency 'puppetlabs/stdlib', '>= 2.0.0'
 dependency 'puppetlabs/puppetlabs-java_ks', '>= 1.4.1'
 dependency 'puppetlabs/concat', '>= 1.1.0'
+dependency 'puppetlabs/augeas', '>= 1.0.5'
+

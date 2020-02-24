@@ -99,7 +99,7 @@ class repose::package (
     before => $before,
   }
 
-  package { $filter_packages:
+  package { $repose::params::packages:
     ensure  => $package_ensure,
     require => Package[$container_package],
   }
