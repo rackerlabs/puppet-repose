@@ -1,5 +1,8 @@
 require 'spec_helper'
 describe 'repose::package' do
+  let :pre_condition do 
+    'include repose::service'
+  end  
   context 'on RedHat' do
     let :facts do
     {
