@@ -40,17 +40,15 @@ class repose::params {
   $autoupgrade = false
 
 ## container
-  $container = 'valve'
+  $container = 'repose9'
 
 ## container_options
-  $container_options = ['valve','tomcat7','repose9']
+  $container_options = ['repose9']
 
-### Package specific in
+### Package specific info
 
-## service
-  $service = $::osfamily ? {
-    /(RedHat|Debian)/ => 'repose-valve',
-  }
+## namespace
+  $cfg_namespace_host = 'docs.openrepose.org'
 
 ## repose 9 service
   $repose9_service = $::osfamily ? {
@@ -71,12 +69,6 @@ class repose::params {
     /(RedHat|Debian)/ => [ 'repose-filter-bundle','repose-extensions-filter-bundle' ],
   }
 
-  $old_packages = $::osfamily ? {
-    /RedHat/ => [ 'repose-filters','repose-extension-filters' ],
-    /Debian/ => $packages,
-  }
-  $rh_old_packages = true
-
 ##  experimental filters bundle package 
   $experimental_filters = false
 
@@ -89,16 +81,6 @@ class repose::params {
 
   $identity_filters_packages = $::osfamily ? {
     /(RedHat|Debian)/ => [ 'repose-identity-filter-bundle' ],
-  }
-
-## tomcat7_package
-  $tomcat7_package = $::osfamily ? {
-    /(RedHat|Debian)/ => 'repose-war',
-  }
-
-## valve_package
-  $valve_package = $::osfamily ? {
-    /(RedHat|Debian)/ => 'repose-valve',
   }
 
 ## repose9_package
@@ -149,18 +131,18 @@ class repose::params {
   $daemon_home = '/usr/share/lib/repose'
 
 ## pid file for valve
-  $pid_file = '/var/run/repose-valve.pid'
+  $pid_file = '/var/run/repose.pid'
 
 ## user for valve
   $user = 'repose'
 
-## daemonize bin for repose-valve
+## daemonize bin for repose
   $daemonize = '/usr/sbin/daemonize'
 
-## daemonize opts for repose-valve
+## daemonize opts for repose
   $daemonize_opts = '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
 
-## run ops for repose-valve
+## run ops for repose
   $run_opts = '-p $RUN_PORT -c $CONFIG_DIRECTORY'
 
 ## container deployment directory
@@ -257,9 +239,6 @@ class repose::params {
 
 ## default herp logging syslog prefilter logger name
   $log_herp_syslog_prefilter = 'herp_syslog_prefilter'
-
-## use new namespace urls in configuration files
-  $cfg_new_namespace = false
   
 ## default log file permissions
   $log_file_perm = 'private'

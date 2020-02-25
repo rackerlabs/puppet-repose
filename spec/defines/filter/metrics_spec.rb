@@ -55,51 +55,5 @@ describe 'repose::filter::metrics', :type => :define do
           with_content(/prefix=\"my\/prefix\"/)
       }
     end
-
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'metrics.cfg.xml',
-        :graphite_servers => [ {
-          'host'    => 'graphite.server',
-          'port'    => '2013',
-          'period'  => 10,
-          'prefix'  => 'my/prefix',
-          'enabled' => 'true'
-        } ]
-      } }
-      it {
-        should contain_file('/etc/repose/metrics.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'metrics.cfg.xml',
-        :graphite_servers => [ {
-          'host'    => 'graphite.server',
-          'port'    => '2013',
-          'period'  => 10,
-          'prefix'  => 'my/prefix',
-          'enabled' => 'true'
-        } ]
-      } }
-      it {
-        should contain_file('/etc/repose/metrics.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
   end
 end

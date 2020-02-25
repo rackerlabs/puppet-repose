@@ -24,45 +24,15 @@ describe 'repose' do
       }
     end
 
-    # Validate specifying a version properly passes ensure = 6.1.1.1
+    # Validate specifying a version properly passes ensure = 9.1.0.0
     context 'with specific version' do
-      let(:params) { { :ensure => '6.1.1.1' } }
+      let(:params) { { :ensure => '9.1.0.0' } }
       it {
         should contain_class('repose')
-        should contain_class('repose::package').with_ensure('6.1.1.1')
-        should contain_package('repose-valve').with_ensure('6.1.1.1')
-        should contain_class('repose::service').with_ensure('6.1.1.1')
-        should contain_service('repose-valve').with_ensure('running')
-      }
-    end
-
-    # Validating that the old package names will be used
-    context 'with specific version' do
-      let(:params) { { :rh_old_packages => 'true' } }
-      it {
-        should contain_class('repose')
-        should contain_class('repose::package').with(
-          'rh_old_packages' => 'true')
-        should contain_class('repose::service').with_ensure('present')
-        should contain_file('/etc/security/limits.d/repose').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose')
-      }
-    end
-
-    # Validating that the new package names will be used
-    context 'with specific version' do
-      let(:params) { { :rh_old_packages => 'false' } }
-      it {
-        should contain_class('repose')
-        should contain_class('repose::package').with(
-          'rh_old_packages' => 'false')
-        should contain_class('repose::service').with_ensure('present')
-        should contain_file('/etc/security/limits.d/repose').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose')
+        should contain_class('repose::package').with_ensure('9.1.0.0')
+        should contain_package('repose').with_ensure('9.1.0.0')
+        should contain_class('repose::service').with_ensure('9.1.0.0')
+        should contain_service('repose').with_ensure('running')
       }
     end
 

@@ -39,21 +39,7 @@
 # * Puppet type reference: {package, "upgradeable"}[http://j.mp/xbxmNP]
 # * {Puppet's package provider source code}[http://j.mp/wtVCaL]
 # Defaults to <tt>false</tt>.
-#
-# [*rh_old_packages*]
-# Boolean. At version 6.2 repose renamed several of their packages to
-# standardize between deb/rpm.  This variable exposes access to the old
-# naming on rpm distros. It defaults to <tt>true</tt> for the time being
-# to not break existing users.
-# TODO: Determine a time to default to false. Then when to drop support.
-#
-# [*cfg_new_namespace*]
-# Boolean. Repose 7 introducted new namespaces for the configuration files.
-# This flag is used to indicate the use of the new docs.openrepose.org
-# namespace instead of the docs.rackspacecloud.com namespace. The old namespace
-# url should work but there have been some issues. If running repose >= 7,
-# set this to true.
-# TODO: Determine a time to default to false. Then when to drop support.
+
 #
 # === Examples
 #
@@ -76,8 +62,6 @@ class repose (
   $enable               = $repose::params::enable,
   $container            = $repose::params::container,
   $autoupgrade          = $repose::params::autoupgrade,
-  $rh_old_packages      = $repose::params::rh_old_packages,
-  $cfg_new_namespace    = $repose::params::cfg_new_namespace,
   $experimental_filters = $repose::params::experimental_filters,
   $identity_filters     = $repose::params::identity_filters,
 ) inherits repose::params {
@@ -132,29 +116,6 @@ class repose (
     debug("\$container = '${container}'")
   }
 
-## figure out cfg namespace host
-  if $cfg_new_namespace {
-    $cfg_namespace_host = 'docs.openrepose.org'
-    # these are needed for historical differences in namespace hosts
-    $cfg_namespace_host_header = 'docs.openrepose.org'
-    $cfg_namespace_host_validator = 'docs.openrepose.org'
-    $cfg_namespace_host_ip = 'docs.openrepose.org'
-    $cfg_namespace_host_compression = 'docs.openrepose.org'
-    $cfg_namespace_host_dist = 'docs.openrepose.org'
-    $cfg_namespace_host_destination_router = 'docs.openrepose.org'
-    $cfg_namespace_host_uri_stripper = 'docs.openrepose.org'
-  } else {
-    $cfg_namespace_host = 'docs.rackspacecloud.com'
-    # these are needed for historical differences in namespace hosts
-    $cfg_namespace_host_header = 'docs.api.rackspacecloud.com'
-    $cfg_namespace_host_validator = 'openrepose.org'
-    $cfg_namespace_host_ip = 'docs.api.rackspacecloud.com'
-    $cfg_namespace_host_compression = 'docs.api.rackspacecloud.com'
-    $cfg_namespace_host_dist = 'openrepose.org'
-    $cfg_namespace_host_destination_router = 'openrepose.org'
-    $cfg_namespace_host_uri_stripper = 'docs.api.rackspacecloud.com'
-  }
-
 ### Manage actions
 
 ## package(s)
@@ -162,13 +123,12 @@ class repose (
     ensure               => $ensure,
     autoupgrade          => $autoupgrade,
     container            => $container,
-    rh_old_packages      => $rh_old_packages,
     experimental_filters => $experimental_filters,
     identity_filters     => $identity_filters,
   }
 
 ## service
-  if ( $container in [ 'valve', 'repose9' ]) {
+  if ( $container in [ 'repose9' ]) {
     class { 'repose::service':
       ensure    => $ensure,
       enable    => $enable,

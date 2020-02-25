@@ -56,14 +56,7 @@ class repose::service (
 
 ### Manage actions
 
-  if $container == 'valve' {
-    service { $repose::params::service:
-      ensure     => $service_ensure,
-      enable     => $enable,
-      hasstatus  => $repose::params::service_hasstatus,
-      hasrestart => $repose::params::service_hasrestart,
-    }
- } elsif $container == 'repose9' {
+  if $container == 'repose9' {
     service { $repose::params::repose9_service:
       ensure     => $service_ensure,
       enable     => $enable,

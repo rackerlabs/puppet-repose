@@ -40,7 +40,7 @@ describe 'repose::filter::destination_router', :type => :define do
       } }
       it {
         should contain_file('/etc/repose/destination-router.cfg.xml').
-          with_content(/<destination-router xmlns='http:\/\/openrepose.org\/repose\/destination-router\/v1.0'>/).
+          with_content(/<destination-router xmlns='http:\/\/docs.openrepose.org\/repose\/destination-router\/v1.0'>/).
           with_content(/<target id=\"target01\" quality="0"\/>/).
           with_content(/<target id=\"target02\" quality="0.5"\/>/).
           with_content(/<target id=\"target03\" quality="1"\/>/).

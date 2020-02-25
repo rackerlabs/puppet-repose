@@ -243,50 +243,6 @@ describe 'repose::filter::client_auth_n', :type => :define do
       }
     end
 
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'client-auth-n.cfg.xml',
-        :auth       => {
-          'user' => 'username',
-          'pass' => 'password',
-          'uri'  => 'http://uri'
-        },
-        :client_maps => [ 'testing', ],
-      } }
-      it {
-        should contain_file('/etc/repose/client-auth-n.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
-      }
-    end
-
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
-      end
-
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'client-auth-n.cfg.xml',
-        :auth       => {
-          'user' => 'username',
-          'pass' => 'password',
-          'uri'  => 'http://uri'
-        },
-        :client_maps => [ 'testing', ],
-      } }
-      it {
-        should contain_file('/etc/repose/client-auth-n.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
-    end
-
     context 'providing token_expire_feed with use_auth=true' do
       let(:title) { 'default' }
       let(:params) { {

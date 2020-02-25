@@ -12,7 +12,7 @@ describe 'repose::service' do
     # 1) ensures the service is running
     context 'with defaults for all parameters' do
       it {
-        should contain_service('repose-valve').with_ensure('running')
+        should contain_service('repose').with_ensure('running')
       }
     end
 
@@ -20,7 +20,7 @@ describe 'repose::service' do
     context 'ensure is absent' do
       let(:params) { { :ensure => 'absent' } }
       it {
-        should contain_service('repose-valve').with_ensure('stopped')
+        should contain_service('repose').with_ensure('stopped')
       }
     end
 
@@ -29,7 +29,7 @@ describe 'repose::service' do
     context 'ensure is present but enable is off' do
       let(:params) { { :ensure => 'absent', :enable => false } }
       it {
-        should contain_service('repose-valve').with(
+        should contain_service('repose').with(
           'ensure' => 'stopped',
           'enable' => false)
       }
@@ -39,7 +39,7 @@ describe 'repose::service' do
     context 'ensure is present but enable is off' do
       let(:params) { { :ensure => 'absent', :enable => 'manual' } }
       it {
-        should contain_service('repose-valve').with(
+        should contain_service('repose').with(
           'ensure' => 'stopped',
           'enable' => 'manual')
       }

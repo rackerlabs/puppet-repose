@@ -85,21 +85,6 @@
 # String. Home directory for Saxon. Sets SAXON_HOME
 # Defaults to <tt>undef</tt>
 #
-# [*rh_old_packages*]
-# Boolean. At version 6.2 repose renamed several of their packages to
-# standardize between deb/rpm.  This variable exposes access to the old
-# naming on rpm distros. It defaults to <tt>true</tt> for the time being
-# to not break existing users.
-# TODO: Determine a time to default to false. Then when to drop support.
-#
-# [*cfg_new_namespace*]
-# Boolean. Repose 7 introducted new namespaces for the configuration files.
-# This flag is used to indicate the use of the new docs.openrepose.org
-# namespace instead of the docs.rackspacecloud.com namespace. The old namespace
-# url should work but there have been some issues. If running repose >= 7,
-# set this to true.
-# TODO: Determine a time to default to false. Then when to drop support.
-#
 # === Examples
 #
 # * Installation:
@@ -131,16 +116,12 @@ class repose::repose9 (
   $run_opts          = $repose::params::run_opts,
   $java_options      = undef,
   $saxon_home        = undef,
-  $rh_old_packages   = $repose::params::rh_old_packages,
-  $cfg_new_namespace = $repose::params::cfg_new_namespace,
 ) inherits repose::params {
 
   class { 'repose':
     ensure            => $ensure,
     enable            => $enable,
     autoupgrade       => $autoupgrade,
-    rh_old_packages   => $rh_old_packages,
-    cfg_new_namespace => $cfg_new_namespace,
     container         => 'repose9',
   }
 
