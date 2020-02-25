@@ -104,19 +104,19 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::repose9 (
-  $ensure            = $repose::params::ensure,
-  $enable            = $repose::params::enable,
-  $autoupgrade       = $repose::params::autoupgrade,
-  $run_port          = $repose::params::run_port,
-  $daemon_home       = $repose::params::daemon_home,
-  $log_path          = $repose::params::logdir,
-  $user              = $repose::params::user,
-  $daemonize         = $repose::params::daemonize,
-  $daemonize_opts    = $repose::params::daemonize_opts,
-  $run_opts          = $repose::params::run_opts,
+  $ensure            = $repose::ensure,
+  $enable            = $repose::enable,
+  $autoupgrade       = $repose::autoupgrade,
+  $run_port          = $repose::run_port,
+  $daemon_home       = $repose::daemon_home,
+  $log_path          = $repose::logdir,
+  $user              = $repose::user,
+  $daemonize         = $repose::daemonize,
+  $daemonize_opts    = $repose::daemonize_opts,
+  $run_opts          = $repose::run_opts,
   $java_options      = undef,
   $saxon_home        = undef,
-) inherits repose::params {
+) {
 
   class { 'repose':
     ensure            => $ensure,
@@ -129,8 +129,8 @@ class repose::repose9 (
     ensure  => $repose::file_ensure,
     owner   => root,
     group   => root,
-    require => [ Package[$repose::params::repose9_package] ],
-    notify  => Service[$repose::params::repose9_service],
+    require => [ Package[$repose::repose9_package] ],
+    notify  => Service[$repose::repose9_service],
   }
 
   # setup augeas with our shellvars lense

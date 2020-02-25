@@ -14,6 +14,8 @@ test/tmp
 test/version_tmp
 tmp
 Gemfile.lock
+Gemfile.local
+
 
 # YARD artifacts
 .yardoc
@@ -23,3 +25,27 @@ doc/
 # Tarball and RPM artifacts
 build/
 /.idea/
+*.iml
+
+# And the rest
+.git/
+.*.sw[op]
+.metadata
+.yardoc
+.yardwarns
+/.bundle/
+/.vagrant/
+/coverage/
+/bin/
+/junit/
+/log/
+/pkg/
+/spec/fixtures/manifests/
+/spec/fixtures/modules/
+/vendor/
+/convert_report.txt
+/update_report.txt
+.DS_Store
+.project
+.envrc
+/inventory.yaml

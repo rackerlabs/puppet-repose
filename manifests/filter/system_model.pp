@@ -52,7 +52,7 @@
 #
 # [*port*]
 # Port the cluster runs on. If you want to disable set to <tt>false</tt>
-# Defaults to <tt>$repose::params::port</tt>
+# Defaults to <tt>$repose::port</tt>
 #
 # [*https_port*]
 # Port the cluster runs on when ssl enabled
@@ -134,7 +134,7 @@ define repose::filter::system_model (
   $filters             = undef,
   $services            = undef,
   $endpoints           = undef,
-  $port                = $repose::params::port,
+  $port                = $repose::port,
   $https_port          = undef,
   $repose9             = false,
   $rewrite_host_header = undef,
@@ -180,11 +180,11 @@ define repose::filter::system_model (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::configdir}/${filename}":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => template('repose/system-model.cfg.xml.erb')
   }

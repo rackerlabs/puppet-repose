@@ -35,10 +35,12 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::service (
-  $ensure    = $repose::params::ensure,
-  $enable    = $repose::params::enable,
-  $container = $repose::params::container,
-) inherits repose::params {
+  Enum['present','absent'] $ensure = $repose::ensure,
+  Boolean $enable    = $repose::enable,
+  Enum['repose9'] $container = $repose::container,
+  Boolean $service_hasstatus,
+  Boolean $service_hasrestart,  
+) {
 
 ### Logic
 
@@ -57,11 +59,11 @@ class repose::service (
 ### Manage actions
 
   if $container == 'repose9' {
-    service { $repose::params::repose9_service:
+    service { $repose::repose9_service:
       ensure     => $service_ensure,
       enable     => $enable,
-      hasstatus  => $repose::params::service_hasstatus,
-      hasrestart => $repose::params::service_hasrestart,
+      hasstatus  => $repose::service::service_hasstatus,
+      hasrestart => $repose::service::service_hasrestart,
     }
  }
 

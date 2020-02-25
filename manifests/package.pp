@@ -58,12 +58,12 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  $ensure                        = $repose::params::ensure,
-  $autoupgrade                   = $repose::params::autoupgrade,
-  $container                     = $repose::params::container,
-  $experimental_filters          = $repose::params::experimental_filters,
-  $identity_filters              = $repose::params::identity_filters,
-) inherits repose::params {
+  $ensure                        = $repose::ensure,
+  $autoupgrade                   = $repose::autoupgrade,
+  $container                     = $repose::container,
+  $experimental_filters          = $repose::experimental_filters,
+  $identity_filters              = $repose::identity_filters,
+) {
 
 ### Logic
 
@@ -81,12 +81,12 @@ class repose::package (
 
 ## Pick packages
   $container_package = $container ? {
-    'repose9'   => $repose::params::repose9_package,
+    'repose9'   => $repose::repose9_package,
   }
 
 ## Handle adding a dependency of service for valve
   if $container == 'repose9' {
-    $before = Service[$repose::params::repose9_service]
+    $before = Service[$repose::repose9_service]
   } else {
     $before = undef
   }
@@ -99,25 +99,25 @@ class repose::package (
     before => $before,
   }
 
-  package { $repose::params::packages:
+  package { $repose::packages:
     ensure  => $package_ensure,
     require => Package[$container_package],
   }
 
   if $experimental_filters == true {
-    package { $repose::params::experimental_filters_packages:
+    package { $repose::experimental_filters_packages:
       ensure => $package_ensure,
       require => Package[$container_package],
     }
   } else {
-    package { $repose::params::experimental_filters_packages:
+    package { $repose::experimental_filters_packages:
       ensure => absent, 
       require => Package[$container_package],
     }
   }
 
   if $identity_filters == true {
-    package { $repose::params::identity_filters_packages:
+    package { $repose::identity_filters_packages:
       ensure => $package_ensure,
       require => Package[$container_package],
     }

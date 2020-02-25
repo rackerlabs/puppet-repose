@@ -58,13 +58,22 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  $ensure               = $repose::params::ensure,
-  $enable               = $repose::params::enable,
-  $container            = $repose::params::container,
-  $autoupgrade          = $repose::params::autoupgrade,
-  $experimental_filters = $repose::params::experimental_filters,
-  $identity_filters     = $repose::params::identity_filters,
-) inherits repose::params {
+  Enum['present','absent'] $ensure,
+  Boolean $enable,
+  Enum['repose9'] $container,
+  String $configdir,
+  Boolean $autoupgrade,
+  Boolean $experimental_filters,
+  Boolean $identity_filters,
+  Array $container_options,
+  String $repose9_package,
+  String $repose9_service,
+  Array $packages,
+  Array $experimental_filters_packages,
+  String $dirmode,
+  String $owner,
+  String $group,
+) {
 
 ### Validate parameters
 
@@ -82,7 +91,7 @@ class repose (
     }
   }
   if $::debug {
-    if $ensure != $repose::params::ensure {
+    if $ensure != $repose::ensure {
       debug('$ensure overridden by class parameter')
     }
     debug("\$ensure = '${ensure}'")
@@ -90,27 +99,26 @@ class repose (
 
 ## enable - we don't validate because all standard options are acceptable
   if $::debug {
-    if $enable != $repose::params::enable {
+    if $enable != $repose::enable {
       debug('$enable overridden by class parameter')
     }
     debug("\$enable = '${enable}'")
   }
 
 ## autoupgrade
-  validate_bool($autoupgrade)
   if $::debug {
-    if $autoupgrade != $repose::params::autoupgrade {
+    if $autoupgrade != $repose::autoupgrade {
       debug('$autoupgrade overridden by class parameter')
     }
     debug("\$autoupgrade = '${autoupgrade}'")
   }
 
 ## container
-  if ! ($container in $repose::params::container_options) {
+  if ! ($container in $repose::container_options) {
     fail("\"${container}\" is not a valid container parameter value")
   }
   if $::debug {
-    if $container != $repose::params::container {
+    if $container != $repose::container {
       debug('$container overridden by class parameter')
     }
     debug("\$container = '${container}'")
@@ -128,23 +136,21 @@ class repose (
   }
 
 ## service
-  if ( $container in [ 'repose9' ]) {
-    class { 'repose::service':
-      ensure    => $ensure,
-      enable    => $enable,
-      container => $container,
-    }
+  class { 'repose::service':
+    ensure    => $ensure,
+    enable    => $enable,
+    container => $container,
   }
 
 ## files/directories
   File {
-    mode    => $repose::params::dirmode,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
+    mode    => $dirmode,
+    owner   => $owner,
+    group   => $group,
     require => Package[$repose::package::container_package],
   }
 
-  file { $repose::params::configdir:
+  file { $repose::configdir:
     ensure => $dir_ensure,
   }
 
