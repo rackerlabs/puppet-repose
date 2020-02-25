@@ -67,6 +67,7 @@ define repose::filter::atom_feed (
   $auth_username = undef,
   $auth_password = undef,
   $auth_timeout = undef,
+  $configdir = $repose::params::configdir,
 ) {
 
   if $feed_uri == undef {
@@ -83,7 +84,7 @@ define repose::filter::atom_feed (
   }
 
   concat::fragment { "feed-$title":
-    target => "${repose::params::configdir}/atom-feed-service.cfg.xml",
+    target => "${configdir}/atom-feed-service.cfg.xml",
     source => "puppet:///modules/${module_name}/atom-feed-fragment",
     order   => '50',
   }
