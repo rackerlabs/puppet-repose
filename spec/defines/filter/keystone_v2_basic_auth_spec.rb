@@ -7,7 +7,7 @@ describe 'repose::filter::keystone_v2_basic_auth', :type => :define do
     let :facts do
     {
       :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
+      :operationsystemrelease => '7',
     }
     end
 

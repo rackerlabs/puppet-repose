@@ -46,18 +46,24 @@
 # * C/O CIT-Ops <cit-ops@rackspace.com>
 #
 class repose::logrotate (
-  $log_files        = [ '/var/log/repose/repose.log', ],
-  $rotate_frequency = 'daily',
-  $rotate_count     = '4',
-  $compress         = true,
-  $delay_compress   = true,
-  $use_date_ext     = true,
-) inherits repose {
+  Array $log_files         = [ '/var/log/repose/repose.log', ],
+  String $rotate_frequency = 'daily',
+  Integer $rotate_count     = 4,
+  Boolean $compress        = true,
+  Boolean $delay_compress  = true,
+  Boolean $use_date_ext    = true,
+) {
   if ! ($rotate_frequency in [ 'daily', 'weekly', 'montly', 'yearly' ]) {
     fail("${rotate_frequency} is not a valid rotate_frequency")
   }
+
+  $file_ensure = $repose::ensure ? {
+    absent  => absent,
+    default => file,
+  }
+  
   file { '/etc/logrotate.d/repose':
-    ensure  => $repose::file_ensure,
+    ensure  => $file_ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

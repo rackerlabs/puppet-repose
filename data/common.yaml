@@ -34,15 +34,15 @@ repose::packages:
   - 'repose-extensions-filter-bundle' 
   
 ##  experimental filters bundle package 
-repose::experimental_filters: false
+repose::package::experimental_filters: false
 
-repose::experimental_filters_packages: 
+repose::package::experimental_filters_packages: 
   - 'repose-experimental-filter-bundle' 
   
 ##  identity filters bundle package
-repose::identity_filters: false
+repose::package::identity_filters: false
 
-repose::identity_filters_packages: 
+repose::package::identity_filters_packages: 
   - 'repose-identity-filter-bundle' 
   
 ## repose9_package
@@ -51,8 +51,8 @@ repose::repose9_package: 'repose'
 ## configdir
 repose::configdir: '/etc/repose'
   
-## logdir
-repose::logdir: '/var/log/repose'
+## log_dir
+repose::filter::container::log_dir: '/var/log/repose'
   
 ## owner
 repose::owner: repose
@@ -96,58 +96,58 @@ repose::daemonize_opts: '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdo
 repose::run_opts: '-p $RUN_PORT -c $CONFIG_DIRECTORY'
 
 ## container deployment directory
-repose::deployment_directory: '/var/repose'
+repose::filter::container::deployment_directory: '/var/repose'
 
 ## container artifact directory
-repose::artifact_directory: '/usr/share/repose/filters'
+repose::filter::container::artifact_directory: '/usr/share/repose/filters'
 
 ## syslog_port
-repose::syslog_port: 514
+repose::filter::container::syslog_port: 514
 
 ## syslog_protocol
-repose::syslog_protocol: 'udp'
+repose::filter::container::syslog_protocol: 'udp'
 
 ## flume host
-repose::flume_host: 'localhost'
+repose::filter::container::flume_host: 'localhost'
 
 ## flume port
-repose::flume_port: 10000
+repose::filter::container::flume_port: 10000
 
 ## logging configuration file
-repose::logging_configuration: 'log4j.properties'
+repose::filter::container::logging_configuration: 'log4j.properties'
 
 ## default log level
-repose::log_level: 'WARN'
+repose::filter::container::log_level: 'WARN'
 
 ## default local log policy
-repose::log_local_policy: 'date'
+repose::filter::container::log_local_policy: 'date'
 
 ## default local log size
-repose::log_local_size: '100MB'
+repose::filter::container::log_local_size: '100MB'
 
 ## default local log rotation count
-repose::log_local_rotation_count: 4
+repose::filter::container::log_local_rotation_count: 4
 
 ## default repose.log syslog facility
-repose::log_repose_facility: 'local0'
+repose::filter::container::log_repose_facility: 'local0'
 
 ## default http access log syslog facility
-repose::log_access_facility: 'local1'
+repose::filter::container::log_access_facility: 'local1'
 
 ## default http access log syslog app name
-repose::log_access_app_name: ''
+repose::filter::container::log_access_app_name: ''
 
 ## default access logging locally
-repose::log_access_local: true
+repose::filter::container::log_access_local: true
 
 ## default access log local filename
-repose::log_access_local_name: 'http_repose'
+repose::filter::container::log_access_local_name: 'http_repose'
 
 ## default access logging to syslog
-repose::log_access_syslog: true
+repose::filter::container::log_access_syslog: true
 
 ## default loggers and their log level for log4j2
-repose::log_log4j2_default_loggers: 
+repose::filter::container::log_log4j2_default_loggers: 
   com.sun.jersey:
     level: "off"
   intrafilter-logging:
@@ -168,9 +168,9 @@ repose::log_log4j2_default_loggers:
     level: "warn"
   
 ## User defined log4j2l loggers 
-repose::log_log4j2_optional_loggers: {}
+repose::filter::container::log_log4j2_optional_loggers: {}
 ## Intrafilter tracing loggers 
-repose::log_log4j2_intrafilter_trace_loggers:
+repose::filter::container::log_log4j2_intrafilter_trace_loggers:
   intrafilter-logging:
     level: "trace"
   org.apache.http.wire:
@@ -179,25 +179,25 @@ repose::log_log4j2_intrafilter_trace_loggers:
     level: "debug"
   
 ## logging intrafilter trace logs
-repose::log_intrafilter_trace: false
+repose::filter::container::log_intrafilter_trace: false
 
 ## default herp log syslog app name
-repose::log_herp_app_name: ''
+repose::filter::container::log_herp_app_name: ''
 
 ## default herp log syslog facility
-repose::log_herp_facility: 'local2'
+repose::filter::container::log_herp_facility: 'local2'
 
 ## default  herp logging to flume
-repose::log_herp_flume: false
+repose::filter::container::log_herp_flume: false
 
 ## default herp logging to syslog
-repose::log_herp_syslog: false
+repose::filter::container::log_herp_syslog: false
 
 ## default herp logging syslog postfilter logger name
-repose::log_herp_syslog_postfilter: 'herp_syslog_postfilter'
+repose::filter::container::log_herp_syslog_postfilter: 'herp_syslog_postfilter'
 
 ## default herp logging syslog prefilter logger name
-repose::log_herp_syslog_prefilter: 'herp_syslog_prefilter'
+repose::filter::container::log_herp_syslog_prefilter: 'herp_syslog_prefilter'
   
 ## default log file permissions
-repose::log_file_perm: 'private'
+repose::filter::container::log_file_perm: 'private'

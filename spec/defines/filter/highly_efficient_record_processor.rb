@@ -7,7 +7,7 @@ describe 'repose::filter::highly_efficient_record_processor', :type => :define d
     let :facts do
     {
       :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
+      :operationsystemrelease => '7',
     }
     end
 

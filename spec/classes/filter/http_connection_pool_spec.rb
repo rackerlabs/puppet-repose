@@ -8,7 +8,7 @@ describe 'repose::filter::http_connection_pool', :type => :class do
     let :facts do
     {
       :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
+      :operationsystemrelease => '7',
     }
     end
 

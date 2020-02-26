@@ -44,7 +44,7 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
     let :facts do
     {
       :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
+      :operationsystemrelease => '7',
     }
     end
 

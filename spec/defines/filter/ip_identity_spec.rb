@@ -7,7 +7,7 @@ describe 'repose::filter::ip_identity', :type => :define do
     let :facts do
     {
       :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
+      :operationsystemrelease => '7',
     }
     end
 

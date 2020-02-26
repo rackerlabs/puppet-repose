@@ -1,14 +1,14 @@
 require 'spec_helper'
 describe 'repose::filter::container' do
   let :pre_condition do
-    'include repose'
+  #  'include repose'
   end
   
   context 'on RedHat' do
     let :facts do
     {
       :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
+      :operationsystemrelease => '7',
     }
     end
 

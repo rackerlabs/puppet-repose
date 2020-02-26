@@ -58,21 +58,28 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  Enum['present','absent'] $ensure,
+  Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure,
   Boolean $enable,
-  Enum['repose9'] $container,
-  String $configdir,
   Boolean $autoupgrade,
-  Boolean $experimental_filters,
-  Boolean $identity_filters,
+  Enum['repose9'] $container,
   Array $container_options,
-  String $repose9_package,
+  String $cfg_namespace_host,
   String $repose9_service,
   Array $packages,
-  Array $experimental_filters_packages,
-  String $dirmode,
+  String $repose9_package,
+  String $configdir,
   String $owner,
   String $group,
+  String $mode,
+  String $dirmode,
+  String $port,
+  String $run_port,
+  String $daemon_home,
+  String $pid_file,
+  String $user,
+  String $daemonize,
+  String $daemonize_opts,
+  String $run_opts,
 ) {
 
 ### Validate parameters
@@ -131,8 +138,6 @@ class repose (
     ensure               => $ensure,
     autoupgrade          => $autoupgrade,
     container            => $container,
-    experimental_filters => $experimental_filters,
-    identity_filters     => $identity_filters,
   }
 
 ## service
@@ -150,7 +155,7 @@ class repose (
     require => Package[$repose::package::container_package],
   }
 
-  file { $repose::configdir:
+  file { $configdir:
     ensure => $dir_ensure,
   }
 
@@ -158,5 +163,4 @@ class repose (
     ensure => $file_ensure,
     source => 'puppet:///modules/repose/limits',
   }
-
 }

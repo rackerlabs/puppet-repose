@@ -1,13 +1,13 @@
 require 'spec_helper'
 describe 'repose::package' do
   let :pre_condition do 
-    'include repose::service'
+#    'include repose'
   end  
   context 'on RedHat' do
     let :facts do
     {
       :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
+      :operationsystemrelease => '7',
     }
     end
 

@@ -104,18 +104,18 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::repose9 (
-  $ensure            = $repose::ensure,
-  $enable            = $repose::enable,
-  $autoupgrade       = $repose::autoupgrade,
-  $run_port          = $repose::run_port,
-  $daemon_home       = $repose::daemon_home,
-  $log_path          = $repose::logdir,
-  $user              = $repose::user,
-  $daemonize         = $repose::daemonize,
-  $daemonize_opts    = $repose::daemonize_opts,
-  $run_opts          = $repose::run_opts,
-  $java_options      = undef,
-  $saxon_home        = undef,
+  String $ensure,
+  Boolean $enable,
+  Boolean $autoupgrade,
+  String $run_port,
+  String $daemon_home,
+  String $log_path,
+  String $user,
+  String $daemonize,
+  String $daemonize_opts,
+  String $run_opts,
+  String $java_options      = undef,
+  String $saxon_home        = undef,
 ) {
 
   class { 'repose':
@@ -126,7 +126,7 @@ class repose::repose9 (
   }
 
   file { '/etc/sysconfig/repose':
-    ensure  => $repose::file_ensure,
+    ensure  => $::repose::file_ensure,
     owner   => root,
     group   => root,
     require => [ Package[$repose::repose9_package] ],

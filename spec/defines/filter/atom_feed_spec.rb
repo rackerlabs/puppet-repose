@@ -8,7 +8,7 @@ describe 'repose::filter::atom_feed', :type => :define do
     let :facts do
       {
           :osfamily               => 'RedHat',
-          :operationsystemrelease => '6',
+          :operationsystemrelease => '7',
       }
     end
 

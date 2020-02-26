@@ -58,11 +58,14 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  $ensure                        = $repose::ensure,
-  $autoupgrade                   = $repose::autoupgrade,
-  $container                     = $repose::container,
-  $experimental_filters          = $repose::experimental_filters,
-  $identity_filters              = $repose::identity_filters,
+  String $ensure = 'present',
+  Boolean $autoupgrade = false,
+  String $container = 'repose9',
+  Boolean $experimental_filters,
+  Array $experimental_filters_packages,
+  Boolean $identity_filters,
+  Array $identity_filters_packages,
+
 ) {
 
 ### Logic
@@ -81,12 +84,12 @@ class repose::package (
 
 ## Pick packages
   $container_package = $container ? {
-    'repose9'   => $repose::repose9_package,
+    'repose9'   => $::repose::repose9_package,
   }
 
 ## Handle adding a dependency of service for valve
   if $container == 'repose9' {
-    $before = Service[$repose::repose9_service]
+    $before = Service[$::repose::repose9_service]
   } else {
     $before = undef
   }
@@ -105,19 +108,19 @@ class repose::package (
   }
 
   if $experimental_filters == true {
-    package { $repose::experimental_filters_packages:
+    package { $experimental_filters_packages:
       ensure => $package_ensure,
       require => Package[$container_package],
     }
   } else {
-    package { $repose::experimental_filters_packages:
+    package { $experimental_filters_packages:
       ensure => absent, 
       require => Package[$container_package],
     }
   }
 
   if $identity_filters == true {
-    package { $repose::identity_filters_packages:
+    package { $identity_filters_packages:
       ensure => $package_ensure,
       require => Package[$container_package],
     }

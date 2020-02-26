@@ -35,8 +35,8 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::service (
-  Enum['present','absent'] $ensure = $repose::ensure,
-  Boolean $enable    = $repose::enable,
+  String $ensure = $repose::ensure,
+  Boolean $enable = $repose::enable,
   Enum['repose9'] $container = $repose::container,
   Boolean $service_hasstatus,
   Boolean $service_hasrestart,  
@@ -62,8 +62,8 @@ class repose::service (
     service { $repose::repose9_service:
       ensure     => $service_ensure,
       enable     => $enable,
-      hasstatus  => $repose::service::service_hasstatus,
-      hasrestart => $repose::service::service_hasrestart,
+      hasstatus  => $service_hasstatus,
+      hasrestart => $service_hasrestart,
     }
  }
 
