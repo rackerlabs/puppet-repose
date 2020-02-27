@@ -7,7 +7,7 @@ describe 'repose::logrotate' do
       :operationsystemrelease => '7',
     }
     end
-
+    it { is_expected.to compile.with_all_deps }
     # the defaults for the logrotate class should
     # 1) specify a logrotate file
     # 2) set the frequency to daily

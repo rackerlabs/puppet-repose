@@ -343,8 +343,6 @@ class repose::filter::container (
   $proxy_thread_pool                    = undef,
 ) {
 
-  contain repose
-
 ### Validate parameters
 ## ensure
   $file_ensure = $ensure ? {

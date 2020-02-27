@@ -8,26 +8,21 @@ repose::enable: true
 ## autoupgrade
 repose::autoupgrade: false
 
-## container
-repose::container: 'repose9'
-
-## container_options
-repose::container_options: 
-  - 'repose9'
-
 ### Package specific info
 
 ## namespace
 repose::cfg_namespace_host: 'docs.openrepose.org'
 
 ## repose 9 service
-repose::repose9_service: 'repose'
+repose::service_name: 'repose'
+
+## repose9_package
+repose::package_name: 'repose'
   
 ## service capabilities
 repose::service::service_hasstatus: true
 repose::service::service_hasrestart: true
-  
-  
+
 ## packages
 repose::packages: 
   - 'repose-filter-bundle'
@@ -45,8 +40,7 @@ repose::package::identity_filters: false
 repose::package::identity_filters_packages: 
   - 'repose-identity-filter-bundle' 
   
-## repose9_package
-repose::repose9_package: 'repose'
+
   
 ## configdir
 repose::configdir: '/etc/repose'
@@ -70,7 +64,7 @@ repose::dirmode: '0750'
 repose::port: '8080'
 
 ## run_port for valve
-repose::run_port: '9090'
+repose::config::run_port: '9090'
 
 ## sourcedir
 # TODO: transfer this to init
@@ -78,22 +72,25 @@ repose::run_port: '9090'
 # repose::sourcedir: "puppet:///modules/${module_name}"
 
 ## daemon_home for valve
-repose::daemon_home: '/usr/share/lib/repose'
+repose::config::daemon_home: '/usr/share/lib/repose'
+
+## log path
+repose::config::log_path: '/var/log/repose'
 
 ## pid file for valve
 repose::pid_file: '/var/run/repose.pid'
 
 ## user for valve
-repose::user: 'repose'
+repose::config::user: 'repose'
 
 ## daemonize bin for repose
-repose::daemonize: '/usr/sbin/daemonize'
+repose::config::daemonize: '/usr/sbin/daemonize'
 
 ## daemonize opts for repose
-repose::daemonize_opts: '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
+repose::config::daemonize_opts: '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
 
 ## run ops for repose
-repose::run_opts: '-p $RUN_PORT -c $CONFIG_DIRECTORY'
+repose::config::run_opts: '-p $RUN_PORT -c $CONFIG_DIRECTORY'
 
 ## container deployment directory
 repose::filter::container::deployment_directory: '/var/repose'

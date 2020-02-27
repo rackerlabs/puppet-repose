@@ -7,10 +7,18 @@ describe 'repose::service' do
       :operationsystemrelease => '7',
     }
     end
-
+    it { is_expected.to compile.with_all_deps }
     # the defaults for the service class should
     # 1) ensures the service is running
     context 'with defaults for all parameters' do
+      it {
+        should contain_service('repose').with_ensure('running')
+      }
+    end
+
+    # Validate the service is running when 'ensure' is a version
+    context 'ensure is a version' do
+      let(:params) { { :ensure => '9.1.0.0' } }
       it {
         should contain_service('repose').with_ensure('running')
       }
@@ -42,25 +50,6 @@ describe 'repose::service' do
         should contain_service('repose').with(
           'ensure' => 'stopped',
           'enable' => 'manual')
-      }
-    end
-
-    # ensures the repose9 service is running
-    context 'with repose9 container parameter' do
-      let(:params) { { :container => 'repose9' } }
-      it {
-        should contain_service('repose').with_ensure('running')
-      }
-    end
-
-    # Validate ensure is absent properly stops repose9 service
-    context 'ensure is absent' do
-      let(:params) { { 
-          :ensure => 'absent',
-          :container => 'repose9',
-      } }
-      it {
-        should contain_service('repose').with_ensure('stopped')
       }
     end
   end

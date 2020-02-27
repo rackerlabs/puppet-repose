@@ -103,10 +103,8 @@
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
-class repose::repose9 (
-  String $ensure,
-  Boolean $enable,
-  Boolean $autoupgrade,
+class repose::config (
+  String $ensure  = $repose::ensure,
   String $run_port,
   String $daemon_home,
   String $log_path,
@@ -114,23 +112,39 @@ class repose::repose9 (
   String $daemonize,
   String $daemonize_opts,
   String $run_opts,
-  String $java_options      = undef,
-  String $saxon_home        = undef,
+  String $java_options      = '',
+  String $saxon_home        = '',
 ) {
 
-  class { 'repose':
-    ensure            => $ensure,
-    enable            => $enable,
-    autoupgrade       => $autoupgrade,
-    container         => 'repose9',
+  $file_ensure = $ensure ? {
+    absent  => absent,
+    default => file,
+  }
+  $dir_ensure = $ensure ? {
+      absent  => absent,
+      default => directory,
+  }
+
+## files/directories
+  File {
+    mode    => $repose::dirmode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+  }
+
+  file { $repose::configdir:
+    ensure => $dir_ensure,
+  }
+
+  file { '/etc/security/limits.d/repose':
+    ensure => $file_ensure,
+    source => 'puppet:///modules/repose/limits',
   }
 
   file { '/etc/sysconfig/repose':
-    ensure  => $::repose::file_ensure,
+    ensure  => $file_ensure,
     owner   => root,
     group   => root,
-    require => [ Package[$repose::repose9_package] ],
-    notify  => Service[$repose::repose9_service],
   }
 
   # setup augeas with our shellvars lense
@@ -154,7 +168,7 @@ class repose::repose9 (
   ]
 
   # if saxon_home provided for saxon license
-  if $saxon_home {
+  if $saxon_home != '' {
     $saxon_sysconfig = [
       "set SAXON_HOME '${saxon_home}'",
       "set SAXON_HOME/export ''"

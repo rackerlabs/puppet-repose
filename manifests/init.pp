@@ -59,27 +59,18 @@
 #
 class repose (
   Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure,
-  Boolean $enable,
+  Variant[Boolean, Enum['true','false','manual']] $enable,
   Boolean $autoupgrade,
-  Enum['repose9'] $container,
-  Array $container_options,
   String $cfg_namespace_host,
-  String $repose9_service,
+  String $service_name,
   Array $packages,
-  String $repose9_package,
+  String $package_name,
   String $configdir,
   String $owner,
   String $group,
   String $mode,
   String $dirmode,
   String $port,
-  String $run_port,
-  String $daemon_home,
-  String $pid_file,
-  String $user,
-  String $daemonize,
-  String $daemonize_opts,
-  String $run_opts,
 ) {
 
 ### Validate parameters
@@ -120,47 +111,13 @@ class repose (
     debug("\$autoupgrade = '${autoupgrade}'")
   }
 
-## container
-  if ! ($container in $repose::container_options) {
-    fail("\"${container}\" is not a valid container parameter value")
-  }
-  if $::debug {
-    if $container != $repose::container {
-      debug('$container overridden by class parameter')
-    }
-    debug("\$container = '${container}'")
-  }
-
 ### Manage actions
 
-## package(s)
-  class { 'repose::package':
-    ensure               => $ensure,
-    autoupgrade          => $autoupgrade,
-    container            => $container,
-  }
+  contain repose::package
+  contain repose::config
+  contain repose::service
 
-## service
-  class { 'repose::service':
-    ensure    => $ensure,
-    enable    => $enable,
-    container => $container,
-  }
-
-## files/directories
-  File {
-    mode    => $dirmode,
-    owner   => $owner,
-    group   => $group,
-    require => Package[$repose::package::container_package],
-  }
-
-  file { $configdir:
-    ensure => $dir_ensure,
-  }
-
-  file { '/etc/security/limits.d/repose':
-    ensure => $file_ensure,
-    source => 'puppet:///modules/repose/limits',
-  }
+  Class['repose::package']
+  -> Class['repose::config']
+  ~> Class['repose::service']
 }

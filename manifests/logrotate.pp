@@ -61,7 +61,7 @@ class repose::logrotate (
     absent  => absent,
     default => file,
   }
-  
+
   file { '/etc/logrotate.d/repose':
     ensure  => $file_ensure,
     owner   => 'root',

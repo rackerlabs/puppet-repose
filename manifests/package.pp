@@ -58,14 +58,13 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  String $ensure = 'present',
-  Boolean $autoupgrade = false,
-  String $container = 'repose9',
+  String $ensure       = $repose::ensure,
+  Variant[Boolean,String] $enable      = $repose::enable,
+  Boolean $autoupgrade = $repose::autoupgrade,
   Boolean $experimental_filters,
   Array $experimental_filters_packages,
   Boolean $identity_filters,
   Array $identity_filters_packages,
-
 ) {
 
 ### Logic
@@ -82,48 +81,32 @@ class repose::package (
     }
   }
 
-## Pick packages
-  $container_package = $container ? {
-    'repose9'   => $::repose::repose9_package,
-  }
-
-## Handle adding a dependency of service for valve
-  if $container == 'repose9' {
-    $before = Service[$::repose::repose9_service]
-  } else {
-    $before = undef
-  }
-
-
 ### Manage actions
-
-  package { $container_package:
+  package { $repose::package_name:
     ensure => $package_ensure,
-    before => $before,
   }
 
   package { $repose::packages:
     ensure  => $package_ensure,
-    require => Package[$container_package],
+    require => Package[$repose::package_name],
   }
 
   if $experimental_filters == true {
     package { $experimental_filters_packages:
       ensure => $package_ensure,
-      require => Package[$container_package],
+      require => Package[$repose::package_name],
     }
   } else {
     package { $experimental_filters_packages:
       ensure => absent, 
-      require => Package[$container_package],
+      require => Package[$repose::package_name],
     }
   }
 
   if $identity_filters == true {
     package { $identity_filters_packages:
       ensure => $package_ensure,
-      require => Package[$container_package],
+      require => Package[$repose::package_name],
     }
   }
-
 }

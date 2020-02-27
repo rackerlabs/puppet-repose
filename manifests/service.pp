@@ -35,11 +35,10 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::service (
-  String $ensure = $repose::ensure,
-  Boolean $enable = $repose::enable,
-  Enum['repose9'] $container = $repose::container,
+  String $ensure  = $repose::ensure,
+  Variant[Boolean,String] $enable      = $repose::enable,
   Boolean $service_hasstatus,
-  Boolean $service_hasrestart,  
+  Boolean $service_hasrestart,
 ) {
 
 ### Logic
@@ -57,14 +56,10 @@ class repose::service (
   }
 
 ### Manage actions
-
-  if $container == 'repose9' {
-    service { $repose::repose9_service:
-      ensure     => $service_ensure,
-      enable     => $enable,
-      hasstatus  => $service_hasstatus,
-      hasrestart => $service_hasrestart,
-    }
- }
-
+  service { $repose::service_name:
+    ensure     => $service_ensure,
+    enable     => $enable,
+    hasstatus  => $service_hasstatus,
+    hasrestart => $service_hasrestart,
+  }
 }

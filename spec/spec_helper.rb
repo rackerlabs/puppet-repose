@@ -15,6 +15,7 @@ default_facts = {
 default_fact_files = [
   File.expand_path(File.join(File.dirname(__FILE__), 'default_facts.yml')),
   File.expand_path(File.join(File.dirname(__FILE__), 'default_module_facts.yml')),
+  File.expand_path(File.join(File.dirname(__FILE__), '../data/common.yaml')),
 ]
 
 default_fact_files.each do |f|
@@ -34,12 +35,12 @@ end
 
 RSpec.configure do |c|
   c.default_facts = default_facts
+  c.hiera_config = File.expand_path(File.join(__FILE__, '../../hiera.yaml'))
   c.before :each do
     # set to strictest setting for testing
     # by default Puppet runs at warning level
     Puppet.settings[:strict] = :warning
   end
-  c.hiera_config = File.expand_path(File.join(__FILE__, '../fixtures/hiera.yaml'))
   c.filter_run_excluding(bolt: true) unless ENV['GEM_BOLT']
   c.after(:suite) do
   end

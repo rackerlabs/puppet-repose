@@ -1,8 +1,5 @@
 require 'spec_helper'
 describe 'repose::package' do
-  let :pre_condition do 
-#    'include repose'
-  end  
   context 'on RedHat' do
     let :facts do
     {
@@ -10,15 +7,13 @@ describe 'repose::package' do
       :operationsystemrelease => '7',
     }
     end
-
+    it { is_expected.to compile.with_all_deps }
     # the defaults for the package class should
     # 1) install the package
     context 'with defaults for all parameters' do
-      it {
-        should contain_package('repose').with_ensure('present')
-        should contain_package('repose-filter-bundle').with_ensure('present')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
-      }
+      it { should contain_package('repose').with_ensure('present') }
+      it { should contain_package('repose-filter-bundle').with_ensure('present') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('present') }
     end
 
     # specifying a version for the package class should
@@ -27,11 +22,9 @@ describe 'repose::package' do
       let(:params) { {
         :ensure => '9.1.0.0'
       } }
-      it {
-        should contain_package('repose').with_ensure('9.1.0.0')
-        should contain_package('repose-filter-bundle').with_ensure('9.1.0.0')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('9.1.0.0')
-      }
+      it { should contain_package('repose').with_ensure('9.1.0.0') }
+      it { should contain_package('repose-filter-bundle').with_ensure('9.1.0.0') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('9.1.0.0') }
     end
 
     # specifying autoupgrade is true for the package class should
@@ -40,31 +33,25 @@ describe 'repose::package' do
       let(:params) { {
         :autoupgrade => true
       } }
-      it {
-        should contain_package('repose').with_ensure('latest')
-        should contain_package('repose-filter-bundle').with_ensure('latest')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('latest')
-      }
+      it { should contain_package('repose').with_ensure('latest') }
+      it { should contain_package('repose-filter-bundle').with_ensure('latest') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('latest') }
     end
 
     # Validate uninstall properly purged packages
     context 'uninstall parameters' do
       let(:params) { { :ensure => 'absent' } }
-      it {
-        should contain_package('repose').with_ensure('purged')
-        should contain_package('repose-filter-bundle').with_ensure('purged')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
-      }
+      it { should contain_package('repose').with_ensure('purged') }
+      it { should contain_package('repose-filter-bundle').with_ensure('purged') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('purged') }
     end
 
     # the defaults for the package class should
     # 1) install the package
     context 'with defaults+newpackages for all parameters' do
-      it {
-        should contain_package('repose').with_ensure('present')
-        should contain_package('repose-filter-bundle').with_ensure('present')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
-      }
+      it { should contain_package('repose').with_ensure('present') }
+      it { should contain_package('repose-filter-bundle').with_ensure('present') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('present') }
     end
 
     # specifying a version for the package class should
@@ -73,11 +60,9 @@ describe 'repose::package' do
       let(:params) { {
         :ensure          => '9.1.0.0',
       } }
-      it {
-        should contain_package('repose').with_ensure('9.1.0.0')
-        should contain_package('repose-filter-bundle').with_ensure('9.1.0.0')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('9.1.0.0')
-      }
+      it { should contain_package('repose').with_ensure('9.1.0.0') }
+      it { should contain_package('repose-filter-bundle').with_ensure('9.1.0.0') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('9.1.0.0') }
     end
 
     # specifying autoupgrade is true for the package class should
@@ -86,11 +71,9 @@ describe 'repose::package' do
       let(:params) { {
         :autoupgrade     => true,
       } }
-      it {
-        should contain_package('repose').with_ensure('latest')
-        should contain_package('repose-filter-bundle').with_ensure('latest')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('latest')
-      }
+      it { should contain_package('repose').with_ensure('latest') }
+      it { should contain_package('repose-filter-bundle').with_ensure('latest') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('latest') }
     end
 
     # Validate uninstall properly purged packages
@@ -98,11 +81,9 @@ describe 'repose::package' do
       let(:params) { {
         :ensure          => 'absent',
       } }
-      it {
-        should contain_package('repose').with_ensure('purged')
-        should contain_package('repose-filter-bundle').with_ensure('purged')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
-      }
+      it { should contain_package('repose').with_ensure('purged') }
+      it { should contain_package('repose-filter-bundle').with_ensure('purged') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('purged') }
     end
 
     # the defaults for the package class + install experimental filter bundle
@@ -110,12 +91,10 @@ describe 'repose::package' do
       let(:params) { { 
         :experimental_filters => true
       } }
-      it {
-        should contain_package('repose').with_ensure('present')
-        should contain_package('repose-filter-bundle').with_ensure('present')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
-        should contain_package('repose-experimental-filter-bundle').with_ensure('present')
-      }
+      it { should contain_package('repose').with_ensure('present') }
+      it { should contain_package('repose-filter-bundle').with_ensure('present') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('present') }
+      it { should contain_package('repose-experimental-filter-bundle').with_ensure('present') }
     end
 
     # the defaults for the package class + install identity filter bundle
@@ -123,12 +102,10 @@ describe 'repose::package' do
       let(:params) { { 
         :identity_filters => true
       } }
-      it {
-        should contain_package('repose').with_ensure('present')
-        should contain_package('repose-filter-bundle').with_ensure('present')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('present')
-        should contain_package('repose-identity-filter-bundle').with_ensure('present')
-      }
+      it { should contain_package('repose').with_ensure('present') }
+      it { should contain_package('repose-filter-bundle').with_ensure('present') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('present') }
+      it { should contain_package('repose-identity-filter-bundle').with_ensure('present') }
     end
 
     # Validate uninstall properly purged packages including experiemtnal bundle
@@ -137,12 +114,10 @@ describe 'repose::package' do
         :ensure               => 'absent',
         :experimental_filters => true
       } }
-      it {
-        should contain_package('repose').with_ensure('purged')
-        should contain_package('repose-filter-bundle').with_ensure('purged')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
-        should contain_package('repose-experimental-filter-bundle').with_ensure('purged')
-      }
+      it { should contain_package('repose').with_ensure('purged') }
+      it { should contain_package('repose-filter-bundle').with_ensure('purged') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('purged') }
+      it { should contain_package('repose-experimental-filter-bundle').with_ensure('purged') }
     end
 
     # Validate uninstall properly purged packages including identity bundle
@@ -151,12 +126,10 @@ describe 'repose::package' do
         :ensure               => 'absent',
         :identity_filters     => true
       } }
-      it {
-        should contain_package('repose').with_ensure('purged')
-        should contain_package('repose-filter-bundle').with_ensure('purged')
-        should contain_package('repose-extensions-filter-bundle').with_ensure('purged')
-        should contain_package('repose-identity-filter-bundle').with_ensure('purged')
-      }
+      it { should contain_package('repose').with_ensure('purged') }
+      it { should contain_package('repose-filter-bundle').with_ensure('purged') }
+      it { should contain_package('repose-extensions-filter-bundle').with_ensure('purged') }
+      it { should contain_package('repose-identity-filter-bundle').with_ensure('purged') }
     end
   end
 end
