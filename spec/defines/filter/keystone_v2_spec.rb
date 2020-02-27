@@ -42,10 +42,9 @@ describe 'repose::filter::keystone_v2', :type => :define do
           :ensure => 'file',
           :owner => 'repose',
           :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
-          with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
-      }
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml').
+          with_content(/identity-service\s+uri=\"http:\/\/uri\"/) }
     end
 
     context 'providing connection_pool_id' do
@@ -61,11 +60,10 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner => 'repose',
             :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
-            with_content(/connection-pool-id=\"my-connection-pool\"/)
-      }
+            with_content(/connection-pool-id=\"my-connection-pool\"/) }
     end
 
     context 'providing header options' do
@@ -83,13 +81,12 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner => 'repose',
             :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
             with_content(/set-roles-in-header=\"true\"/).
             with_content(/set-groups-in-header=\"true\"/).
-            with_content(/set-catalog-in-header=\"true\"/)
-      }
+            with_content(/set-catalog-in-header=\"true\"/) }
     end
 
     context 'providing rcn roles' do
@@ -105,11 +102,10 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner => 'repose',
             :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
-            with_content(/apply-rcn-roles=\"true\"/)
-      }
+            with_content(/apply-rcn-roles=\"true\"/) }
     end
 
     context 'providing delegating' do
@@ -126,11 +122,10 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner => 'repose',
             :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
-            with_content(/delegating quality="0.9"/)
-      }
+            with_content(/delegating quality="0.9"/) }
     end
 
     context 'providing delegating with no quality' do
@@ -146,11 +141,10 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner  => 'repose',
             :group  => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
-            with_content(/delegating\/>/)
-      }
+            with_content(/delegating\/>/) }
     end
 
     context 'providing whitelist' do
@@ -166,13 +160,12 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner  => 'repose',
             :group  => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
             with_content(/<white-list>/).
             with_content(/<uri-regex>banana<\/uri-regex>/).
-            with_content(/<uri-regex>phone<\/uri-regex>/)
-      }
+            with_content(/<uri-regex>phone<\/uri-regex>/) }
     end
 
     context 'providing cache info' do
@@ -192,16 +185,15 @@ describe 'repose::filter::keystone_v2', :type => :define do
           :ensure => 'file',
           :owner => 'repose',
           :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
             with_content(/<cache>/).
             with_content(/<timeouts variability=\"5\">/).
             with_content(/<token>600000<\/token>/).
             with_content(/<group>606060<\/group>/).
             with_content(/<endpoints>666666<\/endpoints>/).
-            with_content(/<atom-feed id=\"foo\"\/>/)
-      }
+            with_content(/<atom-feed id=\"foo\"\/>/) }
     end
 
     context 'providing tenant details' do
@@ -223,8 +215,8 @@ describe 'repose::filter::keystone_v2', :type => :define do
                    :ensure => 'file',
                    :owner => 'repose',
                    :group => 'repose'
-               )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+               ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
             with_content(/<tenant-handling send-all-tenant-ids=\"true\"/).
             with_content(/<validate-tenant enable-legacy-roles-mode=\"false\"/).
@@ -233,8 +225,7 @@ describe 'repose::filter::keystone_v2', :type => :define do
             with_content(/<send-tenant-id-quality/).
             with_content(/default-tenant-quality=\"0.9\"/).
             with_content(/uri-tenant-quality=\"0.8\"/).
-            with_content(/roles-tenant-quality=\"0.7\"/)
-      }
+            with_content(/roles-tenant-quality=\"0.7\"/) }
     end
 
     context 'fails when tenant quality is turned off but values are provided' do
@@ -267,15 +258,14 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner => 'repose',
             :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
             with_content(/require-service-endpoint/).
             with_content(/public-url=\"http:\/\/uri\"/).
             with_content(/region=\"ORD\"/).
             with_content(/name=\"foo\"/).
-            with_content(/type=\"compute\"/)
-      }
+            with_content(/type=\"compute\"/)}
     end
 
     context 'endpoint fails without url' do
@@ -304,12 +294,11 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure => 'file',
             :owner => 'repose',
             :group => 'repose'
-        )
-        should contain_file('/etc/repose/keystone-v2.cfg.xml').
+        ) }
+      it { should contain_file('/etc/repose/keystone-v2.cfg.xml'). 
             with_content(/identity-service\s+uri=\"http:\/\/uri\"/).
             with_content(/pre-authorized-roles/).
-            with_content(/<role>role<\/role>/)
-      }
+            with_content(/<role>role<\/role>/) }
     end
 
   end

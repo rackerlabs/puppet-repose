@@ -19,11 +19,9 @@ describe 'repose::filter::translation', :type => :define do
           'ensure' => 'file',
           'owner'  => 'repose',
           'group'  => 'repose',
-          'mode'   => '0660')
-
-        should contain_file('/etc/repose/translation.cfg.xml').
-          with_content(/xsl-engine=\"SaxonHE\"/)
-      }
+          'mode'   => '0660') }
+      it { should contain_file('/etc/repose/translation.cfg.xml'). 
+          with_content(/xsl-engine=\"SaxonHE\"/)}
     end
 
     context 'with ensure absent' do

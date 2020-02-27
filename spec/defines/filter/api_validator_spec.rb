@@ -58,9 +58,8 @@ describe 'repose::filter::api_validator', :type => :define do
         :delegating         => true,
         :delegating_quality => '0.7'
       } }
-      it {
-        should contain_file('/etc/repose/test-validator.cfg.xml')
-        should contain_file('/etc/repose/test-validator.cfg.xml').
+      it { should contain_file('/etc/repose/test-validator.cfg.xml') }
+      it { should contain_file('/etc/repose/test-validator.cfg.xml').
           with_content(/multi-role-match="true"/).
           with_content(/role="app"/).
           with_content(/default="true"/).
@@ -77,8 +76,7 @@ describe 'repose::filter::api_validator', :type => :define do
           with_content(/join-xpath-checks="true"/).
           with_content(/enable-rax-roles="true"/).
           with_content(/mask-rax-roles-403="true"/).
-          with_content(/delegating quality="0.7"/)
-      }
+          with_content(/delegating quality="0.7"/) }
     end
   end
 end

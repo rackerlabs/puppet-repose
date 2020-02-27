@@ -13,8 +13,7 @@ describe 'repose::filter::http_connection_pool', :type => :class do
     end
 
     context 'with defaults for all parameters' do
-      it {
-        should contain_file('/etc/repose/http-connection-pool.cfg.xml').
+      it { should contain_file('/etc/repose/http-connection-pool.cfg.xml'). 
           with_content(/id="default"/).
           with_content(/default="true"/).
           with_content(/http.conn-manager.max-total="200"/).
@@ -26,8 +25,7 @@ describe 'repose::filter::http_connection_pool', :type => :class do
           with_content(/http.connection.max-header-count="100"/).
           with_content(/http.connection.max-status-line-garbage="100"/).
           with_content(/http.tcp.nodelay="true"/).
-          with_content(/keepalive.timeout="0"/)
-      }
+          with_content(/keepalive.timeout="0"/) }
     end
 
     context 'with ensure absent' do
@@ -35,10 +33,8 @@ describe 'repose::filter::http_connection_pool', :type => :class do
       let(:params) { {
         :ensure => 'absent'
       } }
-      it {
-        should contain_file('/etc/repose/http-connection-pool.cfg.xml').with_ensure(
-          'absent')
-      }
+      it { should contain_file('/etc/repose/http-connection-pool.cfg.xml').with_ensure( 
+          'absent') }
     end
 
     context 'with additional pool' do
@@ -57,8 +53,7 @@ describe 'repose::filter::http_connection_pool', :type => :class do
            "tcp_nodelay"                  => false,
            "keepalive_timeout"            => 10000, }, ]
       } }
-      it {
-        should contain_file('/etc/repose/http-connection-pool.cfg.xml').
+      it { should contain_file('/etc/repose/http-connection-pool.cfg.xml'). 
           with_content(/id="default"/).
           with_content(/default="true"/).
           with_content(/http.conn-manager.max-total="200"/).
@@ -82,9 +77,7 @@ describe 'repose::filter::http_connection_pool', :type => :class do
           with_content(/http.connection.max-header-count="101"/).
           with_content(/http.connection.max-status-line-garbage="101"/).
           with_content(/http.tcp.nodelay="false"/).
-          with_content(/keepalive.timeout="10000"/
-        )
-      }
+          with_content(/keepalive.timeout="10000"/) }
     end
   end
 end

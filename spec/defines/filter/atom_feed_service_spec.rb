@@ -14,11 +14,9 @@ describe 'repose::filter::atom_feed_service', :type => :class do
 
     context 'default parameters' do
       let(:title) { 'default' }
-      it {
-        should contain_concat('/etc/repose/atom-feed-service.cfg.xml').with_ensure('present')
-        should contain_concat__fragment('header').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('01')
-        should contain_concat__fragment('footer').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('99')
-      }
+      it { should contain_concat('/etc/repose/atom-feed-service.cfg.xml').with_ensure('present') }
+      it { should contain_concat__fragment('header').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('01') }
+      it { should contain_concat__fragment('footer').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('99') }
     end
 
     context 'with ensure absent' do
