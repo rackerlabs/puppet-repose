@@ -112,8 +112,8 @@ class repose::config (
   String $daemonize,
   String $daemonize_opts,
   String $run_opts,
-  String $java_options      = '',
-  String $saxon_home        = '',
+  Optional[String] $java_options = undef,
+  Optional[String] $saxon_home   = undef,
 ) {
 
   $file_ensure = $ensure ? {
