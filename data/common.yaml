@@ -66,11 +66,6 @@ repose::port: '8080'
 ## run_port for valve
 repose::config::run_port: '9090'
 
-## sourcedir
-# TODO: transfer this to init
-# this won't work in yaml
-# repose::sourcedir: "puppet:///modules/${module_name}"
-
 ## daemon_home for valve
 repose::config::daemon_home: '/usr/share/lib/repose'
 
