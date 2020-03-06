@@ -2,33 +2,18 @@
   "name": "puppet-repose",
   "version": "0.1.0",
   "author": "Cory Ringdahl @ Rackspace",
-  "summary": "",
+  "summary": "Puppet module for Repose",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "TBD",
   "dependencies": [
-
+    {
+      "name": "puppet/logrotate",
+      "version_requirement": ">= 4.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "8"
-      ]
-    },
-    {
-      "operatingsystem": "Scientific",
       "operatingsystemrelease": [
         "7"
       ]

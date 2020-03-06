@@ -40,166 +40,164 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
 -----END CERTIFICATE-----",
     :policy_uri                  => 'http://keystone.somewhere.com/puppet',
   }
-  context 'on RedHat' do
-    let :facts do
-    {
-      :osfamily               => 'RedHat',
-      :operationsystemrelease => '7',
-    }
-    end
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) do
+        os_facts
+      end
 
-    context 'default + sample required parameters' do
-      let(:title) { 'default' }
-      let (:params) { params }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/<keystone-credentials uri="http:\/\/keystone.somewhere.com"/).
-          with_content(/username="aUsername"/).
-          with_content(/password="somePassword"\/>/).
-          with_content(/<policy-endpoint uri="http:\/\/keystone.somewhere.com\/puppet"/). 
-          with_content(/<cache ttl="300"/).
-          with_content(/<signature-credentials keystore-filename="\/etc\/pki\/java\/repose-saml-policy.ks"/).
-          with_content(/keystore-password="keystorePassword"/). 
-          with_content(/key-name="keycertname"/).
-          with_content(/key-password="keyPassword"/) 
-        should contain_file('/etc/repose/signature_keys.pem').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/-----BEGIN CERTIFICATE-----/).
-          with_content(/-----END CERTIFICATE-----/)
-        is_expected.to contain_java_ks('saml_policy_keystore')
-      }
-    end
+      context 'default + sample required parameters' do
+        let(:title) { 'default' }
+        let (:params) { params }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/<keystone-credentials uri="http:\/\/keystone.somewhere.com"/).
+            with_content(/username="aUsername"/).
+            with_content(/password="somePassword"\/>/).
+            with_content(/<policy-endpoint uri="http:\/\/keystone.somewhere.com\/puppet"/). 
+            with_content(/<cache ttl="300"/).
+            with_content(/<signature-credentials keystore-filename="\/etc\/pki\/java\/repose-saml-policy.ks"/).
+            with_content(/keystore-password="keystorePassword"/). 
+            with_content(/key-name="keycertname"/).
+            with_content(/key-password="keyPassword"/) 
+          should contain_file('/etc/repose/signature_keys.pem').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/-----BEGIN CERTIFICATE-----/).
+            with_content(/-----END CERTIFICATE-----/)
+          is_expected.to contain_java_ks('saml_policy_keystore')
+        }
+      end
 
-    context 'with ensure absent' do
-      let(:title) { 'default' }
-      let (:params) { 
-        params.merge({ 
-          :ensure           => 'absent',
-        })
-      }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with_ensure(
-          'absent')
-        should contain_file('/etc/repose/signature_keys.pem').with_ensure(
-          'absent')
-        is_expected.to contain_java_ks('saml_policy_keystore').with_ensure(
-          'absent')
-      }
-    end
+      context 'with ensure absent' do
+        let(:title) { 'default' }
+        let (:params) { 
+          params.merge({ 
+            :ensure           => 'absent',
+          })
+        }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with_ensure(
+            'absent')
+          should contain_file('/etc/repose/signature_keys.pem').with_ensure(
+            'absent')
+          is_expected.to contain_java_ks('saml_policy_keystore').with_ensure(
+            'absent')
+        }
+      end
 
-    context 'providing a cache ttl' do
-      let(:title) { 'user_provided_cache' }
-      let (:params) { 
-        params.merge({ 
-          :policy_cache_ttl => 500,
-        })
-      }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/<cache ttl="500"/)
-      }
-    end
+      context 'providing a cache ttl' do
+        let(:title) { 'user_provided_cache' }
+        let (:params) { 
+          params.merge({ 
+            :policy_cache_ttl => 500,
+          })
+        }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/<cache ttl="500"/)
+        }
+      end
 
-    context 'providing user defined keystone pool' do
-      let(:title) { 'user_provided_keystone_pool' }
-      let (:params) { 
-        params.merge({ 
-          :keystone_pool => 'keystone_pool',
-        })
-      }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-pool-id="keystone_pool"/)
-      }
-    end
+      context 'providing user defined keystone pool' do
+        let(:title) { 'user_provided_keystone_pool' }
+        let (:params) { 
+          params.merge({ 
+            :keystone_pool => 'keystone_pool',
+          })
+        }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/connection-pool-id="keystone_pool"/)
+        }
+      end
 
-    context 'providing user defined policy pool' do
-      let(:title) { 'user_provided_policy_pool' }
-      let (:params) { 
-        params.merge({ 
-          :policy_pool   => 'policy_pool',
-        })
-      }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/connection-pool-id="policy_pool"/)
-      }
-    end
+      context 'providing user defined policy pool' do
+        let(:title) { 'user_provided_policy_pool' }
+        let (:params) { 
+          params.merge({ 
+            :policy_pool   => 'policy_pool',
+          })
+        }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/connection-pool-id="policy_pool"/)
+        }
+      end
 
-    context 'providing user defined keystore path' do
-      let(:title) { 'user_provided_keystore_path' }
-      let (:params) { 
-        params.merge({ 
-          :signature_keystore_path => '/etc/pki/java/keystore.ks',
-        })
-      }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/<signature-credentials keystore-filename="\/etc\/pki\/java\/keystore.ks"/)
-      }
-    end
+      context 'providing user defined keystore path' do
+        let(:title) { 'user_provided_keystore_path' }
+        let (:params) { 
+          params.merge({ 
+            :signature_keystore_path => '/etc/pki/java/keystore.ks',
+          })
+        }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/<signature-credentials keystore-filename="\/etc\/pki\/java\/keystore.ks"/)
+        }
+      end
 
-    context 'providing bypass issuers' do
-      let(:title) { 'user_provided_bypass_issures' }
-      let (:params) { 
-        params.merge({ 
-          :policy_bypass_issuers => [ 'http://www.issuer1.com',
-                                    'http://www.issuer2.com',
-                                  ],
-        })
-      }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/<policy-bypass-issuers>/).
-          with_content(/<issuer>http:\/\/www.issuer1.com<\/issuer>/).
-          with_content(/<issuer>http:\/\/www.issuer2.com<\/issuer>/).
-          with_content(/<\/policy-bypass-issuers>/)
-      }
-    end
+      context 'providing bypass issuers' do
+        let(:title) { 'user_provided_bypass_issures' }
+        let (:params) { 
+          params.merge({ 
+            :policy_bypass_issuers => [ 'http://www.issuer1.com',
+                                      'http://www.issuer2.com',
+                                    ],
+          })
+        }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/<policy-bypass-issuers>/).
+            with_content(/<issuer>http:\/\/www.issuer1.com<\/issuer>/).
+            with_content(/<issuer>http:\/\/www.issuer2.com<\/issuer>/).
+            with_content(/<\/policy-bypass-issuers>/)
+        }
+      end
 
-    context 'providing a atom feed id' do
-      let(:title) { 'user_provided_bypass_issures' }
-      let (:params) { 
-        params.merge({ 
-          :policy_cache_feed_id  => 'feed_id',
-        })
-      }
-      it {
-        should contain_file('/etc/repose/saml-policy.cfg.xml').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660').
-          with_content(/atom-feed-id="feed_id"/)
-      }
+      context 'providing a atom feed id' do
+        let(:title) { 'user_provided_bypass_issures' }
+        let (:params) { 
+          params.merge({ 
+            :policy_cache_feed_id  => 'feed_id',
+          })
+        }
+        it {
+          should contain_file('/etc/repose/saml-policy.cfg.xml').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660').
+            with_content(/atom-feed-id="feed_id"/)
+        }
+      end
     end
-
   end
 end

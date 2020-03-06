@@ -58,13 +58,13 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  String $ensure       = $repose::ensure,
-  Variant[Boolean,String] $enable      = $repose::enable,
-  Boolean $autoupgrade = $repose::autoupgrade,
   Boolean $experimental_filters,
   Array $experimental_filters_packages,
   Boolean $identity_filters,
   Array $identity_filters_packages,
+  String $ensure       = $repose::ensure,
+  Variant[Boolean,String] $enable      = $repose::enable,
+  Boolean $autoupgrade = $repose::autoupgrade,
 ) {
 
 ### Logic
@@ -93,19 +93,19 @@ class repose::package (
 
   if $experimental_filters == true {
     package { $experimental_filters_packages:
-      ensure => $package_ensure,
+      ensure  => $package_ensure,
       require => Package[$repose::package_name],
     }
   } else {
     package { $experimental_filters_packages:
-      ensure => absent, 
+      ensure  => absent,
       require => Package[$repose::package_name],
     }
   }
 
   if $identity_filters == true {
     package { $identity_filters_packages:
-      ensure => $package_ensure,
+      ensure  => $package_ensure,
       require => Package[$repose::package_name],
     }
   }

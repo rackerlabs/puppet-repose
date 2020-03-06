@@ -104,7 +104,6 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::config (
-  String $ensure  = $repose::ensure,
   String $run_port,
   String $daemon_home,
   String $log_path,
@@ -112,8 +111,15 @@ class repose::config (
   String $daemonize,
   String $daemonize_opts,
   String $run_opts,
+  String $ensure  = $repose::ensure,
   Optional[String] $java_options = undef,
   Optional[String] $saxon_home   = undef,
+  Array $log_files         = [ '/var/log/repose/repose.log' ],
+  String $rotate_frequency = 'daily',
+  Integer $rotate_count    = 4,
+  Boolean $compress        = true,
+  Boolean $delay_compress  = true,
+  Boolean $use_date_ext    = true,
 ) {
 
   $file_ensure = $ensure ? {
@@ -142,9 +148,9 @@ class repose::config (
   }
 
   file { '/etc/sysconfig/repose':
-    ensure  => $file_ensure,
-    owner   => root,
-    group   => root,
+    ensure => $file_ensure,
+    owner  => root,
+    group  => root,
   }
 
   # setup augeas with our shellvars lense
@@ -168,13 +174,22 @@ class repose::config (
   ]
 
   # if saxon_home provided for saxon license
-  if $saxon_home != '' {
+  if $saxon_home {
     $saxon_sysconfig = [
       "set SAXON_HOME '${saxon_home}'",
       "set SAXON_HOME/export ''"
     ]
   } else {
     $saxon_sysconfig = 'rm SAXON_HOME'
+  }
+
+  logrotate::rule { 'repose_logs':
+    path          => $log_files,
+    rotate        => $rotate_count,
+    missingok     => true,
+    compress      => $compress,
+    delaycompress => $delay_compress,
+    dateext       => $use_date_ext,
   }
 
   # only run if ensure is not absent

@@ -35,10 +35,10 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::service (
-  String $ensure  = $repose::ensure,
-  Variant[Boolean,String] $enable      = $repose::enable,
   Boolean $service_hasstatus,
   Boolean $service_hasrestart,
+  String $ensure  = $repose::ensure,
+  Variant[Boolean,String] $enable      = $repose::enable,
 ) {
 
 ### Logic
