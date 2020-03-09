@@ -67,7 +67,7 @@ define repose::filter::atom_feed (
   $auth_username = undef,
   $auth_password = undef,
   $auth_timeout = undef,
-  $configdir = $repose::params::configdir,
+  $configdir = $repose::configdir,
 ) {
 
   if $feed_uri == undef {

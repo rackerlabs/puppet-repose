@@ -58,12 +58,14 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  $ensure                        = $repose::params::ensure,
-  $autoupgrade                   = $repose::params::autoupgrade,
-  $container                     = $repose::params::container,
-  $experimental_filters          = $repose::params::experimental_filters,
-  $identity_filters              = $repose::params::identity_filters,
-) inherits repose::params {
+  Boolean $experimental_filters,
+  Array $experimental_filters_packages,
+  Boolean $identity_filters,
+  Array $identity_filters_packages,
+  String $ensure       = $repose::ensure,
+  Variant[Boolean,String] $enable      = $repose::enable,
+  Boolean $autoupgrade = $repose::autoupgrade,
+) {
 
 ### Logic
 
@@ -79,48 +81,32 @@ class repose::package (
     }
   }
 
-## Pick packages
-  $container_package = $container ? {
-    'repose9'   => $repose::params::repose9_package,
-  }
-
-## Handle adding a dependency of service for valve
-  if $container == 'repose9' {
-    $before = Service[$repose::params::repose9_service]
-  } else {
-    $before = undef
-  }
-
-
 ### Manage actions
-
-  package { $container_package:
+  package { $repose::package_name:
     ensure => $package_ensure,
-    before => $before,
   }
 
-  package { $repose::params::packages:
+  package { $repose::packages:
     ensure  => $package_ensure,
-    require => Package[$container_package],
+    require => Package[$repose::package_name],
   }
 
   if $experimental_filters == true {
-    package { $repose::params::experimental_filters_packages:
-      ensure => $package_ensure,
-      require => Package[$container_package],
+    package { $experimental_filters_packages:
+      ensure  => $package_ensure,
+      require => Package[$repose::package_name],
     }
   } else {
-    package { $repose::params::experimental_filters_packages:
-      ensure => absent, 
-      require => Package[$container_package],
+    package { $experimental_filters_packages:
+      ensure  => absent,
+      require => Package[$repose::package_name],
     }
   }
 
   if $identity_filters == true {
-    package { $repose::params::identity_filters_packages:
-      ensure => $package_ensure,
-      require => Package[$container_package],
+    package { $identity_filters_packages:
+      ensure  => $package_ensure,
+      require => Package[$repose::package_name],
     }
   }
-
 }

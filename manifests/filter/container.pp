@@ -285,39 +285,43 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::filter::container (
-  $ensure                               = present,
+  $artifact_directory,
+  $deployment_directory,
+  $log_access_facility,
+  $log_access_app_name,
+  $log_access_local,
+  $log_access_local_name,
+  $log_access_syslog,
+  $log_dir,
+  $log_herp_app_name,
+  $log_herp_facility,
+  $log_herp_flume,
+  $log_herp_syslog,
+  $log_herp_syslog_postfilter,
+  $log_herp_syslog_prefilter,
+  $log_log4j2_default_loggers,
+  $log_log4j2_optional_loggers,
+  $log_log4j2_intrafilter_trace_loggers,
+  $log_intrafilter_trace,
+  $log_level,
+  $log_local_policy,
+  $log_local_size,
+  $log_local_rotation_count,
+  $log_repose_facility,
+  $log_file_perm,
+  $logging_configuration,
+  $syslog_port,
+  $syslog_protocol,
+  $flume_host,
+  $flume_port,
+  Enum['present','absent'] $ensure      = 'present',
   $app_name                             = undef,
-  $artifact_directory                   = $repose::params::artifact_directory,
   $artifact_directory_check_interval    = 60000,
   $client_request_logging               = undef,
   $content_body_read_limit              = undef,
-  $deployment_directory                 = $repose::params::deployment_directory,
   $deployment_directory_auto_clean      = true,
   $jmx_reset_time                       = undef,
-  $log_access_facility                  = $repose::params::log_access_facility,
-  $log_access_app_name                  = $repose::params::log_access_app_name,
-  $log_access_local                     = $repose::params::log_access_local,
-  $log_access_local_name                = $repose::params::log_access_local_name,
-  $log_access_syslog                    = $repose::params::log_access_syslog,
-  $log_dir                              = $repose::params::logdir,
-  $log_herp_app_name                    = $repose::params::log_herp_app_name,
-  $log_herp_facility                    = $repose::params::log_herp_facility,
-  $log_herp_flume                       = $repose::params::log_herp_flume,
-  $log_herp_syslog                      = $repose::params::log_herp_syslog,
-  $log_herp_syslog_postfilter           = $repose::params::log_herp_syslog_postfilter,
-  $log_herp_syslog_prefilter            = $repose::params::log_herp_syslog_prefilter,
-  $log_log4j2_default_loggers           = $repose::params::log_log4j2_default_loggers,
-  $log_log4j2_optional_loggers          = $repose::params::log_log4j2_optional_loggers,
-  $log_log4j2_intrafilter_trace_loggers = $repose::params::log_log4j2_intrafilter_trace_loggers,
-  $log_intrafilter_trace                = $repose::params::log_intrafilter_trace,
-  $log_level                            = $repose::params::log_level,
-  $log_local_policy                     = $repose::params::log_local_policy,
-  $log_local_size                       = $repose::params::log_local_size,
-  $log_local_rotation_count             = $repose::params::log_local_rotation_count,
-  $log_repose_facility                  = $repose::params::log_repose_facility,
-  $log_file_perm                        = $repose::params::log_file_perm,
   $log_use_log4j2                       = false,
-  $logging_configuration                = $repose::params::logging_configuration,
   $ssl_enabled                          = false,
   $ssl_keystore_filename                = undef,
   $ssl_keystore_password                = undef,
@@ -328,12 +332,8 @@ class repose::filter::container (
   $ssl_exclude_protocol                 = undef,
   $ssl_tls_renegotiation                = undef,
   $syslog_server                        = undef,
-  $syslog_port                          = $repose::params::syslog_port,
-  $syslog_protocol                      = $repose::params::syslog_protocol,
   $via                                  = undef,
   $via_header                           = {},
-  $flume_host                           = $repose::params::flume_host,
-  $flume_port                           = $repose::params::flume_port,
   # BELOW ARE DEPRECATED
   $herp                                 = false,
   $http_port                            = undef,
@@ -341,32 +341,13 @@ class repose::filter::container (
   $connection_timeout                   = undef,
   $read_timeout                         = undef,
   $proxy_thread_pool                    = undef,
-) inherits repose::params {
+) {
 
 ### Validate parameters
-  validate_bool($log_access_local)
-  validate_bool($log_access_syslog)
-  validate_bool($log_use_log4j2)
-  validate_string($log_access_facility)
-  validate_string($log_dir)
-  validate_string($log_level)
-  validate_string($log_access_local_name)
-  validate_string($log_repose_facility)
-  if ($ssl_include_cipher != undef) {
-    validate_array($ssl_include_cipher)
-  }
-  if ($ssl_exclude_cipher != undef) {
-    validate_array($ssl_exclude_cipher)
-  }
-
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
@@ -389,7 +370,7 @@ class repose::filter::container (
     $logging_configuration_real = $logging_configuration
   }
 
-  $logging_configuration_file = "${repose::params::configdir}/${logging_configuration_real}"
+  $logging_configuration_file = "${repose::configdir}/${logging_configuration_real}"
 ## Manage actions
 
   if $ensure == present {
@@ -410,9 +391,9 @@ class repose::filter::container (
 
   File {
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
   }
 
@@ -420,7 +401,7 @@ class repose::filter::container (
     content => $log4j_content_template
   }
 
-  file { "${repose::params::configdir}/container.cfg.xml":
+  file { "${repose::configdir}/container.cfg.xml":
     content => $container_content_template
   }
 

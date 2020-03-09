@@ -45,18 +45,18 @@ class repose::filter::atom_feed_service (
     debug("\$ensure = '${ensure}'")
   }
 
-  concat { "${repose::params::configdir}/atom-feed-service.cfg.xml":
+  concat { "${repose::configdir}/atom-feed-service.cfg.xml":
     ensure => $ensure,
   }
 
   concat::fragment { 'header':
-    target => "${repose::params::configdir}/atom-feed-service.cfg.xml",
+    target => "${repose::configdir}/atom-feed-service.cfg.xml",
     source => "puppet:///modules/${module_name}/atom-feed-service-header",
     order  => '01',
   }
 
   concat::fragment { 'footer':
-    target => "${repose::params::configdir}/atom-feed-service.cfg.xml",
+    target => "${repose::configdir}/atom-feed-service.cfg.xml",
     source => "puppet:///modules/${module_name}/atom-feed-service-footer",
     order  => '99',
   }

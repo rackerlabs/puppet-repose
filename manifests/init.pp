@@ -58,13 +58,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  $ensure               = $repose::params::ensure,
-  $enable               = $repose::params::enable,
-  $container            = $repose::params::container,
-  $autoupgrade          = $repose::params::autoupgrade,
-  $experimental_filters = $repose::params::experimental_filters,
-  $identity_filters     = $repose::params::identity_filters,
-) inherits repose::params {
+  Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure,
+  Variant[Boolean, Enum['true','false','manual']] $enable,
+  Boolean $autoupgrade,
+  String $cfg_namespace_host,
+  String $service_name,
+  Array $packages,
+  String $package_name,
+  String $configdir,
+  String $owner,
+  String $group,
+  String $mode,
+  String $dirmode,
+  String $port,
+) {
 
 ### Validate parameters
 
@@ -82,7 +89,7 @@ class repose (
     }
   }
   if $::debug {
-    if $ensure != $repose::params::ensure {
+    if $ensure != $repose::ensure {
       debug('$ensure overridden by class parameter')
     }
     debug("\$ensure = '${ensure}'")
@@ -90,67 +97,27 @@ class repose (
 
 ## enable - we don't validate because all standard options are acceptable
   if $::debug {
-    if $enable != $repose::params::enable {
+    if $enable != $repose::enable {
       debug('$enable overridden by class parameter')
     }
     debug("\$enable = '${enable}'")
   }
 
 ## autoupgrade
-  validate_bool($autoupgrade)
   if $::debug {
-    if $autoupgrade != $repose::params::autoupgrade {
+    if $autoupgrade != $repose::autoupgrade {
       debug('$autoupgrade overridden by class parameter')
     }
     debug("\$autoupgrade = '${autoupgrade}'")
   }
 
-## container
-  if ! ($container in $repose::params::container_options) {
-    fail("\"${container}\" is not a valid container parameter value")
-  }
-  if $::debug {
-    if $container != $repose::params::container {
-      debug('$container overridden by class parameter')
-    }
-    debug("\$container = '${container}'")
-  }
-
 ### Manage actions
 
-## package(s)
-  class { 'repose::package':
-    ensure               => $ensure,
-    autoupgrade          => $autoupgrade,
-    container            => $container,
-    experimental_filters => $experimental_filters,
-    identity_filters     => $identity_filters,
-  }
+  contain repose::package
+  contain repose::config
+  contain repose::service
 
-## service
-  if ( $container in [ 'repose9' ]) {
-    class { 'repose::service':
-      ensure    => $ensure,
-      enable    => $enable,
-      container => $container,
-    }
-  }
-
-## files/directories
-  File {
-    mode    => $repose::params::dirmode,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    require => Package[$repose::package::container_package],
-  }
-
-  file { $repose::params::configdir:
-    ensure => $dir_ensure,
-  }
-
-  file { '/etc/security/limits.d/repose':
-    ensure => $file_ensure,
-    source => 'puppet:///modules/repose/limits',
-  }
-
+  Class['repose::package']
+  -> Class['repose::config']
+  ~> Class['repose::service']
 }

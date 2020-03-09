@@ -103,34 +103,54 @@
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
-class repose::repose9 (
-  $ensure            = $repose::params::ensure,
-  $enable            = $repose::params::enable,
-  $autoupgrade       = $repose::params::autoupgrade,
-  $run_port          = $repose::params::run_port,
-  $daemon_home       = $repose::params::daemon_home,
-  $log_path          = $repose::params::logdir,
-  $user              = $repose::params::user,
-  $daemonize         = $repose::params::daemonize,
-  $daemonize_opts    = $repose::params::daemonize_opts,
-  $run_opts          = $repose::params::run_opts,
-  $java_options      = undef,
-  $saxon_home        = undef,
-) inherits repose::params {
+class repose::config (
+  String $run_port,
+  String $daemon_home,
+  String $log_path,
+  String $user,
+  String $daemonize,
+  String $daemonize_opts,
+  String $run_opts,
+  String $ensure  = $repose::ensure,
+  Optional[String] $java_options = undef,
+  Optional[String] $saxon_home   = undef,
+  Array $log_files         = [ '/var/log/repose/repose.log' ],
+  String $rotate_frequency = 'daily',
+  Integer $rotate_count    = 4,
+  Boolean $compress        = true,
+  Boolean $delay_compress  = true,
+  Boolean $use_date_ext    = true,
+) {
 
-  class { 'repose':
-    ensure            => $ensure,
-    enable            => $enable,
-    autoupgrade       => $autoupgrade,
-    container         => 'repose9',
+  $file_ensure = $ensure ? {
+    absent  => absent,
+    default => file,
+  }
+  $dir_ensure = $ensure ? {
+      absent  => absent,
+      default => directory,
+  }
+
+## files/directories
+  File {
+    mode    => $repose::dirmode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+  }
+
+  file { $repose::configdir:
+    ensure => $dir_ensure,
+  }
+
+  file { '/etc/security/limits.d/repose':
+    ensure => $file_ensure,
+    source => 'puppet:///modules/repose/limits',
   }
 
   file { '/etc/sysconfig/repose':
-    ensure  => $repose::file_ensure,
-    owner   => root,
-    group   => root,
-    require => [ Package[$repose::params::repose9_package] ],
-    notify  => Service[$repose::params::repose9_service],
+    ensure => $file_ensure,
+    owner  => root,
+    group  => root,
   }
 
   # setup augeas with our shellvars lense
@@ -161,6 +181,15 @@ class repose::repose9 (
     ]
   } else {
     $saxon_sysconfig = 'rm SAXON_HOME'
+  }
+
+  logrotate::rule { 'repose_logs':
+    path          => $log_files,
+    rotate        => $rotate_count,
+    missingok     => true,
+    compress      => $compress,
+    delaycompress => $delay_compress,
+    dateext       => $use_date_ext,
   }
 
   # only run if ensure is not absent
