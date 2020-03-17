@@ -9,13 +9,17 @@
     {
       "name": "puppet/logrotate",
       "version_requirement": ">= 4.0.0"
+    },
+    {
+      "name": "camptocamp/systemd",
+      "version_requirement": ">= 2.9.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7"
+        "7","8"
       ]
     }
   ],
