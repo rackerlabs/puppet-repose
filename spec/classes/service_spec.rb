@@ -50,6 +50,22 @@ describe 'repose::service' do
             'enable' => 'manual')
         }
       end
+
+      # Validate systemd dropin file
+      context 'ensure systemd dropin file' do
+        let(:params) { { 
+          content: '[Service]
+Environment="JAVA_OPTS=-javaagent:/opt/newrelic/newrelic.jar -Dnewrelic.config.file=/etc/newrelic/cidm_repose.yml -Xms4096m -Xmx4096m -XX:MaxPermSize=512m"
+'
+        }}
+        it {
+          should contain_file('/etc/systemd/system/repose.service.d/repose-local.conf').with(
+            'content' => '[Service]
+Environment="JAVA_OPTS=-javaagent:/opt/newrelic/newrelic.jar -Dnewrelic.config.file=/etc/newrelic/cidm_repose.yml -Xms4096m -Xmx4096m -XX:MaxPermSize=512m"
+'
+          )
+        }
+      end
     end
   end
 end

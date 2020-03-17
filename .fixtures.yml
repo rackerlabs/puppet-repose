@@ -1,6 +1,4 @@
 fixtures:
-  repositories:
-    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
   forge_modules:
     concat:
       repo: "puppetlabs/concat"
@@ -15,5 +13,6 @@ fixtures:
       repo: "puppetlabs/augeas_core"
       ref: "1.0.5"
     logrotate: "puppet/logrotate"
+    systemd: "camptocamp/systemd"
   symlinks:
     repose: "#{source_dir}"
