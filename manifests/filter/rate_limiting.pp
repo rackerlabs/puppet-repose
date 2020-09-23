@@ -44,6 +44,14 @@
 # NOTE: the id in limits array  should only be used with repose 5.0.0+.
 # Setting id <5.0.0 will result in the error.
 #
+# [*global_limit_groups*]
+# Optional Array of hashes.
+# Hashes should contain ArrayOfHashes(limits)
+# Where the hashes in limits should contain the Strings:
+#   uri, uri-regex, http-methods, unit, value, id
+# NOTE: the id in limits array  should only be used with repose 5.0.0+.
+# Setting id <5.0.0 will result in the error.
+#
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Rate+Limiting+Filter
@@ -57,6 +65,13 @@
 #      'uri-regex' => '/limits/userrs/?',
 #      'include_absolute_limits' => false,
 #     },
+#     global_limit_groups => [
+#       {
+#         'limits' => [
+#           { 'id' => 'events_global_limits' 'uri' => '/sites/events*', 'uri_regex' => '/(sites)/events', 'http_methods' => 'POST', 'unit' => 'SECOND', 'value'=> '200' },
+#         ]
+#       },
+#     ],
 #     limit_groups => [
 #       { 'id' => 'UserIdentity_Group',
 #         'groups' => 'UserIdentity_Group',
@@ -82,13 +97,14 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::rate_limiting (
-  $ensure             = present,
-  $filename           = 'rate-limiting.cfg.xml',
-  $datastore          = undef,
-  $overlimit_429      = undef,
-  $use_capture_groups = true,
-  $request_endpoint   = undef,
-  $limit_groups       = undef,
+  $ensure              = present,
+  $filename            = 'rate-limiting.cfg.xml',
+  $datastore           = undef,
+  $overlimit_429       = undef,
+  $use_capture_groups  = true,
+  $request_endpoint    = undef,
+  $limit_groups        = undef,
+  $global_limit_groups = undef,
 ) {
 
 ### Validate parameters

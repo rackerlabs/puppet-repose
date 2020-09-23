@@ -74,6 +74,20 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'uri-regex'              => '/limits/stuff/?',
           'include_absolut_limits' => false
         },
+        :global_limit_groups => [
+            {
+              'limits'    => [
+                  {
+                   'id'           => 'some_global_limit_id',
+                   'uri'          => '/.*',
+                   'uri_regex'    => '/.*',
+                   'http_methods' => 'GET',
+                   'unit'         => 'SECOND',
+                   'value'        => '150'
+                  },
+              ]
+            }
+        ],
         :limit_groups => [ {
           'id'        => 'Some_Group',
           'groups'    => 'Some_Group',
@@ -97,6 +111,8 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'group'  => 'repose',
           'mode'   => '0660').
           with_content(/<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>/).
+          with_content(/<global-limit-group>/).
+          with_content(/<limit id=\"some_global_limit_id\" uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"150\" \/>/).
           with_content(/<limit-group id=\"Some_Group\" groups=\"Some_Group\" default=\"true\">/).
           with_content(/<limit id=\"some_limit_id\" uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>/)
 
@@ -151,6 +167,20 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'include_absolut_limits' => false
         },
         :overlimit_429 => 'true',
+        :global_limit_groups => [
+            {
+                'limits'    => [
+                    {
+                        'id'           => 'some_global_limit_id',
+                        'uri'          => '/.*',
+                        'uri_regex'    => '/.*',
+                        'http_methods' => 'GET',
+                        'unit'         => 'SECOND',
+                        'value'        => '150'
+                    },
+                ]
+            }
+        ],
         :limit_groups => [ {
           'id'        => 'Some_Group',
           'groups'    => 'Some_Group',
@@ -174,6 +204,8 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'mode'   => '0660').
           with_content(/overLimit-429-responseCode=\"true\"/).
           with_content(/<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>/).
+          with_content(/<global-limit-group>/).
+          with_content(/<limit id=\"some_global_limit_id\" uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"150\" \/>/).
           with_content(/<limit-group id=\"Some_Group\" groups=\"Some_Group\" default=\"true\">/).
           with_content(/<limit uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>/)
 
@@ -193,6 +225,20 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'uri-regex'              => '/limits/stuff/?',
           'include_absolut_limits' => false
         },
+        :global_limit_groups => [
+            {
+                'limits'    => [
+                    {
+                        'id'           => 'some_global_limit_id',
+                        'uri'          => '/.*',
+                        'uri_regex'    => '/.*',
+                        'http_methods' => 'GET',
+                        'unit'         => 'SECOND',
+                        'value'        => '150'
+                    },
+                ]
+            }
+        ],
         :limit_groups => [ {
           'id'        => 'Some_Group',
           'groups'    => 'Some_Group',
@@ -228,6 +274,20 @@ describe 'repose::filter::rate_limiting', :type => :define do
           'uri-regex'              => '/limits/stuff/?',
           'include_absolut_limits' => false
         },
+        :global_limit_groups => [
+            {
+                'limits'    => [
+                    {
+                        'id'           => 'some_global_limit_id',
+                        'uri'          => '/.*',
+                        'uri_regex'    => '/.*',
+                        'http_methods' => 'GET',
+                        'unit'         => 'SECOND',
+                        'value'        => '150'
+                    },
+                ]
+            }
+        ],
         :limit_groups => [ {
           'id'        => 'Some_Group',
           'groups'    => 'Some_Group',

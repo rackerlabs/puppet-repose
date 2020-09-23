@@ -8,6 +8,21 @@
         returning live rate limiting information.
     -->
     <request-endpoint uri-regex="<%= @request_endpoint['uri-regex'] %>" include-absolute-limits="<%= @request_endpoint['include_absolute_limits'] %>"/>
+
+    <!-- Defineds global rate limits -->
+
+    <%- if @global_limit_groups -%>
+        <% @global_limit_groups.each do |global_limit_group| %>
+            <global-limit-group>
+                <%- if global_limit_group.has_key?('limits') -%>
+                    <%- global_limit_group['limits'].each do |limit| %>
+                        <limit <% if limit.has_key?('id') %>id="<%= limit['id'] %>" <% end %>uri="<%= limit['uri'] %>" uri-regex="<%= limit['uri_regex'] %>" http-methods="<%= limit['http_methods'] %>" unit="<%= limit['unit'] %>" value="<%= limit['value'] %>" />
+                    <%- end -%>
+                <%- end -%>
+            </global-limit-group>
+        <%- end -%>
+    <%- end -%>
+
     <!-- Limits for all other requests -->
 <% @limit_groups.each do |limit_group| %>
     <limit-group id="<%= limit_group['id'] %>" groups="<%= limit_group['groups'] %>" default="<%= limit_group['default'] %>">
