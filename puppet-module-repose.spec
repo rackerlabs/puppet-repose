@@ -2,7 +2,7 @@
 %define base_name repose
 
 Name:      puppet-module-%{user}-%{base_name}
-Version:   2.12.1
+Version:   2.13.0
 Release:   1
 BuildArch: noarch
 Summary:   Puppet module to configure %{base_name}
@@ -29,7 +29,11 @@ cp -pr * %{buildroot}%{module_dir}/
 %defattr (0644,root,root)
 %{module_dir}
 
+#
+
 %changelog
+* Wed Sep 23 2019 Uma Samudrala <uma.samudrala@rackspace.com> 2.13.0-1
+- Added global rate limits for Rate Limiting Filter
 * Tue Oct 29 2019 Cory Ringdahl <cory.ringdahl@rackspace.com> 2.12.1-1
 - removed PID_FILE var for repose9; startup script already takes care of this var
 * Tue Oct 22 2019 Senthil Natarajan <senthil.natarajan@rackspace.com> 2.12.0-1
