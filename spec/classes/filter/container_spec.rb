@@ -10,10 +10,6 @@ describe 'repose::filter::container' do
         os_facts
       end
 
-      context 'with defaults for all parameters' do
-        it { should raise_error(Puppet::Error, /app_name is a required parameter/) }
-      end
-
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
@@ -26,20 +22,18 @@ describe 'repose::filter::container' do
 
       end
 
-      context 'with defaults with app_name' do
+      context 'with defaults' do
         let(:params) { {
-          :app_name => 'app'
         } }
         it { should contain_file('/etc/repose/log4j.properties').
             with_content(/log4j\.rootLogger=WARN/).
-            with_content(/log4j\.appender\.defaultFile\.File=\/var\/log\/repose\/app\.log/) }
+            with_content(/log4j\.appender\.defaultFile\.File=\/var\/log\/repose\/repose\.log/) }
         it { should contain_file('/etc/repose/container.cfg.xml') 
         }
       end
 
       context 'configure logging' do
         let(:params) { {
-          :app_name        => 'app',
           :log_dir         => '/mypath',
           :log_level       => 'DEBUG',
           :syslog_server   => 'syslog.example.com',
@@ -47,7 +41,7 @@ describe 'repose::filter::container' do
           :syslog_protocol => 'tcp'
         } }
         it { should contain_file('/etc/repose/log4j.properties').
-            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/).
+            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/repose\.log/).
             with_content(/log4j\.rootLogger=DEBUG, syslog, defaultFile/).
             with_content(/log4j.logger.http=INFO, httpSyslog/).
             with_content(/syslog.syslogHost=syslog.example.com/).
@@ -62,8 +56,6 @@ describe 'repose::filter::container' do
 
       context 'configure container' do
         let(:params) { {
-          :app_name                          => 'app',
-          :via                               => 'my app',
           :deployment_directory              => '/deployment_dir',
           :deployment_directory_auto_clean   => 'false',
           :artifact_directory                => '/artifact_dir',
@@ -80,23 +72,9 @@ describe 'repose::filter::container' do
           :ssl_tls_renegotiation             => 'true',
           :content_body_read_limit           => '10240000',
           :jmx_reset_time                    => '3600000',
-          :client_request_logging            => 'false',
-          :http_port                         => '10000',
-          :https_port                        => '10001',
-          :connection_timeout                => '40000',
-          :read_timeout                      => '1000',
-          :proxy_thread_pool                 => 'my-pool'
         } }
         it { should contain_file('/etc/repose/mylog4j.properties') }
         it { should contain_file('/etc/repose/container.cfg.xml'). 
-            with_content(/http-port="10000"/).
-            with_content(/https-port="10001"/).
-            with_content(/via="my app"/).
-            with_content(/content-body-read-limit="10240000"/).
-            with_content(/connection-timeout="40000"/).
-            with_content(/read-timeout="1000"/).
-            with_content(/proxy-thread-pool="my-pool"/).
-            with_content(/client-request-logging="false"/).
             with_content(/jmx-reset-time="3600000"/).
             with_content(/<deployment-directory auto-clean=\"false\">\/deployment_dir<\/deployment-directory>/).
             with_content(/<artifact-directory check-interval="10000">\/artifact_dir<\/artifact-directory>/).
@@ -115,7 +93,6 @@ describe 'repose::filter::container' do
 
       context 'configure no logging' do
         let(:params) { {
-          :app_name         => 'app',
           :log_dir          => '/mypath',
           :log_local_policy => false
         } }
@@ -129,11 +106,10 @@ describe 'repose::filter::container' do
 
       context 'configure access log local default settings' do
         let(:params) { {
-          :app_name        => 'app',
           :log_dir         => '/mypath'
         } }
         it { should contain_file('/etc/repose/log4j.properties'). 
-            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/).
+            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/repose\.log/).
             with_content(/log4j\.logger\.http=INFO, httpLocal/).
             with_content(/httpLocal=org\.apache\.log4j\.DailyRollingFileAppender/).
             with_content(/httpLocal.File=\/mypath\/http_repose\.log/) }
@@ -142,7 +118,6 @@ describe 'repose::filter::container' do
 
       context 'configure access log local rotation on size' do
         let(:params) { {
-          :app_name                 => 'app',
           :log_local_policy         => 'size',
           :log_local_size           => '50MB',
           :log_local_rotation_count => 2,
@@ -160,7 +135,6 @@ describe 'repose::filter::container' do
 
       context 'configure access log syslog only' do
         let(:params) { {
-          :app_name         => 'app',
           :log_dir          => '/mypath',
           :log_level        => 'DEBUG',
           :syslog_server    => 'syslog.example.com',
@@ -169,7 +143,7 @@ describe 'repose::filter::container' do
           :log_access_local => false
         } }
         it { should contain_file('/etc/repose/log4j.properties'). 
-            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/).
+            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/repose\.log/).
             with_content(/log4j\.rootLogger=DEBUG, syslog, defaultFile/).
             with_content(/log4j.logger.http=INFO, httpSyslog$/).
             with_content(/syslog.syslogHost=syslog.example.com/).
@@ -185,7 +159,6 @@ describe 'repose::filter::container' do
 
       context 'configure repose log to syslog and access to local' do
         let(:params) { {
-          :app_name         => 'app',
           :log_dir          => '/mypath',
           :log_level        => 'DEBUG',
           :syslog_server    => 'syslog.example.com',
@@ -194,7 +167,7 @@ describe 'repose::filter::container' do
           :log_access_syslog => false
         } }
         it { should contain_file('/etc/repose/log4j.properties'). 
-            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/).
+            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/repose\.log/).
             with_content(/log4j\.rootLogger=DEBUG, syslog, defaultFile/).
             with_content(/syslog.syslogHost=syslog.example.com/).
             with_content(/syslog.port=515/).
@@ -211,7 +184,6 @@ describe 'repose::filter::container' do
 
       context 'configure syslog facilities' do
         let(:params) { {
-          :app_name            => 'app',
           :log_dir             => '/mypath',
           :log_level           => 'DEBUG',
           :syslog_server       => 'syslog.example.com',
@@ -220,7 +192,7 @@ describe 'repose::filter::container' do
           :log_repose_facility => 'local4'
         } }
         it { should contain_file('/etc/repose/log4j.properties'). 
-            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/).
+            with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/repose\.log/).
             with_content(/log4j\.rootLogger=DEBUG, syslog, defaultFile/).
             with_content(/syslog.syslogHost=syslog.example.com/).
             with_content(/syslog.port=514/).
@@ -235,13 +207,12 @@ describe 'repose::filter::container' do
 
       context 'configure log4j2' do
         let(:params) { {
-          :app_name       => 'app',
           :log_use_log4j2 => true
         } }
         it { should contain_file('/etc/repose/log4j2.xml'). 
             with_content(/RollingFile name="defaultFile"/).
-            with_content(/filename="\/var\/log\/repose\/app.log"/).
-            with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/).
+            with_content(/filename="\/var\/log\/repose\/repose.log"/).
+            with_content(/filePattern="\/var\/log\/repose\/repose.log.%d\{yyyy-MM-dd\}"/).
             with_content(/RollingFile name="httpLocal"/).
             with_content(/filename="\/var\/log\/repose\/http_repose.log"/).
             with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"/).
@@ -258,14 +229,13 @@ describe 'repose::filter::container' do
 
       context 'configure log4j2 log_local_policy is size' do
         let(:params) { {
-          :app_name         => 'app',
           :log_use_log4j2   => true,
           :log_local_policy => 'size'
         } }
         it { should contain_file('/etc/repose/log4j2.xml'). 
             with_content(/RollingFile name="defaultFile"/).
-            with_content(/filename="\/var\/log\/repose\/app.log"/).
-            with_content(/filePattern="\/var\/log\/repose\/app.log.%i"/).
+            with_content(/filename="\/var\/log\/repose\/repose.log"/).
+            with_content(/filePattern="\/var\/log\/repose\/repose.log.%i"/).
             with_content(/SizeBasedTriggeringPolicy size=\"100MB\"/).
             with_content(/DefaultRolloverStrategy max="4"/).
             with_content(/RollingFile name="httpLocal"/).
@@ -282,14 +252,13 @@ describe 'repose::filter::container' do
 
       context 'configure log4j2 without log_access_local' do
         let(:params) { {
-          :app_name         => 'app',
           :log_use_log4j2   => true,
           :log_access_local => false
         } }
         it { should contain_file('/etc/repose/log4j2.xml'). 
             with_content(/RollingFile name="defaultFile"/).
-            with_content(/filename="\/var\/log\/repose\/app.log"/).
-            with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/).
+            with_content(/filename="\/var\/log\/repose\/repose.log"/).
+            with_content(/filePattern="\/var\/log\/repose\/repose.log.%d\{yyyy-MM-dd\}"/).
             without_content(/RollingFile name="httpLocal"/).
             with_content(/Root level="WARN"/).
             with_content(/AppenderRef ref="defaultFile"/).
@@ -303,7 +272,6 @@ describe 'repose::filter::container' do
 
       context 'configure log4j2 with syslog' do
         let(:params) { {
-          :app_name         => 'app',
           :log_use_log4j2   => true,
           :syslog_server    => 'syslog.example.com',
           :syslog_port      => 515,
@@ -332,7 +300,6 @@ describe 'repose::filter::container' do
 
       context 'configure log4j2 with null appender' do
         let(:params) { {
-          :app_name         => 'app',
           :log_use_log4j2   => true,
           :log_local_policy => 'none'
         } }
@@ -346,14 +313,13 @@ describe 'repose::filter::container' do
 
       context 'configure log4j2 with intrafilter trace logging true' do
         let(:params) { {
-          :app_name              => 'app',
           :log_use_log4j2        => true,
           :log_intrafilter_trace => true
         } }
         it { should contain_file('/etc/repose/log4j2.xml'). 
             with_content(/RollingFile name="defaultFile"/).
-            with_content(/filename="\/var\/log\/repose\/app.log"/).
-            with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/).
+            with_content(/filename="\/var\/log\/repose\/repose.log"/).
+            with_content(/filePattern="\/var\/log\/repose\/repose.log.%d\{yyyy-MM-dd\}"/).
             with_content(/RollingFile name="httpLocal"/).
             with_content(/filename="\/var\/log\/repose\/http_repose.log"/).
             with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"/).
@@ -371,7 +337,6 @@ describe 'repose::filter::container' do
 
       context 'define via_header option' do
         let(:params) { {
-          :app_name => 'app',
           :via_header => { 'response-header' => 'Salad', 'repose-version' => 'false' }
         } }
         it { should contain_file('/etc/repose/container.cfg.xml'). 

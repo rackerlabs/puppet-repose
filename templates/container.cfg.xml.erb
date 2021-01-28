@@ -3,29 +3,11 @@
 <!-- To configure Repose see: http://wiki.openrepose.org/display/REPOSE/Configuration -->
 <repose-container xmlns="http://<%= scope.lookupvar('::repose::cfg_namespace_host') %>/repose/container/v2.0">
     <deployment-config
-<%- if @http_port -%>
-        http-port="<%= @http_port %>"
-<%- end -%>
-<%- if @https_port -%>
-        https-port="<%= @https_port %>"
-<%- end -%>
 <%- if @via -%>
         via="<%= @via %>"
 <%- end -%>
 <%- if @content_body_read_limit -%>
         content-body-read-limit="<%= @content_body_read_limit %>"
-<%- end -%>
-<%- if @connection_timeout -%>
-        connection-timeout="<%= @connection_timeout %>"
-<%- end -%>
-<%- if @read_timeout -%>
-        read-timeout="<%= @read_timeout %>"
-<%- end -%>
-<%- if @proxy_thread_pool -%>
-        proxy-thread-pool="<%= @proxy_thread_pool %>"
-<%- end -%>
-<%- if @client_request_logging -%>
-        client-request-logging="<%= @client_request_logging -%>"
 <%- end -%>
 <%- if @jmx_reset_time -%>
         jmx-reset-time="<%= @jmx_reset_time -%>"

@@ -58,38 +58,27 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::metrics (
-  $ensure           = present,
-  $filename         = 'metrics.cfg.xml',
-  $app_name         = 'repose',
-  $graphite_servers = undef,
-  $period           = 60,
-  $prefix           = '',
-  $enabled          = true,
+  Array $graphite_servers,
+  Enum['present','absent'] $ensure           = present,
+  String $filename         = 'metrics.cfg.xml',
+  String $app_name         = 'repose',
+  Variant[String,Integer] $period           = 60,
+  String $prefix           = '',
+  Boolean $enabled          = true,
 ) {
 
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## graphite_servers
-    if $graphite_servers == undef {
-      fail( 'graphite_servers is a required item' )
-    }
-
-## enabled
-    validate_bool($enabled)
     $content_template = template("${module_name}/metrics.cfg.xml.erb")
   } else {
     $content_template = undef

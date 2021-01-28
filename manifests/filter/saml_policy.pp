@@ -108,34 +108,30 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::saml_policy (
-  $keystone_uri,
-  $keystone_user,
-  $keystone_password,
-  $signature_keystore_certname,
-  $signature_keystore_keypass,
-  $signature_keystore_password,
-  $signature_keystore_pem,
-  $policy_uri,
-  $keystone_pool               = undef,
-  $ensure                      = present,
-  $filename                    = 'saml-policy.cfg.xml',
-  $policy_bypass_issuers       = [],
-  $policy_cache_feed_id        = undef,
-  $policy_cache_ttl            = 300,
-  $policy_pool                 = undef,
-  $signature_keystore_path     = '/etc/pki/java/repose-saml-policy.ks',
+  String $keystone_uri,
+  String $keystone_user,
+  String $keystone_password,
+  String $signature_keystore_certname,
+  String $signature_keystore_keypass,
+  String $signature_keystore_password,
+  String $signature_keystore_pem,
+  String $policy_uri,
+  Optional[String] $keystone_pool               = undef,
+  Enum['present','absent'] $ensure                      = present,
+  String $filename                    = 'saml-policy.cfg.xml',
+  Array[String] $policy_bypass_issuers       = [],
+  Optional[String] $policy_cache_feed_id        = undef,
+  Variant[String,Integer] $policy_cache_ttl            = 300,
+  Optional[String] $policy_pool                 = undef,
+  Stdlib::Unixpath $signature_keystore_path     = '/etc/pki/java/repose-saml-policy.ks',
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
@@ -159,14 +155,14 @@ define repose::filter::saml_policy (
   }
 
   java_ks { 'saml_policy_keystore':
-    ensure       => $ensure,
-    certificate  => "${repose::configdir}/signature_keys.pem",
-    private_key  => "${repose::configdir}/signature_keys.pem",
-    destkeypass  => "${signature_keystore_keypass}",
-    target       => "${signature_keystore_path}",
-    password     => "${signature_keystore_password}",
-    name         => "${signature_keystore_certname}",
-    require      => File["${repose::configdir}/signature_keys.pem"],
+    ensure      => $ensure,
+    certificate => "${repose::configdir}/signature_keys.pem",
+    private_key => "${repose::configdir}/signature_keys.pem",
+    destkeypass => $signature_keystore_keypass,
+    target      => $signature_keystore_path,
+    password    => $signature_keystore_password,
+    name        => $signature_keystore_certname,
+    require     => File["${repose::configdir}/signature_keys.pem"],
   }
 
   file { "${repose::configdir}/${filename}":

@@ -33,13 +33,8 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 class repose::filter::atom_feed_service (
-  $ensure = present,
+  Enum['present','absent'] $ensure = present,
 ) {
-
-  ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  }
 
   if $::debug {
     debug("\$ensure = '${ensure}'")

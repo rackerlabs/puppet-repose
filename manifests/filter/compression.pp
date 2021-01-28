@@ -45,25 +45,22 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::compression (
-  $ensure                = present,
-  $filename              = 'compression.cfg.xml',
-  $threshold             = 1024,
-  $debug                 = false,
-  $include_content_types = [ 'text/html', ],
-  $exclude_content_types = undef
+  Enum['present','absent'] $ensure                = present,
+  String $filename              = 'compression.cfg.xml',
+  Integer $threshold             = 1024,
+  Boolean $debug                 = false,
+  Array $include_content_types = [ 'text/html', ],
+  Optional[Array] $exclude_content_types = undef
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
+
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }

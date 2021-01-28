@@ -67,87 +67,57 @@
 # * Dimitry Ushakov <mailto:dimitry-ushakov@rackspace.com>
 #
 define repose::filter::open_tracing (
-  $ensure                               = present,
-  $service_name                         = 'repose',
-  $http_connection_endpoint             = undef,
-  $http_connection_username             = undef,
-  $http_connection_password             = undef,
-  $http_connection_token                = undef,
-  $udp_connection_port                  = undef,
-  $udp_connection_host                  = undef,
-  $constant_toggle                      = undef,
-  $rate_limiting_max_traces_per_second  = undef,
-  $probability                          = undef
+  Enum['present','absent'] $ensure                               = present,
+  String $service_name                         = 'repose',
+  Optional[Stdlib::HTTPUrl] $http_connection_endpoint             = undef,
+  Optional[String] $http_connection_username             = undef,
+  Optional[String] $http_connection_password             = undef,
+  Optional[String] $http_connection_token                = undef,
+  Optional[Stdlib::Port] $udp_connection_port                  = undef,
+  Optional[Stdlib::Host] $udp_connection_host                  = undef,
+  Optional[Enum['on','off']] $constant_toggle                      = undef,
+  Optional[Float] $rate_limiting_max_traces_per_second  = undef,
+  Optional[Float] $probability                          = undef
 ) {
 
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## at least http connection or udp host/port is defined
-    if ( $udp_connection_host != undef ) and ( $udp_connection_port != undef ) {
-      # validates ipv4 (allows invalid ips), hostname, ipv6 (only standard notation)
-      # cannot use validate_ip_* or anything like that since it could be a hostname OR ip address
-      validate_re(
-        $udp_connection_host, 
-        [
-          '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$',
-          '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$',
-          '^(?:[A-Fa-f0-9]{0,4}:){7}[A-Fa-f0-9]{1,4}$'
-        ],
-        'Must provide valid host for udp_connection_host')
-      # validate_integer($connection_port) - cannot use validate_integer due to ruby 1.8.7 support.  Comment left here for any future reviewer.
-      # Update if we deprecated 1.8.7 support
-      if ! is_integer($udp_connection_port) {
-        fail( 'connection_port must be an integer' )
-      }
-    } elsif $http_connection_endpoint != undef {
-      validate_re($http_connection_endpoint, 'http?://', 'Must provide valid http:// endpoint for http_connection_endpoint')
+    # if we have nothing to connect to, why even bother
+
+    if (( $udp_connection_host != undef ) and ( $udp_connection_port == undef ) or ( $udp_connection_host == undef ) and ( $udp_connection_port != undef )) {
+      fail ('udp host and udp port must both be defined')
+    }
+
+    if (( $udp_connection_host == undef ) and ( $udp_connection_port == undef )) and ( $http_connection_endpoint == undef ){
+      fail( 'either udp or http connection parameters must be defined' )
+    }
+    # if endpoint, then user/pass or token
+    if $http_connection_endpoint != undef {
       ## if username, then must have password and no token
       if $http_connection_username != undef {
-        ## need to check for undef since it validate_string does not check for it.  See https://github.com/puppetlabs/puppetlabs-stdlib#validate_string
         if $http_connection_password == undef {
           fail( 'must define password since username is defined' )
         }
-        validate_string($http_connection_username)
-        validate_string($http_connection_password)
         if $http_connection_token != undef {
           fail( 'cannot define both token and username for http' )
-        }        
-      } elsif $http_connection_token != undef {
-        validate_string($http_connection_token)
+        }
       }
-    } else {
-      fail( 'either udp or http connection parameters must be defined' )
     }
 
-## at least one of the sampling algos must be defined
-    if $rate_limiting_max_traces_per_second != undef {
-      if ! is_float($rate_limiting_max_traces_per_second) {
-        fail( 'max_traces_per_second must be an float' )
-      }
-    } elsif $probability != undef {
-      if ! is_float($probability) {
-        fail( 'probability must be an float' )
-      }
-    } elsif $constant_toggle != undef {
-      validate_re($constant_toggle, ['on','off'], 'constant_toggle must be set to on or off')
-    } else {
+  ## at least one of the sampling algos must be defined
+    if ($rate_limiting_max_traces_per_second == undef) and ($probability == undef) and ($constant_toggle == undef) {
       fail( 'one of sampling parameters must be defined' )
     }
-
     $content_template = template("${module_name}/open-tracing.cfg.xml.erb")
   } else {
     $content_template = undef

@@ -13,14 +13,15 @@ describe 'repose::filter::response_messaging', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /status_codes is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'status_codes'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :status_codes  => [ {} ],
         } }
         it {
           should contain_file('/etc/repose/response-messaging.cfg.xml').with_ensure(

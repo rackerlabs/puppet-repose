@@ -13,7 +13,7 @@
 #
 # [*app_name*]
 # String. Application name. Required
-# Defaults to <tt>undef</tt>
+# Defaults to <tt>repose</tt>
 #
 # [*artifact_directory*]
 # String.
@@ -22,11 +22,6 @@
 # [*artifact_directory_check_interval*]
 # Integer. Directory check interval in milliseconds.
 # Defaults to <tt>60000</tt>
-#
-# [*client_request_logging*]
-# Bool. Logs communication between repose and the end service. Depreciated in
-# Repose version 8 and above, must not be set. 
-# Defaults to <tt>undef</tt>
 #
 # [*content_body_read_limit*]
 # Integer. Maximum size ofr request content in bytes
@@ -194,17 +189,11 @@
 # Boolean. Explicitly allow or deny TLS renegotiation.
 # Defaults to <tt>undef</tt>
 #
-# [*via*]
-# String. String used in the Via header.
-# Deprecated, to be removed in Repose 9.0.0.0
-# Defaults to <tt>undef</tt>
-#
 # [*via_header*]
 # Hash. Hash containing any or all of the following optional keys:
 # request-prefix, response-prefix, and/or repose-version. The keys
 # request-prefix and response-prefix are simple Strings, the key repose-version
-# is a Boolean. This can not be set at the same time as the `via` option - it
-# will result in an unparsable file by Repose.
+# is a Boolean. 
 # Requires Repose version 8.4.1.0 or higher
 # Example:
 # via_header = { 'response-prefix' => 'Salad', 'repose-version' => 'false' }
@@ -248,34 +237,10 @@
 # The port which the flume server is listening on.
 # Defaults to <tt>10000</tt>
 #
-# [*herp*]
-# DEPRECATED. Use log_herp_flume. Enable herp filter publishing to flume.
-# Defaults to <tt>false</tt>
-#
-# [*http_port*]
-# DEPRECATED. This attribute is deprecated and will be ignored. This has
-# moved to the system-model configuration.
-#
-# [*https_port*]
-# DEPRECATED. This attribute is deprecated and will be ignored. This has
-# moved to the system-model configuration.
-#
-# [*connection_timeout*]
-# DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration. Must not be used with Repose 8 and above.
-#
-# [*read_timeout*]
-# DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration. Must not be used with Repose 8 and above.
-#
-# [*proxy_thread_pool*]
-# DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration. Must not be used with Repose 8 and above.
-#
 # === Examples
 #
 # class { 'repose::filter::container':
-#   app_name => 'repose',
+#   ensure => 'present',
 # }
 #
 # === Authors
@@ -285,62 +250,53 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::filter::container (
-  $artifact_directory,
-  $deployment_directory,
-  $log_access_facility,
-  $log_access_app_name,
-  $log_access_local,
-  $log_access_local_name,
-  $log_access_syslog,
-  $log_dir,
-  $log_herp_app_name,
-  $log_herp_facility,
-  $log_herp_flume,
-  $log_herp_syslog,
-  $log_herp_syslog_postfilter,
-  $log_herp_syslog_prefilter,
-  $log_log4j2_default_loggers,
-  $log_log4j2_optional_loggers,
-  $log_log4j2_intrafilter_trace_loggers,
-  $log_intrafilter_trace,
-  $log_level,
-  $log_local_policy,
-  $log_local_size,
-  $log_local_rotation_count,
-  $log_repose_facility,
-  $log_file_perm,
-  $logging_configuration,
-  $syslog_port,
-  $syslog_protocol,
-  $flume_host,
-  $flume_port,
+  String $artifact_directory,
+  String $deployment_directory,
+  String $log_access_facility,
+  String $log_access_app_name,
+  Boolean $log_access_local,
+  String $log_access_local_name,
+  Boolean $log_access_syslog,
+  String $log_dir,
+  String $log_herp_app_name,
+  String $log_herp_facility,
+  String $log_herp_syslog_postfilter,
+  String $log_herp_syslog_prefilter,
+  Hash $log_log4j2_default_loggers,
+  Hash $log_log4j2_optional_loggers,
+  Hash $log_log4j2_intrafilter_trace_loggers,
+  Boolean $log_intrafilter_trace,
+  String $log_level,
+  Variant[String,Boolean] $log_local_policy,
+  String $log_local_size,
+  Integer $log_local_rotation_count,
+  String $log_repose_facility,
+  String $log_file_perm,
+  String $logging_configuration,
+  Stdlib::Port $syslog_port,
+  String $syslog_protocol,
+  Stdlib::Host $flume_host,
+  Stdlib::Port $flume_port,
   Enum['present','absent'] $ensure      = 'present',
-  $app_name                             = undef,
-  $artifact_directory_check_interval    = 60000,
-  $client_request_logging               = undef,
-  $content_body_read_limit              = undef,
-  $deployment_directory_auto_clean      = true,
-  $jmx_reset_time                       = undef,
-  $log_use_log4j2                       = false,
-  $ssl_enabled                          = false,
-  $ssl_keystore_filename                = undef,
-  $ssl_keystore_password                = undef,
-  $ssl_key_password                     = undef,
-  $ssl_include_cipher                   = undef,
-  $ssl_exclude_cipher                   = undef,
-  $ssl_include_protocol                 = undef,
-  $ssl_exclude_protocol                 = undef,
-  $ssl_tls_renegotiation                = undef,
-  $syslog_server                        = undef,
-  $via                                  = undef,
-  $via_header                           = {},
-  # BELOW ARE DEPRECATED
-  $herp                                 = false,
-  $http_port                            = undef,
-  $https_port                           = undef,
-  $connection_timeout                   = undef,
-  $read_timeout                         = undef,
-  $proxy_thread_pool                    = undef,
+  String $app_name = 'repose',
+  Boolean $log_herp_syslog = false,
+  Boolean $log_herp_flume = false,
+  Variant[String,Integer] $artifact_directory_check_interval    = 60000,
+  Optional[Variant[Integer,String]] $content_body_read_limit              = undef,
+  Variant[Enum['true','false'],Boolean] $deployment_directory_auto_clean      = true,
+  Optional[Variant[Integer,String]] $jmx_reset_time                       = undef,
+  Boolean $log_use_log4j2                       = false,
+  Boolean $ssl_enabled                          = false,
+  Optional[String] $ssl_keystore_filename                = undef,
+  Optional[String] $ssl_keystore_password                = undef,
+  Optional[String] $ssl_key_password                     = undef,
+  Optional[Array[String]] $ssl_include_cipher                   = undef,
+  Optional[Array[String]] $ssl_exclude_cipher                   = undef,
+  Optional[Array[String]] $ssl_include_protocol                 = undef,
+  Optional[Array[String]] $ssl_exclude_protocol                 = undef,
+  Optional[Variant[Enum['true','false'],Boolean]] $ssl_tls_renegotiation                = undef,
+  Optional[Stdlib::Host] $syslog_server                        = undef,
+  Hash $via_header                           = {},
 ) {
 
 ### Validate parameters
@@ -351,11 +307,6 @@ class repose::filter::container (
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
-  }
-
-## error if both via options are used which would produce an unparsable config
-  if ($via and $via_header!={}) {
-    fail("The parameters \'via\' and \'via_header\' can not be used at the same time. The paramater \'via_header\' requires Repose v8.4.10 or newer.")
   }
 
   if $log_use_log4j2 == true {
@@ -374,10 +325,6 @@ class repose::filter::container (
 ## Manage actions
 
   if $ensure == present {
-## app_name
-    if $app_name == undef {
-      fail('app_name is a required parameter')
-    }
     if $log_use_log4j2 == true {
         $log4j_content_template = template("${module_name}/log4j2.xml.erb")
     } else {

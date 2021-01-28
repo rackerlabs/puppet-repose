@@ -47,34 +47,26 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::rackspace_identity_basic_auth (
-  $ensure               = present,
-  $filename             = 'rackspace-identity-basic-auth.cfg.xml',
-  $identity_service_url = 'https://identity.api.rackspacecloud.com/v2.0/tokens',
-  $token_cache_timeout  = '600000',
-  $delegating           = false,
-  $delegating_quality   = undef,
+  Enum['present','absent'] $ensure               = present,
+  String $filename             = 'rackspace-identity-basic-auth.cfg.xml',
+  Stdlib::HTTPUrl $identity_service_url = 'https://identity.api.rackspacecloud.com/v2.0/tokens',
+  String $token_cache_timeout  = '600000',
+  Boolean $delegating           = false,
+  Optional[Variant[String,Float]] $delegating_quality   = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## auth
-    if $identity_service_url == undef {
-      fail('identity_service_url is a required parameter')
-    }
     $content_template = template("${module_name}/rackspace-identity-basic-auth.cfg.xml.erb")
   } else {
     $content_template = undef

@@ -25,16 +25,9 @@
 # [*ignore_tenant_roles*]
 # Array containing roles to exclude from restrictions
 #
-# [*delegable*]
-# DEPRECATED: Replaced with delegating in repose 7, defining
-# <tt>delegating</tt> will remove this from the configration.
-# Bool. Delegate the decision to authenticate a request down the chain to
-# either another filter or to the origin service.
-# Defaults to <tt>false</tt>
-#
 # [*delegating*]
 # Bool. This replaces delagable in repose 7+.
-# Defaults to <tt>undef</tt>
+# Defaults to <tt>false</tt>
 #
 # [*delegating_quality*]
 # Set the quality for this filter when returning error responses.
@@ -93,44 +86,35 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::client_auth_n (
-  $ensure              = present,
-  $filename            = 'client-auth-n.cfg.xml',
-  $auth                = undef,
-  $client_maps         = undef,
-  $white_lists         = undef,
-  $ignore_tenant_roles = undef,
-  $delegable           = false,
-  $delegating          = undef,
-  $delegating_quality  = undef,
-  $tenanted            = false,
-  $request_groups      = undef,
-  $token_cache_timeout = undef,
-  $group_cache_timeout = '60000',
-  $connection_pool_id  = undef,
-  $send_all_tenant_ids = undef,
-  $token_expire_feed   = undef,
+  Hash $auth,
+  Enum['present','absent'] $ensure              = present,
+  String $filename            = 'client-auth-n.cfg.xml',
+  Optional[Array] $client_maps         = undef,
+  Optional[Array] $white_lists         = undef,
+  Optional[Array] $ignore_tenant_roles = undef,
+  Variant[Boolean,Enum['true','false']] $delegating          = false,
+  Optional[Variant[String,Float]] $delegating_quality  = undef,
+  Boolean $tenanted            = false,
+  Variant[Boolean,Enum['true','false']] $request_groups      = 'true',
+  Variant[Integer,String] $token_cache_timeout = 60000,
+  Variant[Integer,String] $group_cache_timeout = 60000,
+  Optional[String] $connection_pool_id  = undef,
+  Optional[Boolean] $send_all_tenant_ids = undef,
+  Optional[Hash] $token_expire_feed   = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## auth
-    if $auth == undef {
-      fail('auth is a required parameter')
-    }
     $content_template = template("${module_name}/client-auth-n.cfg.xml.erb")
   } else {
     $content_template = undef

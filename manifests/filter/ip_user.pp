@@ -51,34 +51,26 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::ip_user (
-  $ensure        = present,
-  $filename      = 'ip-user.cfg.xml',
-  $filter_groups = undef,
-  $group_header  = undef,
-  $quality       = 0.2,
-  $user_header   = undef,
+  Array[Hash] $filter_groups,
+  Enum['present','absent'] $ensure        = present,
+  String $filename      = 'ip-user.cfg.xml',
+  Optional[String] $group_header  = undef,
+  Variant[String,Float] $quality       = 0.2,
+  Optional[String] $user_header   = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-#filter_groups
-    if $filter_groups == undef {
-      fail('filter_groups is a required parameter. see documentation for details.')
-    }
     $content_template = template("${module_name}/ip-user.cfg.xml.erb")
   } else {
     $content_template = undef

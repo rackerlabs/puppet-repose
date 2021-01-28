@@ -49,33 +49,25 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::uri_user (
-  $ensure        = present,
-  $filename      = 'uri-user.cfg.xml',
-  $mappings      = undef,
-  $group         = undef,
-  $quality       = undef,
+  Array[Hash] $mappings,
+  Enum['present','absent'] $ensure        = present,
+  String $filename      = 'uri-user.cfg.xml',
+  Optional[String] $group         = undef,
+  Optional[Variant[String,Float]] $quality       = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-##mappings
-    if $mappings == undef {
-      fail('mappings is a required parameter. see documentation for details.')
-    }
     $content_template = template("${module_name}/uri-user.cfg.xml.erb")
   } else {
     $content_template = undef

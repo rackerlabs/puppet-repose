@@ -42,30 +42,23 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::destination_router (
-  $ensure   = present,
-  $filename = 'destination-router.cfg.xml',
-  $targets  = undef,
+  Array $targets,
+  Enum['present','absent'] $ensure   = present,
+  String $filename = 'destination-router.cfg.xml',
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-    if $targets == undef {
-      fail('targets is a required parameter')
-    }
     $content_template = template("${module_name}/destination-router.cfg.xml.erb")
   } else {
     $content_template = undef

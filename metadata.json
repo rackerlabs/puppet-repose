@@ -1,7 +1,7 @@
 {
   "name": "puppet-repose",
   "version": "0.1.0",
-  "author": "Cory Ringdahl @ Rackspace",
+  "author": "Josh Bell & Cory Ringdahl @ Rackspace",
   "summary": "Puppet module for Repose",
   "license": "Apache-2.0",
   "source": "TBD",
@@ -19,7 +19,8 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7","8"
+        "7",
+        "8"
       ]
     }
   ],
@@ -29,7 +30,7 @@
       "version_requirement": ">= 4.10.0 < 7.0.0"
     }
   ],
-  "pdk-version": "1.16.0",
-  "template-url": "pdk-default#1.16.0",
+  "pdk-version": "1.17.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#1.16.0",
   "template-ref": "tags/1.16.0-0-gaf44904"
 }

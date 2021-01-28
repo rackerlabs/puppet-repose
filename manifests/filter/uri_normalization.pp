@@ -69,22 +69,18 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::uri_normalization (
-  $ensure      = present,
-  $filename    = 'uri-normalization.cfg.xml',
-  $uri_filters = undef,
-  $media_types = undef,
+  Enum['present','absent'] $ensure      = present,
+  String $filename    = 'uri-normalization.cfg.xml',
+  Optional[Array[Hash]] $uri_filters = undef,
+  Optional[Array] $media_types = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")

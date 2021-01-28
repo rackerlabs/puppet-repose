@@ -74,36 +74,29 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::api_validator (
-  $ensure             = present,
-  $filename           = 'validator.cfg.xml',
-  $app_name           = 'repose',
-  $validators         = undef,
-  $multi_role_match   = false,
-  $version            = undef,
-  $delegating         = false,
-  $delegating_quality = undef,
+  Array $validators,
+  Enum['present','absent'] $ensure             = present,
+  String $filename           = 'validator.cfg.xml',
+  String $app_name           = 'repose',
+  Boolean $multi_role_match   = false,
+  Boolean $delegating         = false,
+  Optional[Variant[String,Integer,Float]] $version           = undef,
+  Optional[Variant[String,Float]] $delegating_quality = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
+
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## validators
-    if $validators == undef {
-      fail('validators is a required list')
-    }
     $content_template = template("${module_name}/validator.cfg.xml.erb")
   } else {
     $content_template = undef

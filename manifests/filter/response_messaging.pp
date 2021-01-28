@@ -47,32 +47,24 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::response_messaging (
-  $ensure           = present,
-  $filename         = 'response-messaging.cfg.xml',
-  $app_name         = 'repose',
-  $status_codes     = undef,
+  Array[Hash] $status_codes,
+  Enum['present','absent'] $ensure           = present,
+  String $filename         = 'response-messaging.cfg.xml',
+  String $app_name         = 'repose',
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## validators
-    if $status_codes == undef {
-      fail('status_codes is a required list')
-    }
     $content_template = template("${module_name}/response-messaging.cfg.xml.erb")
   } else {
     $content_template = undef

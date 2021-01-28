@@ -52,11 +52,11 @@
     <%= @template %>
 <%- end -%>
     </template>
-<%- @filterOut.each do |filter| -%>
-    <filterOut>
+<%- @filter_out.each do |filter| -%>
+    <filter_out>
   <%- filter['match'].each do |match| -%>
       <match field="<%= match['field'] %>" regex="<%= match['regex'] %>"/>
   <%- end -%>
-    </filterOut>
+    </filter_out>
 <%- end -%>
 </highly-efficient-record-processor>

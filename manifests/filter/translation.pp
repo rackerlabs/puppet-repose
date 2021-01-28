@@ -42,24 +42,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::translation (
-  $ensure                = present,
-  $filename              = 'translation.cfg.xml',
-  $app_name              = 'repose',
-  $request_translations  = undef,
-  $response_translations = undef,
-  $xsl_engine            = 'SaxonHE'
+  Enum['present','absent'] $ensure                = present,
+  String $filename              = 'translation.cfg.xml',
+  String $app_name              = 'repose',
+  Optional[Array] $request_translations  = undef,
+  Optional[Array] $response_translations = undef,
+  String $xsl_engine            = 'SaxonHE'
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")

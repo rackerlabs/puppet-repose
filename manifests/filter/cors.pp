@@ -51,32 +51,25 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::cors (
-  $ensure          = present,
-  $filename        = 'cors.cfg.xml',
-  $allowed_origins = [{ 'is_regex' => 'true', 'origin' => '.*' }],
-  $allowed_methods = undef, 
-  $resources       = undef,
+  Enum['present','absent'] $ensure          = present,
+  String $filename        = 'cors.cfg.xml',
+  Array[Hash] $allowed_origins = [{ 'is_regex' => 'true', 'origin' => '.*' }],
+  Optional[Array] $allowed_methods = undef,
+  Optional[Array[Hash]] $resources       = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-    if $allowed_origins == undef {
-      fail('allowed_origins is a required parameters. see documentation for details.')
-    }
     $content_template = template("${module_name}/cors.cfg.xml.erb")
   } else {
     $content_template = undef

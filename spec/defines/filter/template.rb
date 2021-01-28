@@ -13,14 +13,15 @@ describe 'repose::filter::CHANGEME', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'filename'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :filename   => 'CHANGEME.cfg.xml',
         } }
         it {
           should contain_file('/etc/repose/CHANGEME.cfg.xml').with_ensure(

@@ -13,14 +13,15 @@ describe 'repose::filter::versioning', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /target_uri is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'target_uri'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :target_uri       => 'http://localhost/repose',
         } }
         it {
           should contain_file('/etc/repose/versioning.cfg.xml').with_ensure(

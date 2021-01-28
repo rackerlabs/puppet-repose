@@ -13,14 +13,15 @@ describe 'repose::filter::keystone_v2', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /uri is a required parameter/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'uri'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :uri      => 'http://uri',
         } }
         it {
           should contain_file('/etc/repose/keystone-v2.cfg.xml').with_ensure(
@@ -112,8 +113,8 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure     => 'present',
             :filename   => 'keystone-v2.cfg.xml',
             :uri        => 'http://uri',
-            :delegating          => 'true',
-            :delegating_quality  => '0.9'
+            :delegating          => true,
+            :delegating_quality  => 0.9
         } }
         it {
           should contain_file('/etc/repose/keystone-v2.cfg.xml').with(
@@ -132,7 +133,7 @@ describe 'repose::filter::keystone_v2', :type => :define do
             :ensure      => 'present',
             :filename    => 'keystone-v2.cfg.xml',
             :uri         => 'http://uri',
-            :delegating  => 'true'
+            :delegating  => true
         } }
         it {
           should contain_file('/etc/repose/keystone-v2.cfg.xml').with(

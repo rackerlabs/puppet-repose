@@ -12,14 +12,15 @@ describe 'repose::filter::metrics', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /graphite_servers is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'graphite_servers'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :graphite_servers => [ {} ],
         } }
         it {
           should contain_file('/etc/repose/metrics.cfg.xml').with_ensure(

@@ -9,7 +9,6 @@ describe 'repose::filter::keystone_v2_basic_auth', :type => :define do
         os_facts
       end
 
-
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
@@ -92,7 +91,7 @@ describe 'repose::filter::keystone_v2_basic_auth', :type => :define do
             :secret_type         => 'banana'
         } }
         it {
-          should raise_error(Puppet::Error, /secret_type must have a value of api-key or password/)
+          should raise_error(Puppet::Error, /'secret_type' expects a match for Enum\['api-key', 'password'\], got 'banana'/)
         }
       end
 

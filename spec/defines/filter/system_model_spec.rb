@@ -13,7 +13,7 @@ describe 'repose::filter::system_model', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /nodes is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'nodes'/)
         }
       end
 
@@ -23,7 +23,7 @@ describe 'repose::filter::system_model', :type => :define do
           :app_name => 'repose'
         } }
         it {
-          should raise_error(Puppet::Error, /nodes is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'nodes'/)
         }
       end
 
@@ -34,7 +34,7 @@ describe 'repose::filter::system_model', :type => :define do
           :nodes    => ['app1', 'app2' ],
         } }
         it {
-          should raise_error(Puppet::Error, /filters is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'filters'/)
         }
       end
 
@@ -57,7 +57,7 @@ describe 'repose::filter::system_model', :type => :define do
           }
         } }
         it {
-          should raise_error(Puppet::Error, /endpoints is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'endpoints'/)
         }
       end
 

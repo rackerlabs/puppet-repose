@@ -13,14 +13,15 @@ describe 'repose::filter::ip_user', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error,/filter_groups is a required parameter/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'filter_groups'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :filter_groups => [ {} ],
         } }
         it {
           should contain_file('/etc/repose/ip-user.cfg.xml').with_ensure(

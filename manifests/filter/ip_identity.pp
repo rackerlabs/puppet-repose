@@ -42,32 +42,24 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::ip_identity (
-  $ensure    = present,
-  $filename  = 'ip-identity.cfg.xml',
-  $quality   = 0.2,
-  $whitelist = undef,
+  Hash $whitelist,
+  Enum['present','absent'] $ensure    = present,
+  String $filename  = 'ip-identity.cfg.xml',
+  Variant[String,Float] $quality   = 0.2,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-##whitelist
-    if $whitelist == undef {
-      fail('whitelist is a required parameters. see documentation for details.')
-    }
     $content_template = template("${module_name}/ip-identity.cfg.xml.erb")
   } else {
     $content_template = undef

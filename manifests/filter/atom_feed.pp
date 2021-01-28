@@ -59,34 +59,26 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 define repose::filter::atom_feed (
-  $feed_id = $title,
-  $feed_uri = undef,
-  $connection_pool_id = undef,
-  $entry_order = undef,
-  $auth_uri = undef,
-  $auth_username = undef,
-  $auth_password = undef,
-  $auth_timeout = undef,
-  $configdir = $repose::configdir,
+  String $feed_uri,
+  String $feed_id = $title,
+  Optional[String] $connection_pool_id = undef,
+  Enum['read','reverse-read'] $entry_order = 'read',
+  Optional[String] $auth_uri = undef,
+  Optional[String] $auth_username = undef,
+  Optional[String] $auth_password = undef,
+  Optional[Variant[Integer,String]] $auth_timeout = undef,
+  String $configdir = $repose::configdir,
 ) {
 
-  if $feed_uri == undef {
-    fail("feed_uri is required")
-  }
-
-  if ($entry_order != undef) and ! ($entry_order in [ read, reverse-read ]) {
-    fail("\"${entry_order}\" is not a valid entry_order parameter value")
-  }
-
   if (($auth_uri != undef) or ($auth_username != undef) or ($auth_password != undef)) and
-     (($auth_uri == undef) or ($auth_username == undef) or ($auth_password == undef)) {
-    fail("If used auth_uri, auth_username, and auth_password are all required")
+    (($auth_uri == undef) or ($auth_username == undef) or ($auth_password == undef)) {
+    fail('If one of auth_uri, auth_username, or auth_password are used, all are required')
   }
 
-  concat::fragment { "feed-$title":
+  concat::fragment { "feed-${title}":
     target => "${configdir}/atom-feed-service.cfg.xml",
     source => "puppet:///modules/${module_name}/atom-feed-fragment",
-    order   => '50',
+    order  => '50',
   }
 
 }

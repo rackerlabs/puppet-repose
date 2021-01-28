@@ -44,7 +44,7 @@
 #   a CADF formated event is used.
 #   Defaults to <tt>undef</tt>.
 #
-# [*filterOut*]
+# [*filter_out*]
 #   Array of hashes. Contains the set of criteria applied to the events to
 #   determine if an event is sent through to the named post filter logger.
 #   See example for format.
@@ -61,7 +61,7 @@
 #   region         => 'US',
 #   datacenter     => 'ORD',
 #   template_crush => true,
-#   filterOut      => [
+#   filter_out      => [
 #     {
 #       'match'     => [
 #         { 'field' => 'userName', regex => '.*[fF]oo.*' },
@@ -82,28 +82,24 @@
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 #
 define repose::filter::highly_efficient_record_processor (
-  $ensure                  = present,
-  $filename                = 'highly-efficient-record-processor.cfg.xml',
-  $pre_filter_logger_name  = 'org.openrepose.herp.pre.filter',
-  $post_filter_logger_name = 'org.openrepose.herp.post.filter',
-  $service_code            = 'repose',
-  $region                  = 'US',
-  $datacenter              = 'DFW',
-  $template_crush          = false,
-  $template                = undef,
-  $filterOut               = [ ],
+  Enum['present','absent'] $ensure                  = present,
+  String $filename                = 'highly-efficient-record-processor.cfg.xml',
+  String $pre_filter_logger_name  = 'org.openrepose.herp.pre.filter',
+  String $post_filter_logger_name = 'org.openrepose.herp.post.filter',
+  String $service_code            = 'repose',
+  String $region                  = 'US',
+  String $datacenter              = 'DFW',
+  Boolean $template_crush          = false,
+  Optional[String] $template                = undef,
+  Array[Hash] $filter_out               = [ ],
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")

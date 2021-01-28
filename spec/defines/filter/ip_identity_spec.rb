@@ -13,14 +13,15 @@ describe 'repose::filter::ip_identity', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error,/whitelist is a required parameter/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'whitelist'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :whitelist => { }
         } }
         it {
           should contain_file('/etc/repose/ip-identity.cfg.xml').with_ensure(

@@ -40,29 +40,23 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::header_user (
-  $ensure         = present,
-  $filename       = 'header-user.cfg.xml',
-  $source_headers = [],
+  Enum['present','absent'] $ensure         = present,
+  String $filename       = 'header-user.cfg.xml',
+  Array[Hash] $source_headers = [],
 ) {
 
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-    validate_array($source_headers)
-
     $content_template = template("${module_name}/header-user.cfg.xml.erb")
   } else {
     $content_template = undef

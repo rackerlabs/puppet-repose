@@ -13,14 +13,15 @@ describe 'repose::filter::dist_datastore', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error,/nodes is a required parameter/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'nodes'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :nodes              => [ 'test.example.com', ]
         } }
         it {
           should contain_file('/etc/repose/dist-datastore.cfg.xml').with_ensure(

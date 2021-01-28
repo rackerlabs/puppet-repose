@@ -56,29 +56,25 @@
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 #
 define repose::filter::add_header (
-  $ensure           = present,
-  $filename         = 'add-header.cfg.xml',
-  $request_headers  = [ ],
-  $response_headers = [ ],
+  Enum['present','absent'] $ensure           = present,
+  String $filename         = 'add-header.cfg.xml',
+  Array $request_headers  = [ ],
+  Array $response_headers = [ ],
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
+
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## validators
     $content_template = template("${module_name}/add-header.cfg.xml.erb")
   } else {
     $content_template = undef

@@ -12,14 +12,15 @@ describe 'repose::filter::destination_router', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /targets is a required parameter/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'targets'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :targets => [],
         } }
         it {
           should contain_file('/etc/repose/destination-router.cfg.xml').with_ensure(

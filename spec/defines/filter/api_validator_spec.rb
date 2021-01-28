@@ -12,14 +12,15 @@ describe 'repose::filter::api_validator', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error,/validators is a required list/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'validators/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :validators => [ {} ],
         } }
         it {
           should contain_file('/etc/repose/validator.cfg.xml').with_ensure(

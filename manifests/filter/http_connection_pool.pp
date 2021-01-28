@@ -138,45 +138,35 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::filter::http_connection_pool (
-  $ensure                               = present,
-  $filename                             = 'http-connection-pool.cfg.xml',
-  $default_is_default                   = true,
-  $default_conn_manager_max_total       = 200,
-  $default_conn_manager_max_per_route   = 20,
-  $default_socket_timeout               = 30000,
-  $default_socket_buffer_size           = 8192,
-  $default_conn_timeout                 = 30000,
-  $default_conn_max_line_length         = 8192,
-  $default_conn_max_header_count        = 100,
-  $default_conn_max_status_line_garbage = 100,
-  $default_tcp_nodelay                  = true,
-  $default_keepalive_timeout            = 0,
-  $additional_pools                     = undef,
-  $repose9                              = false,
+  Enum['present','absent'] $ensure                               = present,
+  String $filename                             = 'http-connection-pool.cfg.xml',
+  Boolean $default_is_default                   = true,
+  Integer $default_conn_manager_max_total       = 200,
+  Integer $default_conn_manager_max_per_route   = 20,
+  Integer $default_socket_timeout               = 30000,
+  Integer $default_socket_buffer_size           = 8192,
+  Integer $default_conn_timeout                 = 30000,
+  Integer $default_conn_max_line_length         = 8192,
+  Integer $default_conn_max_header_count        = 100,
+  Integer $default_conn_max_status_line_garbage = 100,
+  Boolean $default_tcp_nodelay                  = true,
+  Integer $default_keepalive_timeout            = 0,
+  Optional[Array[Hash]] $additional_pools = undef,
+  Boolean $repose9                              = false,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## validate input
-    validate_bool($default_is_default)
-    validate_bool($default_tcp_nodelay)
-    if ($additional_pools != undef) {
-      validate_array($additional_pools)
-    }
     $content_template = template("${module_name}/http-connection-pool.cfg.xml.erb")
   } else {
     $content_template = undef

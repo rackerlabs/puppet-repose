@@ -13,7 +13,7 @@ describe 'repose::filter::atom_feed', :type => :define do
       context 'default parameters' do
         let(:title) { 'some_feed' }
         it {
-          should raise_error(Puppet::Error, /feed_uri is required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'feed_uri'/)
         }
       end
 
@@ -24,7 +24,7 @@ describe 'repose::filter::atom_feed', :type => :define do
             :entry_order => 'banana'
         } }
         it {
-          should raise_error(Puppet::Error, /"banana" is not a valid entry_order parameter value/)
+          should raise_error(Puppet::Error, /expects a match for Enum\['read', 'reverse-read'\], got 'banana'/)
         }
       end
 
@@ -35,7 +35,7 @@ describe 'repose::filter::atom_feed', :type => :define do
             :auth_username => 'banana'
         } }
         it {
-          should raise_error(Puppet::Error, /If used auth_uri, auth_username, and auth_password are all required/)
+          should raise_error(Puppet::Error, /If one of auth_uri, auth_username, or auth_password are used, all are required/)
         }
       end
 

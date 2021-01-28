@@ -13,14 +13,15 @@ describe 'repose::filter::uri_user', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error,/mappings is a required parameter/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'mappings'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :mappings      => [ { } ],
         } }
         it {
           should contain_file('/etc/repose/uri-user.cfg.xml').with_ensure(

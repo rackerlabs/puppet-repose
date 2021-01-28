@@ -58,41 +58,28 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::keystone_v2_basic_auth (
-  $ensure               = present,
-  $filename             = 'keystone-v2-basic-auth.cfg.xml',
-  $identity_service_url = undef,
-  $token_cache_timeout  = undef,
-  $connection_pool_id   = undef,
-  $secret_type          = undef,
-  $delegating           = undef,
-  $delegating_quality   = undef,
+  Enum['present','absent'] $ensure               = present,
+  String $filename             = 'keystone-v2-basic-auth.cfg.xml',
+  Optional[Stdlib::HTTPUrl] $identity_service_url = undef,
+  Optional[Variant[String,Integer]] $token_cache_timeout  = undef,
+  Optional[String] $connection_pool_id   = undef,
+  Enum['api-key','password'] $secret_type          = 'api-key',
+  Optional[Variant[Enum['true','false'],Boolean]] $delegating           = undef,
+  Optional[Variant[String,Float]] $delegating_quality   = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## auth
-    if $identity_service_url == undef {
-      fail('identity_service_url is a required parameter')
-    }
-
-    if ($secret_type != undef) and (! ($secret_type in [api-key, password])) {
-      fail('secret_type must have a value of api-key or password')
-    }
-
     $content_template = template("${module_name}/keystone-v2-basic-auth.cfg.xml.erb")
   } else {
     $content_template = undef

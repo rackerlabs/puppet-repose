@@ -54,32 +54,24 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::http_logging (
-  $ensure    = present,
-  $filename  = 'http-logging.cfg.xml',
-  $log_files = undef,
+  Array $log_files,
+  Enum['present','absent'] $ensure    = present,
+  String $filename  = 'http-logging.cfg.xml',
 ) {
   warning('repose::filter::http_logging has been deprecated')
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## log_files
-    if $log_files == undef {
-      fail('log_files is a required parameter. see documentation for details.')
-    }
     $content_template = template("${module_name}/http-logging.cfg.xml.erb")
   } else {
     $content_template = undef

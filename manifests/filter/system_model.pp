@@ -127,55 +127,31 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::system_model (
-  $ensure              = present,
-  $filename            = 'system-model.cfg.xml',
-  $app_name            = 'repose',
-  $nodes               = undef,
-  $filters             = undef,
-  $services            = undef,
-  $endpoints           = undef,
-  $port                = $repose::port,
-  $https_port          = undef,
-  $repose9             = false,
-  $rewrite_host_header = undef,
-  $service_cluster     = undef,
-  $tracing_header      = {},
-  $encoded_headers     = [],
+  Array[String] $nodes,
+  Hash $filters,
+  Array[Hash] $endpoints,
+  Enum['present','absent'] $ensure              = present,
+  String $filename            = 'system-model.cfg.xml',
+  String $app_name            = 'repose',
+  Optional[Hash[Integer,Hash]] $services            = undef,
+  Variant[Integer,String,Boolean] $port                = $repose::port,
+  Optional[Variant[String,Stdlib::Port]] $https_port          = undef,
+  Variant[String,Boolean] $repose9             = false,
+  Optional[String] $rewrite_host_header = undef,
+  Optional[String] $service_cluster     = undef,
+  Hash $tracing_header      = {},
+  Array $encoded_headers     = [],
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
-  }
-
-## app_name
-  if $app_name == undef {
-    fail('app_name is a required parameter')
-  }
-
-## nodes
-  if $nodes == undef {
-    fail('nodes is a required parameter')
-  }
-
-## filters
-  if $filters == undef {
-    fail('filters is a required parameter. see documentation for details.')
-  }
-
-## endpoints
-  if $endpoints == undef {
-    fail('endpoints is a required parameter. see documentation for details.')
   }
 
 ## Manage actions

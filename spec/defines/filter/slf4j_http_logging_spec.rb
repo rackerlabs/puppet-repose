@@ -13,14 +13,15 @@ describe 'repose::filter::slf4j_http_logging', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /log_files is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'log_files'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :log_files  => [ {} ],
         } }
         it {
           should contain_file('/etc/repose/slf4j-http-logging.cfg.xml').with_ensure(

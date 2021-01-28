@@ -135,63 +135,54 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 define repose::filter::keystone_v2 (
-  $ensure                  = present,
-  $filename                = 'keystone-v2.cfg.xml',
-  $uri                     = undef,
-  $connection_pool_id      = undef,
-  $send_roles              = undef,
-  $send_groups             = undef,
-  $send_catalog            = undef,
-  $apply_rcn_roles         = undef,
-  $delegating              = undef,
-  $delegating_quality      = undef,
-  $white_lists             = undef,
-  $cache_variability        = undef,
-  $token_cache_timeout     = undef,
-  $group_cache_timeout     = undef,
-  $endpoints_cache_timeout = undef,
-  $atom_feed_id            = undef,
-  $send_all_tenant_ids     = undef,
-  $tenant_regexs           = undef,
-  $legacy_roles_mode       = undef,
-  $send_tenant_quality     = undef,
-  $default_tenant_quality  = undef,
-  $uri_tenant_quality      = undef,
-  $roles_tenant_quality    = undef,
-  $endpoint_url            = undef,
-  $endpoint_region         = undef,
-  $endpoint_name           = undef,
-  $endpoint_type           = undef,
-  $pre_authorized_roles    = undef,
+  String $uri,
+  Enum['present','absent'] $ensure                  = present,
+  Optional[String] $filename                = 'keystone-v2.cfg.xml',
+  Optional[String] $connection_pool_id      = undef,
+  Optional[String] $send_roles              = undef,
+  Optional[String] $send_groups             = undef,
+  Optional[String] $send_catalog            = undef,
+  Optional[String] $apply_rcn_roles         = undef,
+  Optional[Boolean] $delegating              = undef,
+  Optional[Float] $delegating_quality      = undef,
+  Optional[Array] $white_lists             = undef,
+  Optional[String] $cache_variability        = undef,
+  Optional[String] $token_cache_timeout     = undef,
+  Optional[String] $group_cache_timeout     = undef,
+  Optional[String] $endpoints_cache_timeout = undef,
+  Optional[String] $atom_feed_id            = undef,
+  Optional[Boolean] $send_all_tenant_ids     = undef,
+  Optional[Array[String]] $tenant_regexs           = undef,
+  Optional[Boolean] $legacy_roles_mode       = undef,
+  Optional[Boolean] $send_tenant_quality     = undef,
+  Optional[Variant[Float,String]] $default_tenant_quality  = undef,
+  Optional[Variant[Float,String]] $uri_tenant_quality      = undef,
+  Optional[Variant[Float,String]] $roles_tenant_quality    = undef,
+  Optional[Stdlib::HTTPUrl] $endpoint_url            = undef,
+  Optional[String] $endpoint_region         = undef,
+  Optional[String] $endpoint_name           = undef,
+  Optional[String] $endpoint_type           = undef,
+  Optional[Array] $pre_authorized_roles    = undef,
 ) {
 
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-    ## uri
-    if $uri == undef {
-      fail('uri is a required parameter')
-    }
-
     if ($send_tenant_quality == false) and (($default_tenant_quality != undef) or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef)) {
       fail("setting tenant quality levels doesn't work when tenant qualities is turned off")
     }
 
     if (($endpoint_name != undef) or ($endpoint_region != undef) or ($endpoint_type != undef)) and ($endpoint_url == undef) {
-      fail("endpoint_url is required when doing endpoint catalog checks")
+      fail('endpoint_url is required when doing endpoint catalog checks')
     }
 
     $content_template = template("${module_name}/keystone-v2.cfg.xml.erb")

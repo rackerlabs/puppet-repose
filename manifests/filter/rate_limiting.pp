@@ -82,40 +82,27 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::rate_limiting (
-  $ensure             = present,
-  $filename           = 'rate-limiting.cfg.xml',
-  $datastore          = undef,
-  $overlimit_429      = undef,
-  $use_capture_groups = true,
-  $request_endpoint   = undef,
-  $limit_groups       = undef,
+  Hash $request_endpoint,
+  Array[Hash] $limit_groups,
+  Enum['present','absent'] $ensure             = present,
+  String $filename           = 'rate-limiting.cfg.xml',
+  Optional[String] $datastore          = undef,
+  Optional[Variant[String,Boolean]] $overlimit_429      = undef,
+  Boolean $use_capture_groups = true,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
-## request_endpoint
-    if $request_endpoint == undef {
-      fail('request_endpoint is a required parameter. see documentation for details.')
-    }
-
-## limit_groups
-    if $limit_groups == undef {
-      fail('limit_groups is a required parameter. see documentation for details.')
-    }
     $content_template = template("${module_name}/rate-limiting.cfg.xml.erb")
   } else {
     $content_template = undef

@@ -19,7 +19,8 @@ describe 'repose::filter::open_tracing', :type => :define do
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :http_connection_endpoint => 'http://localhost'
         } }
         it {
           should contain_file('/etc/repose/open-tracing.cfg.xml').with_ensure(
@@ -320,7 +321,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           :service_name => 'test-repose',
           :http_connection_token    => 'mytoken',
           :http_connection_endpoint => 'http://example.com/api/traces',
-          :rate_limiting_max_traces_per_second => '5.6'
+          :rate_limiting_max_traces_per_second => 5.6
         } }
         it {
           should contain_file('/etc/repose/open-tracing.cfg.xml').with(
@@ -350,7 +351,7 @@ describe 'repose::filter::open_tracing', :type => :define do
           :service_name => 'test-repose',
           :http_connection_token    => 'mytoken',
           :http_connection_endpoint => 'http://example.com/api/traces',
-          :probability => '1.0'
+          :probability => 1.0
         } }
         it {
           should contain_file('/etc/repose/open-tracing.cfg.xml').with(
@@ -374,76 +375,16 @@ describe 'repose::filter::open_tracing', :type => :define do
       end
 
       context 'validate entries' do
-        context 'validate connection_endpoint' do
-          let(:title) { 'validate_connection_endpoint' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :http_connection_endpoint => 'random'
-          } }
-          it {
-            should raise_error(Puppet::Error, /Must provide valid http:\/\/ endpoint for http_connection_endpoint/)
-          }
-        end
-
-        context 'validate connection_username' do
-          let(:title) { 'validate_connection_username' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :http_connection_endpoint => 'http://localhost/api/traces',
-            :http_connection_username => true,
-            :http_connection_password => 'reposepass',
-            :constant_toggle => 'off'
-          } }
-          it {
-            should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
-          }
-        end
-
-        context 'validate connection_password' do
-          let(:title) { 'validate_connection_password' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :http_connection_endpoint => 'http://localhost/api/traces',
-            :http_connection_username => 'test',
-            :http_connection_password => true,
-            :constant_toggle => 'off'
-          } }
-          it {
-            should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
-          }
-        end
-
-        context 'validate connection_token' do
-          let(:title) { 'validate_connection_token' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :http_connection_endpoint => 'http://localhost/api/traces',
-            :http_connection_token => true,
-            :constant_toggle => 'off'
-          } }
-          it {
-            should raise_error(Puppet::Error, /true is not a string.  It looks to be a TrueClass/)
-          }
-        end
 
         context 'validate connection_host only' do
           let(:title) { 'validate_connection_host_only' }
-    
           let(:params) { {
             :ensure     => 'present',
             :service_name => 'test-repose',
             :udp_connection_host => 'localhost'
           } }
           it {
-            should raise_error(Puppet::Error, /either udp or http connection parameters must be defined/)
+            should raise_error(Puppet::Error, /udp host and udp port must both be defined/)
           }
         end
 
@@ -456,79 +397,11 @@ describe 'repose::filter::open_tracing', :type => :define do
             :udp_connection_port => 5755
           } }
           it {
-            should raise_error(Puppet::Error, /either udp or http connection parameters must be defined/)
+            should raise_error(Puppet::Error, /udp host and udp port must both be defined/)
           }
         end
 
-        context 'validate connection_host invalid' do
-          let(:title) { 'validate_connection_host_invalid' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :udp_connection_port => 5775,
-            :udp_connection_host => 'this~is{bad'
-          } }
-          it {
-            should raise_error(Puppet::Error, /Must provide valid host for udp_connection_host/)
-          }
-        end
 
-        context 'validate connection_host invalid ipv4 - validates on hostname' do
-          let(:title) { 'validate_connection_host_ipv4_validates_on_hostname' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :udp_connection_port => 5775,
-            :udp_connection_host => '127.0.0',
-            :constant_toggle => 'off'
-          } }
-          it {
-            should contain_file('/etc/repose/open-tracing.cfg.xml').with(
-              'ensure' => 'file',
-              'owner'  => 'repose',
-              'group'  => 'repose',
-              'mode'   => '0660')
-          }
-          it {
-            should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-udp port=\"5775\" host=\"127.0.0\"/)
-          }
-          it {
-            should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/service-name=\"test-repose\"/)
-          }
-          it {
-            should contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/<sampling-constant toggle=\"off\"/)
-          }
-        end
-
-        context 'validate connection_host invalid ipv6' do
-          let(:title) { 'validate_connection_host_ipv6' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :udp_connection_port => 5775,
-            :udp_connection_host => '2001:0db8:85a3:0000:0000:8a2e:x:5'
-          } }
-          it {
-            should raise_error(Puppet::Error, /Must provide valid host for udp_connection_host/)
-          }
-        end
-
-        context 'validate connection_port' do
-          let(:title) { 'validate_connection_port' }
-    
-          let(:params) { {
-            :ensure     => 'present',
-            :service_name => 'test-repose',
-            :udp_connection_host => 'localhost',
-            :udp_connection_port => 'localhost'
-          } }
-          it {
-            should raise_error(Puppet::Error, /connection_port must be an integer/)
-          }
-        end
 
         context 'validate constant_toggle' do
           let(:title) { 'validate_constant_toggle' }
@@ -540,7 +413,7 @@ describe 'repose::filter::open_tracing', :type => :define do
             :constant_toggle => 'random'
           } }
           it {
-            should raise_error(Puppet::Error, /constant_toggle must be set to on or off/)
+            should raise_error(Puppet::Error, /'constant_toggle' expects an undef value or a match for Enum\['off', 'on'\], got 'random'/)
           }
         end
 
@@ -554,7 +427,7 @@ describe 'repose::filter::open_tracing', :type => :define do
             :rate_limiting_max_traces_per_second => 'random'
           } }
           it {
-            should raise_error(Puppet::Error, /max_traces_per_second must be an float/)
+            should raise_error(Puppet::Error, /'rate_limiting_max_traces_per_second' expects a value of type Undef or Float, got String/)
           }
         end
 
@@ -568,7 +441,7 @@ describe 'repose::filter::open_tracing', :type => :define do
             :probability => 'random'
           } }
           it {
-            should raise_error(Puppet::Error, /probability must be an float/)
+            should raise_error(Puppet::Error, /'probability' expects a value of type Undef or Float, got String/)
           }
         end
       end

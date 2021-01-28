@@ -12,7 +12,7 @@ describe 'repose::filter::rate_limiting', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /request_endpoint is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'request_endpoint'/)
         }
       end
 
@@ -25,7 +25,7 @@ describe 'repose::filter::rate_limiting', :type => :define do
           }
         } }
         it {
-          should raise_error(Puppet::Error, /limit_groups is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'limit_groups'/)
         }
       end
 
@@ -47,14 +47,16 @@ describe 'repose::filter::rate_limiting', :type => :define do
           } ]
         } }
         it {
-          should raise_error(Puppet::Error, /request_endpoint is a required/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'request_endpoint'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :request_endpoint => {},
+          :limit_groups => [ {} ],
         } }
         it {
           should contain_file('/etc/repose/rate-limiting.cfg.xml').with_ensure(

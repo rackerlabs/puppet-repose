@@ -13,14 +13,15 @@ describe 'repose::filter::client_auth_n', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /auth is a required parameter/)
+          should raise_error(Puppet::Error, /expects a value for parameter 'auth'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :auth       => {},
         } }
         it {
           should contain_file('/etc/repose/client-auth-n.cfg.xml').with_ensure(
@@ -48,12 +49,11 @@ describe 'repose::filter::client_auth_n', :type => :define do
         it { should contain_file('/etc/repose/client-auth-n.cfg.xml'). 
             with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
             with_content(/client-mapping id-regex=\"testing\"/).
-            with_content(/delegable=\"false\"/).
             without_content(/delegating/).
             with_content(/tenanted=\"false\"/).
             with_content(/group-cache-timeout=\"60000\"/).
             without_content(/connectionPoolId/).
-            without_content(/token-cache-timeout/) }
+            with_content(/token-cache-timeout/) }
       end
 
       context 'providing token_cache_timeout' do
@@ -187,12 +187,11 @@ describe 'repose::filter::client_auth_n', :type => :define do
         it { should contain_file('/etc/repose/client-auth-n.cfg.xml'). 
             with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
             with_content(/client-mapping id-regex=\"testing\"/).
-            without_content(/delegable=/).
             with_content(/delegating quality="0.9"/).
             with_content(/tenanted=\"false\"/).
             with_content(/group-cache-timeout=\"60000\"/).
             without_content(/connectionPoolId/).
-            without_content(/token-cache-timeout/) }
+            with_content(/token-cache-timeout/) }
       end
 
       context 'providing delegating with no quality for repose 7+' do
@@ -216,12 +215,11 @@ describe 'repose::filter::client_auth_n', :type => :define do
         it { should contain_file('/etc/repose/client-auth-n.cfg.xml'). 
                     with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/).
                     with_content(/client-mapping id-regex=\"testing\"/).
-                    without_content(/delegable=/).
                     with_content(/delegating\/>/).
                     with_content(/tenanted=\"false\"/).
                     with_content(/group-cache-timeout=\"60000\"/).
                     without_content(/connectionPoolId/).
-                    without_content(/token-cache-timeout/) }
+                    with_content(/token-cache-timeout/) }
       end
 
       context 'providing token_expire_feed with use_auth=true' do

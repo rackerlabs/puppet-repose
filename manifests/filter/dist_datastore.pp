@@ -54,24 +54,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::dist_datastore (
-  $allow_all           = false,
-  $connection_pool_id  = undef,
-  $ensure              = present,
-  $filename            = 'dist-datastore.cfg.xml',
-  $nodes               = undef,
-  $port_config         = undef,
+  Array $nodes,
+  Boolean $allow_all           = false,
+  Optional[String] $connection_pool_id  = undef,
+  Enum['present','absent'] $ensure              = present,
+  String $filename            = 'dist-datastore.cfg.xml',
+  Optional[Array] $port_config         = undef,
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    present => file,
+    absent  => absent,
   }
   if $::debug {
     debug("\$ensure = '${ensure}'")
@@ -79,9 +75,6 @@ define repose::filter::dist_datastore (
 
 ## nodes only required if ensure is present
   if $ensure == present {
-    if $nodes == undef {
-      fail('nodes is a required parameter')
-    }
     $content_template = template("${module_name}/dist-datastore.cfg.xml.erb")
   } else {
     # ensure is absent so no need to us a template

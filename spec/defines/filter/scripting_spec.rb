@@ -12,7 +12,8 @@ describe 'repose::filter::scripting', :type => :define do
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error,/script_lang is a required parameter/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'script_lang'/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'mod_script'/)
         }
       end
 
@@ -22,14 +23,16 @@ describe 'repose::filter::scripting', :type => :define do
           :script_lang => 'groovy'
         } }
         it {
-          should raise_error(Puppet::Error,/mod_script is a required parameter/)
+          should raise_error(Puppet::Error,/expects a value for parameter 'mod_script'/)
         }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
         let(:params) { {
-          :ensure => 'absent'
+          :ensure => 'absent',
+          :mod_script => 'script.groovy',
+          :script_lang => 'groovy',
         } }
         it {
           should contain_file('/etc/repose/scripting.cfg.xml').with_ensure(

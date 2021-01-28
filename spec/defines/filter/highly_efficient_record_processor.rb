@@ -35,10 +35,10 @@ describe 'repose::filter::highly_efficient_record_processor', :type => :define d
         }
       end
 
-      context 'with filterOut' do
+      context 'with filter_out' do
         let(:title) { 'default' }
         let(:params) { {
-          'filterOut' => [
+          'filter_out' => [
             { 'match' => [
                 { 'field' => 'userName', 'regex' => 'foo' },
                 { 'field' => 'region', 'regex' => 'DFW' }
