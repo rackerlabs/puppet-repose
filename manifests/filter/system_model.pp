@@ -126,20 +126,20 @@
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
-class repose::filter::system_model (
-  Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure,
-  String $filename            = 'system-model.cfg.xml',
-  String $app_name            = 'repose',
-  Optional[String] $nodes,
-  Optional[String] $filters,
-  Optional[String] $services,
-  Optional[String] $endpoints,
-  String $port                = $repose::port,
-  String $https_port,
-  String $rewrite_host_header,
-  $service_cluster,
-  $tracing_header            = {},
-  Array $encoded_headers     = [],
+define repose::filter::system_model (
+  Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure = $repose::ensure,
+  String $filename                                          = 'system-model.cfg.xml',
+  String $app_name                                          = 'repose',
+  Optional[Hash[Integer, Hash[String, String]]] $filters    = undef,
+  Optional[Hash[Integer, String]] $services                 = undef,
+  Optional[Array] $nodes                                    = undef,
+  Optional[Array] $endpoints                                = undef,
+  String $port                                              = $repose::port,
+  Optional[String] $https_port                              = undef,
+  Optional[String] $rewrite_host_header                     = undef,
+  Optional[String] $service_cluster                         = undef,
+  NotUndef $tracing_header                                  = {},
+  Array $encoded_headers                                    = [],
 ) {
 
 ### Validate parameters

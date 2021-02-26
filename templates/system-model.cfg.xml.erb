@@ -18,7 +18,7 @@
   <%- end -%>
     </services>
 <%- end -%>
-    <destinations <%- if @repose9 && ! @encoded_headers.empty?  -%> url-encode-headers="<%= @encoded_headers.join(",")%>" <%- end -%> >
+    <destinations <%- if ! @encoded_headers.empty?  -%> url-encode-headers="<%= @encoded_headers.join(",")%>" <%- end -%> >
 <%- @endpoints.each do |endpoint| -%>
       <endpoint <% endpoint.sort.map do |param, value| %><%= param %>="<%= value %>" <% end %>/>
 <%- end -%>
