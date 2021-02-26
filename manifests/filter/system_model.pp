@@ -134,7 +134,7 @@ class repose::filter::system_model (
   Optional[String] $filters,
   Optional[String] $services,
   Optional[String] $endpoints,
-  Integer $port               = $repose::port,
+  String $port                = $repose::port,
   String $https_port,
   String $rewrite_host_header,
   $service_cluster,
