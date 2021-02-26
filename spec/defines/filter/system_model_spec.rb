@@ -5,15 +5,12 @@ describe 'repose::filter::system_model', :type => :define do
   end
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
-      let(:facts) do
-        os_facts
-      end
-
+      let(:facts) { os_facts }
 
       context 'default parameters' do
         let(:title) { 'default' }
         it {
-          should raise_error(Puppet::Error, /nodes is a required/)
+          is_expected.to compile.and_raise_error(Puppet::Error, /nodes is a required/)
         }
       end
 
@@ -23,7 +20,7 @@ describe 'repose::filter::system_model', :type => :define do
           :app_name => 'repose'
         } }
         it {
-          should raise_error(Puppet::Error, /nodes is a required/)
+          is_expected.to compile.and_raise_error(Puppet::Error, /nodes is a required/)
         }
       end
 
@@ -34,7 +31,7 @@ describe 'repose::filter::system_model', :type => :define do
           :nodes    => ['app1', 'app2' ],
         } }
         it {
-          should raise_error(Puppet::Error, /filters is a required/)
+          is_expected.to compile.and_raise_error(Puppet::Error, /filters is a required/)
         }
       end
 
@@ -57,7 +54,7 @@ describe 'repose::filter::system_model', :type => :define do
           }
         } }
         it {
-          should raise_error(Puppet::Error, /endpoints is a required/)
+          is_expected.to compile.and_raise_error(Puppet::Error, /endpoints is a required/)
         }
       end
 
@@ -92,7 +89,7 @@ describe 'repose::filter::system_model', :type => :define do
           ]
         } }
         it {
-          should contain_file('/etc/repose/system-model.cfg.xml').with(
+          is_expected.to contain_file('/etc/repose/system-model.cfg.xml').with(
             'ensure' => 'file',
             'owner'  => 'repose',
             'group'  => 'repose',
@@ -147,7 +144,7 @@ describe 'repose::filter::system_model', :type => :define do
           ]
         } }
         it {
-          should contain_file('/etc/repose/system-model.cfg.xml').with(
+          is_expected.to contain_file('/etc/repose/system-model.cfg.xml').with(
             'ensure' => 'file',
             'owner'  => 'repose',
             'group'  => 'repose',
@@ -202,7 +199,7 @@ describe 'repose::filter::system_model', :type => :define do
           :tracing_header => { 'secondary-plain-text' => 'true' },
         } }
         it {
-          should contain_file('/etc/repose/system-model.cfg.xml').with(
+          is_expected.to contain_file('/etc/repose/system-model.cfg.xml').with(
             'ensure' => 'file',
             'owner'  => 'repose',
             'group'  => 'repose',
@@ -247,7 +244,7 @@ describe 'repose::filter::system_model', :type => :define do
           ]
         } }
         it {
-          should contain_file('/etc/repose/system-model.cfg.xml').
+          is_expected.to contain_file('/etc/repose/system-model.cfg.xml').
             without_content(/tracing-header/).
             without_content(/rewrite-host-header/).
             without_content(/services/)
@@ -277,7 +274,7 @@ describe 'repose::filter::system_model', :type => :define do
           ]
         } }
         it {
-          should contain_file('/etc/repose/system-model.cfg.xml').
+          is_expected.to contain_file('/etc/repose/system-model.cfg.xml').
             without_content(/tracing-header/).
             without_content(/rewrite-host-header/).
             without_content(/repose-cluster/).
@@ -311,7 +308,7 @@ describe 'repose::filter::system_model', :type => :define do
 
         } }
         it {
-          should contain_file('/etc/repose/system-model.cfg.xml').
+          is_expected.to contain_file('/etc/repose/system-model.cfg.xml').
                     without_content(/tracing-header/).
                     without_content(/rewrite-host-header/).
                     without_content(/repose-cluster/).
