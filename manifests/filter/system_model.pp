@@ -127,34 +127,36 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::system_model (
-  $ensure              = present,
-  $filename            = 'system-model.cfg.xml',
-  $app_name            = 'repose',
-  $nodes               = undef,
-  $filters             = undef,
-  $services            = undef,
-  $endpoints           = undef,
-  $port                = $repose::port,
-  $https_port          = undef,
-  $repose9             = false,
-  $rewrite_host_header = undef,
-  $service_cluster     = undef,
-  $tracing_header      = {},
-  $encoded_headers     = [],
+  Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure = $repose::ensure,
+  String $filename                                          = 'system-model.cfg.xml',
+  String $app_name                                          = 'repose',
+  Optional[Hash[Integer, Hash[String, String]]] $filters    = undef,
+  Optional[Hash[Integer, String]] $services                 = undef,
+  Optional[Array] $nodes                                    = undef,
+  Optional[Array] $endpoints                                = undef,
+  String $port                                              = $repose::port,
+  Optional[String] $https_port                              = undef,
+  Optional[String] $rewrite_host_header                     = undef,
+  Optional[String] $service_cluster                         = undef,
+  NotUndef $tracing_header                                  = {},
+  Array $encoded_headers                                    = [],
 ) {
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
+  if ! ($ensure) {
+    fail("\"${ensure}\" is required. It should be present, absent, latest or a version")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
       absent  => absent,
+      default => file,
     }
   }
   if $::debug {
+    if $ensure != $repose::ensure {
+      debug('$ensure overridden by class parameter')
+    }
     debug("\$ensure = '${ensure}'")
   }
 
