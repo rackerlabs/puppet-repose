@@ -23,13 +23,6 @@
 # * This is thus destructive and should be used with care.
 # Defaults to <tt>present</tt>.
 #
-# [*enable*]
-# Bool/String. Controls if the managed service shall be running(<tt>true</tt>),
-# stopped(<tt>false</tt>), or <tt>manual</tt>. This affects the service state
-# at both boot and during runtime.  If set to <tt>manual</tt> Puppet will
-# ignore the state of the service.
-# Defaults to <tt>true</tt>.
-#
 # [*autoupgrade*]
 # Boolean. If set to <tt>true</tt>, any managed package gets upgraded
 # on each Puppet run when the package provider is able to find a newer
@@ -42,10 +35,6 @@
 # The default values for the parameters are set in repose::params. Have
 # a look at the corresponding <tt>params.pp</tt> manifest file if you need more
 # technical information about them.
-#
-# [*run_port*]
-# Integer.  The port the valve should run on
-# Defaults to <tt>9090</tt>
 #
 # [*daemon_home*]
 # String. Daemon home path
@@ -69,12 +58,6 @@
 # variable in the sysconfig file but we are not supporting overwriting it.
 # at this time.
 # Defaults to <tt>-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME</tt>
-#
-# [*run_opts*]
-# String. The options sent to the run command.
-# DEPRECATED. This does nothing for repose 7+. This is replaced by a different
-# variable in the sysconfig file but we are not supporting overwriting it.
-# Defaults to <tt>-p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
 #
 # [*java_options*]
 # String. Additional java options to pass to java_opts
@@ -104,13 +87,11 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::config (
-  String $run_port,
   String $daemon_home,
   String $log_path,
   String $user,
   String $daemonize,
   String $daemonize_opts,
-  String $run_opts,
   String $ensure  = $repose::ensure,
   Optional[String] $java_options = undef,
   Optional[String] $saxon_home   = undef,
@@ -162,13 +143,11 @@ class repose::config (
 
   # default repose valve sysconfig options
   $repose_sysconfig = [
-    "set RUN_PORT '${run_port}'",
     "set DAEMON_HOME '${daemon_home}'",
     "set LOG_PATH '${log_path}'",
     "set USER '${user}'",
     "set daemonize '${daemonize}'",
     "set daemonize_opts '\"${daemonize_opts}\"'",
-    "set run_opts '\"${run_opts}\"'",
     "set java_opts '\"\${java_opts} ${java_options}\"'",
     "set JAVA_OPTS '\"\${JAVA_OPTS} ${java_options}\"'",
   ]

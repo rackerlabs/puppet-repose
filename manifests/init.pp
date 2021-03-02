@@ -24,13 +24,6 @@
 # * This is thus destructive and should be used with care.
 # Defaults to <tt>present</tt>.
 #
-# [*enable*]
-# Bool/String. Controls if the managed service shall be running(<tt>true</tt>),
-# stopped(<tt>false</tt>), or <tt>manual</tt>. This affects the service state
-# at both boot and during runtime.  If set to <tt>manual</tt> Puppet will
-# ignore the state of the service.
-# Defaults to <tt>true</tt>.
-#
 # [*autoupgrade*]
 # Boolean. If set to <tt>true</tt>, any managed package gets upgraded
 # on each Puppet run when the package provider is able to find a newer
@@ -59,7 +52,6 @@
 #
 class repose (
   Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure,
-  Variant[Boolean, Enum['true','false','manual']] $enable,
   Boolean $autoupgrade,
   String $cfg_namespace_host,
   String $service_name,
@@ -68,9 +60,9 @@ class repose (
   String $configdir,
   String $owner,
   String $group,
-  String $mode,
-  String $dirmode,
-  String $port,
+  Stdlib::Filemode $mode,
+  Stdlib::Filemode $dirmode,
+  Integer $port,
 ) {
 
 ### Validate parameters
@@ -93,14 +85,6 @@ class repose (
       debug('$ensure overridden by class parameter')
     }
     debug("\$ensure = '${ensure}'")
-  }
-
-## enable - we don't validate because all standard options are acceptable
-  if $::debug {
-    if $enable != $repose::enable {
-      debug('$enable overridden by class parameter')
-    }
-    debug("\$enable = '${enable}'")
   }
 
 ## autoupgrade

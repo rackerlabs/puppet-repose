@@ -67,11 +67,10 @@ define repose::filter::atom_feed (
   $auth_username = undef,
   $auth_password = undef,
   $auth_timeout = undef,
-  $configdir = $repose::configdir,
 ) {
 
   if $feed_uri == undef {
-    fail("feed_uri is required")
+    fail('feed_uri is required')
   }
 
   if ($entry_order != undef) and ! ($entry_order in [ read, reverse-read ]) {
@@ -79,14 +78,14 @@ define repose::filter::atom_feed (
   }
 
   if (($auth_uri != undef) or ($auth_username != undef) or ($auth_password != undef)) and
-     (($auth_uri == undef) or ($auth_username == undef) or ($auth_password == undef)) {
-    fail("If used auth_uri, auth_username, and auth_password are all required")
+    (($auth_uri == undef) or ($auth_username == undef) or ($auth_password == undef)) {
+    fail('If used auth_uri, auth_username, and auth_password are all required')
   }
 
-  concat::fragment { "feed-$title":
-    target => "${configdir}/atom-feed-service.cfg.xml",
+  concat::fragment { "feed-${title}":
+    target => "${repose::configdir}/atom-feed-service.cfg.xml",
     source => "puppet:///modules/${module_name}/atom-feed-fragment",
-    order   => '50',
+    order  => '50',
   }
 
 }

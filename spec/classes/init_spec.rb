@@ -18,7 +18,9 @@ describe 'repose' do
         it { should contain_file('/etc/security/limits.d/repose').with(
             'ensure' => 'file',
             'owner'  => 'repose',
-            'group'  => 'repose') }
+            'group'  => 'repose',
+            'mode'   => 0660
+        ) }
       end
 
       # Validate specifying a version properly passes ensure = 9.1.0.0

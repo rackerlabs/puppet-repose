@@ -101,7 +101,7 @@ define repose::filter::open_tracing (
       # validates ipv4 (allows invalid ips), hostname, ipv6 (only standard notation)
       # cannot use validate_ip_* or anything like that since it could be a hostname OR ip address
       validate_re(
-        $udp_connection_host, 
+        $udp_connection_host,
         [
           '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$',
           '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$',
@@ -125,7 +125,7 @@ define repose::filter::open_tracing (
         validate_string($http_connection_password)
         if $http_connection_token != undef {
           fail( 'cannot define both token and username for http' )
-        }        
+        }
       } elsif $http_connection_token != undef {
         validate_string($http_connection_token)
       }

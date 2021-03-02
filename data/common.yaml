@@ -61,10 +61,7 @@ repose::mode: '0660'
 repose::dirmode: '0750'
   
 ## port
-repose::port: '8080'
-
-## run_port for valve
-repose::config::run_port: '9090'
+repose::port: 8080
 
 ## daemon_home for valve
 repose::config::daemon_home: '/usr/share/lib/repose'
@@ -83,9 +80,6 @@ repose::config::daemonize: '/usr/sbin/daemonize'
 
 ## daemonize opts for repose
 repose::config::daemonize_opts: '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
-
-## run ops for repose
-repose::config::run_opts: '-p $RUN_PORT -c $CONFIG_DIRECTORY'
 
 ## container deployment directory
 repose::filter::container::deployment_directory: '/var/repose'

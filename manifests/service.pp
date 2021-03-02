@@ -7,14 +7,8 @@
 # === Parameters
 #
 # [*ensure*]
-#  String. If this is set to absent, then the service is stopped.  Otherwise
-#  if this is set, it will be set to running unless enable is set to false.
+#  String. If this is set to absent, then the service is stopped.  
 #  Defaults to <tt>present</tt>
-#
-# [*enable*]
-#  Boolean/String. This toggles if the service should be stopped, running or
-#  manual.
-#  Defaults to <tt>true</tt>
 #
 # [*container*]
 #  String. This sets the container type, used in this manifest to determine
@@ -43,22 +37,9 @@ class repose::service (
   Boolean                                     $service_hasrestart,
   Optional[Variant[String,Sensitive[String]]] $content = undef,
   String                                      $ensure  = $repose::ensure,
-  Variant[Boolean,String]                     $enable  = $repose::enable,
 ) {
 
 ### Logic
-
-## set params: off
-  if $ensure == absent {
-    $service_ensure = stopped
-## set params: in operation
-  } else {
-    $service_ensure = $enable ? {
-      false   => stopped,
-      true    => running,
-      default => manual
-    }
-  }
 
   # Here we have the opportunity to specify a systemd dropin for repose
   if $content {
@@ -70,8 +51,7 @@ class repose::service (
 
 ### Manage actions
   service { $repose::service_name:
-    ensure     => $service_ensure,
-    enable     => $enable,
+    ensure     => $ensure,
     hasstatus  => $service_hasstatus,
     hasrestart => $service_hasrestart,
   }

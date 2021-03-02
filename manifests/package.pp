@@ -63,7 +63,6 @@ class repose::package (
   Boolean $identity_filters,
   Array $identity_filters_packages,
   String $ensure       = $repose::ensure,
-  Variant[Boolean,String] $enable      = $repose::enable,
   Boolean $autoupgrade = $repose::autoupgrade,
 ) {
 
