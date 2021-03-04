@@ -114,22 +114,24 @@ class repose::config (
 
 ## files/directories
   File {
-    mode    => $repose::dirmode,
     owner   => $repose::owner,
     group   => $repose::group,
   }
 
   file { $repose::configdir:
     ensure => $dir_ensure,
+    mode   => $repose::dirmode,
   }
 
   file { '/etc/security/limits.d/repose':
     ensure => $file_ensure,
     source => 'puppet:///modules/repose/limits',
+    mode   => $repose::mode,
   }
 
   file { '/etc/sysconfig/repose':
     ensure => $file_ensure,
+    mode   => $repose::mode,
     owner  => root,
     group  => root,
   }

@@ -1,7 +1,7 @@
 {
   "name": "puppet-repose",
-  "version": "0.1.0",
-  "author": "Cory Ringdahl @ Rackspace",
+  "version": "3.0.0",
+  "author": "Josh Bell & Cory Ringdahl @ Rackspace",
   "summary": "Puppet module for Repose",
   "license": "Apache-2.0",
   "source": "TBD",

@@ -23,11 +23,6 @@
 # Integer. Directory check interval in milliseconds.
 # Defaults to <tt>60000</tt>
 #
-# [*client_request_logging*]
-# Bool. Logs communication between repose and the end service. Depreciated in
-# Repose version 8 and above, must not be set. 
-# Defaults to <tt>undef</tt>
-#
 # [*content_body_read_limit*]
 # Integer. Maximum size ofr request content in bytes
 # Defaults to <tt>undef</tt>
@@ -241,30 +236,6 @@
 # The port which the flume server is listening on.
 # Defaults to <tt>10000</tt>
 #
-# [*herp*]
-# DEPRECATED. Use log_herp_flume. Enable herp filter publishing to flume.
-# Defaults to <tt>false</tt>
-#
-# [*http_port*]
-# DEPRECATED. This attribute is deprecated and will be ignored. This has
-# moved to the system-model configuration.
-#
-# [*https_port*]
-# DEPRECATED. This attribute is deprecated and will be ignored. This has
-# moved to the system-model configuration.
-#
-# [*connection_timeout*]
-# DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration. Must not be used with Repose 8 and above.
-#
-# [*read_timeout*]
-# DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration. Must not be used with Repose 8 and above.
-#
-# [*proxy_thread_pool*]
-# DEPRECATED. This attribute is deprecated and moved to the
-# http-connection-pool configuration. Must not be used with Repose 8 and above.
-#
 # === Examples
 #
 # class { 'repose::filter::container':
@@ -282,57 +253,49 @@ class repose::filter::container (
   String $deployment_directory,
   String $log_access_facility,
   String $log_access_app_name,
-  String $log_access_local,
+  Boolean $log_access_local,
   String $log_access_local_name,
-  String $log_access_syslog,
+  Boolean $log_access_syslog,
   String $log_dir,
   String $log_herp_app_name,
   String $log_herp_facility,
-  String $log_herp_flume,
-  String $log_herp_syslog,
+  Boolean $log_herp_flume,
+  Boolean $log_herp_syslog,
   String $log_herp_syslog_postfilter,
   String $log_herp_syslog_prefilter,
-  String $log_log4j2_default_loggers,
-  String $log_log4j2_optional_loggers,
-  String $log_log4j2_intrafilter_trace_loggers,
-  String $log_intrafilter_trace,
+  Hash $log_log4j2_default_loggers,
+  Hash $log_log4j2_optional_loggers,
+  Hash $log_log4j2_intrafilter_trace_loggers,
+  Boolean $log_intrafilter_trace,
   String $log_level,
-  String $log_local_policy,
   String $log_local_size,
-  String $log_local_rotation_count,
+  Integer $log_local_rotation_count,
   String $log_repose_facility,
   String $log_file_perm,
   String $logging_configuration,
-  String $syslog_port,
+  Integer $syslog_port,
   String $syslog_protocol,
   String $flume_host,
-  String $flume_port,
+  Integer $flume_port,
+  Optional[Enum['date','size']] $log_local_policy = undef,
   Enum['present','absent'] $ensure      = 'present',
-  String $app_name                             = undef,
+  Optional[String] $app_name                             = undef,
   Integer $artifact_directory_check_interval    = 60000,
-  String $client_request_logging               = undef,
-  String $content_body_read_limit              = undef,
+  Optional[Integer] $content_body_read_limit              = undef,
   Boolean $deployment_directory_auto_clean      = true,
-  String $jmx_reset_time                       = undef,
+  Optional[Integer] $jmx_reset_time                       = undef,
   Boolean $log_use_log4j2                       = false,
   Boolean $ssl_enabled                          = false,
-  String $ssl_keystore_filename                = undef,
-  String $ssl_keystore_password                = undef,
-  String $ssl_key_password                     = undef,
-  String $ssl_include_cipher                   = undef,
-  String $ssl_exclude_cipher                   = undef,
-  String $ssl_include_protocol                 = undef,
-  String $ssl_exclude_protocol                 = undef,
-  String $ssl_tls_renegotiation                = undef,
-  String $syslog_server                        = undef,
+  Optional[String] $ssl_keystore_filename                = undef,
+  Optional[String] $ssl_keystore_password                = undef,
+  Optional[String] $ssl_key_password                     = undef,
+  Optional[Array] $ssl_include_cipher                   = undef,
+  Optional[Array] $ssl_exclude_cipher                   = undef,
+  Optional[Array] $ssl_include_protocol                 = undef,
+  Optional[Array] $ssl_exclude_protocol                 = undef,
+  Optional[Boolean] $ssl_tls_renegotiation                = undef,
+  Optional[String] $syslog_server                        = undef,
   Hash $via_header                           = {},
-  # BELOW ARE DEPRECATED
-  Boolean $herp                                 = false,
-  String $http_port                            = undef,
-  String $https_port                           = undef,
-  String $connection_timeout                   = undef,
-  String $read_timeout                         = undef,
-  String $proxy_thread_pool                    = undef,
 ) {
 
 ### Validate parameters

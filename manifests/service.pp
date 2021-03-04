@@ -36,10 +36,18 @@ class repose::service (
   Boolean                                     $service_hasstatus,
   Boolean                                     $service_hasrestart,
   Optional[Variant[String,Sensitive[String]]] $content = undef,
-  String                                      $ensure  = $repose::ensure,
+  Enum['absent','present']                    $ensure = $repose::ensure,
 ) {
 
 ### Logic
+
+## set params: off
+  if $ensure == 'absent' {
+    $enable = 'stopped'
+## set params: in operation
+  } else {
+    $enable = 'running'
+  }
 
   # Here we have the opportunity to specify a systemd dropin for repose
   if $content {
@@ -51,7 +59,7 @@ class repose::service (
 
 ### Manage actions
   service { $repose::service_name:
-    ensure     => $ensure,
+    ensure     => $enable,
     hasstatus  => $service_hasstatus,
     hasrestart => $service_hasrestart,
   }

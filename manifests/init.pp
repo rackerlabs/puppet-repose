@@ -51,7 +51,7 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  Variant[Enum['absent','present', 'latest'],Pattern[/\d*\.\d*\.\d*\.\d*/]] $ensure,
+  Enum['absent','present'] $ensure,
   Boolean $autoupgrade,
   String $cfg_namespace_host,
   String $service_name,
@@ -69,7 +69,7 @@ class repose (
 
 ## ensure
   if ! ($ensure) {
-    fail("\"${ensure}\" is required. It should be present, absent, latest or a version")
+    fail("\"${ensure}\" is required. It should be present or absent")
   } else {
     $file_ensure = $ensure ? {
       absent  => absent,
