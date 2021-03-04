@@ -14,40 +14,11 @@ describe 'repose::service' do
         }
       end
 
-      # Validate the service is running when 'ensure' is a version
-      context 'ensure is a version' do
-        let(:params) { { :ensure => '9.1.0.0' } }
-        it {
-          should contain_service('repose').with_ensure('running')
-        }
-      end
-
       # Validate ensure is absent properly stops services
       context 'ensure is absent' do
         let(:params) { { :ensure => 'absent' } }
         it {
           should contain_service('repose').with_ensure('stopped')
-        }
-      end
-
-      # TODO: this seems weird.
-      # Validate ensure present but enable is false stopped service
-      context 'ensure is present but enable is off' do
-        let(:params) { { :ensure => 'absent', :enable => false } }
-        it {
-          should contain_service('repose').with(
-            'ensure' => 'stopped',
-            'enable' => false)
-        }
-      end
-
-      # Validate ensure present but enable is manual
-      context 'ensure is present but enable is off' do
-        let(:params) { { :ensure => 'absent', :enable => 'manual' } }
-        it {
-          should contain_service('repose').with(
-            'ensure' => 'stopped',
-            'enable' => 'manual')
         }
       end
 

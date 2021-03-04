@@ -7,7 +7,18 @@ describe 'repose::config' do
       end
       it { is_expected.to compile.with_all_deps }
       context 'with defaults for all parameters' do
-        it { should contain_file('/etc/sysconfig/repose') }
+        it { should contain_file('/etc/sysconfig/repose').with(
+          'ensure' => 'file',
+          'owner'  => 'root',
+          'group'  => 'root',
+          'mode'   => '0660'
+        ) }
+        it { should contain_file('/etc/security/limits.d/repose').with(
+          'ensure' => 'file',
+          'owner'  => 'repose',
+          'group'  => 'repose',
+          'mode'   => '0660'
+        ) }
           # TODO: add additional details here
         it { should contain_augeas('repose_sysconfig').with_context( 
             '/files/etc/sysconfig/repose') }
@@ -30,6 +41,7 @@ describe 'repose::config' do
           :ensure => 'absent'
         } }
         it { should contain_file('/etc/sysconfig/repose').with_ensure('absent') }
+        it { should contain_file('/etc/security/limits.d/repose').with_ensure('absent') }
         it { should_not contain_augeas('repose_sysconfig') }
       end
     end

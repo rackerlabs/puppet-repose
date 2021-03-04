@@ -15,23 +15,6 @@ describe 'repose' do
         it { should contain_class('repose::package').with_ensure('present') }
         it { should contain_class('repose::service').with_ensure('present') }
         it { should contain_class('repose::config').with_ensure('present') }
-        it { should contain_file('/etc/security/limits.d/repose').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => 0660
-        ) }
-      end
-
-      # Validate specifying a version properly passes ensure = 9.1.0.0
-      context 'with specific version' do
-        let(:params) { { :ensure => '9.1.0.0' } }
-        it { should contain_class('repose') }
-        it { should contain_class('repose::package').with_ensure('9.1.0.0') }
-        it { should contain_package('repose').with_ensure('9.1.0.0') }
-        it { should contain_class('repose::service').with_ensure('9.1.0.0') }
-        it { should contain_service('repose').with_ensure('running') }
-        it { should contain_class('repose::config').with_ensure('9.1.0.0') }
       end
 
       # Validate uninstall properly passes ensure = absent around
@@ -41,10 +24,6 @@ describe 'repose' do
         it { should contain_class('repose::package').with_ensure('absent') }
         it { should contain_class('repose::service').with_ensure('absent') }
         it { should contain_class('repose::config').with_ensure('absent') }
-        it { should contain_file('/etc/security/limits.d/repose').with(
-            'ensure' => 'absent',
-            'owner'  => 'repose',
-            'group'  => 'repose') }
       end
     end
   end

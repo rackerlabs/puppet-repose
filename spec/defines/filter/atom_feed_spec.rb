@@ -49,8 +49,6 @@ describe 'repose::filter::atom_feed', :type => :define do
             :auth_username      => 'gandalf',
             :auth_password      => 'youshallnotpass',
             :auth_timeout       => '42',
-            :configdir          => '/etc/repose',
-
         } }
         it {
           should contain_concat__fragment('feed-some_feed').

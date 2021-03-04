@@ -120,7 +120,7 @@ describe 'repose::filter::system_model', :type => :define do
           :filename   => 'system-model.cfg.xml',
           :app_name   => 'repose',
           :nodes      => ['app1', 'app2' ],
-          :https_port => '8443',
+          :https_port => 8443,
           :filters    => {
             10 => { 'name' => 'content-normalization' },
             20 => { 'name' => 'http-logging', 'configuration' => 'pre-ratelimit-httplog.cfg.xml' },
@@ -172,7 +172,7 @@ describe 'repose::filter::system_model', :type => :define do
           :filename   => 'system-model.cfg.xml',
           :app_name   => 'repose',
           :nodes      => ['app1', 'app2' ],
-          :https_port => '8443',
+          :https_port => 8443,
           :filters    => {
             10 => { 'name' => 'content-normalization' },
             20 => { 'name' => 'http-logging', 'configuration' => 'pre-ratelimit-httplog.cfg.xml' },
@@ -191,8 +191,8 @@ describe 'repose::filter::system_model', :type => :define do
               'protocol'  => 'http',
               'hostname'  => 'localhost',
               'root-path' => '',
-              'port'      => '80',
-              'default'   => 'true'
+              'port'      => 80,
+              'default'   => true
             },
           ],
           :tracing_header => { 'secondary-plain-text' => 'true' },
@@ -236,8 +236,8 @@ describe 'repose::filter::system_model', :type => :define do
               'protocol'  => 'http',
               'hostname'  => 'localhost',
               'root-path' => '',
-              'port'      => '80',
-              'default'   => 'true'
+              'port'      => 80,
+              'default'   => true
             },
           ]
         } }

@@ -63,11 +63,10 @@ describe 'repose::filter::container' do
       context 'configure container' do
         let(:params) { {
           :app_name                          => 'app',
-          :via                               => 'my app',
           :deployment_directory              => '/deployment_dir',
-          :deployment_directory_auto_clean   => 'false',
+          :deployment_directory_auto_clean   => false,
           :artifact_directory                => '/artifact_dir',
-          :artifact_directory_check_interval => '10000',
+          :artifact_directory_check_interval => 10000,
           :logging_configuration             => 'mylog4j.properties',
           :ssl_enabled                       => true,
           :ssl_keystore_filename             => 'keystore.name',
@@ -77,26 +76,13 @@ describe 'repose::filter::container' do
           :ssl_exclude_cipher                => ['exclude'],
           :ssl_include_protocol              => ['include'],
           :ssl_exclude_protocol              => ['exclude'],
-          :ssl_tls_renegotiation             => 'true',
-          :content_body_read_limit           => '10240000',
-          :jmx_reset_time                    => '3600000',
-          :client_request_logging            => 'false',
-          :http_port                         => '10000',
-          :https_port                        => '10001',
-          :connection_timeout                => '40000',
-          :read_timeout                      => '1000',
-          :proxy_thread_pool                 => 'my-pool'
+          :ssl_tls_renegotiation             => true,
+          :content_body_read_limit           => 10240000,
+          :jmx_reset_time                    => 3600000,
         } }
         it { should contain_file('/etc/repose/mylog4j.properties') }
         it { should contain_file('/etc/repose/container.cfg.xml'). 
-            with_content(/http-port="10000"/).
-            with_content(/https-port="10001"/).
-            with_content(/via="my app"/).
             with_content(/content-body-read-limit="10240000"/).
-            with_content(/connection-timeout="40000"/).
-            with_content(/read-timeout="1000"/).
-            with_content(/proxy-thread-pool="my-pool"/).
-            with_content(/client-request-logging="false"/).
             with_content(/jmx-reset-time="3600000"/).
             with_content(/<deployment-directory auto-clean=\"false\">\/deployment_dir<\/deployment-directory>/).
             with_content(/<artifact-directory check-interval="10000">\/artifact_dir<\/artifact-directory>/).
@@ -111,20 +97,6 @@ describe 'repose::filter::container' do
             with_content(/<excluded-protocols>/).
             with_content(/<tls-renegotiation-allowed>true<\/tls-renegotiation-allowed>/).
             with_content(/<\/ssl-configuration>/) }
-      end
-
-      context 'configure no logging' do
-        let(:params) { {
-          :app_name         => 'app',
-          :log_dir          => '/mypath',
-          :log_local_policy => false
-        } }
-        it { should contain_file('/etc/repose/log4j.properties'). 
-            with_content(/log4j\.appender\.defaultFile=org\.apache\.log4j\.varia\.NullAppender/).
-            with_content(/log4j\.rootLogger=WARN, defaultFile/).
-            with_content(/log4j\.logger\.http=INFO, httpLocal/).
-            with_content(/httpLocal=org\.apache\.log4j\.varia\.NullAppender/) }
-        it { should contain_file('/etc/repose/container.cfg.xml') }
       end
 
       context 'configure access log local default settings' do
@@ -325,20 +297,6 @@ describe 'repose::filter::container' do
             with_content(/Logger name="http" level="info"/).
             with_content(/AppenderRef ref="httpLocal"/).
             with_content(/AppenderRef ref="httpSyslog"/) }
-
-        it { should contain_file('/etc/repose/container.cfg.xml'). 
-            with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/) }
-      end
-
-      context 'configure log4j2 with null appender' do
-        let(:params) { {
-          :app_name         => 'app',
-          :log_use_log4j2   => true,
-          :log_local_policy => 'none'
-        } }
-        it { should contain_file('/etc/repose/log4j2.xml'). 
-            with_content(/File name="defaultFile" filename="\/dev\/null"/).
-            with_content(/File name="httpLocal" filename="\/dev\/null"/) }
 
         it { should contain_file('/etc/repose/container.cfg.xml'). 
             with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/) }
