@@ -43,10 +43,12 @@ class repose::service (
 
 ## set params: off
   if $ensure == 'absent' {
-    $enable = 'stopped'
+    $_enable = false
+    $_ensure = 'stopped'
 ## set params: in operation
   } else {
-    $enable = 'running'
+    $_enable = true
+    $_ensure = 'running'
   }
 
   # Here we have the opportunity to specify a systemd dropin for repose
@@ -59,7 +61,8 @@ class repose::service (
 
 ### Manage actions
   service { $repose::service_name:
-    ensure     => $enable,
+    ensure     => $_ensure,
+    enable     => $_enable,
     hasstatus  => $service_hasstatus,
     hasrestart => $service_hasrestart,
   }
