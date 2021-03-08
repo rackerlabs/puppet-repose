@@ -22,6 +22,7 @@
 #
 # === Examples
 #
+# lint:ignore:140chars
 # repose::filter::slf4j_http_logging {
 #   'default':
 #     log_files => [
@@ -40,6 +41,7 @@
 #       }
 #     ];
 # }
+# lint:endignore
 #
 # === Authors
 #

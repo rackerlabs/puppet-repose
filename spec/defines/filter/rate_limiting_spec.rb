@@ -104,15 +104,16 @@ describe 'repose::filter::rate_limiting', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/rate-limiting.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-            .with_content(/<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>/)
+          is_expected.to contain_file('/etc/repose/rate-limiting.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>})
             .with_content(%r{<limit-group id=\"Some_Group\" groups=\"Some_Group\" default=\"true\">})
-                                                                          .with_content(/<limit id=\"some_limit_id\" uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>/)
+            .with_content(%r{<limit id=\"some_limit_id\" uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>})
         }
       end
 
@@ -144,15 +145,16 @@ describe 'repose::filter::rate_limiting', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/rate-limiting.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-            .with_content(/<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>/)
+          is_expected.to contain_file('/etc/repose/rate-limiting.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>})
             .with_content(%r{<limit-group id=\"Some_Group\" groups=\"Some_Group\" default=\"true\">})
-                                                                          .with_content(/<limit uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>/)
+            .with_content(%r{<limit uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>})
         }
       end
 
@@ -185,16 +187,17 @@ describe 'repose::filter::rate_limiting', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/rate-limiting.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
+          is_expected.to contain_file('/etc/repose/rate-limiting.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
             .with_content(%r{overLimit-429-responseCode=\"true\"})
-            .with_content(/<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>/)
+            .with_content(%r{<request-endpoint uri-regex=\"\/limits\/stuff\/\?\" include-absolute-limits=\"\"\/>})
             .with_content(%r{<limit-group id=\"Some_Group\" groups=\"Some_Group\" default=\"true\">})
-                                                                          .with_content(/<limit uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>/)
+            .with_content(%r{<limit uri=\"\/\.\*\" uri-regex=\"\/\.\*\" http-methods=\"GET\" unit=\"SECOND\" value=\"200\" \/>})
         }
       end
     end

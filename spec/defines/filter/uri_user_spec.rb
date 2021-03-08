@@ -48,13 +48,14 @@ describe 'repose::filter::uri_user', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/uri-user.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                     .with_content(/<mapping id="main" identification-regex=".*"\/>/)
+          is_expected.to contain_file('/etc/repose/uri-user.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<mapping id="main" identification-regex=".*"\/>})
         }
       end
 
@@ -73,13 +74,14 @@ describe 'repose::filter::uri_user', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/uri-user.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                     .with_content(/<group>User_Standard<\/group>/)
+          is_expected.to contain_file('/etc/repose/uri-user.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<group>User_Standard<\/group>})
         }
       end
 
@@ -98,13 +100,14 @@ describe 'repose::filter::uri_user', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/uri-user.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                     .with_content(/<quality>0.8<\/quality>/)
+          is_expected.to contain_file('/etc/repose/uri-user.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<quality>0.8<\/quality>})
         }
       end
     end

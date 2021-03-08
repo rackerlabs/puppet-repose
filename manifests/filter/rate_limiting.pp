@@ -62,10 +62,34 @@
 #         'groups' => 'UserIdentity_Group',
 #         'default' => true,
 #         'limits' => [
-#           { 'uri' => '/sites/events*', 'uri_regex' => '/(sites)/events', 'http_methods' => 'POST', 'unit' => 'SECOND', 'value'=> '675' },
-#           { 'uri' => '/files/events*', 'uri_regex' => '/(files)/events', 'http_methods' => 'POST', 'unit' => 'SECOND', 'value'=> '200' },
-#           { 'uri' => '^/(?!.*test).*/events*', 'uri_regex' => '^/*?!.*test)(.*)/events*', 'http_methods' => 'POST', 'unit' => 'SECOND', 'value'=> '200' },
-#           { 'uri' => '^/(?!.*test).*/events*', 'uri_regex' => '^/*?!.*test)(.*)/events*', 'http_methods' => 'GET', 'unit' => 'SECOND', 'value'=> '350' },
+#           {
+#             'uri' => '/sites/events*',
+#             'uri_regex' => '/(sites)/events',
+#             'http_methods' => 'POST',
+#             'unit' => 'SECOND',
+#             'value'=> '675',
+#           },
+#           {
+#             'uri' => '/files/events*',
+#             'uri_regex' => '/(files)/events',
+#             'http_methods' => 'POST',
+#             'unit' => 'SECOND',
+#             'value'=> '200',
+#           },
+#           {
+#             'uri' => '^/(?!.*test).*/events*',
+#             'uri_regex' => '^/*?!.*test)(.*)/events*',
+#             'http_methods' => 'POST',
+#             'unit' => 'SECOND',
+#             'value'=> '200',
+#           },
+#           {
+#             'uri' => '^/(?!.*test).*/events*',
+#             'uri_regex' => '^/*?!.*test)(.*)/events*',
+#             'http_methods' => 'GET',
+#             'unit' => 'SECOND',
+#             'value'=> '350',
+#            },
 #         ]
 #       },
 #     ],

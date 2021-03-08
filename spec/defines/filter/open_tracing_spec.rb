@@ -53,7 +53,7 @@ describe 'repose::filter::open_tracing', type: :define do
           )
         }
         it {
-          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{connection-http endpoint=\"http:\/\/example.com\/api\/traces\"})
         }
         it {
           is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{service-name=\"test-repose\"})
@@ -102,7 +102,7 @@ describe 'repose::filter::open_tracing', type: :define do
           )
         }
         it {
-          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{connection-http endpoint=\"http:\/\/example.com\/api\/traces\"})
         }
         it {
           is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{username=\"reposeuser\"})
@@ -158,7 +158,7 @@ describe 'repose::filter::open_tracing', type: :define do
           )
         }
         it {
-          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{connection-http endpoint=\"http:\/\/example.com\/api\/traces\"})
         }
         it {
           is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{service-name=\"test-repose\"})
@@ -316,7 +316,7 @@ describe 'repose::filter::open_tracing', type: :define do
           )
         }
         it {
-          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{connection-http endpoint=\"http:\/\/example.com\/api\/traces\"})
         }
         it {
           is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{service-name=\"test-repose\"})
@@ -350,7 +350,7 @@ describe 'repose::filter::open_tracing', type: :define do
           )
         }
         it {
-          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{connection-http endpoint=\"http:\/\/example.com\/api\/traces\"})
         }
         it {
           is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{service-name=\"test-repose\"})
@@ -384,7 +384,7 @@ describe 'repose::filter::open_tracing', type: :define do
           )
         }
         it {
-          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{connection-http endpoint=\"http:\/\/example.com\/api\/traces\"})
         }
         it {
           is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{service-name=\"test-repose\"})
@@ -418,7 +418,7 @@ describe 'repose::filter::open_tracing', type: :define do
           )
         }
         it {
-          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(/connection-http endpoint=\"http:\/\/example.com\/api\/traces\"/)
+          is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{connection-http endpoint=\"http:\/\/example.com\/api\/traces\"})
         }
         it {
           is_expected.to contain_file('/etc/repose/open-tracing.cfg.xml').with_content(%r{service-name=\"test-repose\"})
@@ -444,7 +444,7 @@ describe 'repose::filter::open_tracing', type: :define do
           end
 
           it {
-            is_expected.to raise_error(Puppet::Error, /Must provide valid http:\/\/ endpoint for http_connection_endpoint/)
+            is_expected.to raise_error(Puppet::Error, %r{Must provide valid http:\/\/ endpoint for http_connection_endpoint})
           }
         end
 

@@ -44,13 +44,14 @@ describe 'repose::filter::dist_datastore', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/dist-datastore.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                           .with_content(/<allow host=\"test\.example\.com\" \/>/)
+          is_expected.to contain_file('/etc/repose/dist-datastore.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<allow host=\"test\.example\.com\" \/>})
         }
       end
 

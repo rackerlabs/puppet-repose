@@ -57,7 +57,7 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .with_content(%r{client-mapping id-regex=\"testing\"})
             .with_content(%r{delegable=\"false\"})
             .without_content(%r{delegating})
@@ -92,7 +92,7 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .with_content(%r{token-cache-timeout=\"600000\"})
         }
       end
@@ -121,7 +121,7 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .with_content(%r{connectionPoolId=\"my-connection-pool\"})
         }
       end
@@ -150,9 +150,9 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .with_content(%r{ignore-tenant-roles})
-            .with_content(/<role>role<\/role>/)
+            .with_content(%r{<role>role<\/role>})
         }
       end
 
@@ -179,7 +179,7 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .without_content(%r{send-all-tenant-ids})
         }
       end
@@ -208,7 +208,7 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .with_content(%r{send-all-tenant-ids=\"true\"})
         }
       end
@@ -239,7 +239,7 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .with_content(%r{client-mapping id-regex=\"testing\"})
             .without_content(%r{delegable=})
             .with_content(%r{delegating quality="0.9"})
@@ -275,10 +275,10 @@ describe 'repose::filter::client_auth_n', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
-            .with_content(/identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service username=\"username\" password=\"password\" uri=\"http:\/\/uri\"})
             .with_content(%r{client-mapping id-regex=\"testing\"})
             .without_content(%r{delegable=})
-            .with_content(/delegating\/>/)
+            .with_content(%r{delegating\/>})
             .with_content(%r{tenanted=\"false\"})
             .with_content(%r{group-cache-timeout=\"60000\"})
             .without_content(%r{connectionPoolId})
@@ -318,8 +318,8 @@ describe 'repose::filter::client_auth_n', type: :define do
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
             .with_content(%r{atom-feeds check-interval=\"60000\"})
-            .with_content(/rs-identity-feed id=\"identity-token-revocation-feed\" uri=\"https:\/\/atomvip\/identity\/events\"/)
-            .with_content(/isAuthed=\"true\" auth-uri=\"https:\/\/identity-service-url\/v2.0\"/)
+            .with_content(%r{rs-identity-feed id=\"identity-token-revocation-feed\" uri=\"https:\/\/atomvip\/identity\/events\"})
+            .with_content(%r{isAuthed=\"true\" auth-uri=\"https:\/\/identity-service-url\/v2.0\"})
             .with_content(%r{user=\"username\" password=\"password\"})
         }
       end
@@ -356,8 +356,8 @@ describe 'repose::filter::client_auth_n', type: :define do
         it {
           is_expected.to contain_file('/etc/repose/client-auth-n.cfg.xml')
             .with_content(%r{atom-feeds check-interval=\"60000\"})
-            .with_content(/rs-identity-feed id=\"identity-token-revocation-feed\" uri=\"https:\/\/atomvip\/identity\/events\"/)
-            .without_content(/isAuthed=\"true\" auth-uri=\"https:\/\/identity-service-url\/v2.0\"/)
+            .with_content(%r{rs-identity-feed id=\"identity-token-revocation-feed\" uri=\"https:\/\/atomvip\/identity\/events\"})
+            .without_content(%r{isAuthed=\"true\" auth-uri=\"https:\/\/identity-service-url\/v2.0\"})
             .without_content(%r{user=\"username\" password=\"password\"})
         }
       end

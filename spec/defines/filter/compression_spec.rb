@@ -30,7 +30,7 @@ describe 'repose::filter::compression', type: :define do
 
         it {
           is_expected.to contain_file('/etc/repose/compression.cfg.xml')
-            .with_content(/compression compression-threshold=\"1024\" debug=\"false\" include-content-types=\"text\/html\"/)
+            .with_content(%r{compression compression-threshold=\"1024\" debug=\"false\" include-content-types=\"text\/html\"})
         }
       end
     end

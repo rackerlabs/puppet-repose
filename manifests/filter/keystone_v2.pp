@@ -186,7 +186,8 @@ define repose::filter::keystone_v2 (
       fail('uri is a required parameter')
     }
 
-    if ($send_tenant_quality == false) and (($default_tenant_quality != undef) or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef)) {
+    if (($send_tenant_quality == false) and (($default_tenant_quality != undef)
+      or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef))) {
       fail("setting tenant quality levels doesn't work when tenant qualities is turned off")
     }
 

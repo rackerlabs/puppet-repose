@@ -47,9 +47,9 @@ describe 'repose::filter::uri_normalization', type: :define do
         it {
           is_expected.to contain_file('/etc/repose/uri-normalization.cfg.xml')
             .with_content(%r{<media-variants>})
-            .with_content(/<media-type name=\"application\/xml\" variant-extension=\"xml\" \/>/)
-            .with_content(/<media-type name=\"application\/json\" variant-extension=\"json\" \/>/)
-            .with_content(/<\/media-variants>/)
+            .with_content(%r{<media-type name=\"application\/xml\" variant-extension=\"xml\" \/>})
+            .with_content(%r{<media-type name=\"application\/json\" variant-extension=\"json\" \/>})
+            .with_content(%r{<\/media-variants>})
         }
       end
 
@@ -81,7 +81,7 @@ describe 'repose::filter::uri_normalization', type: :define do
 
         it {
           is_expected.to contain_file('/etc/repose/uri-normalization.cfg.xml')
-            .with_content(/uri-regex="\/\.\*test"/)
+            .with_content(%r{uri-regex="\/\.\*test"})
             .with_content(%r{http-methods="GET"})
             .with_content(%r{alphabetize="false"})
             .with_content(%r{whitelist id="something"})

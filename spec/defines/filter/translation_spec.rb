@@ -67,18 +67,19 @@ describe 'repose::filter::translation', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/translation.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
+          is_expected.to contain_file('/etc/repose/translation.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
             .with_content(%r{xsl-engine=\"SaxonEE\"})
             .with_content(%r{code-regex=\"20\[01\]\"})
-            .with_content(/content-type=\"\*\/\*\"/)
-            .with_content(/accept=\"\*\/\*\"/)
-            .with_content(/translated-content-type=\"\*\/\*\"/)
-                                                                        .with_content(/id=\"wadly\" href=\"schema\/wadl\/mywadl\.xsl\"/)
+            .with_content(%r{content-type=\"\*\/\*\"})
+            .with_content(%r{accept=\"\*\/\*\"})
+            .with_content(%r{translated-content-type=\"\*\/\*\"})
+            .with_content(%r{id=\"wadly\" href=\"schema\/wadl\/mywadl\.xsl\"})
         }
       end
     end

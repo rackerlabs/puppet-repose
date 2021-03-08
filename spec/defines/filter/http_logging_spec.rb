@@ -48,14 +48,15 @@ describe 'repose::filter::http_logging', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/http-logging.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
+          is_expected.to contain_file('/etc/repose/http-logging.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
             .with_content(%r{<http-log id="my-log" format="my format">})
-                                                                         .with_content(/<file location=\"\/var\/log\/repose\/http.log\"\/>/)
+            .with_content(%r{<file location=\"\/var\/log\/repose\/http.log\"\/>})
         }
       end
     end

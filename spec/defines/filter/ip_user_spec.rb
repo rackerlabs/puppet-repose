@@ -49,14 +49,15 @@ describe 'repose::filter::ip_user', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/ip-user.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
+          is_expected.to contain_file('/etc/repose/ip-user.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
             .with_content(%r{<group name="group1">})
-                                                                    .with_content(/<cidr-ip>9\.9\.9\.9\/0<\/cidr-ip>/)
+            .with_content(%r{<cidr-ip>9\.9\.9\.9\/0<\/cidr-ip>})
         }
       end
 
@@ -76,13 +77,14 @@ describe 'repose::filter::ip_user', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/ip-user.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                    .with_content(/<user-header name="X-PP-Repose-User" quality="0.25"\/>/)
+          is_expected.to contain_file('/etc/repose/ip-user.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<user-header name="X-PP-Repose-User" quality="0.25"\/>})
         }
       end
 
@@ -102,13 +104,14 @@ describe 'repose::filter::ip_user', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/ip-user.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                    .with_content(/<group-header name="X-PP-Repose-Group" quality="0.25"\/>/)
+          is_expected.to contain_file('/etc/repose/ip-user.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<group-header name="X-PP-Repose-Group" quality="0.25"\/>})
         }
       end
     end

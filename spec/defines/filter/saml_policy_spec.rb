@@ -49,24 +49,26 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
 
       context 'default + sample required parameters' do
         let(:title) { 'default' }
-        let (:params) { params }
+        let(:params) { params }
 
         it {
-          is_expected.to contain_file('/etc/repose/saml-policy.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-            .with_content(/<keystone-credentials uri="http:\/\/keystone.somewhere.com"/)
+          is_expected.to contain_file('/etc/repose/saml-policy.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<keystone-credentials uri="http:\/\/keystone.somewhere.com"})
             .with_content(%r{username="aUsername"})
-            .with_content(/password="somePassword"\/>/)
-            .with_content(/<policy-endpoint uri="http:\/\/keystone.somewhere.com\/puppet"/)
+            .with_content(%r{password="somePassword"\/>})
+            .with_content(%r{<policy-endpoint uri="http:\/\/keystone.somewhere.com\/puppet"})
             .with_content(%r{<cache ttl="300"})
-            .with_content(/<signature-credentials keystore-filename="\/etc\/pki\/java\/repose-saml-policy.ks"/)
+            .with_content(%r{<signature-credentials keystore-filename="\/etc\/pki\/java\/repose-saml-policy.ks"})
             .with_content(%r{keystore-password="keystorePassword"})
             .with_content(%r{key-name="keycertname"})
-                                                                        .with_content(%r{key-password="keyPassword"})
+            .with_content(%r{key-password="keyPassword"})
+
           is_expected.to contain_file('/etc/repose/signature_keys.pem').with(
             'ensure' => 'file',
             'owner'  => 'repose',
@@ -81,7 +83,7 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
 
       context 'with ensure absent' do
         let(:title) { 'default' }
-        let (:params) do
+        let(:params) do
           params.merge(ensure: 'absent')
         end
 
@@ -100,7 +102,7 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
 
       context 'providing a cache ttl' do
         let(:title) { 'user_provided_cache' }
-        let (:params) do
+        let(:params) do
           params.merge(policy_cache_ttl: 500)
         end
 
@@ -117,7 +119,7 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
 
       context 'providing user defined keystone pool' do
         let(:title) { 'user_provided_keystone_pool' }
-        let (:params) do
+        let(:params) do
           params.merge(keystone_pool: 'keystone_pool')
         end
 
@@ -134,7 +136,7 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
 
       context 'providing user defined policy pool' do
         let(:title) { 'user_provided_policy_pool' }
-        let (:params) do
+        let(:params) do
           params.merge(policy_pool: 'policy_pool')
         end
 
@@ -151,45 +153,47 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
 
       context 'providing user defined keystore path' do
         let(:title) { 'user_provided_keystore_path' }
-        let (:params) do
+        let(:params) do
           params.merge(signature_keystore_path: '/etc/pki/java/keystore.ks')
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/saml-policy.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                        .with_content(/<signature-credentials keystore-filename="\/etc\/pki\/java\/keystore.ks"/)
+          is_expected.to contain_file('/etc/repose/saml-policy.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<signature-credentials keystore-filename="\/etc\/pki\/java\/keystore.ks"})
         }
       end
 
       context 'providing bypass issuers' do
         let(:title) { 'user_provided_bypass_issures' }
-        let (:params) do
+        let(:params) do
           params.merge(policy_bypass_issuers: ['http://www.issuer1.com',
                                                'http://www.issuer2.com'])
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/saml-policy.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
+          is_expected.to contain_file('/etc/repose/saml-policy.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
             .with_content(%r{<policy-bypass-issuers>})
-            .with_content(/<issuer>http:\/\/www.issuer1.com<\/issuer>/)
-            .with_content(/<issuer>http:\/\/www.issuer2.com<\/issuer>/)
-                                                                        .with_content(/<\/policy-bypass-issuers>/)
+            .with_content(%r{<issuer>http:\/\/www.issuer1.com<\/issuer>})
+            .with_content(%r{<issuer>http:\/\/www.issuer2.com<\/issuer>})
+            .with_content(%r{<\/policy-bypass-issuers>})
         }
       end
 
       context 'providing a atom feed id' do
         let(:title) { 'user_provided_bypass_issures' }
-        let (:params) do
+        let(:params) do
           params.merge(policy_cache_feed_id: 'feed_id')
         end
 

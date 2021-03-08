@@ -108,7 +108,8 @@ define repose::filter::open_tracing (
           '^(?:[A-Fa-f0-9]{0,4}:){7}[A-Fa-f0-9]{1,4}$'
         ],
         'Must provide valid host for udp_connection_host')
-      # validate_integer($connection_port) - cannot use validate_integer due to ruby 1.8.7 support.  Comment left here for any future reviewer.
+      # validate_integer($connection_port) - cannot use validate_integer due to
+      # ruby 1.8.7 support.  Comment left here for any future reviewer.
       # Update if we deprecated 1.8.7 support
       if ! is_integer($udp_connection_port) {
         fail( 'connection_port must be an integer' )
