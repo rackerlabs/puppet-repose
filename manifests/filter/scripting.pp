@@ -64,7 +64,7 @@ define repose::filter::scripting (
   }
 
   if $ensure == present {
-      
+
     if $script_lang == undef {
       fail('script_lang is a required parameter. see documentation for details.')
     }

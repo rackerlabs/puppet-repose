@@ -36,10 +36,10 @@ end
 RSpec.configure do |c|
   # Debug mode
 
-#  c.before(:each) do
-    #Puppet::Util::Log.level = :debug
-    #Puppet::Util::Log.newdestination(:console)
-  #end
+  #  c.before(:each) do
+  # Puppet::Util::Log.level = :debug
+  # Puppet::Util::Log.newdestination(:console)
+  # end
 
   c.default_facts = default_facts
   c.hiera_config = File.expand_path(File.join(__FILE__, '../../hiera.yaml'))

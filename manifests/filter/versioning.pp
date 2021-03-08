@@ -57,7 +57,7 @@ define repose::filter::versioning (
   $app_name         = 'repose',
   $target_uri       = undef,
   $version_mappings = undef,
-  
+
 ) {
 
 ### Validate parameters

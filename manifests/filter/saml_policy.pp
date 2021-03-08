@@ -159,14 +159,14 @@ define repose::filter::saml_policy (
   }
 
   java_ks { 'saml_policy_keystore':
-    ensure       => $ensure,
-    certificate  => "${repose::configdir}/signature_keys.pem",
-    private_key  => "${repose::configdir}/signature_keys.pem",
-    destkeypass  => "${signature_keystore_keypass}",
-    target       => "${signature_keystore_path}",
-    password     => "${signature_keystore_password}",
-    name         => "${signature_keystore_certname}",
-    require      => File["${repose::configdir}/signature_keys.pem"],
+    ensure      => $ensure,
+    certificate => "${repose::configdir}/signature_keys.pem",
+    private_key => "${repose::configdir}/signature_keys.pem",
+    destkeypass => $signature_keystore_keypass,
+    target      => $signature_keystore_path,
+    password    => $signature_keystore_password,
+    name        => $signature_keystore_certname,
+    require     => File["${repose::configdir}/signature_keys.pem"],
   }
 
   file { "${repose::configdir}/${filename}":

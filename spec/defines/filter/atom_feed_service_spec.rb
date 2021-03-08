@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'repose::filter::atom_feed_service', :type => :class do
+describe 'repose::filter::atom_feed_service', type: :class do
   let :pre_condition do
     'include repose'
   end
@@ -12,18 +12,22 @@ describe 'repose::filter::atom_feed_service', :type => :class do
 
       context 'default parameters' do
         let(:title) { 'default' }
-        it { should contain_concat('/etc/repose/atom-feed-service.cfg.xml').with_ensure('present') }
-        it { should contain_concat__fragment('header').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('01') }
-        it { should contain_concat__fragment('footer').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('99') }
+
+        it { is_expected.to contain_concat('/etc/repose/atom-feed-service.cfg.xml').with_ensure('present') }
+        it { is_expected.to contain_concat__fragment('header').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('01') }
+        it { is_expected.to contain_concat__fragment('footer').with_target('/etc/repose/atom-feed-service.cfg.xml').with_order('99') }
       end
 
       context 'with ensure absent' do
         let(:title) { 'default' }
-        let(:params) { {
-            :ensure => 'absent'
-        } }
+        let(:params) do
+          {
+            ensure: 'absent',
+          }
+        end
+
         it {
-          should contain_concat('/etc/repose/atom-feed-service.cfg.xml').with_ensure('absent')
+          is_expected.to contain_concat('/etc/repose/atom-feed-service.cfg.xml').with_ensure('absent')
         }
       end
     end

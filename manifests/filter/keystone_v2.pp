@@ -191,7 +191,7 @@ define repose::filter::keystone_v2 (
     }
 
     if (($endpoint_name != undef) or ($endpoint_region != undef) or ($endpoint_type != undef)) and ($endpoint_url == undef) {
-      fail("endpoint_url is required when doing endpoint catalog checks")
+      fail('endpoint_url is required when doing endpoint catalog checks')
     }
 
     $content_template = template("${module_name}/keystone-v2.cfg.xml.erb")

@@ -5,7 +5,6 @@
         <origin regex="<%= origin['is_regex'] %>"><%= origin['origin'] %></origin>
 <%- end -%>
     </allowed-origins>
- 
 <%- unless @allowed_methods.empty? -%>
     <allowed-methods>
   <%- @allowed_methods.each do | method | -%>
@@ -13,8 +12,7 @@
   <%- end -%>
     </allowed-methods>
 <%- end -%>
-
-<%- unless @resources.empty? -%> 
+<%- unless @resources.empty? -%>
     <resources>
   <%- @resources.each do | resource | -%>
     <%- if resource.key?('comment') -%>
@@ -30,7 +28,6 @@
         </allowed-methods>
       </resource>
   <%- end -%>
-
     </resources>
 <%- end -%>
 </cross-origin-resource-sharing>

@@ -5,44 +5,57 @@ describe 'repose::config' do
       let(:facts) do
         os_facts
       end
+
       it { is_expected.to compile.with_all_deps }
       context 'with defaults for all parameters' do
-        it { should contain_file('/etc/sysconfig/repose').with(
-          'ensure' => 'file',
-          'owner'  => 'root',
-          'group'  => 'root',
-          'mode'   => '0660'
-        ) }
-        it { should contain_file('/etc/security/limits.d/repose').with(
-          'ensure' => 'file',
-          'owner'  => 'repose',
-          'group'  => 'repose',
-          'mode'   => '0660'
-        ) }
-          # TODO: add additional details here
-        it { should contain_augeas('repose_sysconfig').with_context( 
-            '/files/etc/sysconfig/repose') }
-        it { should contain_augeas('repose_sysconfig').with_changes([ 
-            [
-            "set DAEMON_HOME '/usr/share/lib/repose'",
-            "set LOG_PATH '/var/log/repose'",
-            "set USER 'repose'",
-            "set daemonize '/usr/sbin/daemonize'",
-            "set daemonize_opts '\"-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME\"'",
-            "set java_opts '\"${java_opts} \"'",
-            "set JAVA_OPTS '\"${JAVA_OPTS} \"'"
-            ],
-            "rm SAXON_HOME"
-          ]) }
+        it {
+          is_expected.to contain_file('/etc/sysconfig/repose').with(
+            'ensure' => 'file',
+            'owner'  => 'root',
+            'group'  => 'root',
+            'mode'   => '0660',
+          )
+        }
+        it {
+          is_expected.to contain_file('/etc/security/limits.d/repose').with(
+            'ensure' => 'file',
+            'owner'  => 'repose',
+            'group'  => 'repose',
+            'mode'   => '0660',
+          )
+        }
+        # TODO: add additional details here
+        it {
+          is_expected.to contain_augeas('repose_sysconfig').with_context(
+            '/files/etc/sysconfig/repose',
+          )
+        }
+        it {
+          is_expected.to contain_augeas('repose_sysconfig').with_changes([
+                                                                           [
+                                                                             "set DAEMON_HOME '/usr/share/lib/repose'",
+                                                                             "set LOG_PATH '/var/log/repose'",
+                                                                             "set USER 'repose'",
+                                                                             "set daemonize '/usr/sbin/daemonize'",
+                                                                             "set daemonize_opts '\"-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME\"'",
+                                                                             "set java_opts '\"${java_opts} \"'",
+                                                                             "set JAVA_OPTS '\"${JAVA_OPTS} \"'",
+                                                                           ],
+                                                                           'rm SAXON_HOME',
+                                                                         ])
+        }
       end
 
       context 'with ensure absent' do
-        let(:params) { {
-          :ensure => 'absent'
-        } }
-        it { should contain_file('/etc/sysconfig/repose').with_ensure('absent') }
-        it { should contain_file('/etc/security/limits.d/repose').with_ensure('absent') }
-        it { should_not contain_augeas('repose_sysconfig') }
+        let(:params) do
+          {
+            ensure: 'absent',
+          }
+        end
+
+        it { is_expected.to contain_file('/etc/sysconfig/repose').with_ensure('absent') }
+        it { is_expected.to contain_file('/etc/security/limits.d/repose').with_ensure('absent') }
+        it { is_expected.not_to contain_augeas('repose_sysconfig') }
       end
     end
   end
