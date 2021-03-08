@@ -52,7 +52,7 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
         }
       end
 
@@ -76,7 +76,7 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{connection-pool-id=\"my-connection-pool\"})
         }
       end
@@ -103,7 +103,7 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{set-roles-in-header=\"true\"})
             .with_content(%r{set-groups-in-header=\"true\"})
             .with_content(%r{set-catalog-in-header=\"true\"})
@@ -130,7 +130,7 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{apply-rcn-roles=\"true\"})
         }
       end
@@ -156,7 +156,7 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{delegating quality="0.9"})
         }
       end
@@ -181,8 +181,8 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
-            .with_content(/delegating\/>/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
+            .with_content(%r{delegating\/>})
         }
       end
 
@@ -206,10 +206,10 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{<white-list>})
-            .with_content(/<uri-regex>banana<\/uri-regex>/)
-            .with_content(/<uri-regex>phone<\/uri-regex>/)
+            .with_content(%r{<uri-regex>banana<\/uri-regex>})
+            .with_content(%r{<uri-regex>phone<\/uri-regex>})
         }
       end
 
@@ -237,13 +237,13 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{<cache>})
             .with_content(%r{<timeouts variability=\"5\">})
-            .with_content(/<token>600000<\/token>/)
-            .with_content(/<group>606060<\/group>/)
-            .with_content(/<endpoints>666666<\/endpoints>/)
-            .with_content(/<atom-feed id=\"foo\"\/>/)
+            .with_content(%r{<token>600000<\/token>})
+            .with_content(%r{<group>606060<\/group>})
+            .with_content(%r{<endpoints>666666<\/endpoints>})
+            .with_content(%r{<atom-feed id=\"foo\"\/>})
         }
       end
 
@@ -273,11 +273,11 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{<tenant-handling send-all-tenant-ids=\"true\"})
             .with_content(%r{<validate-tenant enable-legacy-roles-mode=\"false\"})
-            .with_content(/<uri-extraction-regex>\/foo<\/uri-extraction-regex>/)
-            .with_content(/<uri-extraction-regex>\/bar<\/uri-extraction-regex>/)
+            .with_content(%r{<uri-extraction-regex>\/foo<\/uri-extraction-regex>})
+            .with_content(%r{<uri-extraction-regex>\/bar<\/uri-extraction-regex>})
             .with_content(%r{<send-tenant-id-quality})
             .with_content(%r{default-tenant-quality=\"0.9\"})
             .with_content(%r{uri-tenant-quality=\"0.8\"})
@@ -325,9 +325,9 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{require-service-endpoint})
-            .with_content(/public-url=\"http:\/\/uri\"/)
+            .with_content(%r{public-url=\"http:\/\/uri\"})
             .with_content(%r{region=\"ORD\"})
             .with_content(%r{name=\"foo\"})
             .with_content(%r{type=\"compute\"})
@@ -370,9 +370,9 @@ describe 'repose::filter::keystone_v2', type: :define do
         }
         it {
           is_expected.to contain_file('/etc/repose/keystone-v2.cfg.xml')
-            .with_content(/identity-service\s+uri=\"http:\/\/uri\"/)
+            .with_content(%r{identity-service\s+uri=\"http:\/\/uri\"})
             .with_content(%r{pre-authorized-roles})
-            .with_content(/<role>role<\/role>/)
+            .with_content(%r{<role>role<\/role>})
         }
       end
     end

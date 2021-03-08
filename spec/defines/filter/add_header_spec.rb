@@ -54,7 +54,7 @@ describe 'repose::filter::add_header', type: :define do
             .with_content(%r{ name="repose-test"})
             .with_content(%r{ overwrite="false"})
             .with_content(%r{ quality="0.4"})
-            .with_content(/>this-is-a-test<\/header>/)
+            .with_content(%r{>this-is-a-test<\/header>})
         }
       end
       context 'with response headers' do
@@ -78,7 +78,7 @@ describe 'repose::filter::add_header', type: :define do
             .with_content(%r{ name="repose-test"})
             .with_content(%r{ overwrite="false"})
             .with_content(%r{ quality="0.4"})
-            .with_content(/>this-is-a-test<\/header>/)
+            .with_content(%r{>this-is-a-test<\/header>})
         }
       end
     end

@@ -8,27 +8,27 @@
   "dependencies": [
     {
       "name": "puppet/logrotate",
-      "version_requirement": ">= 4.0.0"
+      "version_requirement": ">= 4.0.0 < 5"
     },
     {
       "name": "camptocamp/systemd",
-      "version_requirement": ">= 2.9.0"
+      "version_requirement": ">= 2.9.0 < 3"
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 6.2.0"
+      "version_requirement": ">= 6.2.0 < 7"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 6.2.0"
+      "version_requirement": ">= 6.2.0 < 7"
     },
     {
-      "name": "puppetlabs/puppetlabs-java_ks",
-      "version_requirement": ">= 3.1.0"
+      "name": "puppetlabs/java_ks",
+      "version_requirement": ">= 3.1.0 < 4"
     },
     {
       "name": "puppetlabs/augeas_core",
-      "version_requirement": ">= 1.0.5"
+      "version_requirement": ">= 1.0.5 < 2"
     }
   ],
   "operatingsystem_support": [

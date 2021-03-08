@@ -50,7 +50,7 @@ describe 'repose::filter::keystone_v2_basic_auth', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/keystone-v2-basic-auth.cfg.xml').with_content(/keystone-v2-service-uri="http:\/\/foo"/)
+          is_expected.to contain_file('/etc/repose/keystone-v2-basic-auth.cfg.xml').with_content(%r{keystone-v2-service-uri="http:\/\/foo"})
         }
       end
 

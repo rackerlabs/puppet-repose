@@ -50,16 +50,17 @@ describe 'repose::filter::metrics', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/metrics.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
+          is_expected.to contain_file('/etc/repose/metrics.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
             .with_content(%r{host=\"graphite\.server\"})
             .with_content(%r{port=\"2013\"})
             .with_content(%r{period=\"10\"})
-                                                                    .with_content(/prefix=\"my\/prefix\"/)
+            .with_content(%r{prefix=\"my\/prefix\"})
         }
       end
     end

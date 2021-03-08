@@ -44,7 +44,7 @@ describe 'repose::filter::container' do
         it {
           is_expected.to contain_file('/etc/repose/log4j.properties')
             .with_content(%r{log4j\.rootLogger=WARN})
-            .with_content(/log4j\.appender\.defaultFile\.File=\/var\/log\/repose\/app\.log/)
+            .with_content(%r{log4j\.appender\.defaultFile\.File=\/var\/log\/repose\/app\.log})
         }
         it {
           is_expected.to contain_file('/etc/repose/container.cfg.xml')
@@ -65,7 +65,7 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/log4j.properties')
-            .with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/)
+            .with_content(%r{log4j\.appender\.defaultFile\.File=\/mypath\/app\.log})
             .with_content(%r{log4j\.rootLogger=DEBUG, syslog, defaultFile})
             .with_content(%r{log4j.logger.http=INFO, httpSyslog})
             .with_content(%r{syslog.syslogHost=syslog.example.com})
@@ -108,19 +108,19 @@ describe 'repose::filter::container' do
           is_expected.to contain_file('/etc/repose/container.cfg.xml')
             .with_content(%r{content-body-read-limit="10240000"})
             .with_content(%r{jmx-reset-time="3600000"})
-            .with_content(/<deployment-directory auto-clean=\"false\">\/deployment_dir<\/deployment-directory>/)
-            .with_content(/<artifact-directory check-interval="10000">\/artifact_dir<\/artifact-directory>/)
-            .with_content(/<logging-configuration href="mylog4j.properties"\/>/)
+            .with_content(%r{<deployment-directory auto-clean=\"false\">\/deployment_dir<\/deployment-directory>})
+            .with_content(%r{<artifact-directory check-interval="10000">\/artifact_dir<\/artifact-directory>})
+            .with_content(%r{<logging-configuration href="mylog4j.properties"\/>})
             .with_content(%r{<ssl-configuration>})
-            .with_content(/<keystore-filename>keystore.name<\/keystore-filename>/)
-            .with_content(/<keystore-password>mypassword<\/keystore-password>/)
-            .with_content(/<key-password>keypassword<\/key-password>/)
+            .with_content(%r{<keystore-filename>keystore.name<\/keystore-filename>})
+            .with_content(%r{<keystore-password>mypassword<\/keystore-password>})
+            .with_content(%r{<key-password>keypassword<\/key-password>})
             .with_content(%r{<included-ciphers>})
             .with_content(%r{<excluded-ciphers>})
             .with_content(%r{<included-protocols>})
             .with_content(%r{<excluded-protocols>})
-            .with_content(/<tls-renegotiation-allowed>true<\/tls-renegotiation-allowed>/)
-            .with_content(/<\/ssl-configuration>/)
+            .with_content(%r{<tls-renegotiation-allowed>true<\/tls-renegotiation-allowed>})
+            .with_content(%r{<\/ssl-configuration>})
         }
       end
 
@@ -134,10 +134,10 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/log4j.properties')
-            .with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/)
+            .with_content(%r{log4j\.appender\.defaultFile\.File=\/mypath\/app\.log})
             .with_content(%r{log4j\.logger\.http=INFO, httpLocal})
             .with_content(%r{httpLocal=org\.apache\.log4j\.DailyRollingFileAppender})
-            .with_content(/httpLocal.File=\/mypath\/http_repose\.log/)
+            .with_content(%r{httpLocal.File=\/mypath\/http_repose\.log})
         }
         it { is_expected.to contain_file('/etc/repose/container.cfg.xml') }
       end
@@ -159,7 +159,7 @@ describe 'repose::filter::container' do
             .with_content(%r{httpLocal=org\.apache\.log4j\.RollingFileAppender})
             .with_content(%r{httpLocal\.maxFileSize=50MB})
             .with_content(%r{httpLocal\.maxBackupIndex=2})
-            .with_content(/httpLocal.File=\/var\/log\/repose\/repose_access\.log/)
+            .with_content(%r{httpLocal.File=\/var\/log\/repose\/repose_access\.log})
         }
         it { is_expected.to contain_file('/etc/repose/container.cfg.xml') }
       end
@@ -179,7 +179,7 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/log4j.properties')
-            .with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/)
+            .with_content(%r{log4j\.appender\.defaultFile\.File=\/mypath\/app\.log})
             .with_content(%r{log4j\.rootLogger=DEBUG, syslog, defaultFile})
             .with_content(%r{log4j.logger.http=INFO, httpSyslog$})
             .with_content(%r{syslog.syslogHost=syslog.example.com})
@@ -209,7 +209,7 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/log4j.properties')
-            .with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/)
+            .with_content(%r{log4j\.appender\.defaultFile\.File=\/mypath\/app\.log})
             .with_content(%r{log4j\.rootLogger=DEBUG, syslog, defaultFile})
             .with_content(%r{syslog.syslogHost=syslog.example.com})
             .with_content(%r{syslog.port=515})
@@ -218,7 +218,7 @@ describe 'repose::filter::container' do
             .without_content(%r{httpSyslog.syslogHost=syslog.example.com})
             .without_content(%r{httpSyslog.port=515})
             .without_content(%r{httpSyslog.protocol=tcp})
-            .with_content(/httpLocal.File=\/mypath\/http_repose.log/)
+            .with_content(%r{httpLocal.File=\/mypath\/http_repose.log})
             .with_content(%r{log4j.appender.syslog.Facility=local0})
         }
         it { is_expected.to contain_file('/etc/repose/container.cfg.xml') }
@@ -239,14 +239,14 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/log4j.properties')
-            .with_content(/log4j\.appender\.defaultFile\.File=\/mypath\/app\.log/)
+            .with_content(%r{log4j\.appender\.defaultFile\.File=\/mypath\/app\.log})
             .with_content(%r{log4j\.rootLogger=DEBUG, syslog, defaultFile})
             .with_content(%r{syslog.syslogHost=syslog.example.com})
             .with_content(%r{syslog.port=514})
             .with_content(%r{log4j.logger.http=INFO, httpSyslog, httpLocal})
             .with_content(%r{httpSyslog.syslogHost=syslog.example.com})
             .with_content(%r{httpSyslog.port=514})
-            .with_content(/httpLocal.File=\/mypath\/http_repose.log/)
+            .with_content(%r{httpLocal.File=\/mypath\/http_repose.log})
             .with_content(%r{log4j.appender.syslog.Facility=local4})
             .with_content(%r{log4j.appender.httpSyslog.Facility=local3})
         }
@@ -264,11 +264,11 @@ describe 'repose::filter::container' do
         it {
           is_expected.to contain_file('/etc/repose/log4j2.xml')
             .with_content(%r{RollingFile name="defaultFile"})
-            .with_content(/filename="\/var\/log\/repose\/app.log"/)
-            .with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/)
+            .with_content(%r{filename="\/var\/log\/repose\/app.log"})
+            .with_content(%r{filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"})
             .with_content(%r{RollingFile name="httpLocal"})
-            .with_content(/filename="\/var\/log\/repose\/http_repose.log"/)
-            .with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"/)
+            .with_content(%r{filename="\/var\/log\/repose\/http_repose.log"})
+            .with_content(%r{filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"})
             .with_content(%r{Root level="WARN"})
             .with_content(%r{AppenderRef ref="defaultFile"})
             .with_content(%r{Logger name="http" level="info"})
@@ -279,7 +279,7 @@ describe 'repose::filter::container' do
         }
         it {
           is_expected.to contain_file('/etc/repose/container.cfg.xml')
-            .with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+            .with_content(%r{logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"})
         }
       end
 
@@ -295,13 +295,13 @@ describe 'repose::filter::container' do
         it {
           is_expected.to contain_file('/etc/repose/log4j2.xml')
             .with_content(%r{RollingFile name="defaultFile"})
-            .with_content(/filename="\/var\/log\/repose\/app.log"/)
-            .with_content(/filePattern="\/var\/log\/repose\/app.log.%i"/)
+            .with_content(%r{filename="\/var\/log\/repose\/app.log"})
+            .with_content(%r{filePattern="\/var\/log\/repose\/app.log.%i"})
             .with_content(%r{SizeBasedTriggeringPolicy size=\"100MB\"})
             .with_content(%r{DefaultRolloverStrategy max="4"})
             .with_content(%r{RollingFile name="httpLocal"})
-            .with_content(/filename="\/var\/log\/repose\/http_repose.log"/)
-            .with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%i"/)
+            .with_content(%r{filename="\/var\/log\/repose\/http_repose.log"})
+            .with_content(%r{filePattern="\/var\/log\/repose\/http_repose.log.%i"})
             .with_content(%r{Root level="WARN"})
             .with_content(%r{AppenderRef ref="defaultFile"})
             .with_content(%r{Logger name="http" level="info"})
@@ -310,7 +310,7 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/container.cfg.xml')
-            .with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+            .with_content(%r{logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"})
         }
       end
 
@@ -326,8 +326,8 @@ describe 'repose::filter::container' do
         it {
           is_expected.to contain_file('/etc/repose/log4j2.xml')
             .with_content(%r{RollingFile name="defaultFile"})
-            .with_content(/filename="\/var\/log\/repose\/app.log"/)
-            .with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/)
+            .with_content(%r{filename="\/var\/log\/repose\/app.log"})
+            .with_content(%r{filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"})
             .without_content(%r{RollingFile name="httpLocal"})
             .with_content(%r{Root level="WARN"})
             .with_content(%r{AppenderRef ref="defaultFile"})
@@ -337,7 +337,7 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/container.cfg.xml')
-            .with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+            .with_content(%r{logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"})
         }
       end
 
@@ -372,7 +372,7 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/container.cfg.xml')
-            .with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+            .with_content(%r{logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"})
         }
       end
 
@@ -388,11 +388,11 @@ describe 'repose::filter::container' do
         it {
           is_expected.to contain_file('/etc/repose/log4j2.xml')
             .with_content(%r{RollingFile name="defaultFile"})
-            .with_content(/filename="\/var\/log\/repose\/app.log"/)
-            .with_content(/filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"/)
+            .with_content(%r{filename="\/var\/log\/repose\/app.log"})
+            .with_content(%r{filePattern="\/var\/log\/repose\/app.log.%d\{yyyy-MM-dd\}"})
             .with_content(%r{RollingFile name="httpLocal"})
-            .with_content(/filename="\/var\/log\/repose\/http_repose.log"/)
-            .with_content(/filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"/)
+            .with_content(%r{filename="\/var\/log\/repose\/http_repose.log"})
+            .with_content(%r{filePattern="\/var\/log\/repose\/http_repose.log.%d\{yyyy-MM-dd\}"})
             .with_content(%r{Root level="WARN"})
             .with_content(%r{AppenderRef ref="defaultFile"})
             .with_content(%r{Logger name="http" level="info"})
@@ -404,7 +404,7 @@ describe 'repose::filter::container' do
 
         it {
           is_expected.to contain_file('/etc/repose/container.cfg.xml')
-            .with_content(/logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"/)
+            .with_content(%r{logging-configuration href="file:\/\/\/etc\/repose\/log4j2.xml"})
         }
       end
 

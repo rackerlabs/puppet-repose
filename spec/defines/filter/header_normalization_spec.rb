@@ -66,7 +66,7 @@ describe 'repose::filter::header_normalization', type: :define do
 
         it {
           is_expected.to contain_file('/etc/repose/header-normalization.cfg.xml')
-            .with_content(/uri-regex="\/\.\*test"/)
+            .with_content(%r{uri-regex="\/\.\*test"})
             .with_content(%r{http-methods="GET"})
             .with_content(%r{blacklist id="rate-limit-headers"})
             .with_content(%r{header id="X-PP-User"})

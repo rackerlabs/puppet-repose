@@ -44,13 +44,14 @@ describe 'repose::filter::versioning', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/versioning.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-                                                                       .with_content(/href=\"http:\/\/localhost\/repose\"/)
+          is_expected.to contain_file('/etc/repose/versioning.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{href=\"http:\/\/localhost\/repose\"})
         }
       end
 
@@ -75,16 +76,17 @@ describe 'repose::filter::versioning', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/versioning.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-            .with_content(/href=\"http:\/\/localhost\/repose\"/)
+          is_expected.to contain_file('/etc/repose/versioning.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{href=\"http:\/\/localhost\/repose\"})
             .with_content(%r{version-mapping id=\"v1\" pp-dest-id=\"repose\" status=\"CURRENT\"})
-            .with_content(/media-type base=\"application\/xml\" type=\"application\/v1\+xml\"/)
-                                                                       .with_content(/media-type base=\"application\/json\" type=\"application\/v1\+json\"/)
+            .with_content(%r{media-type base=\"application\/xml\" type=\"application\/v1\+xml\"})
+            .with_content(%r{media-type base=\"application\/json\" type=\"application\/v1\+json\"})
         }
       end
     end

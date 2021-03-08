@@ -15,7 +15,7 @@ describe 'repose::filter::rackspace_identity_basic_auth', type: :define do
 
         it {
           is_expected.to contain_file('/etc/repose/rackspace-identity-basic-auth.cfg.xml').with_content(
-            /rackspace-identity-service-uri="https:\/\/identity.api.rackspacecloud.com\/v2.0\/tokens"/,
+            %r{rackspace-identity-service-uri="https:\/\/identity.api.rackspacecloud.com\/v2.0\/tokens"},
           ).with_content(
             %r{token-cache-timeout-millis="600000"},
           )

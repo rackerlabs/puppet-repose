@@ -53,7 +53,7 @@ describe 'repose::filter::header_user', type: :define do
 
         it {
           is_expected.to contain_file('/etc/repose/header-user.cfg.xml').with_content(
-            /<header id="header_name1" quality=".95" \/>/,
+            %r{<header id="header_name1" quality=".95" \/>},
           )
         }
       end

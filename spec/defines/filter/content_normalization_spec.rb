@@ -50,16 +50,18 @@ describe 'repose::filter::content_normalization', type: :define do
         end
 
         it {
+          # rubocop:disable LineLength
           # "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<content-normalization xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n                       xmlns='http://docs.api.rackspacecloud.com/repose/content-normalization/v1.0'>\n    <header-filters>\n        <blacklist id=\"ReposeHeaders\">\n            <header id=\"X-Authorization\"/>\n            <header id=\"X-User-Name\"/>\n        </blacklist>\n    </header-filters>\n    <media-types>\n        <media-type name=\"application/xml\" variant-extension=\"xml\" />\n        <media-type name=\"application/json\" variant-extension=\"json\" />\n    </media-types>\n</content-normalization>\n"
+          # rubocop:enable LineLength
           is_expected.to contain_file('/etc/repose/content-normalization.cfg.xml')
             .with_content(%r{<blacklist id=\"ReposeHeaders\">})
-            .with_content(/<header id=\"X-Authorization\"\/>/)
-            .with_content(/<header id=\"X-User-Name\"\/>/)
-            .with_content(/<\/blacklist>/)
+            .with_content(%r{<header id=\"X-Authorization\"\/>})
+            .with_content(%r{<header id=\"X-User-Name\"\/>})
+            .with_content(%r{<\/blacklist>})
             .with_content(%r{<media-types>})
-            .with_content(/<media-type name=\"application\/xml\" variant-extension=\"xml\" \/>/)
-            .with_content(/<media-type name=\"application\/json\" variant-extension=\"json\" \/>/)
-            .with_content(/<\/media-types>/)
+            .with_content(%r{<media-type name=\"application\/xml\" variant-extension=\"xml\" \/>})
+            .with_content(%r{<media-type name=\"application\/json\" variant-extension=\"json\" \/>})
+            .with_content(%r{<\/media-types>})
         }
       end
     end

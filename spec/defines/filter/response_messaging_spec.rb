@@ -55,15 +55,16 @@ describe 'repose::filter::response_messaging', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/response-messaging.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
+          is_expected.to contain_file('/etc/repose/response-messaging.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
             .with_content(%r{status-code id=\"413\" code-regex=\"413\"})
-            .with_content(/message media-type=\"\*\/\*\"/)
-                                                                               .with_content(%r{\{ \"overLimit\" : \{ \"code\" : 413, \"message\" : \"OverLimit Retry\.\.\.\", \"details\" : \"whatever\": \} \}})
+            .with_content(%r{message media-type=\"\*\/\*\"})
+            .with_content(%r{\{ \"overLimit\" : \{ \"code\" : 413, \"message\" : \"OverLimit Retry\.\.\.\", \"details\" : \"whatever\": \} \}})
         }
       end
     end

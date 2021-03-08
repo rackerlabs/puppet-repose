@@ -48,15 +48,16 @@ describe 'repose::filter::ip_identity', type: :define do
         end
 
         it {
-          is_expected.to contain_file('/etc/repose/ip-identity.cfg.xml').with(
-            'ensure' => 'file',
-            'owner'  => 'repose',
-            'group'  => 'repose',
-            'mode'   => '0660',
-          )
-            .with_content(/<quality>0.25<\/quality>/)
+          is_expected.to contain_file('/etc/repose/ip-identity.cfg.xml')
+            .with(
+              'ensure' => 'file',
+              'owner'  => 'repose',
+              'group'  => 'repose',
+              'mode'   => '0660',
+            )
+            .with_content(%r{<quality>0.25<\/quality>})
             .with_content(%r{<white-list quality=\"0\.3\">})
-                                                                        .with_content(/<ip-address>9\.9\.9\.9<\/ip-address>/)
+            .with_content(%r{<ip-address>9\.9\.9\.9<\/ip-address>})
         }
       end
     end
