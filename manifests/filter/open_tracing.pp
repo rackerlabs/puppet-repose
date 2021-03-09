@@ -101,14 +101,15 @@ define repose::filter::open_tracing (
       # validates ipv4 (allows invalid ips), hostname, ipv6 (only standard notation)
       # cannot use validate_ip_* or anything like that since it could be a hostname OR ip address
       validate_re(
-        $udp_connection_host, 
+        $udp_connection_host,
         [
           '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$',
           '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$',
           '^(?:[A-Fa-f0-9]{0,4}:){7}[A-Fa-f0-9]{1,4}$'
         ],
         'Must provide valid host for udp_connection_host')
-      # validate_integer($connection_port) - cannot use validate_integer due to ruby 1.8.7 support.  Comment left here for any future reviewer.
+      # validate_integer($connection_port) - cannot use validate_integer due to
+      # ruby 1.8.7 support.  Comment left here for any future reviewer.
       # Update if we deprecated 1.8.7 support
       if ! is_integer($udp_connection_port) {
         fail( 'connection_port must be an integer' )
@@ -125,7 +126,7 @@ define repose::filter::open_tracing (
         validate_string($http_connection_password)
         if $http_connection_token != undef {
           fail( 'cannot define both token and username for http' )
-        }        
+        }
       } elsif $http_connection_token != undef {
         validate_string($http_connection_token)
       }
@@ -154,11 +155,11 @@ define repose::filter::open_tracing (
   }
 
 ## Manage actions
-  file { "${repose::params::configdir}/open-tracing.cfg.xml":
+  file { "${repose::configdir}/open-tracing.cfg.xml":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $content_template
   }

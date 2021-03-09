@@ -44,7 +44,7 @@
 #   a CADF formated event is used.
 #   Defaults to <tt>undef</tt>.
 #
-# [*filterOut*]
+# [*filter_out*]
 #   Array of hashes. Contains the set of criteria applied to the events to
 #   determine if an event is sent through to the named post filter logger.
 #   See example for format.
@@ -61,7 +61,7 @@
 #   region         => 'US',
 #   datacenter     => 'ORD',
 #   template_crush => true,
-#   filterOut      => [
+#   filter_out     => [
 #     {
 #       'match'     => [
 #         { 'field' => 'userName', regex => '.*[fF]oo.*' },
@@ -91,7 +91,7 @@ define repose::filter::highly_efficient_record_processor (
   $datacenter              = 'DFW',
   $template_crush          = false,
   $template                = undef,
-  $filterOut               = [ ],
+  $filter_out              = [ ],
 ) {
 
 ### Validate parameters
@@ -118,11 +118,11 @@ define repose::filter::highly_efficient_record_processor (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::configdir}/${filename}":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $content_template
   }

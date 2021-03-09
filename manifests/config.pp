@@ -23,13 +23,6 @@
 # * This is thus destructive and should be used with care.
 # Defaults to <tt>present</tt>.
 #
-# [*enable*]
-# Bool/String. Controls if the managed service shall be running(<tt>true</tt>),
-# stopped(<tt>false</tt>), or <tt>manual</tt>. This affects the service state
-# at both boot and during runtime.  If set to <tt>manual</tt> Puppet will
-# ignore the state of the service.
-# Defaults to <tt>true</tt>.
-#
 # [*autoupgrade*]
 # Boolean. If set to <tt>true</tt>, any managed package gets upgraded
 # on each Puppet run when the package provider is able to find a newer
@@ -42,10 +35,6 @@
 # The default values for the parameters are set in repose::params. Have
 # a look at the corresponding <tt>params.pp</tt> manifest file if you need more
 # technical information about them.
-#
-# [*run_port*]
-# Integer.  The port the valve should run on
-# Defaults to <tt>9090</tt>
 #
 # [*daemon_home*]
 # String. Daemon home path
@@ -70,12 +59,6 @@
 # at this time.
 # Defaults to <tt>-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME</tt>
 #
-# [*run_opts*]
-# String. The options sent to the run command.
-# DEPRECATED. This does nothing for repose 7+. This is replaced by a different
-# variable in the sysconfig file but we are not supporting overwriting it.
-# Defaults to <tt>-p $RUN_PORT -c $CONFIG_DIRECTORY</tt>
-#
 # [*java_options*]
 # String. Additional java options to pass to java_opts
 # NOTE: this also sets JAVA_OPTS for repose 7+
@@ -84,21 +67,6 @@
 # [*saxon_home*]
 # String. Home directory for Saxon. Sets SAXON_HOME
 # Defaults to <tt>undef</tt>
-#
-# [*rh_old_packages*]
-# Boolean. At version 6.2 repose renamed several of their packages to
-# standardize between deb/rpm.  This variable exposes access to the old
-# naming on rpm distros. It defaults to <tt>true</tt> for the time being
-# to not break existing users.
-# TODO: Determine a time to default to false. Then when to drop support.
-#
-# [*cfg_new_namespace*]
-# Boolean. Repose 7 introducted new namespaces for the configuration files.
-# This flag is used to indicate the use of the new docs.openrepose.org
-# namespace instead of the docs.rackspacecloud.com namespace. The old namespace
-# url should work but there have been some issues. If running repose >= 7,
-# set this to true.
-# TODO: Determine a time to default to false. Then when to drop support.
 #
 # === Examples
 #
@@ -118,38 +86,54 @@
 # * Greg Swift <mailto:greg.swift@rackspace.com>
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
-class repose::repose9 (
-  $ensure            = $repose::params::ensure,
-  $enable            = $repose::params::enable,
-  $autoupgrade       = $repose::params::autoupgrade,
-  $run_port          = $repose::params::run_port,
-  $daemon_home       = $repose::params::daemon_home,
-  $log_path          = $repose::params::logdir,
-  $user              = $repose::params::user,
-  $daemonize         = $repose::params::daemonize,
-  $daemonize_opts    = $repose::params::daemonize_opts,
-  $run_opts          = $repose::params::run_opts,
-  $java_options      = undef,
-  $saxon_home        = undef,
-  $rh_old_packages   = $repose::params::rh_old_packages,
-  $cfg_new_namespace = $repose::params::cfg_new_namespace,
-) inherits repose::params {
+class repose::config (
+  String $daemon_home,
+  String $log_path,
+  String $user,
+  String $daemonize,
+  String $daemonize_opts,
+  String $ensure  = $repose::ensure,
+  Optional[String] $java_options = undef,
+  Optional[String] $saxon_home   = undef,
+  Array $log_files         = [ '/var/log/repose/repose.log' ],
+  String $rotate_frequency = 'daily',
+  Integer $rotate_count    = 4,
+  Boolean $compress        = true,
+  Boolean $delay_compress  = true,
+  Boolean $use_date_ext    = true,
+) {
 
-  class { 'repose':
-    ensure            => $ensure,
-    enable            => $enable,
-    autoupgrade       => $autoupgrade,
-    rh_old_packages   => $rh_old_packages,
-    cfg_new_namespace => $cfg_new_namespace,
-    container         => 'repose9',
+  $file_ensure = $ensure ? {
+    absent  => absent,
+    default => file,
+  }
+  $dir_ensure = $ensure ? {
+      absent  => absent,
+      default => directory,
+  }
+
+## files/directories
+  File {
+    owner   => $repose::owner,
+    group   => $repose::group,
+  }
+
+  file { $repose::configdir:
+    ensure => $dir_ensure,
+    mode   => $repose::dirmode,
+  }
+
+  file { '/etc/security/limits.d/repose':
+    ensure => $file_ensure,
+    source => 'puppet:///modules/repose/limits',
+    mode   => $repose::mode,
   }
 
   file { '/etc/sysconfig/repose':
-    ensure  => $repose::file_ensure,
-    owner   => root,
-    group   => root,
-    require => [ Package[$repose::params::repose9_package] ],
-    notify  => Service[$repose::params::repose9_service],
+    ensure => $file_ensure,
+    mode   => $repose::mode,
+    owner  => root,
+    group  => root,
   }
 
   # setup augeas with our shellvars lense
@@ -161,13 +145,11 @@ class repose::repose9 (
 
   # default repose valve sysconfig options
   $repose_sysconfig = [
-    "set RUN_PORT '${run_port}'",
     "set DAEMON_HOME '${daemon_home}'",
     "set LOG_PATH '${log_path}'",
     "set USER '${user}'",
     "set daemonize '${daemonize}'",
     "set daemonize_opts '\"${daemonize_opts}\"'",
-    "set run_opts '\"${run_opts}\"'",
     "set java_opts '\"\${java_opts} ${java_options}\"'",
     "set JAVA_OPTS '\"\${JAVA_OPTS} ${java_options}\"'",
   ]
@@ -180,6 +162,15 @@ class repose::repose9 (
     ]
   } else {
     $saxon_sysconfig = 'rm SAXON_HOME'
+  }
+
+  logrotate::rule { 'repose_logs':
+    path          => $log_files,
+    rotate        => $rotate_count,
+    missingok     => true,
+    compress      => $compress,
+    delaycompress => $delay_compress,
+    dateext       => $use_date_ext,
   }
 
   # only run if ensure is not absent

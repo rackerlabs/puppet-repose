@@ -1,67 +1,50 @@
 require 'spec_helper'
-describe 'repose::filter::CHANGEME', :type => :define do
+describe 'repose::filter::CHANGEME', type: :define do
   let :pre_condition do
     'include repose'
   end
-  context 'on RedHat' do
-    let :facts do
-    {
-      :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
-    }
-    end
 
-
-    context 'default parameters' do
-      let(:title) { 'default' }
-      it {
-        should raise_error(Puppet::Error, /is a required/)
-      }
-    end
-
-    context 'with ensure absent' do
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure => 'absent'
-      } }
-      it {
-        should contain_file('/etc/repose/CHANGEME.cfg.xml').with_ensure(
-          'absent')
-      }
-    end
-    context 'providing a validator' do
-      let(:title) { 'validator' }
-      let(:params) { {
-        :ensure     => 'present',
-        :filename   => 'CHANGEME.cfg.xml',
-      } }
-      it {
-        should contain_file('/etc/repose/CHANGEME.cfg.xml')
-      }
-    end
-
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) do
+        os_facts
       end
 
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/CHANGEME.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
-      }
-    end
+      context 'default parameters' do
+        let(:title) { 'default' }
 
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
+        it {
+          is_expected.to raise_error(Puppet::Error, %r{is a required})
+        }
       end
 
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/CHANGEME.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
+      context 'with ensure absent' do
+        let(:title) { 'default' }
+        let(:params) do
+          {
+            ensure: 'absent',
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/repose/CHANGEME.cfg.xml').with_ensure(
+            'absent',
+          )
+        }
+      end
+      context 'providing a validator' do
+        let(:title) { 'validator' }
+        let(:params) do
+          {
+            ensure: 'present',
+            filename: 'CHANGEME.cfg.xml',
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/repose/CHANGEME.cfg.xml')
+        }
+      end
     end
   end
 end

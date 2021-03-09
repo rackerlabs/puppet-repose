@@ -82,11 +82,11 @@ define repose::filter::rackspace_identity_basic_auth (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::configdir}/${filename}":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $content_template
   }

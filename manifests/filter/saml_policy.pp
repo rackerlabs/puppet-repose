@@ -149,31 +149,31 @@ define repose::filter::saml_policy (
 
 ## Manage actions
   # Lay Down PEM cert on disk for java_ks to work with. 
-  file { "${repose::params::configdir}/signature_keys.pem":
+  file { "${repose::configdir}/signature_keys.pem":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $signature_keystore_pem,
   }
 
   java_ks { 'saml_policy_keystore':
-    ensure       => $ensure,
-    certificate  => "${repose::params::configdir}/signature_keys.pem",
-    private_key  => "${repose::params::configdir}/signature_keys.pem",
-    destkeypass  => "${signature_keystore_keypass}",
-    target       => "${signature_keystore_path}",
-    password     => "${signature_keystore_password}",
-    name         => "${signature_keystore_certname}",
-    require      => File["${repose::params::configdir}/signature_keys.pem"],
+    ensure      => $ensure,
+    certificate => "${repose::configdir}/signature_keys.pem",
+    private_key => "${repose::configdir}/signature_keys.pem",
+    destkeypass => $signature_keystore_keypass,
+    target      => $signature_keystore_path,
+    password    => $signature_keystore_password,
+    name        => $signature_keystore_certname,
+    require     => File["${repose::configdir}/signature_keys.pem"],
   }
 
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::configdir}/${filename}":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $content_template
   }

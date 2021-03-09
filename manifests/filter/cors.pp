@@ -54,7 +54,7 @@ define repose::filter::cors (
   $ensure          = present,
   $filename        = 'cors.cfg.xml',
   $allowed_origins = [{ 'is_regex' => 'true', 'origin' => '.*' }],
-  $allowed_methods = undef, 
+  $allowed_methods = undef,
   $resources       = undef,
 ) {
 
@@ -84,11 +84,11 @@ define repose::filter::cors (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::configdir}/${filename}":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $content_template
   }

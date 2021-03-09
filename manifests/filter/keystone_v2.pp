@@ -186,12 +186,13 @@ define repose::filter::keystone_v2 (
       fail('uri is a required parameter')
     }
 
-    if ($send_tenant_quality == false) and (($default_tenant_quality != undef) or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef)) {
+    if (($send_tenant_quality == false) and (($default_tenant_quality != undef)
+      or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef))) {
       fail("setting tenant quality levels doesn't work when tenant qualities is turned off")
     }
 
     if (($endpoint_name != undef) or ($endpoint_region != undef) or ($endpoint_type != undef)) and ($endpoint_url == undef) {
-      fail("endpoint_url is required when doing endpoint catalog checks")
+      fail('endpoint_url is required when doing endpoint catalog checks')
     }
 
     $content_template = template("${module_name}/keystone-v2.cfg.xml.erb")
@@ -201,11 +202,11 @@ define repose::filter::keystone_v2 (
 
   ## Manage actions
 
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::configdir}/${filename}":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $content_template
   }

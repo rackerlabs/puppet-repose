@@ -1,108 +1,95 @@
 require 'spec_helper'
-describe 'repose::filter::uri_normalization', :type => :define do
+describe 'repose::filter::uri_normalization', type: :define do
   let :pre_condition do
     'include repose'
   end
-  context 'on RedHat' do
-    let :facts do
-    {
-      :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
-    }
-    end
 
-    context 'default parameters' do
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/uri-normalization.cfg.xml')
-      }
-    end
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) do
+        os_facts
+      end
 
-    context 'with ensure absent' do
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure => 'absent'
-      } }
-      it {
-        should contain_file('/etc/repose/uri-normalization.cfg.xml').with_ensure(
-          'absent')
-      }
-    end
+      context 'default parameters' do
+        let(:title) { 'default' }
 
-    context 'with media_types' do
-      let(:title) { 'headers' }
-      let(:params) { {
-        :media_types => [
-          { 'name' => 'application/xml', 'variant-extension' => 'xml' },
-          { 'name' => 'application/json', 'variant-extension' => 'json' },
-        ]
-      } }
-      it {
-        should contain_file('/etc/repose/uri-normalization.cfg.xml').
-          with_content(/<media-variants>/).
-          with_content(/<media-type name=\"application\/xml\" variant-extension=\"xml\" \/>/).
-          with_content(/<media-type name=\"application\/json\" variant-extension=\"json\" \/>/).
-          with_content(/<\/media-variants>/)
-      }
-    end
+        it {
+          is_expected.to contain_file('/etc/repose/uri-normalization.cfg.xml')
+        }
+      end
 
-    context 'with uri_filters' do
-      let(:title) { 'headers' }
-      let(:params) { {
-        :uri_filters => [
-         {
-            'uri-regex'    => '/.*test',
-            'http-methods' => 'GET',
-            'alphabetize'  => 'false',
-            'whitelists'   => [
-              {
-                'id'         => 'something',
-                'parameters' => [
-                  {
-                    'name'           => 'test',
-                    'multiplicity'   => '0',
-                    'case-sensitive' => 'false',
-                  }
-                ],
-              }
+      context 'with ensure absent' do
+        let(:title) { 'default' }
+        let(:params) do
+          {
+            ensure: 'absent',
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/repose/uri-normalization.cfg.xml').with_ensure(
+            'absent',
+          )
+        }
+      end
+
+      context 'with media_types' do
+        let(:title) { 'headers' }
+        let(:params) do
+          {
+            media_types: [
+              { 'name' => 'application/xml', 'variant-extension' => 'xml' },
+              { 'name' => 'application/json', 'variant-extension' => 'json' },
             ],
-         }
-       ]
-      } }
-      it {
-        should contain_file('/etc/repose/uri-normalization.cfg.xml').
-          with_content(/uri-regex="\/\.\*test"/).
-          with_content(/http-methods="GET"/).
-          with_content(/alphabetize="false"/).
-          with_content(/whitelist id="something"/).
-          with_content(/case-sensitive="false"/).
-          with_content(/multiplicity="0"/).
-          with_content(/name="test"/)
-      }
-    end
+          }
+        end
 
-    context 'with defaults with old namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => false }"
+        it {
+          is_expected.to contain_file('/etc/repose/uri-normalization.cfg.xml')
+            .with_content(%r{<media-variants>})
+            .with_content(%r{<media-type name=\"application\/xml\" variant-extension=\"xml\" \/>})
+            .with_content(%r{<media-type name=\"application\/json\" variant-extension=\"json\" \/>})
+            .with_content(%r{<\/media-variants>})
+        }
       end
 
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/uri-normalization.cfg.xml').
-          with_content(/docs.rackspacecloud.com/)
-      }
-    end
+      context 'with uri_filters' do
+        let(:title) { 'headers' }
+        let(:params) do
+          {
+            uri_filters: [
+              {
+                'uri-regex' => '/.*test',
+                'http-methods' => 'GET',
+                'alphabetize'  => 'false',
+                'whitelists'   => [
+                  {
+                    'id'         => 'something',
+                    'parameters' => [
+                      {
+                        'name'           => 'test',
+                        'multiplicity'   => '0',
+                        'case-sensitive' => 'false',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          }
+        end
 
-    context 'with defaults with new namespace' do
-      let :pre_condition do
-        "class { 'repose': cfg_new_namespace => true }"
+        it {
+          is_expected.to contain_file('/etc/repose/uri-normalization.cfg.xml')
+            .with_content(%r{uri-regex="\/\.\*test"})
+            .with_content(%r{http-methods="GET"})
+            .with_content(%r{alphabetize="false"})
+            .with_content(%r{whitelist id="something"})
+            .with_content(%r{case-sensitive="false"})
+            .with_content(%r{multiplicity="0"})
+            .with_content(%r{name="test"})
+        }
       end
-
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/uri-normalization.cfg.xml').
-          with_content(/docs.openrepose.org/)
-      }
     end
   end
 end

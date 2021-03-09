@@ -1,78 +1,86 @@
 require 'spec_helper'
-describe 'repose::filter::add_header', :type => :define do
+describe 'repose::filter::add_header', type: :define do
   let :pre_condition do
     'include repose'
   end
-  context 'on RedHat' do
-    let :facts do
-    {
-      :osfamily               => 'RedHat',
-      :operationsystemrelease => '6',
-    }
-    end
 
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) do
+        os_facts
+      end
 
-    context 'default parameters' do
-      let(:title) { 'default' }
-      it {
-        should contain_file('/etc/repose/add-header.cfg.xml').
-          with_ensure('file')
-      }
-    end
+      context 'default parameters' do
+        let(:title) { 'default' }
 
-    context 'with ensure absent' do
-      let(:title) { 'default' }
-      let(:params) { {
-        :ensure => 'absent'
-      } }
-      it {
-        should contain_file('/etc/repose/add-header.cfg.xml').
-          with_ensure('absent')
-      }
-    end
+        it {
+          is_expected.to contain_file('/etc/repose/add-header.cfg.xml')
+            .with_ensure('file')
+        }
+      end
 
-    context 'with request headers' do
-      let(:title) { 'default' }
-      let(:params) { {
-        :request_headers => [
+      context 'with ensure absent' do
+        let(:title) { 'default' }
+        let(:params) do
           {
-            'name'      => 'repose-test',
-            'overwrite' => 'false',
-            'quality'   => '0.4',
-            'value'     => 'this-is-a-test'
+            ensure: 'absent',
           }
-        ]
-      } }
-      it {
-        should contain_file('/etc/repose/add-header.cfg.xml').
-          with_ensure('file').
-          with_content(/ name="repose-test"/).
-          with_content(/ overwrite="false"/).
-          with_content(/ quality="0.4"/).
-          with_content(/>this-is-a-test<\/header>/)
-      }
-    end
-    context 'with response headers' do
-      let(:title) { 'default' }
-      let(:params) { {
-        :response_headers => [
-          {
-            'name'      => 'repose-test',
-            'overwrite' => 'false',
-            'quality'   => '0.4',
-            'value'     => 'this-is-a-test'
-          }
-        ]
-      } }
-      it {
-        should contain_file('/etc/repose/add-header.cfg.xml').
-          with_ensure('file').
-          with_content(/ name="repose-test"/).
-          with_content(/ overwrite="false"/).
-          with_content(/ quality="0.4"/).
-          with_content(/>this-is-a-test<\/header>/)
-      }
-    end
+        end
 
+        it {
+          is_expected.to contain_file('/etc/repose/add-header.cfg.xml')
+            .with_ensure('absent')
+        }
+      end
+
+      context 'with request headers' do
+        let(:title) { 'default' }
+        let(:params) do
+          {
+            request_headers: [
+              {
+                'name'      => 'repose-test',
+                'overwrite' => 'false',
+                'quality'   => '0.4',
+                'value'     => 'this-is-a-test',
+              },
+            ],
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/repose/add-header.cfg.xml')
+            .with_ensure('file')
+            .with_content(%r{ name="repose-test"})
+            .with_content(%r{ overwrite="false"})
+            .with_content(%r{ quality="0.4"})
+            .with_content(%r{>this-is-a-test<\/header>})
+        }
+      end
+      context 'with response headers' do
+        let(:title) { 'default' }
+        let(:params) do
+          {
+            response_headers: [
+              {
+                'name'      => 'repose-test',
+                'overwrite' => 'false',
+                'quality'   => '0.4',
+                'value'     => 'this-is-a-test',
+              },
+            ],
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/repose/add-header.cfg.xml')
+            .with_ensure('file')
+            .with_content(%r{ name="repose-test"})
+            .with_content(%r{ overwrite="false"})
+            .with_content(%r{ quality="0.4"})
+            .with_content(%r{>this-is-a-test<\/header>})
+        }
+      end
+    end
   end
 end

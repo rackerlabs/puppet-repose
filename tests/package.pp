@@ -1,1 +1,0 @@
-class { 'repose::package': }

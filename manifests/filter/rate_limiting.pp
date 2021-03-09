@@ -62,10 +62,34 @@
 #         'groups' => 'UserIdentity_Group',
 #         'default' => true,
 #         'limits' => [
-#           { 'uri' => '/sites/events*', 'uri_regex' => '/(sites)/events', 'http_methods' => 'POST', 'unit' => 'SECOND', 'value'=> '675' },
-#           { 'uri' => '/files/events*', 'uri_regex' => '/(files)/events', 'http_methods' => 'POST', 'unit' => 'SECOND', 'value'=> '200' },
-#           { 'uri' => '^/(?!.*test).*/events*', 'uri_regex' => '^/*?!.*test)(.*)/events*', 'http_methods' => 'POST', 'unit' => 'SECOND', 'value'=> '200' },
-#           { 'uri' => '^/(?!.*test).*/events*', 'uri_regex' => '^/*?!.*test)(.*)/events*', 'http_methods' => 'GET', 'unit' => 'SECOND', 'value'=> '350' },
+#           {
+#             'uri' => '/sites/events*',
+#             'uri_regex' => '/(sites)/events',
+#             'http_methods' => 'POST',
+#             'unit' => 'SECOND',
+#             'value'=> '675',
+#           },
+#           {
+#             'uri' => '/files/events*',
+#             'uri_regex' => '/(files)/events',
+#             'http_methods' => 'POST',
+#             'unit' => 'SECOND',
+#             'value'=> '200',
+#           },
+#           {
+#             'uri' => '^/(?!.*test).*/events*',
+#             'uri_regex' => '^/*?!.*test)(.*)/events*',
+#             'http_methods' => 'POST',
+#             'unit' => 'SECOND',
+#             'value'=> '200',
+#           },
+#           {
+#             'uri' => '^/(?!.*test).*/events*',
+#             'uri_regex' => '^/*?!.*test)(.*)/events*',
+#             'http_methods' => 'GET',
+#             'unit' => 'SECOND',
+#             'value'=> '350',
+#            },
 #         ]
 #       },
 #     ],
@@ -123,11 +147,11 @@ define repose::filter::rate_limiting (
 
 ## Manage actions
 
-  file { "${repose::params::configdir}/${filename}":
+  file { "${repose::configdir}/${filename}":
     ensure  => $file_ensure,
-    owner   => $repose::params::owner,
-    group   => $repose::params::group,
-    mode    => $repose::params::mode,
+    owner   => $repose::owner,
+    group   => $repose::group,
+    mode    => $repose::mode,
     require => Class['::repose::package'],
     content => $content_template
   }

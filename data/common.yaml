@@ -1,0 +1,189 @@
+---
+## ensure
+repose::ensure: 'present'
+
+## enable
+repose::enable: true
+
+## autoupgrade
+repose::autoupgrade: false
+
+### Package specific info
+
+## namespace
+repose::cfg_namespace_host: 'docs.openrepose.org'
+
+## repose 9 service
+repose::service_name: 'repose'
+
+## repose9_package
+repose::package_name: 'repose'
+  
+## service capabilities
+repose::service::service_hasstatus: true
+repose::service::service_hasrestart: true
+
+## packages
+repose::packages: 
+  - 'repose-filter-bundle'
+  - 'repose-extensions-filter-bundle' 
+  
+##  experimental filters bundle package 
+repose::package::experimental_filters: false
+
+repose::package::experimental_filters_packages: 
+  - 'repose-experimental-filter-bundle' 
+  
+##  identity filters bundle package
+repose::package::identity_filters: false
+
+repose::package::identity_filters_packages: 
+  - 'repose-identity-filter-bundle' 
+  
+
+  
+## configdir
+repose::configdir: '/etc/repose'
+  
+## log_dir
+repose::filter::container::log_dir: '/var/log/repose'
+  
+## owner
+repose::owner: repose
+  
+## group
+repose::group: repose
+  
+## mode
+repose::mode: '0660'
+  
+## dirmode
+repose::dirmode: '0750'
+  
+## port
+repose::port: 8080
+
+## daemon_home for valve
+repose::config::daemon_home: '/usr/share/lib/repose'
+
+## log path
+repose::config::log_path: '/var/log/repose'
+
+## pid file for valve
+repose::pid_file: '/var/run/repose.pid'
+
+## user for valve
+repose::config::user: 'repose'
+
+## daemonize bin for repose
+repose::config::daemonize: '/usr/sbin/daemonize'
+
+## daemonize opts for repose
+repose::config::daemonize_opts: '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
+
+## container deployment directory
+repose::filter::container::deployment_directory: '/var/repose'
+
+## container artifact directory
+repose::filter::container::artifact_directory: '/usr/share/repose/filters'
+
+## syslog_port
+repose::filter::container::syslog_port: 514
+
+## syslog_protocol
+repose::filter::container::syslog_protocol: 'udp'
+
+## flume host
+repose::filter::container::flume_host: 'localhost'
+
+## flume port
+repose::filter::container::flume_port: 10000
+
+## logging configuration file
+repose::filter::container::logging_configuration: 'log4j.properties'
+
+## default log level
+repose::filter::container::log_level: 'WARN'
+
+## default local log policy
+repose::filter::container::log_local_policy: 'date'
+
+## default local log size
+repose::filter::container::log_local_size: '100MB'
+
+## default local log rotation count
+repose::filter::container::log_local_rotation_count: 4
+
+## default repose.log syslog facility
+repose::filter::container::log_repose_facility: 'local0'
+
+## default http access log syslog facility
+repose::filter::container::log_access_facility: 'local1'
+
+## default http access log syslog app name
+repose::filter::container::log_access_app_name: ''
+
+## default access logging locally
+repose::filter::container::log_access_local: true
+
+## default access log local filename
+repose::filter::container::log_access_local_name: 'http_repose'
+
+## default access logging to syslog
+repose::filter::container::log_access_syslog: true
+
+## default loggers and their log level for log4j2
+repose::filter::container::log_log4j2_default_loggers: 
+  com.sun.jersey:
+    level: "off"
+  intrafilter-logging:
+    level: "info"
+  net.sf.ehcache:
+    level: "error"
+  org.apache.commons.httpclient:
+    level: "warn"
+  org.apache.http.wire:
+    level: "off"
+  org.eclipse.jetty:
+    level: "off"
+  org.openrepose:
+    level: "info"
+  org.rackspace.deproxy:
+    level: "info"
+  org.springframework:
+    level: "warn"
+  
+## User defined log4j2l loggers 
+repose::filter::container::log_log4j2_optional_loggers: {}
+## Intrafilter tracing loggers 
+repose::filter::container::log_log4j2_intrafilter_trace_loggers:
+  intrafilter-logging:
+    level: "trace"
+  org.apache.http.wire:
+    level: "trace"
+  org.openrepose:
+    level: "debug"
+  
+## logging intrafilter trace logs
+repose::filter::container::log_intrafilter_trace: false
+
+## default herp log syslog app name
+repose::filter::container::log_herp_app_name: ''
+
+## default herp log syslog facility
+repose::filter::container::log_herp_facility: 'local2'
+
+## default  herp logging to flume
+repose::filter::container::log_herp_flume: false
+
+## default herp logging to syslog
+repose::filter::container::log_herp_syslog: false
+
+## default herp logging syslog postfilter logger name
+repose::filter::container::log_herp_syslog_postfilter: 'herp_syslog_postfilter'
+
+## default herp logging syslog prefilter logger name
+repose::filter::container::log_herp_syslog_prefilter: 'herp_syslog_prefilter'
+  
+## default log file permissions
+repose::filter::container::log_file_perm: 'private'

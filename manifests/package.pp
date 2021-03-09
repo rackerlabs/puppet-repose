@@ -34,12 +34,6 @@
 # The package list to use based on the container that is used to run
 # repose in this environment
 #
-# [*rh_old_packages*]
-# Boolean. At version 6.2 repose renamed several of their packages to
-# standardize between deb/rpm.  This variable exposes access to the old
-# naming on rpm distros. It defaults to <tt>true</tt> for the time being
-# to not break existing users.
-#
 # [*experimental_filters*]
 # Boolean. Install the experimental filters bundle package
 # Defaults to <tt>false</tt>
@@ -64,13 +58,13 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  $ensure                        = $repose::params::ensure,
-  $autoupgrade                   = $repose::params::autoupgrade,
-  $container                     = $repose::params::container,
-  $rh_old_packages               = $repose::params::rh_old_packages,
-  $experimental_filters          = $repose::params::experimental_filters,
-  $identity_filters              = $repose::params::identity_filters,
-) inherits repose::params {
+  Boolean $experimental_filters,
+  Array $experimental_filters_packages,
+  Boolean $identity_filters,
+  Array $identity_filters_packages,
+  String $ensure       = $repose::ensure,
+  Boolean $autoupgrade = $repose::autoupgrade,
+) {
 
 ### Logic
 
@@ -86,57 +80,32 @@ class repose::package (
     }
   }
 
-## Pick packages
-  $container_package = $container ? {
-    'tomcat7' => $repose::params::tomcat7_package,
-    'valve'   => $repose::params::valve_package,
-    'repose9'   => $repose::params::repose9_package,
-  }
-
-## Handle adding a dependency of service for valve
-  if $container == 'valve' {
-    $before = Service[$repose::params::service]
-  } elsif $container == 'repose9' {
-    $before = Service[$repose::params::repose9_service]
-  } else {
-    $before = undef
-  }
-
-
 ### Manage actions
-
-  package { $container_package:
+  package { $repose::package_name:
     ensure => $package_ensure,
-    before => $before,
   }
 
-  $filter_packages = $rh_old_packages ? {
-    true    => $repose::params::old_packages,
-    default => $repose::params::packages,
-  }
-
-  package { $filter_packages:
+  package { $repose::packages:
     ensure  => $package_ensure,
-    require => Package[$container_package],
+    require => Package[$repose::package_name],
   }
 
   if $experimental_filters == true {
-    package { $repose::params::experimental_filters_packages:
-      ensure => $package_ensure,
-      require => Package[$container_package],
+    package { $experimental_filters_packages:
+      ensure  => $package_ensure,
+      require => Package[$repose::package_name],
     }
   } else {
-    package { $repose::params::experimental_filters_packages:
-      ensure => absent, 
-      require => Package[$container_package],
+    package { $experimental_filters_packages:
+      ensure  => absent,
+      require => Package[$repose::package_name],
     }
   }
 
   if $identity_filters == true {
-    package { $repose::params::identity_filters_packages:
-      ensure => $package_ensure,
-      require => Package[$container_package],
+    package { $identity_filters_packages:
+      ensure  => $package_ensure,
+      require => Package[$repose::package_name],
     }
   }
-
 }

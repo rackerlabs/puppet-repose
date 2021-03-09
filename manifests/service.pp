@@ -7,19 +7,17 @@
 # === Parameters
 #
 # [*ensure*]
-#  String. If this is set to absent, then the service is stopped.  Otherwise
-#  if this is set, it will be set to running unless enable is set to false.
+#  String. If this is set to absent, then the service is stopped.  
 #  Defaults to <tt>present</tt>
-#
-# [*enable*]
-#  Boolean/String. This toggles if the service should be stopped, running or
-#  manual.
-#  Defaults to <tt>true</tt>
 #
 # [*container*]
 #  String. This sets the container type, used in this manifest to determine
 #  the service name to use. 
-#
+# [*content*]
+#  String. The contents of the systemd dropin file. Leave undef if no
+#  dropin file is required. When used, this will most likely be a multi-line string.
+#  Defaults to <tt>undef</tt>
+# 
 # === Examples
 #
 # This class may be imported by other classes to use its functionality:
@@ -35,41 +33,37 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::service (
-  $ensure    = $repose::params::ensure,
-  $enable    = $repose::params::enable,
-  $container = $repose::params::container,
-) inherits repose::params {
+  Boolean                                     $service_hasstatus,
+  Boolean                                     $service_hasrestart,
+  Optional[Variant[String,Sensitive[String]]] $content = undef,
+  Enum['absent','present']                    $ensure = $repose::ensure,
+) {
 
 ### Logic
 
 ## set params: off
-  if $ensure == absent {
-    $service_ensure = stopped
+  if $ensure == 'absent' {
+    $_enable = false
+    $_ensure = 'stopped'
 ## set params: in operation
   } else {
-    $service_ensure = $enable ? {
-      false   => stopped,
-      true    => running,
-      default => manual
+    $_enable = true
+    $_ensure = 'running'
+  }
+
+  # Here we have the opportunity to specify a systemd dropin for repose
+  if $content {
+    systemd::dropin_file {'repose-local.conf':
+      unit    => 'repose.service',
+      content => $content,
     }
   }
 
 ### Manage actions
-
-  if $container == 'valve' {
-    service { $repose::params::service:
-      ensure     => $service_ensure,
-      enable     => $enable,
-      hasstatus  => $repose::params::service_hasstatus,
-      hasrestart => $repose::params::service_hasrestart,
-    }
- } elsif $container == 'repose9' {
-    service { $repose::params::repose9_service:
-      ensure     => $service_ensure,
-      enable     => $enable,
-      hasstatus  => $repose::params::service_hasstatus,
-      hasrestart => $repose::params::service_hasrestart,
-    }
- }
-
+  service { $repose::service_name:
+    ensure     => $_ensure,
+    enable     => $_enable,
+    hasstatus  => $service_hasstatus,
+    hasrestart => $service_hasrestart,
+  }
 }
