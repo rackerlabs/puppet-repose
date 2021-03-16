@@ -12,9 +12,13 @@
                 <PatternLayout pattern="%m"/>
         </Flume>
 <%- end -%>
-<%- if @log_local_policy == 'date' -%>
+
         <RollingFile name="defaultFile"
             filename="<%= @log_dir-%>/<%= @app_name -%>.log"
+          <%- if @log_file_perm == 'public' -%>
+            filePermissions="rw-r--r--"
+          <%- end -%>
+<%- if @log_local_policy == 'date' -%>
             filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%d{yyyy-MM-dd}">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n</Pattern>
@@ -24,13 +28,7 @@
             </Policies>
         </RollingFile>
 <%- elsif @log_local_policy == 'size' -%>
-        <RollingFile name="defaultFile"
-            filename="<%= @log_dir-%>/<%= @app_name -%>.log"
-            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%i" 
-            <%- if @log_file_perm == 'public' -%>
-              filePermissions="rw-r--r--"
-            <%- end -%>
-              >
+            filePattern="<%= @log_dir-%>/<%= @app_name -%>.log.%i">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c %x - %m%n</Pattern>
             </PatternLayout>
@@ -83,9 +81,12 @@
         </Syslog>
 <%- end -%>
 <%- if @log_access_local -%>
-  <%- if @log_local_policy == 'date' -%>
         <RollingFile name="httpLocal"
             filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
+          <%- if @log_file_perm == 'public' -%>
+            filePermissions="rw-r--r--"
+          <%- end -%>
+  <%- if @log_local_policy == 'date' -%>
             filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%d{yyyy-MM-dd}">
             <PatternLayout>
                 <Pattern>%m%n</Pattern>
@@ -95,13 +96,7 @@
             </Policies>
         </RollingFile>
   <%- elsif @log_local_policy == 'size' -%>
-        <RollingFile name="httpLocal"
-            filename="<%= @log_dir-%>/<%= @log_access_local_name -%>.log"
-            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%i"
-            <%- if @log_file_perm == 'public' -%>
-              filePermissions="rw-r--r--"
-            <%- end -%>
-              >
+            filePattern="<%= @log_dir-%>/<%= @log_access_local_name -%>.log.%i">
             <PatternLayout>
                 <Pattern>%m%n</Pattern>
             </PatternLayout>
