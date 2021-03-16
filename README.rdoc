@@ -4,6 +4,8 @@
 
 This module provides a re-usable and environment agnostic control of Repose Power Proxy
 
+Note: This version supports Repose 9+ only.
+
 ---
 == Usage of Module
 
@@ -52,7 +54,9 @@ This module provides a re-usable and environment agnostic control of Repose Powe
   ]
 
   # Bringing it all together
-  class { 'repose::valve': }
+  class { 'repose': 
+    ensure => 'present',
+  }
   repose::filter::slf4j_http_logging { 'default':
     log_files => $log_files,
   }
@@ -69,39 +73,29 @@ This module provides a re-usable and environment agnostic control of Repose Powe
   }
 
 === Removing Repose
- class { 'repose::valve': ensure => absent }
+ class { 'repose': ensure => absent }
 
 ---
 == Installing this module
 
 === via GIT
- git clone http://github.com/rackerlabs/puppet-repose.git /etc/puppet/modules/repose
+ git clone https://github.com/rackerlabs/puppet-repose.git /etc/puppet/modules/repose
 
 ---
 == Running tests 
 
 === Requirements
 Must have:
-* ruby 2.1.5
-* rspec-core 3.1.7
-* puppet 3.7.4
+* pdk 1.17.0+
 
-=== With bundler
-  git clone http://github.com/rackerlabs/puppet-repose.git 
+=== With pdk
+  git clone https://github.com/rackerlabs/puppet-repose.git 
   cd puppet-repose
-  bundle install
-  bundle exec rake validate
-  bundle exec rake spec
-
-=== Straight rake
-  git clone http://github.com/rackerlabs/puppet-repose.git 
-  cd puppet-repose
-  rvm use ruby-2.1.5@repose --create
-  gem install rspec-core:3.1.7 puppet:3.7.4 rspec-puppet rspec-puppet-utils puppet puppetlabs_spec_helper puppet-lint rake --no-ri --no-rdoc
-  rake validate
-  rake spec
+  pdk test unit --verbose
 
 ---
 ==Authors
 [Alex Schultz] mailto:alex.schultz@rackspace.com
 [Greg Swift] mailto:greg.swift@rackspace.com
+[Josh Bell] mailto:josh.bell@rackspace.com
+[Cory Ringdahl] mailto:cory.ringdahl@rackspace.com
