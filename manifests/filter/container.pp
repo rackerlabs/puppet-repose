@@ -323,7 +323,7 @@ class repose::filter::container (
   $logging_configuration_file = "${repose::configdir}/${logging_configuration_real}"
 ## Manage actions
 
-  if $ensure == present {
+  if $ensure == 'present' {
 ## app_name
     if $app_name == undef {
       fail('app_name is a required parameter')

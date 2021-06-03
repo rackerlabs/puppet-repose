@@ -16,6 +16,8 @@ describe 'repose' do
         it { is_expected.to contain_class('repose::package').with_ensure('present') }
         it { is_expected.to contain_class('repose::service').with_ensure('present') }
         it { is_expected.to contain_class('repose::config').with_ensure('present') }
+        it { is_expected.to contain_class('repose::filter') }
+
       end
 
       # Validate uninstall properly passes ensure = absent around
@@ -26,6 +28,7 @@ describe 'repose' do
         it { is_expected.to contain_class('repose::package').with_ensure('absent') }
         it { is_expected.to contain_class('repose::service').with_ensure('absent') }
         it { is_expected.to contain_class('repose::config').with_ensure('absent') }
+        it { is_expected.to contain_class('repose::filter') }
       end
     end
   end
