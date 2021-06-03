@@ -1,6 +1,6 @@
 # == Class: repose::filter
 #
-# This class should not be used.
+# This class passes hash data to filter classes and defined types.
 #
 # === Parameters
 #
@@ -16,6 +16,8 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::filter {
+
+  assert_private()
   # merging same hash from multiple sources, innermost hash defs first
   $filters = lookup('repose::filter', { 'merge' => 'deep' })
 
