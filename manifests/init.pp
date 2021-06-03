@@ -60,6 +60,7 @@ class repose (
   String $configdir,
   String $owner,
   String $group,
+  Hash $filter,
   Stdlib::Filemode $mode,
   Stdlib::Filemode $dirmode,
   Integer $port,
@@ -99,9 +100,13 @@ class repose (
 
   contain repose::package
   contain repose::config
+  contain repose::filter
   contain repose::service
+  contain repose::filter
 
   Class['repose::package']
   -> Class['repose::config']
+  ~> Class['repose::filter']
   ~> Class['repose::service']
+
 }
