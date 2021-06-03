@@ -134,7 +134,7 @@ define repose::filter::system_model (
   Optional[Hash[Integer, String]] $services                 = undef,
   Optional[Array] $nodes                                    = undef,
   Optional[Array] $endpoints                                = undef,
-  Variant[Integer,Boolean] $port                            = $repose::port,
+  Variant[Integer,Enum[false, 'false']] $port               = $repose::port, # 'false' removes http-port; meant for https-port as lone port
   Optional[Integer] $https_port                             = undef,
   Optional[String] $rewrite_host_header                     = undef,
   Optional[String] $service_cluster                         = undef,
