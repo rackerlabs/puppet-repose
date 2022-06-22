@@ -51,7 +51,7 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  Enum['absent','present'] $ensure,
+  String $ensure,
   Boolean $autoupgrade,
   String $cfg_namespace_host,
   String $service_name,

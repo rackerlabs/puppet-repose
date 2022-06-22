@@ -36,7 +36,7 @@ class repose::service (
   Boolean                                     $service_hasstatus,
   Boolean                                     $service_hasrestart,
   Optional[Variant[String,Sensitive[String]]] $content = undef,
-  Enum['absent','present']                    $ensure = $repose::ensure,
+  String                                      $ensure = $repose::ensure,
 ) {
 
 ### Logic
