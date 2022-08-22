@@ -82,18 +82,22 @@ class repose::package (
 
 ### Manage actions
   package { $repose::package_name:
-    ensure => $package_ensure,
+    ensure          => $package_ensure,
+    install_options => ['--nogpgcheck']
+
   }
 
   package { $repose::packages:
-    ensure  => $package_ensure,
-    require => Package[$repose::package_name],
+    ensure          => $package_ensure,
+    require         => Package[$repose::package_name],
+    install_options => ['--nogpgcheck']
   }
 
   if $experimental_filters == true {
     package { $experimental_filters_packages:
-      ensure  => $package_ensure,
-      require => Package[$repose::package_name],
+      ensure          => $package_ensure,
+      require         => Package[$repose::package_name],
+      install_options => ['--nogpgcheck']
     }
   } else {
     package { $experimental_filters_packages:
@@ -104,8 +108,9 @@ class repose::package (
 
   if $identity_filters == true {
     package { $identity_filters_packages:
-      ensure  => $package_ensure,
-      require => Package[$repose::package_name],
+      ensure          => $package_ensure,
+      require         => Package[$repose::package_name],
+      install_options => ['--nogpgcheck']
     }
   }
 }

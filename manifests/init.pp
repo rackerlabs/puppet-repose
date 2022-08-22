@@ -51,7 +51,7 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose (
-  Enum['absent','present'] $ensure,
+  String $ensure,
   Boolean $autoupgrade,
   String $cfg_namespace_host,
   String $service_name,
@@ -60,6 +60,7 @@ class repose (
   String $configdir,
   String $owner,
   String $group,
+  Hash $filter,
   Stdlib::Filemode $mode,
   Stdlib::Filemode $dirmode,
   Integer $port,
@@ -99,9 +100,13 @@ class repose (
 
   contain repose::package
   contain repose::config
+  contain repose::filter
   contain repose::service
+  contain repose::filter
 
   Class['repose::package']
   -> Class['repose::config']
+  ~> Class['repose::filter']
   ~> Class['repose::service']
+
 }
