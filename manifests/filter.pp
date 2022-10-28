@@ -17,7 +17,6 @@
 #
 class repose::filter {
   assert_private()
-  include repose
   # merging same hash from multiple sources, innermost hash defs first
   $filters = lookup('repose::filter', { 'merge' => 'deep' })
 
@@ -26,14 +25,14 @@ class repose::filter {
   $filters.each |$k,$v| {
     if $k in $classes {
       class { "repose::filter::${k}":
-        *       => $v,
-        require => "Service[${repose::service_name}]",
+        *      => $v,
+        notify => "Service[${repose::service_name}]",
       }
     } else {
 # all the rest of the filters are defined_types with nested hashes, 
 # so we can run create_resources
       $defaults = {
-        'require' => "Service[${repose::service_name}]",
+        'notify' => "Service[${repose::service_name}]",
       }
       create_resources("repose::filter::${k}", $v, $defaults)
     }

@@ -110,8 +110,8 @@ class repose (
 ) {
   contain repose::package
   contain repose::config
-  contain repose::service
   contain repose::filter
+  contain repose::service
 
   Class['repose::package']
   -> Class['repose::config']
