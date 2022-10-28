@@ -14,11 +14,11 @@
 #
 # [*request_headers*]
 #   Array. An array of headers to add to the request.
-#   Defaults to <tt>[ ]</tt>.
+#   Defaults to <tt>[]</tt>.
 #
 # [*response_headers*]
 #   Array. An array of headers to add to the response.
-#   Defaults to <tt>[ ]</tt>.
+#   Defaults to <tt>[]</tt>.
 #
 # === Links
 #
@@ -40,7 +40,7 @@
 #       quality   => '0.5',
 #       value     => 'this-is-overwrite-value',
 #     },
-#   ],
+#  ],
 #   reponse_headers => [
 #     {
 #       name      => 'reponse-header',
@@ -48,7 +48,7 @@
 #       quality   => '0.9',
 #       value     => 'foooo',
 #     },
-#   ],
+#  ],
 # }
 #
 # === Authors
@@ -56,25 +56,21 @@
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 #
 define repose::filter::add_header (
-  $ensure           = present,
-  $filename         = 'add-header.cfg.xml',
-  $request_headers  = [ ],
-  $response_headers = [ ],
+  String $ensure           = present,
+  String $filename         = 'add-header.cfg.xml',
+  Array $request_headers  = [],
+  Array $response_headers = [],
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -84,7 +80,6 @@ define repose::filter::add_header (
     $content_template = undef
   }
 
-
 ## Manage actions
 
   file { "${repose::configdir}/${filename}":
@@ -92,8 +87,7 @@ define repose::filter::add_header (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

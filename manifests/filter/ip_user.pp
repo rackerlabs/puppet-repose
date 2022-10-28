@@ -41,8 +41,8 @@
 #   'default':
 #     quality => 0.2,
 #     filter_groups => [
-#       { "name" => "match_all", "addresses" => [ '0.0.0.0/0', '0::0/0' ] },
-#     ]
+#       { "name" => "match_all", "addresses" => ['0.0.0.0/0', '0::0/0'] },
+#    ]
 # }
 #
 # === Authors
@@ -51,27 +51,23 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::ip_user (
-  $ensure        = present,
-  $filename      = 'ip-user.cfg.xml',
+  String $ensure        = present,
+  String $filename      = 'ip-user.cfg.xml',
   $filter_groups = undef,
   $group_header  = undef,
-  $quality       = 0.2,
+  Float $quality       = 0.2,
   $user_header   = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -91,8 +87,7 @@ define repose::filter::ip_user (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

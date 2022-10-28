@@ -24,15 +24,38 @@
 # * This is thus destructive and should be used with care.
 # Defaults to <tt>present</tt>.
 #
-# [*autoupgrade*]
-# Boolean. If set to <tt>true</tt>, any managed package gets upgraded
-# on each Puppet run when the package provider is able to find a newer
-# version than the present one. The exact behavior is provider dependent.
-# Q.v.:
-# * Puppet type reference: {package, "upgradeable"}[http://j.mp/xbxmNP]
-# * {Puppet's package provider source code}[http://j.mp/wtVCaL]
-# Defaults to <tt>false</tt>.
-
+# [*cfg_namespace_host*]
+# String. XML namespace reference.
+#
+# [*service_name*]
+# String. Name of Repose service.
+#
+# [*packages*]
+# Array. List of supplementary packages to be installed.
+#
+# [*package_name*]
+# String. Name of primary repose package.
+#
+# [*configdir*]
+# String. Directory repose configs should live in.
+#
+# [*group*]
+# String. Group that repose user belongs in.
+# 
+# [*owner*]
+# String. Name of repose user.
+# 
+# [*filter*]
+# Hash.
+# 
+# [*mode*]
+# Stdlib::Filemode. File permissions.
+#
+# [*dirmode*]
+# Stdlib::Filemode. Directory permissions.
+# 
+# [*port*]
+# Integer. Port repose listens on.
 #
 # === Examples
 #
@@ -52,7 +75,7 @@
 #
 class repose (
   String $ensure,
-  Boolean $autoupgrade,
+  Boolean $enable,
   String $cfg_namespace_host,
   String $service_name,
   Array $packages,
@@ -64,43 +87,29 @@ class repose (
   Stdlib::Filemode $mode,
   Stdlib::Filemode $dirmode,
   Integer $port,
+  Boolean $experimental_filters,
+  Array $experimental_filters_packages,
+  Boolean $identity_filters,
+  Array $identity_filters_packages,
+  String $daemon_home,
+  String $log_path,
+  String $user,
+  String $daemonize,
+  String $daemonize_opts,
+  Boolean $service_hasstatus,
+  Boolean $service_hasrestart,
+  Optional[String] $java_options = undef,
+  Optional[String] $saxon_home   = undef,
+  Array $log_files         = ['/var/log/repose/repose.log'],
+  String $rotate_frequency = 'daily',
+  Integer $rotate_count    = 4,
+  Boolean $compress        = true,
+  Boolean $delay_compress  = true,
+  Boolean $use_date_ext    = true,
+  Optional[Variant[String,Sensitive[String]]] $content = undef,
 ) {
-
-### Validate parameters
-
-## ensure
-  if ! ($ensure) {
-    fail("\"${ensure}\" is required. It should be present or absent")
-  } else {
-    $file_ensure = $ensure ? {
-      absent  => absent,
-      default => file,
-    }
-    $dir_ensure = $ensure ? {
-      absent  => absent,
-      default => directory,
-    }
-  }
-  if $::debug {
-    if $ensure != $repose::ensure {
-      debug('$ensure overridden by class parameter')
-    }
-    debug("\$ensure = '${ensure}'")
-  }
-
-## autoupgrade
-  if $::debug {
-    if $autoupgrade != $repose::autoupgrade {
-      debug('$autoupgrade overridden by class parameter')
-    }
-    debug("\$autoupgrade = '${autoupgrade}'")
-  }
-
-### Manage actions
-
   contain repose::package
   contain repose::config
-  contain repose::filter
   contain repose::service
   contain repose::filter
 
@@ -108,5 +117,4 @@ class repose (
   -> Class['repose::config']
   ~> Class['repose::filter']
   ~> Class['repose::service']
-
 }

@@ -43,7 +43,7 @@ describe 'repose::filter::uri_stripper', type: :define do
           {
             ensure: 'present',
             filename: 'uri-stripper.cfg.xml',
-            rewrite_location: 'true',
+            rewrite_location: true,
           }
         end
 
@@ -58,7 +58,7 @@ describe 'repose::filter::uri_stripper', type: :define do
           {
             ensure: 'present',
             filename: 'uri-stripper.cfg.xml',
-            rewrite_location: 'false',
+            rewrite_location: false,
           }
         end
 
@@ -73,7 +73,7 @@ describe 'repose::filter::uri_stripper', type: :define do
           {
             ensure: 'present',
             filename: 'uri-stripper.cfg.xml',
-            token_index: '3',
+            token_index: 3,
           }
         end
 

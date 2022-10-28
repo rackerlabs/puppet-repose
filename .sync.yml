@@ -1,0 +1,7 @@
+---
+spec/spec_helper.rb:
+  hiera_config: 'spec/fixtures/hiera/hiera.yaml'
+Rakefile:
+  default_disabled_lint_checks:
+    - parameter_documentation
+    - parameter_types

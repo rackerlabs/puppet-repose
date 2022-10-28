@@ -5,9 +5,6 @@ repose::ensure: 'present'
 ## enable
 repose::enable: true
 
-## autoupgrade
-repose::autoupgrade: false
-
 ### Package specific info
 
 ## namespace
@@ -20,8 +17,8 @@ repose::service_name: 'repose'
 repose::package_name: 'repose'
   
 ## service capabilities
-repose::service::service_hasstatus: true
-repose::service::service_hasrestart: true
+repose::service_hasstatus: true
+repose::service_hasrestart: true
 
 ## packages
 repose::packages: 
@@ -29,15 +26,15 @@ repose::packages:
   - 'repose-extensions-filter-bundle' 
   
 ##  experimental filters bundle package 
-repose::package::experimental_filters: false
+repose::experimental_filters: false
 
-repose::package::experimental_filters_packages: 
+repose::experimental_filters_packages: 
   - 'repose-experimental-filter-bundle' 
   
 ##  identity filters bundle package
-repose::package::identity_filters: false
+repose::identity_filters: false
 
-repose::package::identity_filters_packages: 
+repose::identity_filters_packages: 
   - 'repose-identity-filter-bundle' 
 
 ## configdir
@@ -59,22 +56,22 @@ repose::dirmode: '0750'
 repose::port: 8080
 
 ## daemon_home for valve
-repose::config::daemon_home: '/usr/share/lib/repose'
+repose::daemon_home: '/usr/share/lib/repose'
 
 ## log path
-repose::config::log_path: '/var/log/repose'
+repose::log_path: '/var/log/repose'
 
 ## pid file for valve
 repose::pid_file: '/var/run/repose.pid'
 
 ## user for valve
-repose::config::user: 'repose'
+repose::user: 'repose'
 
 ## daemonize bin for repose
-repose::config::daemonize: '/usr/sbin/daemonize'
+repose::daemonize: '/usr/sbin/daemonize'
 
 ## daemonize opts for repose
-repose::config::daemonize_opts: '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
+repose::daemonize_opts: '-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME'
 
 repose::filter:
   container:

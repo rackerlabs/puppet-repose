@@ -75,7 +75,7 @@ It8una2gY4l2O//on88r5IWJlm1L0oA8e4fR2yrBHX..adsGeFKkyNrwGi/\n
             'group'  => 'repose',
             'mode'   => '0660',
           )
-            .with_content(%r{-----BEGIN CERTIFICATE-----})
+                                                                       .with_content(%r{-----BEGIN CERTIFICATE-----})
                                                                        .with_content(%r{-----END CERTIFICATE-----})
           is_expected.to contain_java_ks('saml_policy_keystore')
         }

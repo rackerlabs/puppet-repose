@@ -27,7 +27,7 @@
 #     'name'  => 'X-User-Name',
 #     'value' => '.03',
 #   },
-# ]
+#]
 #
 # === Links
 #
@@ -40,24 +40,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::header_user (
-  $ensure         = present,
-  $filename       = 'header-user.cfg.xml',
-  $source_headers = [],
+  String $ensure         = present,
+  String $filename       = 'header-user.cfg.xml',
+  Array $source_headers = [],
 ) {
-
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -74,8 +70,7 @@ define repose::filter::header_user (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

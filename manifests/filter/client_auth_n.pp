@@ -40,7 +40,7 @@
 # Set the quality for this filter when returning error responses.
 # Default is <tt>undef</tt> (repose default is 0.7)
 #
-# [*tendanted*]
+# [*tenanted*]
 # Bool.
 # Defaults to <tt>false</tt>
 #
@@ -83,7 +83,7 @@
 #       pass => 'testpass',
 #       uri => 'testuri',
 #     },
-#     client_maps => [ '.*/events/(\d+)', ],
+#     client_maps => ['.*/events/(\d+)',],
 # }
 #
 # === Authors
@@ -93,37 +93,34 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::client_auth_n (
-  $ensure              = present,
-  $filename            = 'client-auth-n.cfg.xml',
-  $auth                = undef,
-  $client_maps         = undef,
+  String $ensure              = present,
+  String $filename            = 'client-auth-n.cfg.xml',
+  Optional[Hash] $auth                = undef,
+  Optional[Array] $client_maps         = undef,
   $white_lists         = undef,
-  $ignore_tenant_roles = undef,
-  $delegable           = false,
-  $delegating          = undef,
-  $delegating_quality  = undef,
-  $tenanted            = false,
+  Optional[Array] $ignore_tenant_roles = undef,
+  Boolean $delegable           = false,
+  Optional[Boolean] $delegating          = undef,
+  Optional[Float] $delegating_quality  = undef,
+  Boolean $tenanted            = false,
   $request_groups      = undef,
-  $token_cache_timeout = undef,
-  $group_cache_timeout = '60000',
-  $connection_pool_id  = undef,
-  $send_all_tenant_ids = undef,
-  $token_expire_feed   = undef,
+  Optional[String] $token_cache_timeout = undef,
+  String $group_cache_timeout = '60000',
+  Optional[String] $connection_pool_id  = undef,
+  Optional[Boolean] $send_all_tenant_ids = undef,
+  Optional[Hash] $token_expire_feed   = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -143,8 +140,7 @@ define repose::filter::client_auth_n (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

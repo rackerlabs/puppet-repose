@@ -39,36 +39,30 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::service (
-  Boolean                                     $service_hasstatus,
-  Boolean                                     $service_hasrestart,
-  Optional[Variant[String,Sensitive[String]]] $content = undef,
-  String                                      $ensure = $repose::ensure,
 ) {
 ### Logic
 
 ## set params: off
-  if $ensure == 'absent' {
-    $_enable = false
+  if $repose::ensure == 'absent' {
     $_ensure = 'stopped'
 ## set params: in operation
   } else {
-    $_enable = true
     $_ensure = 'running'
   }
 
   # Here we have the opportunity to specify a systemd dropin for repose
-  if $content {
+  if $repose::content {
     systemd::dropin_file { 'repose-local.conf':
       unit    => 'repose.service',
-      content => $content,
+      content => $repose::content,
     }
   }
 
 ### Manage actions
   service { $repose::service_name:
     ensure     => $_ensure,
-    enable     => $_enable,
-    hasstatus  => $service_hasstatus,
-    hasrestart => $service_hasrestart,
+    enable     => $repose::enable,
+    hasstatus  => $repose::service_hasstatus,
+    hasrestart => $repose::service_hasrestart,
   }
 }

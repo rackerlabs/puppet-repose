@@ -70,7 +70,7 @@ describe 'repose::filter::rackspace_identity_basic_auth', type: :define do
         let(:params) do
           {
             delegating: true,
-            delegating_quality: '0.7',
+            delegating_quality: 0.7,
           }
         end
 

@@ -37,7 +37,7 @@
 #         format => '%t Requester: %a ForwardedFor: %{x-forwarded-for}i AuthToken: %{x-auth-token}i URL: %U',
 #         location => '/var/log/repose/credentials.log',
 #       },
-#     ];
+#    ];
 #   'pre-ratelimit-httplog':
 #     filename => 'pre-ratelimit-httplog.cfg.xml',
 #     log_files => [
@@ -45,7 +45,7 @@
 #         format => '{&quot;timestamp&quot;: &quot;%t&quot;, &quot;response_time_in_seconds&quot;: %T, &quot;response_code_modifiers&quot;: &quot;%200,201U&quot;, &quot;modifier_negation&quot;: &quot;%!401a&quot;, &quot;remote_ip&quot;: &quot;%a&quot;, &quot;local_ip&quot;: &quot;%A&quot;, &quot;response_size_in_bytes&quot;: %b, &quot;remote_host&quot;: &quot;%h&quot;, &quot;forwarded_for&quot;: &quot;%{x-forwarded-for}i&quot;, &quot;request_method&quot;: &quot;%m&quot;, &quot;server_port&quot;: %p, &quot;query_string&quot;: &quot;%q&quot;, &quot;status_code&quot;: %s, &quot;remote_user&quot;: &quot;%u&quot;, &quot;url_path_requested&quot;: &quot;%U&quot;}',
 #         location => '/var/log/repose/pre-ratelimit-http.log',
 #       }
-#     ];
+#    ];
 # }
 # lint:endignore
 #
@@ -56,8 +56,8 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::http_logging (
-  $ensure    = present,
-  $filename  = 'http-logging.cfg.xml',
+  String $ensure    = present,
+  String $filename  = 'http-logging.cfg.xml',
   $log_files = undef,
 ) {
   warning('repose::filter::http_logging has been deprecated')
@@ -65,16 +65,13 @@ define repose::filter::http_logging (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -94,8 +91,7 @@ define repose::filter::http_logging (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

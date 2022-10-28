@@ -36,9 +36,9 @@
 #           'media-type' => '*/*',
 #           'body' => '{ "overLimit" : { "code" : 413, "message" : "OverLimit Retry...", "details" : "whatever": } }', 
 #         }
-#       ]
+#      ]
 #     }, 
-#   ]
+#  ]
 # }
 #
 # === Authors
@@ -47,25 +47,21 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::response_messaging (
-  $ensure           = present,
-  $filename         = 'response-messaging.cfg.xml',
-  $app_name         = 'repose',
+  String $ensure           = present,
+  String $filename         = 'response-messaging.cfg.xml',
+  String $app_name         = 'repose',
   $status_codes     = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -78,7 +74,6 @@ define repose::filter::response_messaging (
     $content_template = undef
   }
 
-
 ## Manage actions
 
   file { "${repose::configdir}/${filename}":
@@ -86,8 +81,7 @@ define repose::filter::response_messaging (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

@@ -168,7 +168,7 @@ describe 'repose::filter::rate_limiting', type: :define do
               'uri-regex' => '/limits/stuff/?',
               'include_absolut_limits' => false,
             },
-            overlimit_429: 'true',
+            overlimit_429: true,
             limit_groups: [{
               'id' => 'Some_Group',
               'groups'    => 'Some_Group',

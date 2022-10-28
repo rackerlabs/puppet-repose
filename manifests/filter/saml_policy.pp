@@ -108,37 +108,33 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::saml_policy (
-  $keystone_uri,
-  $keystone_user,
-  $keystone_password,
-  $signature_keystore_certname,
-  $signature_keystore_keypass,
-  $signature_keystore_password,
+  String $keystone_uri,
+  String $keystone_user,
+  Variant[String,Sensitive[String]] $keystone_password,
+  String $signature_keystore_certname,
+  Variant[String,Sensitive[String]] $signature_keystore_keypass,
+  Variant[String,Sensitive[String]] $signature_keystore_password,
   $signature_keystore_pem,
-  $policy_uri,
+  String $policy_uri,
   $keystone_pool               = undef,
-  $ensure                      = present,
-  $filename                    = 'saml-policy.cfg.xml',
-  $policy_bypass_issuers       = [],
+  String $ensure                      = present,
+  String $filename                    = 'saml-policy.cfg.xml',
+  Array $policy_bypass_issuers       = [],
   $policy_cache_feed_id        = undef,
-  $policy_cache_ttl            = 300,
+  Integer $policy_cache_ttl            = 300,
   $policy_pool                 = undef,
-  $signature_keystore_path     = '/etc/pki/java/repose-saml-policy.ks',
+  String $signature_keystore_path     = '/etc/pki/java/repose-saml-policy.ks',
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -154,7 +150,7 @@ define repose::filter::saml_policy (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
+    require => Class['repose::package'],
     content => $signature_keystore_pem,
   }
 
@@ -174,8 +170,7 @@ define repose::filter::saml_policy (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

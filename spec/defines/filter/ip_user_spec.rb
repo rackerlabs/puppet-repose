@@ -43,7 +43,7 @@ describe 'repose::filter::ip_user', type: :define do
               { 'name' => 'group1', 'addresses' => ['9.9.9.9/0', '0.0.0.0/0'] },
             ],
             group_header: 'X-PP-Repose-Group',
-            quality: '0.25',
+            quality: 0.25,
             user_header: 'X-PP-Repose-User',
           }
         end
@@ -71,7 +71,7 @@ describe 'repose::filter::ip_user', type: :define do
               { 'name' => 'group1', 'addresses' => ['9.9.9.9/0', '0.0.0.0/0'] },
             ],
             group_header: 'X-PP-Repose-Group',
-            quality: '0.25',
+            quality: 0.25,
             user_header: 'X-PP-Repose-User',
           }
         end
@@ -98,7 +98,7 @@ describe 'repose::filter::ip_user', type: :define do
               { 'name' => 'group1', 'addresses' => ['9.9.9.9/0', '0.0.0.0/0'] },
             ],
             group_header: 'X-PP-Repose-Group',
-            quality: '0.25',
+            quality: 0.25,
             user_header: 'X-PP-Repose-User',
           }
         end

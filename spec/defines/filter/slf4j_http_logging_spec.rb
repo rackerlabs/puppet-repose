@@ -53,7 +53,7 @@ describe 'repose::filter::slf4j_http_logging', type: :define do
             'group'  => 'repose',
             'mode'   => '0660',
           )
-            .with_content(%r{id=\"my-log\"})
+                                                                               .with_content(%r{id=\"my-log\"})
                                                                                .with_content(%r{format=\"my format\"})
         }
       end

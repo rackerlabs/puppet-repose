@@ -43,7 +43,7 @@ describe 'repose::filter::uri_user', type: :define do
               { 'id' => 'main', 'regex' => '.*' },
             ],
             group: 'User_Standard',
-            quality: '0.8',
+            quality: 0.8,
           }
         end
 
@@ -69,7 +69,7 @@ describe 'repose::filter::uri_user', type: :define do
               { 'id' => 'main', 'regex' => '.*' },
             ],
             group: 'User_Standard',
-            quality: '0.8',
+            quality: 0.8,
           }
         end
 
@@ -95,7 +95,7 @@ describe 'repose::filter::uri_user', type: :define do
               { 'id' => 'main', 'regex' => '.*' },
             ],
             group: 'User_Standard',
-            quality: '0.8',
+            quality: 0.8,
           }
         end
 

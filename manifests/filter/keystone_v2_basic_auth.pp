@@ -58,29 +58,25 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::keystone_v2_basic_auth (
-  $ensure               = present,
-  $filename             = 'keystone-v2-basic-auth.cfg.xml',
-  $identity_service_url = undef,
+  String $ensure               = present,
+  String $filename             = 'keystone-v2-basic-auth.cfg.xml',
+  Optional[String] $identity_service_url = undef,
   $token_cache_timeout  = undef,
   $connection_pool_id   = undef,
   $secret_type          = undef,
   $delegating           = undef,
   $delegating_quality   = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -105,8 +101,7 @@ define repose::filter::keystone_v2_basic_auth (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

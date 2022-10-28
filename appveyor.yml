@@ -1,8 +1,9 @@
 ---
 version: 1.1.x.{build}
+skip_branch_with_pr: true
 branches:
   only:
-    - master
+    - main
     - release
 skip_commits:
   message: /^\(?doc\)?.*/
@@ -17,21 +18,13 @@ environment:
   matrix:
     -
       RUBY_VERSION: 25-x64
-      CHECK: syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop
+      CHECK: validate lint check rubocop
     -
-      PUPPET_GEM_VERSION: ~> 6.21
+      PUPPET_GEM_VERSION: ~> 6.0
       RUBY_VERSION: 25
       CHECK: parallel_spec
     -
-      PUPPET_GEM_VERSION: ~> 6.21
-      RUBY_VERSION: 25-x64
-      CHECK: parallel_spec
-    -
-      PUPPET_GEM_VERSION: ~> 7.4
-      RUBY_VERSION: 25
-      CHECK: parallel_spec
-    -
-      PUPPET_GEM_VERSION: ~> 7.4
+      PUPPET_GEM_VERSION: ~> 6.0
       RUBY_VERSION: 25-x64
       CHECK: parallel_spec
 matrix:

@@ -23,15 +23,6 @@
 # * This is thus destructive and should be used with care.
 # Defaults to <tt>present</tt>.
 #
-# [*autoupgrade*]
-# Boolean. If set to <tt>true</tt>, any managed package gets upgraded
-# on each Puppet run when the package provider is able to find a newer
-# version than the present one. The exact behavior is provider dependent.
-# Q.v.:
-# * Puppet type reference: {package, "upgradeable"}[http://j.mp/xbxmNP]
-# * {Puppet's package provider source code}[http://j.mp/wtVCaL]
-# Defaults to <tt>false</tt>.
-#
 # The default values for the parameters are set in repose::params. Have
 # a look at the corresponding <tt>params.pp</tt> manifest file if you need more
 # technical information about them.
@@ -68,6 +59,23 @@
 # String. Home directory for Saxon. Sets SAXON_HOME
 # Defaults to <tt>undef</tt>
 #
+# [*log_files*]
+# Array. List of log files
+# 
+# [*rotate_frequency*]
+# String. Frequency of log rotation, default 'daily'
+# 
+# [*rotate_count*]
+# Integer. Number of rotations per frequency
+# 
+# [*compress*]
+# Boolean. Compress log backups or not
+#
+# [*delay_compress*]
+# Boolean. Delay compression
+# 
+# [*use_date_ext*]
+# Boolean. Use date as extension
 # === Examples
 #
 # * Installation:
@@ -87,29 +95,14 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::config (
-  String $daemon_home,
-  String $log_path,
-  String $user,
-  String $daemonize,
-  String $daemonize_opts,
-  String $ensure  = $repose::ensure,
-  Optional[String] $java_options = undef,
-  Optional[String] $saxon_home   = undef,
-  Array $log_files         = [ '/var/log/repose/repose.log' ],
-  String $rotate_frequency = 'daily',
-  Integer $rotate_count    = 4,
-  Boolean $compress        = true,
-  Boolean $delay_compress  = true,
-  Boolean $use_date_ext    = true,
 ) {
-
-  $file_ensure = $ensure ? {
-    absent  => absent,
-    default => file,
+  $file_ensure = $repose::ensure ? {
+    'absent' => 'absent',
+    default  => file,
   }
-  $dir_ensure = $ensure ? {
-      absent  => absent,
-      default => directory,
+  $dir_ensure = $repose::ensure ? {
+    'absent' => 'absent',
+    default  => directory,
   }
 
 ## files/directories
@@ -145,41 +138,41 @@ class repose::config (
 
   # default repose valve sysconfig options
   $repose_sysconfig = [
-    "set DAEMON_HOME '${daemon_home}'",
-    "set LOG_PATH '${log_path}'",
-    "set USER '${user}'",
-    "set daemonize '${daemonize}'",
-    "set daemonize_opts '\"${daemonize_opts}\"'",
-    "set java_opts '\"\${java_opts} ${java_options}\"'",
-    "set JAVA_OPTS '\"\${JAVA_OPTS} ${java_options}\"'",
+    "set DAEMON_HOME '${repose::daemon_home}'",
+    "set LOG_PATH '${repose::log_path}'",
+    "set USER '${repose::user}'",
+    "set daemonize '${repose::daemonize}'",
+    "set daemonize_opts '\"${repose::daemonize_opts}\"'",
+    "set java_opts '\"\${java_opts} ${repose::java_options}\"'",
+    "set JAVA_OPTS '\"\${JAVA_OPTS} ${repose::java_options}\"'",
   ]
 
   # if saxon_home provided for saxon license
-  if $saxon_home {
+  if $repose::saxon_home {
     $saxon_sysconfig = [
-      "set SAXON_HOME '${saxon_home}'",
-      "set SAXON_HOME/export ''"
+      "set SAXON_HOME '${repose::saxon_home}'",
+      "set SAXON_HOME/export ''",
     ]
   } else {
     $saxon_sysconfig = 'rm SAXON_HOME'
   }
 
   logrotate::rule { 'repose_logs':
-    path          => $log_files,
-    rotate        => $rotate_count,
+    path          => $repose::log_files,
+    rotate        => $repose::rotate_count,
     missingok     => true,
-    compress      => $compress,
-    delaycompress => $delay_compress,
-    dateext       => $use_date_ext,
+    compress      => $repose::compress,
+    delaycompress => $repose::delay_compress,
+    dateext       => $repose::use_date_ext,
   }
 
   # only run if ensure is not absent
-  if ! ($ensure == absent) {
+  if ! ($repose::ensure == 'absent') {
     # run augeas with our changes
     augeas {
       'repose_sysconfig':
         context => '/files/etc/sysconfig/repose',
-        changes => [ $repose_sysconfig, $saxon_sysconfig ]
+        changes => [$repose_sysconfig, $saxon_sysconfig],
     }
   }
 }

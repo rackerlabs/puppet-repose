@@ -35,20 +35,20 @@
 #              'headers' => [
 #                'X-PP-User',
 #                'X-PP-Groups',
-#              ],
+#             ],
 #            }
-#          ],
+#         ],
 #          'whitelists'   => [
 #            {
 #              'name'   => 'creds',
 #              'headers' => [
 #                'X-Auth-Key',
 #                'X-Auth-User',
-#              ],
+#             ],
 #            }
-#          ],
+#         ],
 #       },
-#     ],
+#    ],
 # }
 #
 # === Authors
@@ -58,24 +58,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::header_normalization (
-  $ensure         = present,
-  $filename       = 'header-normalization.cfg.xml',
+  String $ensure         = present,
+  String $filename       = 'header-normalization.cfg.xml',
   $header_filters = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -90,8 +86,7 @@ define repose::filter::header_normalization (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

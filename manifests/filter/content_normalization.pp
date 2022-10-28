@@ -40,9 +40,9 @@
 #         headers => [
 #           'X-Authorization',
 #           'X-User-Name',
-#         ]
+#        ]
 #       }
-#     ],
+#    ],
 #     media_types => [
 #       {
 #         'name'              => 'application/xml',
@@ -52,7 +52,7 @@
 #         'name'              => 'application/json',
 #         'variant-extension' => 'json'
 #       },
-#     ]
+#    ]
 # }
 #
 # === Authors
@@ -62,29 +62,25 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::content_normalization (
-  $ensure                = present,
-  $filename              = 'content-normalization.cfg.xml',
-  $app_name              = 'repose',
+  String $ensure                = present,
+  String $filename              = 'content-normalization.cfg.xml',
+  String $app_name              = 'repose',
   $content_normalization = undef,
   $header_filters        = undef,
   $media_types           = undef,
 ) {
-
   warning("${name} - content normalization filter is incompatibile with repose 7+")
 
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -99,8 +95,7 @@ define repose::filter::content_normalization (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

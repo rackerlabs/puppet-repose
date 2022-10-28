@@ -31,7 +31,7 @@
 #     quality => 0.2,
 #     whitelist => {
 #       quality => 0.3,
-#       addresses => [ '127.0.0.1' ],
+#       addresses => ['127.0.0.1'],
 #     }
 # }
 #
@@ -42,25 +42,21 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::ip_identity (
-  $ensure    = present,
-  $filename  = 'ip-identity.cfg.xml',
-  $quality   = 0.2,
-  $whitelist = undef,
+  String $ensure    = present,
+  String $filename  = 'ip-identity.cfg.xml',
+  Float $quality   = 0.2,
+  Optional[Hash] $whitelist = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -80,8 +76,7 @@ define repose::filter::ip_identity (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

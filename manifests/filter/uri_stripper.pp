@@ -39,25 +39,21 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::uri_stripper (
-  $ensure           = present,
-  $filename         = 'uri-stripper.cfg.xml',
-  $rewrite_location = false,
-  $token_index      = 0,
+  String $ensure           = present,
+  String $filename         = 'uri-stripper.cfg.xml',
+  Boolean $rewrite_location = false,
+  Integer $token_index      = 0,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -73,8 +69,7 @@ define repose::filter::uri_stripper (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

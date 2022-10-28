@@ -38,13 +38,13 @@
 # === Examples
 # repose::filter::dist_datastore {
 #   'default':
-#     nodes => [ 'test1.domain', 'test2.domain' ],
+#     nodes => ['test1.domain', 'test2.domain'],
 #     port_config => [
 #       {
 #         port => 9191,
 #         cluster => "repose",
 #       },
-#     ]
+#    ]
 # }
 #
 # === Authors
@@ -54,27 +54,23 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::dist_datastore (
-  $allow_all           = false,
+  Boolean $allow_all           = false,
   $connection_pool_id  = undef,
-  $ensure              = present,
-  $filename            = 'dist-datastore.cfg.xml',
+  String $ensure              = present,
+  String $filename            = 'dist-datastore.cfg.xml',
   $nodes               = undef,
   $port_config         = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
 ## nodes only required if ensure is present
@@ -88,7 +84,6 @@ define repose::filter::dist_datastore (
     $content_template = undef
   }
 
-
 ## Manage actions
 
   file { "${repose::configdir}/${filename}":
@@ -96,8 +91,7 @@ define repose::filter::dist_datastore (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

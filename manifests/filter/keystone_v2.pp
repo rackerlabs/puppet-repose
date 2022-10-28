@@ -127,7 +127,7 @@
 #       pass => 'testpass',
 #       uri => 'testuri',
 #     },
-#     client_maps => [ '.*/events/(\d+)', ],
+#     client_maps => ['.*/events/(\d+)',],
 # }
 #
 # === Authors
@@ -135,9 +135,9 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 define repose::filter::keystone_v2 (
-  $ensure                  = present,
-  $filename                = 'keystone-v2.cfg.xml',
-  $uri                     = undef,
+  String $ensure                  = present,
+  String $filename                = 'keystone-v2.cfg.xml',
+  Optional[String] $uri                     = undef,
   $connection_pool_id      = undef,
   $send_roles              = undef,
   $send_groups             = undef,
@@ -164,20 +164,16 @@ define repose::filter::keystone_v2 (
   $endpoint_type           = undef,
   $pre_authorized_roles    = undef,
 ) {
-
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -187,7 +183,7 @@ define repose::filter::keystone_v2 (
     }
 
     if (($send_tenant_quality == false) and (($default_tenant_quality != undef)
-      or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef))) {
+    or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef))) {
       fail("setting tenant quality levels doesn't work when tenant qualities is turned off")
     }
 
@@ -207,8 +203,7 @@ define repose::filter::keystone_v2 (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

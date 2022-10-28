@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+RSpec.configure do |c|
+  c.mock_with :rspec
+end
+
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet-facts'
-require 'hiera'
+
 require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_local.rb'))
 
 include RspecPuppetFacts
@@ -15,7 +19,6 @@ default_facts = {
 default_fact_files = [
   File.expand_path(File.join(File.dirname(__FILE__), 'default_facts.yml')),
   File.expand_path(File.join(File.dirname(__FILE__), 'default_module_facts.yml')),
-  File.expand_path(File.join(File.dirname(__FILE__), '../data/common.yaml')),
 ]
 
 default_fact_files.each do |f|
@@ -34,22 +37,28 @@ default_facts.each do |fact, value|
 end
 
 RSpec.configure do |c|
-  # Debug mode
-
-  #  c.before(:each) do
-  # Puppet::Util::Log.level = :debug
-  # Puppet::Util::Log.newdestination(:console)
-  # end
-
   c.default_facts = default_facts
-  c.hiera_config = File.expand_path(File.join(__FILE__, '../../hiera.yaml'))
+  c.hiera_config = 'spec/fixtures/hiera/hiera.yaml'
   c.before :each do
     # set to strictest setting for testing
     # by default Puppet runs at warning level
     Puppet.settings[:strict] = :warning
+    Puppet.settings[:strict_variables] = true
   end
   c.filter_run_excluding(bolt: true) unless ENV['GEM_BOLT']
   c.after(:suite) do
+  end
+
+  # Filter backtrace noise
+  backtrace_exclusion_patterns = [
+    %r{spec_helper},
+    %r{gems},
+  ]
+
+  if c.respond_to?(:backtrace_exclusion_patterns)
+    c.backtrace_exclusion_patterns = backtrace_exclusion_patterns
+  elsif c.respond_to?(:backtrace_clean_patterns)
+    c.backtrace_clean_patterns = backtrace_exclusion_patterns
   end
 end
 

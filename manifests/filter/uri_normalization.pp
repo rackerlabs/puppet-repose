@@ -45,11 +45,11 @@
 #                  'multiplicity'   => '0',
 #                  'case-sensitive' => 'false',
 #                }
-#              ],
+#             ],
 #            }
-#          ],
+#         ],
 #       }
-#     ],
+#    ],
 #     media_types => [
 #       {
 #         'name'              => 'application/xml',
@@ -59,7 +59,7 @@
 #         'name'              => 'application/json',
 #         'variant-extension' => 'json'
 #       },
-#     ]
+#    ]
 # }
 #
 # === Authors
@@ -69,25 +69,21 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::uri_normalization (
-  $ensure      = present,
-  $filename    = 'uri-normalization.cfg.xml',
+  String $ensure      = present,
+  String $filename    = 'uri-normalization.cfg.xml',
   $uri_filters = undef,
   $media_types = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
+  if ! ($ensure in ['present', 'absent']) {
     fail("\"${ensure}\" is not a valid ensure parameter value")
   } else {
     $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
+      'present' => file,
+      'absent'  => 'absent',
     }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
   }
 
   if $ensure == present {
@@ -102,8 +98,7 @@ define repose::filter::uri_normalization (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }
