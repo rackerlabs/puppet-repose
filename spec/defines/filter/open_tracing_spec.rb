@@ -460,7 +460,7 @@ describe 'repose::filter::open_tracing', type: :define do
           end
 
           it {
-            is_expected.to raise_error(/one of sampling parameters must be defined/)
+            is_expected.to raise_error(%r{one of sampling parameters must be defined})
           }
         end
 
@@ -476,7 +476,7 @@ describe 'repose::filter::open_tracing', type: :define do
           end
 
           it {
-            is_expected.to raise_error(/one of sampling parameters must be defined/)
+            is_expected.to raise_error(%r{one of sampling parameters must be defined})
           }
         end
 
@@ -493,7 +493,7 @@ describe 'repose::filter::open_tracing', type: :define do
           end
 
           it {
-            is_expected.to raise_error(/parameter 'udp_connection_host' expects a Stdlib::Host/)
+            is_expected.to raise_error(%r{parameter 'udp_connection_host' expects a Stdlib::Host})
           }
         end
 
@@ -528,7 +528,7 @@ describe 'repose::filter::open_tracing', type: :define do
           end
 
           it {
-            is_expected.to raise_error(/parameter 'udp_connection_host' expects a Stdlib::Host/)
+            is_expected.to raise_error(%r{parameter 'udp_connection_host' expects a Stdlib::Host})
           }
         end
       end

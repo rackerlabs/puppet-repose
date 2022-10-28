@@ -47,15 +47,22 @@ describe 'repose' do
             is_expected.to contain_augeas('repose_sysconfig')
               .with_changes([
                               [
-                                "set DAEMON_HOME '/usr/share/lib/repose'",
+                                "set REPOSE_JAR '/usr/share/repose/repose.jar'",
+                                "set DAEMON_HOME '/usr/share/repose'",
                                 "set LOG_PATH '/var/log/repose'",
                                 "set USER 'repose'",
                                 "set daemonize '/usr/sbin/daemonize'",
                                 "set daemonize_opts '\"-c $DAEMON_HOME -p $PID_FILE -u $USER -o $LOG_PATH/stdout.log -e $LOG_PATH/stderr.log -l /var/lock/subsys/$NAME\"'",
-                                "set java_opts '\"${java_opts} \"'",
-                                "set JAVA_OPTS '\"${JAVA_OPTS} \"'",
+                                "set JAVA_OPTS '\"\"'",
                               ],
                               'rm SAXON_HOME',
+                            ])
+          }
+          it {
+            is_expected.to contain_augeas('repose_service_unit')
+              .with_context('/files/lib/systemd/system/repose.service')
+              .with_changes([
+                              'set Service/EnvironmentFile/value /etc/sysconfig/repose',
                             ])
           }
         end
@@ -66,16 +73,16 @@ describe 'repose' do
             is_expected.to contain_service('repose').with_ensure('running')
           }
         end
-  
+
         # Validate ensure is absent properly stops services
         context 'ensure is absent' do
           let(:params) { { ensure: 'absent' } }
-  
+
           it {
             is_expected.to contain_service('repose').with_ensure('stopped')
           }
         end
-  
+
         # Validate systemd dropin file
         context 'ensure systemd dropin file' do
           let(:params) do
@@ -84,7 +91,7 @@ describe 'repose' do
     Environment="JAVA_OPTS=-javaagent:/opt/newrelic/newrelic.jar -Dnewrelic.config.file=/etc/newrelic/cidm_repose.yml -Xms4096m -Xmx4096m -XX:MaxPermSize=512m"',
             }
           end
-  
+
           it {
             is_expected.to contain_file('/etc/systemd/system/repose.service.d/repose-local.conf').with(
               'content' => '[Service]

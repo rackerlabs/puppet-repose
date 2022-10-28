@@ -129,22 +129,15 @@ class repose::config (
     group  => root,
   }
 
-  # setup augeas with our shellvars lense
-  Augeas {
-    incl => '/etc/sysconfig/repose',
-    require => File['/etc/sysconfig/repose'],
-    lens => 'Shellvars.lns',
-  }
-
   # default repose valve sysconfig options
   $repose_sysconfig = [
+    "set REPOSE_JAR '${repose::daemon_home}/${repose::service_name}.jar'",
     "set DAEMON_HOME '${repose::daemon_home}'",
     "set LOG_PATH '${repose::log_path}'",
     "set USER '${repose::user}'",
     "set daemonize '${repose::daemonize}'",
     "set daemonize_opts '\"${repose::daemonize_opts}\"'",
-    "set java_opts '\"\${java_opts} ${repose::java_options}\"'",
-    "set JAVA_OPTS '\"\${JAVA_OPTS} ${repose::java_options}\"'",
+    "set JAVA_OPTS '\"${repose::java_options}\"'",
   ]
 
   # if saxon_home provided for saxon license
@@ -165,12 +158,23 @@ class repose::config (
     delaycompress => $repose::delay_compress,
     dateext       => $repose::use_date_ext,
   }
-
+  augeas {
+    'repose_service_unit':
+      incl    => '/lib/systemd/system/repose.service',
+      lens    => 'Systemd.lns',
+      context => '/files/lib/systemd/system/repose.service',
+      changes => [
+        'set Service/EnvironmentFile/value /etc/sysconfig/repose',
+      ],
+  }
   # only run if ensure is not absent
   if ! ($repose::ensure == 'absent') {
     # run augeas with our changes
     augeas {
       'repose_sysconfig':
+        incl    => '/etc/sysconfig/repose',
+        require => File['/etc/sysconfig/repose'],
+        lens    => 'Shellvars.lns',
         context => '/files/etc/sysconfig/repose',
         changes => [$repose_sysconfig, $saxon_sysconfig],
     }

@@ -56,7 +56,7 @@ repose::dirmode: '0750'
 repose::port: 8080
 
 ## daemon_home for valve
-repose::daemon_home: '/usr/share/lib/repose'
+repose::daemon_home: '/usr/share/repose'
 
 ## log path
 repose::log_path: '/var/log/repose'
