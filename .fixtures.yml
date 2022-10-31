@@ -13,5 +13,5 @@ fixtures:
       repo: "puppetlabs/augeas_core"
       ref: "1.0.5"
     logrotate: "puppet/logrotate"
-    systemd: "camptocamp/systemd"
+    systemd: "puppet/systemd"
 
