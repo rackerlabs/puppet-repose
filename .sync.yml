@@ -5,4 +5,13 @@ Rakefile:
   default_disabled_lint_checks:
     - parameter_documentation
     - parameter_types
-  
+.gitlab-ci.yml:
+  delete: true
+appveyor.yml:
+  delete: true
+.travis.yml:
+  delete: true
+.pdkignore:
+  delete: true
+.yardopts:
+  delete: true
