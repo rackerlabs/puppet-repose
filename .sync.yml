@@ -5,3 +5,4 @@ Rakefile:
   default_disabled_lint_checks:
     - parameter_documentation
     - parameter_types
+  
