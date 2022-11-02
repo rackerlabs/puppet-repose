@@ -22,7 +22,7 @@
 #
 # [*include_content_types*]
 # Array of media types that will be compressed if possible. Required.
-# Defaults to <tt>[ "text/html" ]</tt>
+# Defaults to <tt>["text/html"]</tt>
 #
 # [*exclude_content_types*]
 # Array of media types to be excluded from compression. Optional.
@@ -36,7 +36,7 @@
 #
 # repose::filter::compression {
 #   'default':
-#     include_content_types => [ "application/atom+xml" ]
+#     include_content_types => ["application/atom+xml"]
 # }
 #
 # === Authors
@@ -45,27 +45,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::compression (
-  $ensure                = present,
-  $filename              = 'compression.cfg.xml',
-  $threshold             = 1024,
-  $debug                 = false,
-  $include_content_types = [ 'text/html', ],
-  $exclude_content_types = undef
+  Enum['present','absent'] $ensure = present,
+  String $filename              = 'compression.cfg.xml',
+  Integer $threshold             = 1024,
+  Boolean $debug                 = false,
+  Array $include_content_types = ['text/html'],
+  Optional[Array] $exclude_content_types = undef
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
@@ -80,8 +73,7 @@ define repose::filter::compression (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

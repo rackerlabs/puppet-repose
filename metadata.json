@@ -1,6 +1,6 @@
 {
   "name": "puppet-repose",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": "Josh Bell & Cory Ringdahl @ Rackspace",
   "summary": "Puppet module for Repose",
   "license": "Apache-2.0",
@@ -11,8 +11,8 @@
       "version_requirement": ">= 4.0.0 < 5"
     },
     {
-      "name": "camptocamp/systemd",
-      "version_requirement": ">= 2.9.0 < 3"
+      "name": "puppet/systemd",
+      "version_requirement": ">= 3.1.0 < 4"
     },
     {
       "name": "puppetlabs/stdlib",
@@ -45,7 +45,7 @@
       "version_requirement": ">= 4.10.0 < 7.0.0"
     }
   ],
-  "pdk-version": "1.16.0",
-  "template-url": "pdk-default#1.16.0",
-  "template-ref": "tags/1.16.0-0-gaf44904"
+  "pdk-version": "2.5.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#2.5.0",
+  "template-ref": "tags/2.5.0-0-g369d483"
 }

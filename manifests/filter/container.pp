@@ -278,7 +278,7 @@ class repose::filter::container (
   String $flume_host,
   Integer $flume_port,
   Optional[Enum['date','size']] $log_local_policy = undef,
-  Enum['present','absent'] $ensure      = 'present',
+  String $ensure      = 'present',
   Optional[String] $app_name                             = undef,
   Integer $artifact_directory_check_interval    = 60000,
   Optional[Integer] $content_body_read_limit              = undef,
@@ -297,15 +297,11 @@ class repose::filter::container (
   Optional[String] $syslog_server                        = undef,
   Hash $via_header                           = {},
 ) {
-
 ### Validate parameters
 ## ensure
   $file_ensure = $ensure ? {
-    present => file,
-    absent  => absent,
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $log_use_log4j2 == true {
@@ -323,15 +319,15 @@ class repose::filter::container (
   $logging_configuration_file = "${repose::configdir}/${logging_configuration_real}"
 ## Manage actions
 
-  if $ensure == present {
+  if $ensure == 'present' {
 ## app_name
     if $app_name == undef {
       fail('app_name is a required parameter')
     }
     if $log_use_log4j2 == true {
-        $log4j_content_template = template("${module_name}/log4j2.xml.erb")
+      $log4j_content_template = template("${module_name}/log4j2.xml.erb")
     } else {
-        $log4j_content_template = template("${module_name}/log4j.properties.erb")
+      $log4j_content_template = template("${module_name}/log4j.properties.erb")
     }
     $container_content_template = template("${module_name}/container.cfg.xml.erb")
   } else {
@@ -344,15 +340,14 @@ class repose::filter::container (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
+    require => Class['repose::package'],
   }
 
   file { $logging_configuration_file:
-    content => $log4j_content_template
+    content => $log4j_content_template,
   }
 
   file { "${repose::configdir}/container.cfg.xml":
-    content => $container_content_template
+    content => $container_content_template,
   }
-
 }

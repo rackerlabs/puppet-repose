@@ -124,7 +124,7 @@ describe 'repose::filter::keystone_v2_basic_auth', type: :define do
           {
             identity_service_url: 'http://foo',
             delegating: true,
-            delegating_quality: '0.7',
+            delegating_quality: 0.7,
           }
         end
 

@@ -88,9 +88,9 @@ describe 'repose::filter::keystone_v2', type: :define do
             ensure: 'present',
             filename: 'keystone-v2.cfg.xml',
             uri: 'http://uri',
-            send_roles: 'true',
-            send_groups: 'true',
-            send_catalog: 'true',
+            send_roles: true,
+            send_groups: true,
+            send_catalog: true,
           }
         end
 
@@ -117,7 +117,7 @@ describe 'repose::filter::keystone_v2', type: :define do
             ensure: 'present',
             filename: 'keystone-v2.cfg.xml',
             uri: 'http://uri',
-            apply_rcn_roles: 'true',
+            apply_rcn_roles: true,
           }
         end
 
@@ -142,8 +142,8 @@ describe 'repose::filter::keystone_v2', type: :define do
             ensure: 'present',
             filename: 'keystone-v2.cfg.xml',
             uri: 'http://uri',
-            delegating: 'true',
-            delegating_quality: '0.9',
+            delegating: true,
+            delegating_quality: 0.9,
           }
         end
 
@@ -168,7 +168,7 @@ describe 'repose::filter::keystone_v2', type: :define do
             ensure: 'present',
             filename: 'keystone-v2.cfg.xml',
             uri: 'http://uri',
-            delegating: 'true',
+            delegating: true,
           }
         end
 
@@ -258,9 +258,9 @@ describe 'repose::filter::keystone_v2', type: :define do
             tenant_regexs: ['/foo', '/bar'],
             legacy_roles_mode: false,
             send_tenant_quality: true,
-            default_tenant_quality: '0.9',
-            uri_tenant_quality: '0.8',
-            roles_tenant_quality: '0.7',
+            default_tenant_quality: 0.9,
+            uri_tenant_quality: 0.8,
+            roles_tenant_quality: 0.7,
           }
         end
 
@@ -293,7 +293,7 @@ describe 'repose::filter::keystone_v2', type: :define do
             filename: 'keystone-v2.cfg.xml',
             uri: 'http://uri',
             send_tenant_quality: false,
-            default_tenant_quality: '0.9',
+            default_tenant_quality: 0.9,
           }
         end
 

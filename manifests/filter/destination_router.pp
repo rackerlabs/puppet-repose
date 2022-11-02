@@ -33,7 +33,7 @@
 #         id => 'openrepose',
 #         quality => '0.5',
 #       },
-#     ]
+#    ]
 # }
 #
 # === Authors
@@ -42,24 +42,16 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::destination_router (
-  $ensure   = present,
-  $filename = 'destination-router.cfg.xml',
-  $targets  = undef,
+  Enum['present','absent'] $ensure = present,
+  String $filename = 'destination-router.cfg.xml',
+  Optional[Any] $targets  = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
@@ -78,8 +70,7 @@ define repose::filter::destination_router (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

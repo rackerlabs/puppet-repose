@@ -48,7 +48,7 @@
 #   Array of hashes. Contains the set of criteria applied to the events to
 #   determine if an event is sent through to the named post filter logger.
 #   See example for format.
-#   Defaults to <tt>[ ]</tt>.
+#   Defaults to <tt>[]</tt>.
 #
 # === Links
 #
@@ -66,15 +66,15 @@
 #       'match'     => [
 #         { 'field' => 'userName', regex => '.*[fF]oo.*' },
 #         { 'field' => 'region', regex => 'DFW' },
-#       ]
+#      ]
 #     },
 #     {
 #       'match'     => [
 #         { 'field' => 'userName', regex => '.*[bB]ar.*' },
 #         { 'field' => 'parameters.abc', regex => '123' },
-#       ]
+#      ]
 #     },
-#   ]
+#  ]
 # }
 #
 # === Authors
@@ -82,31 +82,23 @@
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 #
 define repose::filter::highly_efficient_record_processor (
-  $ensure                  = present,
-  $filename                = 'highly-efficient-record-processor.cfg.xml',
-  $pre_filter_logger_name  = 'org.openrepose.herp.pre.filter',
-  $post_filter_logger_name = 'org.openrepose.herp.post.filter',
-  $service_code            = 'repose',
-  $region                  = 'US',
-  $datacenter              = 'DFW',
-  $template_crush          = false,
-  $template                = undef,
-  $filter_out              = [ ],
+  Enum['present','absent'] $ensure = present,
+  String $filename                = 'highly-efficient-record-processor.cfg.xml',
+  String $pre_filter_logger_name  = 'org.openrepose.herp.pre.filter',
+  String $post_filter_logger_name = 'org.openrepose.herp.post.filter',
+  String $service_code            = 'repose',
+  String $region                  = 'US',
+  String $datacenter              = 'DFW',
+  Boolean $template_crush          = false,
+  Optional[Any] $template                = undef,
+  Array $filter_out              = [],
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
@@ -115,7 +107,6 @@ define repose::filter::highly_efficient_record_processor (
     $content_template = undef
   }
 
-
 ## Manage actions
 
   file { "${repose::configdir}/${filename}":
@@ -123,8 +114,7 @@ define repose::filter::highly_efficient_record_processor (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

@@ -64,7 +64,7 @@
 #       'xsd_engine'                   => 'SaxonEE',
 #       'dot_output'                   => '/var/repose/validator.dot',
 #       'join_xpatch_checks'           => true,
-#     }, ]
+#     },]
 # }
 #
 # === Authors
@@ -74,32 +74,23 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::api_validator (
-  $ensure             = present,
-  $filename           = 'validator.cfg.xml',
-  $app_name           = 'repose',
-  $validators         = undef,
-  $multi_role_match   = false,
-  $version            = undef,
-  $delegating         = false,
-  $delegating_quality = undef,
+  String $ensure             = 'present',
+  String $filename           = 'validator.cfg.xml',
+  String $app_name           = 'repose',
+  Boolean $multi_role_match   = false,
+  Boolean $delegating         = false,
+  Optional[Array] $validators = undef,
+  Optional[String] $version            = undef,
+  Optional[Float] $delegating_quality = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
-  }
-
-  if $ensure == present {
+  if $ensure == 'present' {
 ## validators
     if $validators == undef {
       fail('validators is a required list')
@@ -109,7 +100,6 @@ define repose::filter::api_validator (
     $content_template = undef
   }
 
-
 ## Manage actions
 
   file { "${repose::configdir}/${filename}":
@@ -117,8 +107,7 @@ define repose::filter::api_validator (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

@@ -127,7 +127,7 @@
 #       pass => 'testpass',
 #       uri => 'testuri',
 #     },
-#     client_maps => [ '.*/events/(\d+)', ],
+#     client_maps => ['.*/events/(\d+)',],
 # }
 #
 # === Authors
@@ -135,49 +135,41 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 define repose::filter::keystone_v2 (
-  $ensure                  = present,
-  $filename                = 'keystone-v2.cfg.xml',
-  $uri                     = undef,
-  $connection_pool_id      = undef,
-  $send_roles              = undef,
-  $send_groups             = undef,
-  $send_catalog            = undef,
-  $apply_rcn_roles         = undef,
-  $delegating              = undef,
-  $delegating_quality      = undef,
-  $white_lists             = undef,
-  $cache_variability        = undef,
-  $token_cache_timeout     = undef,
-  $group_cache_timeout     = undef,
-  $endpoints_cache_timeout = undef,
-  $atom_feed_id            = undef,
-  $send_all_tenant_ids     = undef,
-  $tenant_regexs           = undef,
-  $legacy_roles_mode       = undef,
-  $send_tenant_quality     = undef,
-  $default_tenant_quality  = undef,
-  $uri_tenant_quality      = undef,
-  $roles_tenant_quality    = undef,
-  $endpoint_url            = undef,
-  $endpoint_region         = undef,
-  $endpoint_name           = undef,
-  $endpoint_type           = undef,
-  $pre_authorized_roles    = undef,
+  Enum['present','absent'] $ensure = present,
+  String $filename                = 'keystone-v2.cfg.xml',
+  Optional[String] $uri                     = undef,
+  Optional[Any] $connection_pool_id      = undef,
+  Optional[Any] $send_roles              = undef,
+  Optional[Any] $send_groups             = undef,
+  Optional[Any] $send_catalog            = undef,
+  Optional[Any] $apply_rcn_roles         = undef,
+  Optional[Any] $delegating              = undef,
+  Optional[Any] $delegating_quality      = undef,
+  Optional[Any] $white_lists             = undef,
+  Optional[Any] $cache_variability        = undef,
+  Optional[Any] $token_cache_timeout     = undef,
+  Optional[Any] $group_cache_timeout     = undef,
+  Optional[Any] $endpoints_cache_timeout = undef,
+  Optional[Any] $atom_feed_id            = undef,
+  Optional[Any] $send_all_tenant_ids     = undef,
+  Optional[Any] $tenant_regexs           = undef,
+  Optional[Any] $legacy_roles_mode       = undef,
+  Optional[Any] $send_tenant_quality     = undef,
+  Optional[Any] $default_tenant_quality  = undef,
+  Optional[Any] $uri_tenant_quality      = undef,
+  Optional[Any] $roles_tenant_quality    = undef,
+  Optional[Any] $endpoint_url            = undef,
+  Optional[Any] $endpoint_region         = undef,
+  Optional[Any] $endpoint_name           = undef,
+  Optional[Any] $endpoint_type           = undef,
+  Optional[Any] $pre_authorized_roles    = undef,
 ) {
-
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
@@ -187,7 +179,7 @@ define repose::filter::keystone_v2 (
     }
 
     if (($send_tenant_quality == false) and (($default_tenant_quality != undef)
-      or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef))) {
+    or ($uri_tenant_quality != undef) or ($roles_tenant_quality != undef))) {
       fail("setting tenant quality levels doesn't work when tenant qualities is turned off")
     }
 
@@ -207,8 +199,7 @@ define repose::filter::keystone_v2 (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

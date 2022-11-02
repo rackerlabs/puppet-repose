@@ -20,6 +20,9 @@
 # String. The URI of the API repose is proxying
 # Defaults to <tt>undef</tt>
 #
+# [*version_mappings*]
+# Hash. Expected keys are 'id', 'status', and 'media_types'
+# 
 # === Links
 #
 # * http://wiki.openrepose.org/display/REPOSE/Versioning+Filter
@@ -40,9 +43,9 @@
 #           { 'base' => 'application/json', type => 'application/vnd.rackspace; x=v1; y=json' },
 #           { 'base' => 'application/json', type => 'application/vnd.rackspace; rnd=1; x=v1; rnd2=2; y=xml' },
 #           { 'base' => 'application/json', type => 'application/vnd.rackspace; rnd=1; x=v1; rnd2=2; y=json' },
-#         ]
+#        ]
 #       }
-#     ]
+#    ]
 # }
 #
 # === Authors
@@ -52,27 +55,19 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::versioning (
-  $ensure           = present,
-  $filename         = 'versioning.cfg.xml',
-  $app_name         = 'repose',
-  $target_uri       = undef,
-  $version_mappings = undef,
+  Enum['present','absent'] $ensure = present,
+  String $filename         = 'versioning.cfg.xml',
+  String $app_name         = 'repose',
+  Optional[String] $target_uri       = undef,
+  Optional[Tuple] $version_mappings = undef,
 
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
@@ -92,8 +87,7 @@ define repose::filter::versioning (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }

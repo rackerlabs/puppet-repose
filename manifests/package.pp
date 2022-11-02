@@ -21,27 +21,20 @@
 # * This is thus destructive and should be used with care.
 # Defaults to <tt>present</tt>.
 #
-# [*autoupgrade*]
-# Boolean. If set to <tt>true</tt>, any managed package gets upgraded
-# on each Puppet run when the package provider is able to find a newer
-# version than the present one. The exact behavior is provider dependent.
-# Q.v.:
-# * Puppet type reference: {package, "upgradeable"}[http://j.mp/xbxmNP]
-# * {Puppet's package provider source code}[http://j.mp/wtVCaL]
-# Defaults to <tt>false</tt>.
-#
-# [*container*]
-# The package list to use based on the container that is used to run
-# repose in this environment
-#
 # [*experimental_filters*]
 # Boolean. Install the experimental filters bundle package
 # Defaults to <tt>false</tt>
 #
+# [*experimental_filters_packages*]
+# Array. The experimental filters packageas to install.
+# 
 # [*identity_filters*]
 # Boolean. Install the identity filters bundle package
 # Defaults to <tt>false</tt>
 #
+# [*identity_filters_packages*]
+# Array. The identity filters packageas to install.
+# 
 # === Examples
 #
 # Primarily to be used by the repose base class, but you can use:
@@ -58,54 +51,39 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 class repose::package (
-  Boolean $experimental_filters,
-  Array $experimental_filters_packages,
-  Boolean $identity_filters,
-  Array $identity_filters_packages,
-  String $ensure       = $repose::ensure,
-  Boolean $autoupgrade = $repose::autoupgrade,
 ) {
-
 ### Logic
-
-## set params: removal
-  if $ensure == absent {
-    $package_ensure = purged
-## set params: in operation
-  } else {
-    if $autoupgrade == true {
-      $package_ensure = latest
-    } else {
-      $package_ensure = $ensure
-    }
-  }
 
 ### Manage actions
   package { $repose::package_name:
-    ensure => $package_ensure,
+    ensure          => $repose::ensure,
+    install_options => ['--nogpgcheck'],
   }
 
   package { $repose::packages:
-    ensure  => $package_ensure,
-    require => Package[$repose::package_name],
+    ensure          => $repose::ensure,
+    require         => Package[$repose::package_name],
+    install_options => ['--nogpgcheck'],
   }
 
-  if $experimental_filters == true {
-    package { $experimental_filters_packages:
-      ensure  => $package_ensure,
-      require => Package[$repose::package_name],
+  if $repose::experimental_filters == true {
+    package { $repose::experimental_filters_packages:
+      ensure          => $repose::ensure,
+      require         => Package[$repose::package_name],
+      install_options => ['--nogpgcheck'],
     }
   } else {
-    package { $experimental_filters_packages:
-      ensure  => absent,
+    package { $repose::experimental_filters_packages:
+      ensure  => 'absent',
       require => Package[$repose::package_name],
     }
   }
 
-  if $identity_filters == true {
-    package { $identity_filters_packages:
-      ensure  => $package_ensure,
-      require => Package[$repose::package_name],
+  if $repose::identity_filters == true {
+    package { $repose::identity_filters_packages:
+      ensure          => $repose::ensure,
+      require         => Package[$repose::package_name],
+      install_options => ['--nogpgcheck'],
     }
   }
 }

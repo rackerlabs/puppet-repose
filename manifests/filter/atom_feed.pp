@@ -9,8 +9,8 @@
 # String. The id for this feed that will be used to tie it into other configurations.
 # Defaults to the <tt>title</tt>
 #
-# [*feed_url*]
-# String. The url for the feed. Required.
+# [*feed_uri*]
+# String. The uri for the feed. Required.
 # Defaults to <tt>undef</tt>
 #
 # [*connection_pool_id*]
@@ -59,26 +59,24 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 define repose::filter::atom_feed (
-  $feed_id = $title,
-  $feed_uri = undef,
-  $connection_pool_id = undef,
-  $entry_order = undef,
-  $auth_uri = undef,
-  $auth_username = undef,
-  $auth_password = undef,
-  $auth_timeout = undef,
+  String $feed_id = $title,
+  Optional[String] $feed_uri = undef,
+  Optional[String] $connection_pool_id = undef,
+  Optional[String] $entry_order = undef,
+  Optional[String] $auth_uri = undef,
+  Optional[String] $auth_username = undef,
+  Optional[String] $auth_password = undef,
+  Optional[String] $auth_timeout = undef,
 ) {
-
   if $feed_uri == undef {
     fail('feed_uri is required')
   }
-
-  if ($entry_order != undef) and ! ($entry_order in [ read, reverse-read ]) {
+  if ($entry_order != undef) and ! ($entry_order in ['read', 'reverse-read']) {
     fail("\"${entry_order}\" is not a valid entry_order parameter value")
   }
 
-  if (($auth_uri != undef) or ($auth_username != undef) or ($auth_password != undef)) and
-    (($auth_uri == undef) or ($auth_username == undef) or ($auth_password == undef)) {
+  if (($auth_uri != undef) or ($auth_username != undef) or ($auth_password != undef))
+  and (($auth_uri == undef) or ($auth_username == undef) or ($auth_password == undef)) {
     fail('If used auth_uri, auth_username, and auth_password are all required')
   }
 
@@ -87,5 +85,4 @@ define repose::filter::atom_feed (
     source => "puppet:///modules/${module_name}/atom-feed-fragment",
     order  => '50',
   }
-
 }

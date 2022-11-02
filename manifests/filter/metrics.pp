@@ -48,7 +48,7 @@
 #         'prefix'  => 'test/1/metrics',
 #         'enabled' => true
 #       },
-#     ]
+#    ]
 # }
 #
 # === Authors
@@ -58,28 +58,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::metrics (
-  $ensure           = present,
-  $filename         = 'metrics.cfg.xml',
-  $app_name         = 'repose',
-  $graphite_servers = undef,
-  $period           = 60,
-  $prefix           = '',
-  $enabled          = true,
+  Enum['present','absent'] $ensure = present,
+  String $filename         = 'metrics.cfg.xml',
+  String $app_name         = 'repose',
+  Optional[Any] $graphite_servers = undef,
+  Integer $period           = 60,
+  String $prefix           = ' ',
+  Boolean $enabled          = true,
 ) {
-
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
@@ -101,7 +93,7 @@ define repose::filter::metrics (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
 }

@@ -1,0 +1,4 @@
+---
+repose::filter:
+  container:
+    app_name: 'an app name'

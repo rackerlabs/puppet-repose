@@ -39,9 +39,9 @@ describe 'repose::filter::ip_identity', type: :define do
           {
             ensure: 'present',
             filename: 'ip-identity.cfg.xml',
-            quality: '0.25',
+            quality: 0.25,
             whitelist: {
-              'quality' => '0.3',
+              'quality' => 0.3,
               'addresses' => ['9.9.9.9'],
             },
           }

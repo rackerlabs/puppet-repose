@@ -225,8 +225,8 @@ describe 'repose::filter::client_auth_n', type: :define do
               'uri'  => 'http://uri',
             },
             client_maps: ['testing'],
-            delegating: 'true',
-            delegating_quality: '0.9',
+            delegating: true,
+            delegating_quality: 0.9,
           }
         end
 
@@ -262,7 +262,7 @@ describe 'repose::filter::client_auth_n', type: :define do
               'uri'  => 'http://uri',
             },
             client_maps: ['testing'],
-            delegating: 'true',
+            delegating: true,
           }
         end
 

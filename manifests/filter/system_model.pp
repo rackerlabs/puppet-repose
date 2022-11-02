@@ -48,7 +48,7 @@
 #     'port'      => 8080,
 #     'default'   => true
 #   },
-# ]
+#]
 #
 # [*port*]
 # Port the cluster runs on. If you want to disable set to <tt>false</tt>
@@ -65,7 +65,7 @@
 #   nodes => [
 #     'node1.domain',
 #     'node2.domain',
-#   ]
+#  ]
 # }
 #
 # [*tracing_header*]
@@ -88,7 +88,7 @@
 # === Examples
 #
 # $app_name = 'repose'
-# $app_nodes = [ 'test1.domain', 'test2.domain' ]
+# $app_nodes = ['test1.domain', 'test2.domain']
 # $app_port = 9090
 # $filters = {
 #   10 => { name => 'content-normalization' },
@@ -107,7 +107,7 @@
 # }
 # $endpoints = [
 #   { id => 'localhost', protocol => 'http', hostname => 'localhost', root-path => "", port => 8080, 'default' => true },
-# ]
+#]
 # repose::filter::system_model {
 #   'default':
 #     app_name       => $app_name,
@@ -134,30 +134,19 @@ define repose::filter::system_model (
   Optional[Hash[Integer, String]] $services                 = undef,
   Optional[Array] $nodes                                    = undef,
   Optional[Array] $endpoints                                = undef,
-  Integer $port                                              = $repose::port,
-  Optional[Integer] $https_port                              = undef,
+  Variant[Integer,Boolean[false],Enum['false']] $port       = $repose::port, # 'false' removes http-port; meant for https-port as lone port
+  Optional[Integer] $https_port                             = undef,
   Optional[String] $rewrite_host_header                     = undef,
   Optional[String] $service_cluster                         = undef,
   NotUndef $tracing_header                                  = {},
   Array $encoded_headers                                    = [],
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure) {
-    fail("\"${ensure}\" is required. It should be present, absent, latest or a version")
-  } else {
-    $file_ensure = $ensure ? {
-      absent  => absent,
-      default => file,
-    }
-  }
-  if $::debug {
-    if $ensure != $repose::ensure {
-      debug('$ensure overridden by class parameter')
-    }
-    debug("\$ensure = '${ensure}'")
+  $file_ensure = $ensure ? {
+    'absent'  => 'absent',
+    default => file,
   }
 
 ## app_name
@@ -187,8 +176,7 @@ define repose::filter::system_model (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => template('repose/system-model.cfg.xml.erb')
+    require => Class['repose::package'],
+    content => template('repose/system-model.cfg.xml.erb'),
   }
-
 }

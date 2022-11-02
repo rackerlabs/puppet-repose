@@ -60,7 +60,7 @@ describe 'repose::filter::api_validator', type: :define do
             }],
             multi_role_match: true,
             delegating: true,
-            delegating_quality: '0.7',
+            delegating_quality: 0.7,
           }
         end
 

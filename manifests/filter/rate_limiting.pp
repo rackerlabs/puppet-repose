@@ -90,9 +90,9 @@
 #             'unit' => 'SECOND',
 #             'value'=> '350',
 #            },
-#         ]
+#        ]
 #       },
-#     ],
+#    ],
 # }
 #
 # === Links
@@ -106,28 +106,20 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::rate_limiting (
-  $ensure             = present,
-  $filename           = 'rate-limiting.cfg.xml',
-  $datastore          = undef,
+  Enum['present','absent'] $ensure = present,
+  String $filename           = 'rate-limiting.cfg.xml',
+  Optional[Any] $datastore          = undef,
   $overlimit_429      = undef,
-  $use_capture_groups = true,
-  $request_endpoint   = undef,
-  $limit_groups       = undef,
+  Boolean $use_capture_groups = true,
+  Optional[Any] $request_endpoint   = undef,
+  Optional[Any] $limit_groups       = undef,
 ) {
-
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in [ present, absent ]) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      present => file,
-      absent  => absent,
-    }
-  }
-  if $::debug {
-    debug("\$ensure = '${ensure}'")
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
@@ -152,8 +144,7 @@ define repose::filter::rate_limiting (
     owner   => $repose::owner,
     group   => $repose::group,
     mode    => $repose::mode,
-    require => Class['::repose::package'],
-    content => $content_template
+    require => Class['repose::package'],
+    content => $content_template,
   }
-
 }
