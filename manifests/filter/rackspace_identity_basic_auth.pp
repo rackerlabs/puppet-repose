@@ -47,7 +47,7 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::rackspace_identity_basic_auth (
-  String $ensure               = present,
+  Enum['present','absent'] $ensure = present,
   String $filename             = 'rackspace-identity-basic-auth.cfg.xml',
   String $identity_service_url = 'https://identity.api.rackspacecloud.com/v2.0/tokens',
   String $token_cache_timeout  = '600000',
@@ -57,13 +57,9 @@ define repose::filter::rackspace_identity_basic_auth (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

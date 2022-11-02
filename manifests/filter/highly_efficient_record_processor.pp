@@ -82,7 +82,7 @@
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 #
 define repose::filter::highly_efficient_record_processor (
-  String $ensure                  = present,
+  Enum['present','absent'] $ensure = present,
   String $filename                = 'highly-efficient-record-processor.cfg.xml',
   String $pre_filter_logger_name  = 'org.openrepose.herp.pre.filter',
   String $post_filter_logger_name = 'org.openrepose.herp.post.filter',
@@ -96,13 +96,9 @@ define repose::filter::highly_efficient_record_processor (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

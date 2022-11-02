@@ -62,7 +62,7 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::content_normalization (
-  String $ensure                = present,
+  Enum['present','absent'] $ensure = present,
   String $filename              = 'content-normalization.cfg.xml',
   String $app_name              = 'repose',
   $content_normalization = undef,
@@ -74,13 +74,9 @@ define repose::filter::content_normalization (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

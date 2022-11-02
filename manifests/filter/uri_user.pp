@@ -49,7 +49,7 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::uri_user (
-  String $ensure        = present,
+  Enum['present','absent'] $ensure = present,
   String $filename      = 'uri-user.cfg.xml',
   Optional[Array[Hash]] $mappings      = undef,
   Optional[String] $group         = undef,
@@ -58,13 +58,9 @@ define repose::filter::uri_user (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

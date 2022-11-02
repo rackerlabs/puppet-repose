@@ -33,7 +33,7 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 class repose::filter::atom_feed_service (
-  String $ensure = present,
+  Enum['present','absent'] $ensure = present,
 ) {
   ## ensure
   concat { "${repose::configdir}/atom-feed-service.cfg.xml":

@@ -51,7 +51,7 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::cors (
-  String $ensure          = present,
+  Enum['present','absent'] $ensure = present,
   String $filename        = 'cors.cfg.xml',
   Array[Hash] $allowed_origins = [{ 'is_regex' => 'true', 'origin' => '.*' }],
   $allowed_methods = undef,
@@ -60,13 +60,9 @@ define repose::filter::cors (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

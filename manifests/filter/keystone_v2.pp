@@ -135,7 +135,7 @@
 # * Adrian George <mailto:adrian.george@rackspace.com>
 #
 define repose::filter::keystone_v2 (
-  String $ensure                  = present,
+  Enum['present','absent'] $ensure = present,
   String $filename                = 'keystone-v2.cfg.xml',
   Optional[String] $uri                     = undef,
   $connection_pool_id      = undef,
@@ -167,13 +167,9 @@ define repose::filter::keystone_v2 (
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

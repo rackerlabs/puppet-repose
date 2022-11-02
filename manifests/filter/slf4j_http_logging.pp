@@ -48,20 +48,16 @@
 # * Alex Schultz <mailto:alex.schultz@rackspace.com>
 #
 define repose::filter::slf4j_http_logging (
-  String $ensure    = present,
+  Enum['present','absent'] $ensure = present,
   String $filename  = 'slf4j-http-logging.cfg.xml',
   $log_files = undef,
 ) {
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

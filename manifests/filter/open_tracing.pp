@@ -67,7 +67,7 @@
 # * Dimitry Ushakov <mailto:dimitry-ushakov@rackspace.com>
 #
 define repose::filter::open_tracing (
-  String $ensure                               = present,
+  Enum['present','absent'] $ensure = present,
   String $service_name                         = 'repose',
   Optional[Stdlib::HTTPUrl] $http_connection_endpoint             = undef,
   Optional[String] $http_connection_username             = undef,
@@ -82,13 +82,9 @@ define repose::filter::open_tracing (
   ### Validate parameters
 
   ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

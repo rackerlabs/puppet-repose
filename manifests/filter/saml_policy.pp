@@ -117,7 +117,7 @@ define repose::filter::saml_policy (
   $signature_keystore_pem,
   String $policy_uri,
   $keystone_pool               = undef,
-  String $ensure                      = present,
+  Enum['present','absent'] $ensure = present,
   String $filename                    = 'saml-policy.cfg.xml',
   Array $policy_bypass_issuers       = [],
   $policy_cache_feed_id        = undef,
@@ -128,13 +128,9 @@ define repose::filter::saml_policy (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

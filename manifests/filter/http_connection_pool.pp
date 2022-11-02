@@ -138,7 +138,7 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 class repose::filter::http_connection_pool (
-  String $ensure                               = present,
+  Enum['present','absent'] $ensure = present,
   String $filename                             = 'http-connection-pool.cfg.xml',
   Boolean $default_is_default                   = true,
   Integer $default_conn_manager_max_total       = 200,
@@ -157,13 +157,9 @@ class repose::filter::http_connection_pool (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

@@ -56,7 +56,7 @@
 define repose::filter::dist_datastore (
   Boolean $allow_all           = false,
   $connection_pool_id  = undef,
-  String $ensure              = present,
+  Enum['present','absent'] $ensure = present,
   String $filename            = 'dist-datastore.cfg.xml',
   $nodes               = undef,
   $port_config         = undef,
@@ -64,13 +64,9 @@ define repose::filter::dist_datastore (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
 ## nodes only required if ensure is present

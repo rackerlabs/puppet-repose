@@ -42,7 +42,7 @@
 # * c/o Cloud Identity Ops <mailto:identityops@rackspace.com>
 #
 define repose::filter::scripting (
-  String $ensure      = present,
+  Enum['present','absent'] $ensure = present,
   String $filename    = 'scripting.cfg.xml',
   $script_lang = undef,
   $mod_script  = undef,
@@ -50,13 +50,9 @@ define repose::filter::scripting (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {

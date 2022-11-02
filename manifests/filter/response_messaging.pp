@@ -47,7 +47,7 @@
 # * c/o Cloud Integration Ops <mailto:cit-ops@rackspace.com>
 #
 define repose::filter::response_messaging (
-  String $ensure           = present,
+  Enum['present','absent'] $ensure = present,
   String $filename         = 'response-messaging.cfg.xml',
   String $app_name         = 'repose',
   $status_codes     = undef,
@@ -55,13 +55,9 @@ define repose::filter::response_messaging (
 ### Validate parameters
 
 ## ensure
-  if ! ($ensure in ['present', 'absent']) {
-    fail("\"${ensure}\" is not a valid ensure parameter value")
-  } else {
-    $file_ensure = $ensure ? {
-      'present' => file,
-      'absent'  => 'absent',
-    }
+  $file_ensure = $ensure ? {
+    'present' => file,
+    'absent'  => 'absent',
   }
 
   if $ensure == present {
