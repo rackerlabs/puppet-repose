@@ -55,11 +55,11 @@
 #
 define repose::filter::dist_datastore (
   Boolean $allow_all           = false,
-  $connection_pool_id  = undef,
+  Optional[Any] $connection_pool_id  = undef,
   Enum['present','absent'] $ensure = present,
   String $filename            = 'dist-datastore.cfg.xml',
-  $nodes               = undef,
-  $port_config         = undef,
+  Optional[Any] $nodes               = undef,
+  Optional[Any] $port_config         = undef,
 ) {
 ### Validate parameters
 

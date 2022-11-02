@@ -44,7 +44,7 @@
 define repose::filter::destination_router (
   Enum['present','absent'] $ensure = present,
   String $filename = 'destination-router.cfg.xml',
-  $targets  = undef,
+  Optional[Any] $targets  = undef,
 ) {
 ### Validate parameters
 

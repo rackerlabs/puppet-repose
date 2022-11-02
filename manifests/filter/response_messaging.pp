@@ -50,7 +50,7 @@ define repose::filter::response_messaging (
   Enum['present','absent'] $ensure = present,
   String $filename         = 'response-messaging.cfg.xml',
   String $app_name         = 'repose',
-  $status_codes     = undef,
+  Optional[Any] $status_codes     = undef,
 ) {
 ### Validate parameters
 

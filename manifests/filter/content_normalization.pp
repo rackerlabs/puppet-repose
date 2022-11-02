@@ -65,9 +65,9 @@ define repose::filter::content_normalization (
   Enum['present','absent'] $ensure = present,
   String $filename              = 'content-normalization.cfg.xml',
   String $app_name              = 'repose',
-  $content_normalization = undef,
-  $header_filters        = undef,
-  $media_types           = undef,
+  Optional[Any] $content_normalization = undef,
+  Optional[Array] $header_filters        = undef,
+  Optional[Array] $media_types           = undef,
 ) {
   warning("${name} - content normalization filter is incompatibile with repose 7+")
 

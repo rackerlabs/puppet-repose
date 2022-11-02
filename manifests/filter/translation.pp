@@ -45,8 +45,8 @@ define repose::filter::translation (
   Enum['present','absent'] $ensure = present,
   String $filename              = 'translation.cfg.xml',
   String $app_name              = 'repose',
-  $request_translations  = undef,
-  $response_translations = undef,
+  Optional[Any] $request_translations  = undef,
+  Optional[Any] $response_translations = undef,
   String $xsl_engine            = 'SaxonHE'
 ) {
 ### Validate parameters

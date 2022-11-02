@@ -53,10 +53,10 @@
 define repose::filter::ip_user (
   Enum['present','absent'] $ensure = present,
   String $filename      = 'ip-user.cfg.xml',
-  $filter_groups = undef,
-  $group_header  = undef,
+  Optional[Any] $filter_groups = undef,
+  Optional[Any] $group_header  = undef,
   Float $quality       = 0.2,
-  $user_header   = undef,
+  Optional[Any] $user_header   = undef,
 ) {
 ### Validate parameters
 

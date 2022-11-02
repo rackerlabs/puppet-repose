@@ -50,7 +50,7 @@
 define repose::filter::slf4j_http_logging (
   Enum['present','absent'] $ensure = present,
   String $filename  = 'slf4j-http-logging.cfg.xml',
-  $log_files = undef,
+  Optional[Any] $log_files = undef,
 ) {
 ### Validate parameters
 

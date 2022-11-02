@@ -52,7 +52,7 @@ define repose::filter::rackspace_identity_basic_auth (
   String $identity_service_url = 'https://identity.api.rackspacecloud.com/v2.0/tokens',
   String $token_cache_timeout  = '600000',
   Boolean $delegating           = false,
-  $delegating_quality   = undef,
+  Optional[Any] $delegating_quality   = undef,
 ) {
 ### Validate parameters
 

@@ -54,8 +54,8 @@ define repose::filter::cors (
   Enum['present','absent'] $ensure = present,
   String $filename        = 'cors.cfg.xml',
   Array[Hash] $allowed_origins = [{ 'is_regex' => 'true', 'origin' => '.*' }],
-  $allowed_methods = undef,
-  $resources       = undef,
+  Optional[Array] $allowed_methods = undef,
+  Optional[Array] $resources       = undef,
 ) {
 ### Validate parameters
 

@@ -108,11 +108,11 @@
 define repose::filter::rate_limiting (
   Enum['present','absent'] $ensure = present,
   String $filename           = 'rate-limiting.cfg.xml',
-  $datastore          = undef,
+  Optional[Any] $datastore          = undef,
   $overlimit_429      = undef,
   Boolean $use_capture_groups = true,
-  $request_endpoint   = undef,
-  $limit_groups       = undef,
+  Optional[Any] $request_endpoint   = undef,
+  Optional[Any] $limit_groups       = undef,
 ) {
 ### Validate parameters
 

@@ -90,7 +90,7 @@ define repose::filter::highly_efficient_record_processor (
   String $region                  = 'US',
   String $datacenter              = 'DFW',
   Boolean $template_crush          = false,
-  $template                = undef,
+  Optional[Any] $template                = undef,
   Array $filter_out              = [],
 ) {
 ### Validate parameters

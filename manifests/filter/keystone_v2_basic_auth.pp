@@ -61,11 +61,11 @@ define repose::filter::keystone_v2_basic_auth (
   Enum['present','absent'] $ensure = present,
   String $filename             = 'keystone-v2-basic-auth.cfg.xml',
   Optional[String] $identity_service_url = undef,
-  $token_cache_timeout  = undef,
-  $connection_pool_id   = undef,
-  $secret_type          = undef,
-  $delegating           = undef,
-  $delegating_quality   = undef,
+  Optional[Any] $token_cache_timeout  = undef,
+  Optional[Any] $connection_pool_id   = undef,
+  Optional[Any] $secret_type          = undef,
+  Optional[Any] $delegating           = undef,
+  Optional[Any] $delegating_quality   = undef,
 ) {
 ### Validate parameters
 

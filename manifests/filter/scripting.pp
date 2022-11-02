@@ -44,8 +44,8 @@
 define repose::filter::scripting (
   Enum['present','absent'] $ensure = present,
   String $filename    = 'scripting.cfg.xml',
-  $script_lang = undef,
-  $mod_script  = undef,
+  Optional[Any] $script_lang = undef,
+  Optional[Any] $mod_script  = undef,
 ) {
 ### Validate parameters
 

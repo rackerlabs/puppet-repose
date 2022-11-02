@@ -71,8 +71,8 @@
 define repose::filter::uri_normalization (
   Enum['present','absent'] $ensure = present,
   String $filename    = 'uri-normalization.cfg.xml',
-  $uri_filters = undef,
-  $media_types = undef,
+  Optional[Any] $uri_filters = undef,
+  Optional[Any] $media_types = undef,
 ) {
 ### Validate parameters
 

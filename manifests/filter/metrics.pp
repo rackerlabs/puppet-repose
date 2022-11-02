@@ -61,7 +61,7 @@ define repose::filter::metrics (
   Enum['present','absent'] $ensure = present,
   String $filename         = 'metrics.cfg.xml',
   String $app_name         = 'repose',
-  $graphite_servers = undef,
+  Optional[Any] $graphite_servers = undef,
   Integer $period           = 60,
   String $prefix           = ' ',
   Boolean $enabled          = true,

@@ -45,8 +45,7 @@
 # Defaults to <tt>false</tt>
 #
 # [*request_groups*]
-# String containing values 'true' or 'false'
-# If undef, defaults to 'true'
+# Boolean. Defaults to 'true'
 #
 # [*group_cache_timeout*]
 # Integer as String.
@@ -97,13 +96,13 @@ define repose::filter::client_auth_n (
   String $filename            = 'client-auth-n.cfg.xml',
   Optional[Hash] $auth                = undef,
   Optional[Array] $client_maps         = undef,
-  $white_lists         = undef,
+  Optional[Array[String]] $white_lists         = undef,
   Optional[Array] $ignore_tenant_roles = undef,
   Boolean $delegable           = false,
   Optional[Boolean] $delegating          = undef,
   Optional[Float] $delegating_quality  = undef,
   Boolean $tenanted            = false,
-  $request_groups      = undef,
+  Boolean $request_groups      = true,
   Optional[String] $token_cache_timeout = undef,
   String $group_cache_timeout = '60000',
   Optional[String] $connection_pool_id  = undef,

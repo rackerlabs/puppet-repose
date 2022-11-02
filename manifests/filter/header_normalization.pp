@@ -60,7 +60,7 @@
 define repose::filter::header_normalization (
   Enum['present','absent'] $ensure = present,
   String $filename       = 'header-normalization.cfg.xml',
-  $header_filters = undef,
+  Optional[Any] $header_filters = undef,
 ) {
 ### Validate parameters
 

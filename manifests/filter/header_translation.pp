@@ -38,7 +38,7 @@ define repose::filter::header_translation (
   Enum['present','absent'] $ensure = present,
   String $filename            = 'header-translation.cfg.xml',
   String $app_name            = 'repose',
-  $header_translations = undef,
+  Optional[Any] $header_translations = undef,
 ) {
 ### Validate parameters
 

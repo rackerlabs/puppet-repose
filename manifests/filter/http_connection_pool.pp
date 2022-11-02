@@ -151,7 +151,7 @@ class repose::filter::http_connection_pool (
   Integer $default_conn_max_status_line_garbage = 100,
   Boolean $default_tcp_nodelay                  = true,
   Integer $default_keepalive_timeout            = 0,
-  $additional_pools                     = undef,
+  Optional[Any] $additional_pools                     = undef,
   Boolean $repose9                              = false,
 ) {
 ### Validate parameters

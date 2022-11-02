@@ -58,7 +58,7 @@
 define repose::filter::http_logging (
   Enum['present','absent'] $ensure = present,
   String $filename  = 'http-logging.cfg.xml',
-  $log_files = undef,
+  Optional[Any] $log_files = undef,
 ) {
   warning('repose::filter::http_logging has been deprecated')
 
