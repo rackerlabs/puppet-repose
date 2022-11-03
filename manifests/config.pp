@@ -131,6 +131,8 @@ class repose::config (
 
   # default repose valve sysconfig options
   $repose_sysconfig = [
+    "set JAVA_CMD '/usr/bin/java'",
+    "set REPOSE_CFG '${repose::configdir}'",
     "set REPOSE_JAR '${repose::daemon_home}/${repose::service_name}.jar'",
     "set DAEMON_HOME '${repose::daemon_home}'",
     "set LOG_PATH '${repose::log_path}'",
@@ -164,6 +166,7 @@ class repose::config (
       lens    => 'Systemd.lns',
       context => '/files/lib/systemd/system/repose.service',
       changes => [
+        'rm /files/lib/systemd/system/repose.service/Service/Environment',
         'set Service/EnvironmentFile/value /etc/sysconfig/repose',
       ],
   }
