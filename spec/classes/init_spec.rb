@@ -47,6 +47,8 @@ describe 'repose' do
             is_expected.to contain_augeas('repose_sysconfig')
               .with_changes([
                               [
+                                "set JAVA_CMD '/usr/bin/java'",
+                                "set REPOSE_CFG '/etc/repose'",
                                 "set REPOSE_JAR '/usr/share/repose/repose.jar'",
                                 "set DAEMON_HOME '/usr/share/repose'",
                                 "set LOG_PATH '/var/log/repose'",
@@ -62,6 +64,7 @@ describe 'repose' do
             is_expected.to contain_augeas('repose_service_unit')
               .with_context('/files/lib/systemd/system/repose.service')
               .with_changes([
+                              'rm /files/lib/systemd/system/repose.service/Service/Environment',
                               'set Service/EnvironmentFile/value /etc/sysconfig/repose',
                             ])
           }
