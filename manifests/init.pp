@@ -99,6 +99,7 @@ class repose (
   Boolean $service_hasstatus,
   Boolean $service_hasrestart,
   Optional[String] $java_options = undef,
+  String $java_cmd = '/usr/bin/java',
   Optional[String] $saxon_home   = undef,
   Array $log_files         = ['/var/log/repose/repose.log'],
   String $rotate_frequency = 'daily',

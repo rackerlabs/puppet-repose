@@ -55,6 +55,10 @@
 # NOTE: this also sets JAVA_OPTS for repose 7+
 # Defaults to <tt>undef</tt>
 #
+# [*java_cmd*]
+# String. Set java command in sysconfig, if multiple java installations exist
+# Defaults to '/usr/bin/java'
+#
 # [*saxon_home*]
 # String. Home directory for Saxon. Sets SAXON_HOME
 # Defaults to <tt>undef</tt>
@@ -131,7 +135,7 @@ class repose::config (
 
   # default repose valve sysconfig options
   $repose_sysconfig = [
-    "set JAVA_CMD '/usr/bin/java'",
+    "set JAVA_CMD ${repose::java_cmd}",
     "set REPOSE_CFG '${repose::configdir}'",
     "set REPOSE_JAR '${repose::daemon_home}/${repose::service_name}.jar'",
     "set DAEMON_HOME '${repose::daemon_home}'",
